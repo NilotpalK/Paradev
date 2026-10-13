@@ -17706,6 +17706,9 @@ msgstr "Constância"
 msgid "Sustain · active days in 30"
 msgstr "Constância · dias ativos em 30"
 
+msgid "Switch account"
+msgstr "Trocar de conta"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Troque de agente. Mantenha seu fluxo"
 

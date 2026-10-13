@@ -99,7 +99,6 @@ export function UsageLimitNotice({
 	const title = limit.window ? TITLES[limit.window] : undefined;
 	const detail = [
 		modelLabel,
-		current?.email ?? undefined,
 		resetsAtMs === undefined
 			? undefined
 			: waiting
@@ -214,9 +213,16 @@ function AccountMenu({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button className={cn(PILL_TRIGGER_CLASS, "group")} type="button">
-					<UserRound className="size-3.5" />
-					<Trans>Account</Trans>
+				<button
+					aria-label={t({ message: "Switch account" })}
+					className={cn(PILL_TRIGGER_CLASS, "group max-w-56")}
+					title={current?.email ?? undefined}
+					type="button"
+				>
+					<UserRound className="size-3.5 shrink-0" />
+					<span className="truncate">
+						{current?.email ?? current?.sourceLabel ?? <Trans>Account</Trans>}
+					</span>
 					<ChevronDown className={PILL_CHEVRON_CLASS} />
 				</button>
 			</DropdownMenuTrigger>

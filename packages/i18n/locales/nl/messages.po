@@ -17706,6 +17706,9 @@ msgstr "Volhouden"
 msgid "Sustain · active days in 30"
 msgstr "Continuïteit · actieve dagen van 30"
 
+msgid "Switch account"
+msgstr "Van account wisselen"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Wissel van agent. Houd je workflow"
 

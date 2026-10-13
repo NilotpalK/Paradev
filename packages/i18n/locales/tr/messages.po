@@ -17706,6 +17706,9 @@ msgstr "Süreklilik"
 msgid "Sustain · active days in 30"
 msgstr "Süreklilik · 30 günde etkin gün"
 
+msgid "Switch account"
+msgstr "Hesap değiştir"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Ajan değiştirin. İş akışınızı koruyun"
 

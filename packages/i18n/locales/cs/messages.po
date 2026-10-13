@@ -17706,6 +17706,9 @@ msgstr "Vytrvalost"
 msgid "Sustain · active days in 30"
 msgstr "Pravidelnost · aktivní dny z 30"
 
+msgid "Switch account"
+msgstr "Přepnout účet"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Vyměňte agenta. Workflow zůstane"
 

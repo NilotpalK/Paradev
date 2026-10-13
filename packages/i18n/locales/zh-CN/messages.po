@@ -17706,6 +17706,9 @@ msgstr "持续"
 msgid "Sustain · active days in 30"
 msgstr "持续性 · 30 天内的活跃天数"
 
+msgid "Switch account"
+msgstr "切换账号"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "换智能体，不换工作流"
 

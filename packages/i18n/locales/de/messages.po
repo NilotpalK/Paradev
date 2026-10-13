@@ -17706,6 +17706,9 @@ msgstr "Ausdauer"
 msgid "Sustain · active days in 30"
 msgstr "Beständigkeit · aktive Tage von 30"
 
+msgid "Switch account"
+msgstr "Konto wechseln"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Agenten wechseln. Workflow behalten"
 

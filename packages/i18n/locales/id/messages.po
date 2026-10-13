@@ -17706,6 +17706,9 @@ msgstr "Konsistensi"
 msgid "Sustain · active days in 30"
 msgstr "Konsistensi · hari aktif dari 30"
 
+msgid "Switch account"
+msgstr "Ganti akun"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Ganti agen. Pertahankan alur kerja Anda"
 

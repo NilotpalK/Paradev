@@ -17706,6 +17706,9 @@ msgstr "継続"
 msgid "Sustain · active days in 30"
 msgstr "継続 · 30日間のアクティブ日数"
 
+msgid "Switch account"
+msgstr "アカウントを切り替え"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "エージェントは替える。ワークフローはそのまま"
 

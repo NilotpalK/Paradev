@@ -17706,6 +17706,9 @@ msgstr "Sustain"
 msgid "Sustain · active days in 30"
 msgstr "Sustain · active days in 30"
 
+msgid "Switch account"
+msgstr "Switch account"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Switch agents. Keep your workflow"
 

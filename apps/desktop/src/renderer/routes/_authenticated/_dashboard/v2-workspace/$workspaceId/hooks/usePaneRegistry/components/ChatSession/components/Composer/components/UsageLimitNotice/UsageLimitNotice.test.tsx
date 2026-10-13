@@ -72,7 +72,7 @@ test("the account menu is only for agents whose logins the host can switch", () 
 		limit: { hitAtMs: Date.now() },
 		onRespond: () => undefined,
 	});
-	expect(plain.queryByText("Account")).toBeNull();
+	expect(plain.queryByLabelText("Switch account")).toBeNull();
 	cleanup();
 	const claude = renderNotice({
 		limit: { hitAtMs: Date.now() },
@@ -80,5 +80,5 @@ test("the account menu is only for agents whose logins the host can switch", () 
 		agent: "claude",
 		hostUrl: null,
 	});
-	expect(claude.getByText("Account")).toBeTruthy();
+	expect(claude.getByLabelText("Switch account").textContent).toBe("Account");
 });

@@ -17706,6 +17706,9 @@ msgstr "Régularité"
 msgid "Sustain · active days in 30"
 msgstr "Régularité · jours actifs sur 30"
 
+msgid "Switch account"
+msgstr "Changer de compte"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Changez d'agent. Gardez votre flux de travail"
 

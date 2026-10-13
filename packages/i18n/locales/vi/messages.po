@@ -17706,6 +17706,9 @@ msgstr "Bền bỉ"
 msgid "Sustain · active days in 30"
 msgstr "Duy trì · số ngày hoạt động trong 30 ngày"
 
+msgid "Switch account"
+msgstr "Chuyển tài khoản"
+
 msgid "Switch agents. Keep your workflow"
 msgstr "Đổi agent. Giữ nguyên quy trình"
 
