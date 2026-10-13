@@ -3,6 +3,8 @@ import type {
 	AvailableCommand,
 	SessionConfigOption,
 	SessionUsage,
+	UsageLimit,
+	UsageLimitAction,
 	UserContent,
 } from "@superset/chat/protocol";
 import type {
@@ -58,6 +60,10 @@ import { mcpContextLine } from "../../utils/mcpServerChips";
 import { elementsForChips } from "../../utils/messageElements";
 import { AccountLimitNotice } from "./components/AccountLimitNotice";
 import { ContextWindowRing } from "./components/ContextWindowRing";
+import {
+	type SwitchableAgent,
+	UsageLimitNotice,
+} from "./components/UsageLimitNotice";
 import { useAppCommands } from "./hooks/useAppCommands";
 import { takeRecoveredDraft, useComposerDraft } from "./hooks/useComposerDraft";
 import { useDrawerEntry } from "./hooks/useDrawerEntry";
@@ -120,6 +126,14 @@ export type ComposerProps = {
 	turnRunning?: boolean;
 	terminalId?: string;
 	agentLabel?: string;
+	usageLimit?: {
+		limit: UsageLimit;
+		respond: (action: UsageLimitAction) => unknown;
+		modelLabel?: string | undefined;
+		agent?: SwitchableAgent | undefined;
+		hostUrl?: string | null | undefined;
+		onSwitchAccount?: (() => void) | undefined;
+	};
 };
 
 const HIDDEN_AGENT_COMMANDS = new Set(["rewind"]);
@@ -179,6 +193,7 @@ export const Composer = memo(function Composer({
 	target,
 	turnRunning = false,
 	terminalId,
+	usageLimit,
 	workspaceId,
 	sessionId,
 }: ComposerProps) {
@@ -582,6 +597,18 @@ export const Composer = memo(function Composer({
 					terminalId={terminalId}
 					workspaceId={workspaceId}
 				/>
+			)}
+			{usageLimit && (
+				<div className={CHAT_COLUMN_CLASSNAME}>
+					<UsageLimitNotice
+						agent={usageLimit.agent}
+						hostUrl={usageLimit.hostUrl}
+						limit={usageLimit.limit}
+						modelLabel={usageLimit.modelLabel}
+						onRespond={usageLimit.respond}
+						onSwitchAccount={usageLimit.onSwitchAccount}
+					/>
+				</div>
 			)}
 			<AgentComposer
 				className={CHAT_COLUMN_CLASSNAME}

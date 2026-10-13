@@ -2,6 +2,9 @@ import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import type { TurnFailureKind } from "@superset/chat/protocol";
 
+/** A provider refusing for the account's usage, in the words Claude and Codex use. */
+export const USAGE_LIMIT_TEXT = /hit your (?:usage )?limit|usage limit reached/i;
+
 export type FailureAction =
 	| "continue"
 	| "change_model"

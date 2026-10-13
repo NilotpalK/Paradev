@@ -18,6 +18,7 @@ import {
 	FAILURE_ACTIONS,
 	FAILURE_TITLES,
 	type FailureAction,
+	USAGE_LIMIT_TEXT,
 } from "./constants";
 
 type Running = "continue" | "restart" | "new_chat";
@@ -44,7 +45,9 @@ export function TurnFailureCard({
 	const { i18n, t } = useLingui();
 	const actions = useTurnFailureActions();
 	const kind = error?.kind ?? "unknown";
-	const title = i18n._(FAILURE_TITLES[kind]);
+	const title = USAGE_LIMIT_TEXT.test(error?.message ?? "")
+		? t({ message: "Stopped by the usage limit" })
+		: i18n._(FAILURE_TITLES[kind]);
 	const text = [error?.message, error?.detail].filter(Boolean).join("\n\n");
 	const [expanded, setExpanded] = useState(false);
 	const [clamped, setClamped] = useState(false);

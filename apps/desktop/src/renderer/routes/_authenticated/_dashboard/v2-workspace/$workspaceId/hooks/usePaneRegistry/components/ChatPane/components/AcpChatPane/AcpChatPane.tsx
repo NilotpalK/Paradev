@@ -689,6 +689,7 @@ export function AcpChatPane({
 			onRestartAndContinue={harness ? restartAndContinue : undefined}
 			onStartNewChat={harness ? startNewChat : undefined}
 			onUserPrompt={agent ? () => saveLastChatAgent(agent.id) : undefined}
+			onRestart={recover}
 			openFile={onOpenFile}
 			openPage={onOpenPage}
 			openLink={onOpenLink}

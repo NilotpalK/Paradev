@@ -103,3 +103,26 @@ test("a turn the user stopped is one quiet line", () => {
 	expect(view.container.textContent).toBe("Stopped");
 	expect(view.container.querySelector("[data-turn-failure]")).toBeNull();
 });
+
+test("a refusal for usage is named as such", () => {
+	const actions: TurnFailureActions = {
+		blocked: false,
+		continueTask: () => {},
+		dismissed: new Set(),
+		setDismissed: () => {},
+	};
+	const view = render(
+		<TurnFailureActionsProvider value={actions}>
+			<TurnStatusRow
+				error={{
+					message: "You've hit your usage limit. Resets in a bit.",
+					kind: "unknown",
+				}}
+				latest
+				status="failed"
+				turnId="t1"
+			/>
+		</TurnFailureActionsProvider>,
+	);
+	expect(view.container.textContent).toContain("Stopped by the usage limit");
+});

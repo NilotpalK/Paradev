@@ -2,6 +2,11 @@ import { Trans } from "@lingui/react/macro";
 import type { TurnError } from "@superset/chat/protocol";
 import { TurnFailureCard } from "./components/TurnFailureCard";
 
+/**
+ * How a turn ended when it did not finish: a quiet word for an interruption
+ * the reader caused, a card for a failure, with the agent's own words under
+ * a title that says what kind of failure it was.
+ */
 export function TurnStatusRow({
 	error,
 	latest,

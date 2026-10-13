@@ -1,5 +1,5 @@
 import type { ToolCall } from "@superset/chat/protocol";
-import { effectiveToolKind } from "../../../../utils/shellIntent";
+import { effectiveToolKind } from "../shellIntent";
 import { changedPaths } from "../fileChange";
 
 /**

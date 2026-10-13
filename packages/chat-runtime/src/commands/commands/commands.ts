@@ -22,6 +22,7 @@ import type {
 	PromptInput,
 	QueuedPromptInput,
 	RespondToApprovalInput,
+	RespondToUsageLimitInput,
 	ResumeQueueInput,
 	SetConfigOptionInput,
 	SetModeInput,
@@ -44,6 +45,7 @@ import {
 	promptInputSchema,
 	queuedPromptInputSchema,
 	respondToApprovalInputSchema,
+	respondToUsageLimitInputSchema,
 	resumeQueueInputSchema,
 	rewindSessionInputSchema,
 	setConfigOptionInputSchema,
@@ -220,6 +222,7 @@ export type ChatCommands = {
 	steerQueuedPrompt(input: QueuedPromptInput): void;
 	updateQueuedPrompt(input: UpdateQueuedPromptInput): void;
 	resumeQueue(input: ResumeQueueInput): void;
+	respondToUsageLimit(input: RespondToUsageLimitInput): void;
 	cancelTurn(input: CancelTurnInput): void;
 	stopBackgroundTask(input: StopBackgroundTaskInput): Promise<boolean>;
 	steerSubagent(input: SteerSubagentInput): Promise<boolean>;
@@ -503,6 +506,16 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 			const parsed: ResumeQueueInput = resumeQueueInputSchema.parse(input);
 			options.dedupe.run(`resumeQueue:${parsed.commandId}`, () => {
 				options.live.require(parsed.sessionId).resumeQueue();
+			});
+		},
+
+		respondToUsageLimit(input) {
+			const parsed: RespondToUsageLimitInput =
+				respondToUsageLimitInputSchema.parse(input);
+			options.dedupe.run(`respondToUsageLimit:${parsed.commandId}`, () => {
+				options.live
+					.require(parsed.sessionId)
+					.respondToUsageLimit(parsed.action);
 			});
 		},
 
