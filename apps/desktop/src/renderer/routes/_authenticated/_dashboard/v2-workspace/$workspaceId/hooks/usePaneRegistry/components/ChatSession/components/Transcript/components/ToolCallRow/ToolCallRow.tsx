@@ -13,16 +13,23 @@ import { useState } from "react";
 import { PluginIcon } from "renderer/components/PluginIcon";
 import { useTranscriptPlugins } from "../../providers/TranscriptPluginsProvider";
 import { toolTitle } from "../../utils/toolTitle";
+import {
+	toolCallCommand,
+	toolCallIntent,
+	unwrapShellCommand,
+} from "../../utils/shellIntent";
 import { ToolContentList } from "../ToolContentList";
 import { FileChangeTitle } from "./components/FileChangeTitle";
 import { RunningTime } from "./components/RunningTime";
+import { ShellIntentTitle } from "./components/ShellIntentTitle";
 import { StatusWord } from "./components/StatusWord";
 
 const TITLE_SWEEP_SECONDS = 1.6;
 
 /**
  * One line per call on a rail of steps: what the agent did, a command in
- * mono, a file as a chip that previews its edit. A running call turns a
+ * mono, a file as a chip that previews its edit, a shell command that only
+ * read or searched as that read or search. A running call turns a
  * dashed ring and sweeps its title; a settled one recedes. The line opens
  * what the call produced: a button under the whole row toggles it, so the
  * chip can be a button of its own without one inside the other.
@@ -41,6 +48,7 @@ export function ToolCallRow({ item }: { item: ToolCall }) {
 	const toggle = hasBody ? () => setOpen((value) => !value) : undefined;
 
 	const { change, label } = toolTitle(item, t, Boolean(plugin));
+	const intent = change ? null : toolCallIntent(item);
 	let title: ReactNode;
 	if (change) {
 		title = (
@@ -52,8 +60,17 @@ export function ToolCallRow({ item }: { item: ToolCall }) {
 				verb={label}
 			/>
 		);
+	} else if (intent) {
+		title = <ShellIntentTitle intent={intent} running={running} />;
 	} else {
-		const face = command ? "font-mono text-[13px]" : undefined;
+		const shell = command ? toolCallCommand(item) : null;
+		const titleIsCommand = shell === null || item.title.endsWith(shell);
+		const shownLabel =
+			shell && titleIsCommand && label === item.title
+				? item.title.slice(0, -shell.length) + unwrapShellCommand(shell)
+				: label;
+		const face =
+			command && titleIsCommand ? "font-mono text-[13px]" : undefined;
 		const verb = command && label !== t`Running` ? t`Running` : null;
 		title = running ? (
 			<span className="flex min-w-0 items-baseline gap-1.5 truncate">
@@ -69,11 +86,11 @@ export function ToolCallRow({ item }: { item: ToolCall }) {
 					className={cn("min-w-0 truncate font-normal", face)}
 					duration={TITLE_SWEEP_SECONDS}
 				>
-					{label}
+					{shownLabel}
 				</ShimmerLabel>
 			</span>
 		) : (
-			<span className={cn("min-w-0 truncate", face)}>{label}</span>
+			<span className={cn("min-w-0 truncate", face)}>{shownLabel}</span>
 		);
 	}
 

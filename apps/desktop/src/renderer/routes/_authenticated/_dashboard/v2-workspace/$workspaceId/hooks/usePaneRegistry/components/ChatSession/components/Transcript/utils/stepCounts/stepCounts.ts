@@ -1,4 +1,5 @@
 import type { ToolCall } from "@superset/chat/protocol";
+import { effectiveToolKind } from "../../../../utils/shellIntent";
 import { changedPaths } from "../fileChange";
 
 /**
@@ -26,7 +27,7 @@ export function stepCounts(items: readonly ToolCall[]): StepCounts {
 	};
 	const editedPaths = new Set<string>();
 	for (const item of items) {
-		switch (item.toolKind) {
+		switch (effectiveToolKind(item)) {
 			case "execute":
 				counts.commands += 1;
 				break;
