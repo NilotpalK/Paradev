@@ -397,6 +397,16 @@ describe("ClaudeTranslator usage limit", () => {
 				model: "claude-sonnet-5-5",
 			},
 		]);
+		expect(
+			events.findIndex(
+				(event) =>
+					event.kind === "session" && event.session.usageLimit !== undefined,
+			),
+		).toBeLessThan(
+			events.findIndex(
+				(event) => event.kind === "turn" && event.turn.status === "failed",
+			),
+		);
 	});
 
 	test("an allowed window, or a refusal paid for by overage, is nothing", () => {

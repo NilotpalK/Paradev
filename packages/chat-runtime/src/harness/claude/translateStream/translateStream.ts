@@ -427,8 +427,8 @@ export class ClaudeTranslator {
 		this.streamingBlocks.clear();
 		const limit = this.usageLimit(envelope, isError);
 		return [
-			{ kind: "turn", turn },
 			...(limit ? [limit] : []),
+			{ kind: "turn", turn },
 			this.sessionIdle(),
 		];
 	}

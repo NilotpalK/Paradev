@@ -1206,6 +1206,8 @@ export class AcpAdapter implements HarnessAdapter {
 		this.customAnswer = null;
 		this.main.flush();
 		this.cancelPendingApprovals(turnId);
+		const limit = this.usageLimitFrom(error.message);
+		if (limit) this.emitSession({ usageLimit: limit });
 		this.emitTurn({
 			id: turnId,
 			status: "failed",
@@ -1214,8 +1216,6 @@ export class AcpAdapter implements HarnessAdapter {
 			completedAtMs: this.now(),
 		});
 		this.emitNotice("error", error.message);
-		const limit = this.usageLimitFrom(error.message);
-		if (limit) this.emitSession({ usageLimit: limit });
 		this.emitSession({ status: this.statusAfterApprovals() });
 	}
 

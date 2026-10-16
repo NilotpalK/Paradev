@@ -391,7 +391,7 @@ export class LiveSession {
 	 */
 	respondToUsageLimit(action: UsageLimitAction): void {
 		const limit = this.sessionState.usageLimit;
-		if (!limit) return;
+		if (this.stopped || !limit) return;
 		switch (action) {
 			case "resume":
 				this.resumeAfterLimit();
@@ -518,9 +518,14 @@ export class LiveSession {
 	}
 
 	private async run(stream: AsyncIterable<AdapterEvent>): Promise<void> {
-		for await (const event of stream) {
-			if (this.stopped) return;
-			this.handle(event);
+		try {
+			for await (const event of stream) {
+				if (this.stopped) return;
+				this.handle(event);
+			}
+		} finally {
+			this.stopped = true;
+			this.clearResumeTimer();
 		}
 	}
 
@@ -565,7 +570,11 @@ export class LiveSession {
 				return;
 			}
 			case "session":
-				if (event.session.status === "dead") this.discardPending();
+				if (event.session.status === "dead") {
+					this.stopped = true;
+					this.clearResumeTimer();
+					this.discardPending();
+				}
 				if (event.session.usageLimit) {
 					const { usageLimit, ...rest } = event.session;
 					this.emitSession(rest);

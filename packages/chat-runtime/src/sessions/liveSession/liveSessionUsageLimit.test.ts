@@ -1,7 +1,10 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, jest, mock, setSystemTime, test } from "bun:test";
 import { randomUUID } from "node:crypto";
+import { setImmediate as flush } from "node:timers/promises";
 import { emptySnapshot, reduceMany } from "@superset/chat/core";
 import type { UsageLimitAction, UserMessage } from "@superset/chat/protocol";
+import type { HarnessAdapter } from "../../harness";
+import { EventQueue } from "../../harness/eventQueue";
 import type { FakeHarnessScript } from "../../harness/fake";
 import type { ChatRuntime } from "../../index";
 import { agentMessage, turn } from "../../testing/fixtures";
@@ -15,6 +18,7 @@ import {
 
 const REFUSED: FakeHarnessScript["turns"][number] = [
 	{ kind: "turn", turn: turn("t1") },
+	{ kind: "session", session: { usageLimit: { hitAtMs: 2, resetsAtMs: 50 } } },
 	{
 		kind: "turn",
 		turn: turn("t1", {
@@ -23,7 +27,6 @@ const REFUSED: FakeHarnessScript["turns"][number] = [
 			completedAtMs: 2,
 		}),
 	},
-	{ kind: "session", session: { usageLimit: { hitAtMs: 2, resetsAtMs: 50 } } },
 	{ kind: "session", session: { status: "idle" } },
 ];
 
@@ -90,11 +93,13 @@ function deliveredTexts(runtime: ChatRuntime, sessionId: string): string[] {
 }
 
 describe("LiveSession usage limit", () => {
-	test("a refused turn records the limit and holds later prompts in a paused queue", async () => {
+	test("a refused turn pauses prompts queued before and after the refusal", async () => {
 		const { runtime, sessionId } = startSession({
 			turns: [REFUSED, COMPLETED],
 		});
 		sendPrompt(runtime, sessionId, "first");
+		const second = sendPrompt(runtime, sessionId, "second");
+		expect(second.queued).toBe(true);
 		await waitFor(
 			() => snapshot(runtime, sessionId).session?.usageLimit !== undefined,
 		);
@@ -103,10 +108,11 @@ describe("LiveSession usage limit", () => {
 			resetsAtMs: 50,
 		});
 
-		const second = sendPrompt(runtime, sessionId, "second");
-		expect(second.queued).toBe(true);
+		const third = sendPrompt(runtime, sessionId, "third");
+		expect(third.queued).toBe(true);
 		expect(snapshot(runtime, sessionId).session?.queuePaused).toBe(true);
 		expect(deliveredTexts(runtime, sessionId)).toEqual(["first"]);
+		runtime.live.require(sessionId).removeQueued(third.itemId);
 
 		respond(runtime, sessionId, "resume");
 		await waitFor(
@@ -154,34 +160,62 @@ describe("LiveSession usage limit", () => {
 		await runtime.dispose();
 	});
 
-	test("resume at reset continues on its own once the window reopens, and can be cancelled", async () => {
-		const { runtime, sessionId } = startSession(
-			{ turns: [REFUSED, COMPLETED] },
-			0,
-		);
-		sendPrompt(runtime, sessionId, "first");
-		await waitFor(
-			() => snapshot(runtime, sessionId).session?.usageLimit !== undefined,
-		);
-		respond(runtime, sessionId, "resume_at_reset");
-		expect(
-			snapshot(runtime, sessionId).session?.usageLimit?.resumeAtReset,
-		).toBe(true);
-		respond(runtime, sessionId, "cancel_resume_at_reset");
-		expect(
-			snapshot(runtime, sessionId).session?.usageLimit?.resumeAtReset,
-		).toBe(false);
-		await new Promise((resolve) => setTimeout(resolve, 20));
-		expect(deliveredTexts(runtime, sessionId)).toEqual(["first"]);
+	test("resume at reset can be cancelled and rearmed without waiting for the real clock", async () => {
+		jest.useFakeTimers();
+		setSystemTime(0);
+		const { runtime, session, events, prompt, advance } = timerSession();
+		try {
+			await flush();
+			session.respondToUsageLimit("resume_at_reset");
+			expect(session.state.usageLimit?.resumeAtReset).toBe(true);
+			session.respondToUsageLimit("cancel_resume_at_reset");
+			expect(session.state.usageLimit?.resumeAtReset).toBe(false);
+			advance(1_000);
+			expect(prompt).not.toHaveBeenCalled();
 
-		respond(runtime, sessionId, "resume_at_reset");
-		await waitFor(
-			() =>
-				snapshot(runtime, sessionId).turns.get("t2")?.status === "completed",
-		);
-		expect(deliveredTexts(runtime, sessionId)).toEqual(["first", "Continue"]);
-		expect(snapshot(runtime, sessionId).session?.usageLimit).toBeUndefined();
-		await runtime.dispose();
+			session.respondToUsageLimit("resume_at_reset");
+			advance(0);
+			expect(prompt.mock.calls).toEqual([
+				[[{ type: "text", text: "Continue" }]],
+			]);
+			expect(session.state.usageLimit).toBeUndefined();
+		} finally {
+			events.close();
+			await runtime.dispose();
+			jest.useRealTimers();
+			setSystemTime();
+		}
+	});
+
+	test.each([
+		"dead event",
+		"closed stream",
+	] as const)("%s cancels automatic resume and prevents rearming it", async (ending) => {
+		jest.useFakeTimers();
+		setSystemTime(0);
+		const { runtime, session, events, prompt, advance } = timerSession();
+		try {
+			await flush();
+			session.respondToUsageLimit("resume_at_reset");
+			expect(jest.getTimerCount()).toBe(1);
+			if (ending === "dead event") {
+				events.push({ kind: "session", session: { status: "dead" } });
+			} else {
+				events.close();
+			}
+			await flush();
+			expect(jest.getTimerCount()).toBe(0);
+			session.respondToUsageLimit("resume_at_reset");
+			session.respondToUsageLimit("resume");
+			advance(1_000);
+			expect(prompt).not.toHaveBeenCalled();
+			expect(jest.getTimerCount()).toBe(0);
+		} finally {
+			events.close();
+			await runtime.dispose();
+			jest.useRealTimers();
+			setSystemTime();
+		}
 	});
 
 	test("a failed turn whose error names the limit counts, with no reset time", async () => {
@@ -211,3 +245,42 @@ describe("LiveSession usage limit", () => {
 		await runtime.dispose();
 	});
 });
+
+function timerSession() {
+	let now = 0;
+	const events = new EventQueue();
+	const prompt = mock<HarnessAdapter["prompt"]>();
+	const adapter: HarnessAdapter = {
+		start: () => events.iterable(),
+		prompt,
+		cancelTurn: () => undefined,
+		respondToApproval: () => undefined,
+		setMode: () => undefined,
+		dispose: async () => events.close(),
+	};
+	const runtime = createTestRuntime({
+		harnesses: new Map([[FAKE_HARNESS, () => adapter]]),
+		usageLimitGraceMs: 0,
+	});
+	const { sessionId } = runtime.commands.createSession({
+		commandId: randomUUID(),
+		scopeId: "workspace-1",
+		harness: FAKE_HARNESS,
+		cwd: "/tmp/workspace",
+	});
+	events.push({
+		kind: "session",
+		session: { status: "idle", usageLimit: { hitAtMs: 0, resetsAtMs: 1_000 } },
+	});
+	return {
+		runtime,
+		events,
+		prompt,
+		session: runtime.live.require(sessionId),
+		advance: (ms: number) => {
+			now += ms;
+			setSystemTime(now);
+			jest.advanceTimersByTime(ms);
+		},
+	};
+}

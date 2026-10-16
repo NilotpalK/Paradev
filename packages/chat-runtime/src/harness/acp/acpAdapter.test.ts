@@ -611,7 +611,7 @@ describe("AcpAdapter", () => {
 					},
 				},
 			],
-			error: { code: -32603, message: "You've hit your usage limit." },
+			error: { code: -32603, message: "error_during_execution" },
 		};
 		const { adapter, events } = startAdapter(agent);
 		await flush();
@@ -630,7 +630,17 @@ describe("AcpAdapter", () => {
 		]);
 		const turns = events.flatMap((e) => (e.kind === "turn" ? [e.turn] : []));
 		expect(turns.at(-1)?.status).toBe("failed");
-		expect(turns.at(-1)?.error?.message).toBe("You've hit your usage limit.");
+		expect(turns.at(-1)?.error?.message).toBe("error_during_execution");
+		expect(
+			events.findIndex(
+				(event) =>
+					event.kind === "session" && event.session.usageLimit !== undefined,
+			),
+		).toBeLessThan(
+			events.findIndex(
+				(event) => event.kind === "turn" && event.turn.status === "failed",
+			),
+		);
 	});
 
 	it("a refusal the turn survived, or an allowed window, is not a limit", async () => {
