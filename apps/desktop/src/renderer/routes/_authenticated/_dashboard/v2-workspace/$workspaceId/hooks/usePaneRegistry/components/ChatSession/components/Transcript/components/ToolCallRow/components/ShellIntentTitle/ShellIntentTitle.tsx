@@ -6,7 +6,11 @@ import { FileIcon } from "renderer/lib/fileIcons";
 import { useChatPaneActions } from "../../../../../../providers/ChatPaneActionsProvider";
 import { isLocalPathText } from "../../../../../../utils/pathText";
 import { fileName } from "../../../../utils/fileChange";
-import type { ShellIntent, ShellVerb } from "../../../../utils/shellIntent";
+import {
+	intentLocation,
+	type ShellIntent,
+	type ShellVerb,
+} from "../../../../utils/shellIntent";
 
 const CHIP_CLASSNAME =
 	"flex min-w-0 max-w-full items-center gap-1 rounded bg-foreground/[0.06] px-1 py-0.5 text-left font-mono text-[13px] text-foreground/70";
@@ -84,6 +88,7 @@ export function ShellIntentTitle({
 					<PathChip
 						directory={intent.verb === "list"}
 						line={intent.startLine}
+						location={intentLocation(intent) ?? intent.path}
 						path={intent.path}
 					/>
 				)
@@ -95,21 +100,25 @@ export function ShellIntentTitle({
 function PathChip({
 	directory,
 	line,
+	location,
 	path,
 }: {
 	directory: boolean;
 	line: number | undefined;
+	/** What opens: `path` resolved against where the command ran. */
+	location: string;
 	path: string;
 }) {
 	const { openLink } = useChatPaneActions();
-	const target = line === undefined ? path : `${path}:${line}`;
+	const target = line === undefined ? location : `${location}:${line}`;
+	const typed = line === undefined ? path : `${path}:${line}`;
 	// An absolute path is mostly the checkout's own prefix; the name is what
 	// the row has room for, as on an edit chip. The full path is the tooltip.
 	const shown = /^(?:[a-zA-Z]:)?[\\/~]/.test(path)
 		? line === undefined
 			? fileName(path)
 			: `${fileName(path)}:${line}`
-		: target;
+		: typed;
 	const openable = openLink !== undefined && isLocalPathText(target);
 	const icon = (
 		<FileIcon

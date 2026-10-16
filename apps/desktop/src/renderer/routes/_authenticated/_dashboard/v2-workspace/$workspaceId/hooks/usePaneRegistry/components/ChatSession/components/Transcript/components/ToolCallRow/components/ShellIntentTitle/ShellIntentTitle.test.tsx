@@ -69,3 +69,20 @@ test("without a pane to open into, the chip is plain", () => {
 	expect(view.container.textContent).toBe("Listingapps");
 	expect(view.queryByRole("button")).toBeNull();
 });
+
+test("a path typed in another directory shows as typed and opens where it ran", () => {
+	const openLink = mock<OpenLink>(() => true);
+	const view = render(
+		<ChatPaneActionsProvider openLink={openLink}>
+			<ShellIntentTitle
+				intent={{ verb: "read", path: "index.ts", cwd: "/repo/src" }}
+				verb="Read"
+				running={false}
+			/>
+		</ChatPaneActionsProvider>,
+	);
+	const chip = view.getByRole("button");
+	expect(chip.textContent).toBe("index.ts");
+	fireEvent.click(chip);
+	expect(openLink.mock.calls[0]?.[0]).toBe("/repo/src/index.ts");
+});

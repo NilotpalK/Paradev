@@ -1,6 +1,7 @@
 export {
 	effectiveToolKind,
 	inferShellIntent,
+	intentLocation,
 	type ShellIntent,
 	type ShellVerb,
 	toolCallCommand,

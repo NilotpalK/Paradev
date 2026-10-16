@@ -3,6 +3,7 @@ import type { ToolCall } from "@superset/chat/protocol";
 import {
 	effectiveToolKind,
 	inferShellIntent,
+	intentLocation,
 	toolCallIntent,
 	unwrapShellCommand,
 } from "./shellIntent";
@@ -183,5 +184,77 @@ describe("effectiveToolKind", () => {
 		expect(
 			effectiveToolKind(execute({ rawInput: { command: "git status" } })),
 		).toBe("execute");
+	});
+});
+
+describe("inferShellIntent edge cases", () => {
+	test("a find that deletes or runs something stays a command", () => {
+		expect(inferShellIntent("find . -name '*.log' -delete")).toBeNull();
+		expect(inferShellIntent("find src -name '*.ts' -exec rm {} ;")).toBeNull();
+	});
+
+	test("substitution inside double quotes still runs", () => {
+		expect(inferShellIntent('cat "$(ls | head -1)"')).toBeNull();
+		expect(inferShellIntent('cat "`which node`"')).toBeNull();
+		expect(inferShellIntent("cat '$(not run)'")).toEqual({
+			verb: "read",
+			path: "$(not run)",
+		});
+	});
+
+	test("a quoted redirect target is one path", () => {
+		expect(inferShellIntent("echo hi > 'my notes.txt'")).toEqual({
+			verb: "write",
+			path: "my notes.txt",
+		});
+		expect(inferShellIntent('echo hi >> "out dir/log.txt"')).toEqual({
+			verb: "edit",
+			path: "out dir/log.txt",
+		});
+	});
+
+	test("an absolute directory stays absolute", () => {
+		expect(inferShellIntent("cd /repo/src && cat index.ts")).toEqual({
+			verb: "read",
+			path: "/repo/src/index.ts",
+		});
+	});
+
+	test("a backslash before an ordinary letter survives in double quotes", () => {
+		expect(inferShellIntent('grep -rn "foo\\.bar" src')).toEqual({
+			verb: "search",
+			query: "foo\\.bar",
+			path: "src",
+		});
+		expect(inferShellIntent('grep -rn "say \\"hi\\"" src')).toEqual({
+			verb: "search",
+			query: 'say "hi"',
+			path: "src",
+		});
+	});
+
+	test("a redirect resolves where it ran, not after a later cd", () => {
+		expect(inferShellIntent("echo x > out.txt && cd sub")).toEqual({
+			verb: "write",
+			path: "out.txt",
+		});
+		expect(inferShellIntent("cd sub && echo x > out.txt")).toEqual({
+			verb: "write",
+			path: "sub/out.txt",
+		});
+	});
+});
+
+describe("toolCallIntent working directory", () => {
+	test("keeps the typed path and records where the command ran", () => {
+		const intent = toolCallIntent(
+			execute({ rawInput: { command: "cat index.ts", cwd: "/repo/src" } }),
+		);
+		expect(intent).toEqual({
+			verb: "read",
+			path: "index.ts",
+			cwd: "/repo/src",
+		});
+		expect(intent && intentLocation(intent)).toBe("/repo/src/index.ts");
 	});
 });
