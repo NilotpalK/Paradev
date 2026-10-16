@@ -233,6 +233,18 @@ describe("inferShellIntent edge cases", () => {
 		});
 	});
 
+	test("a stderr redirect is not the command's output", () => {
+		expect(inferShellIntent("grep foo src 2> err.log")).toEqual({
+			verb: "search",
+			query: "foo",
+			path: "src",
+		});
+		expect(inferShellIntent("echo hi 1> out.txt")).toEqual({
+			verb: "write",
+			path: "out.txt",
+		});
+	});
+
 	test("a redirect resolves where it ran, not after a later cd", () => {
 		expect(inferShellIntent("echo x > out.txt && cd sub")).toEqual({
 			verb: "write",

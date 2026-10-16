@@ -637,6 +637,16 @@ function writeRedirect(
 			continue;
 		}
 		if (char !== ">") continue;
+		// `2>` and friends redirect another stream; only stdout is the output.
+		const fd = command[index - 1];
+		if (
+			fd !== undefined &&
+			/\d/.test(fd) &&
+			fd !== "1" &&
+			/^\s?$/.test(command[index - 2] ?? "")
+		) {
+			continue;
+		}
 		let append = false;
 		let cursor = index + 1;
 		if (command[cursor] === ">") {
