@@ -171,7 +171,7 @@ export function inferShellIntent(command: string): ShellIntent | null {
 		}
 		let last: ShellIntent | undefined;
 		for (const stage of splitTopLevel(chain, pipeSeparator)) {
-			const tokens = tokenize(stage);
+			const tokens = tokenize(withoutRedirects(stage));
 			if (!tokens || tokens.length === 0) return null;
 			const argv = tokens.map((token) => token.value);
 			if (binName(argv[0] ?? "") === "cd") {
@@ -662,6 +662,58 @@ function writeRedirect(
 		index = Math.max(index, word.end - 1);
 	}
 	return found;
+}
+
+/**
+ * The stage without its redirections (`2> err.log`, `< in.txt`, `2>&1`),
+ * so a redirect's target is never read as one of the command's arguments.
+ */
+function withoutRedirects(stage: string): string {
+	let out = "";
+	let quote: "'" | '"' | null = null;
+	for (let index = 0; index < stage.length; index += 1) {
+		const char = stage[index] ?? "";
+		if (quote) {
+			if (quote === '"' && char === "\\") {
+				out += char + (stage[index + 1] ?? "");
+				index += 1;
+				continue;
+			}
+			if (char === quote) quote = null;
+			out += char;
+			continue;
+		}
+		if (char === "'" || char === '"') {
+			quote = char;
+			out += char;
+			continue;
+		}
+		if (char === "\\") {
+			out += char + (stage[index + 1] ?? "");
+			index += 1;
+			continue;
+		}
+		if (char !== ">" && char !== "<") {
+			out += char;
+			continue;
+		}
+		// A file-descriptor number right before the operator belongs to it.
+		out = out.replace(/(^|\s)\d+$/, "$1");
+		let cursor = index + 1;
+		while (stage[cursor] === ">" || stage[cursor] === "<") cursor += 1;
+		if (stage[cursor] === "&") {
+			cursor += 1;
+			while (/[\d-]/.test(stage[cursor] ?? "")) cursor += 1;
+			index = cursor - 1;
+			out += " ";
+			continue;
+		}
+		while (stage[cursor] === " " || stage[cursor] === "\t") cursor += 1;
+		const word = readWord(stage, cursor);
+		index = (word ? word.end : cursor) - 1;
+		out += " ";
+	}
+	return out;
 }
 
 /** One shell word from `start`, with its quotes and escapes resolved. */
