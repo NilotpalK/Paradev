@@ -3,15 +3,24 @@ import type { UsageLimitAction } from "@superset/chat/protocol";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import type { ComponentProps } from "react";
+import {
+	HOST_USAGE_QUOTA_QUERY_KEY,
+	type UsageAccount,
+} from "renderer/hooks/host-service/useHostUsageQuota";
 import { UsageLimitNotice } from "./UsageLimitNotice";
 
 afterEach(cleanup);
 
 const HOUR_MS = 60 * 60 * 1000;
 
-function renderNotice(props: ComponentProps<typeof UsageLimitNotice>) {
+function renderNotice(
+	props: ComponentProps<typeof UsageLimitNotice>,
+	accounts: UsageAccount[] = [],
+) {
+	const client = new QueryClient();
+	client.setQueryData([...HOST_USAGE_QUOTA_QUERY_KEY, null], accounts);
 	return render(
-		<QueryClientProvider client={new QueryClient()}>
+		<QueryClientProvider client={client}>
 			<UsageLimitNotice {...props} />
 		</QueryClientProvider>,
 	);
@@ -81,4 +90,69 @@ test("the account menu is only for agents whose logins the host can switch", () 
 		hostUrl: null,
 	});
 	expect(claude.getByLabelText("Switch account").textContent).toBe("Account");
+});
+
+function account(selection: string | null, isDefault: boolean): UsageAccount {
+	return {
+		agent: "claude",
+		credentialKind: "subscription",
+		accountKey: selection ?? "system",
+		sourceLabel: selection ?? "System",
+		email: selection === null ? "running@example.com" : "default@example.com",
+		plan: null,
+		status: "ok",
+		statusDetail: null,
+		windows: [],
+		creditsBalance: null,
+		extraUsage: null,
+		selection,
+		isDefault,
+		fetchedAt: new Date(),
+	};
+}
+
+test("the account menu identifies the session's captured login even after the host default changes", async () => {
+	const current = account(null, false);
+	const next = account("/profiles/next", true);
+	const view = renderNotice(
+		{
+			limit: { hitAtMs: 1 },
+			onRespond: () => undefined,
+			agent: "claude",
+			hostUrl: null,
+			sessionAccount: {
+				agent: "claude",
+				selection: null,
+				credentialKind: "subscription",
+				identity: "captured",
+				email: "running@example.com",
+			},
+			onSwitchAccount: async () => undefined,
+		},
+		[current, next],
+	);
+	const trigger = view.getByLabelText("Switch account");
+	expect(trigger.textContent).toBe("running@example.com");
+	fireEvent.keyDown(trigger, { key: "Enter" });
+	const running = await view.findByRole("menuitem", {
+		name: "running@example.com",
+	});
+	const hostDefault = view.getByRole("menuitem", {
+		name: "default@example.com",
+	});
+	expect(running.getAttribute("aria-disabled")).toBe("true");
+	expect(hostDefault.getAttribute("aria-disabled")).not.toBe("true");
+});
+
+test("an unknown session account is not inferred from the host default", () => {
+	const view = renderNotice(
+		{
+			limit: { hitAtMs: 1 },
+			onRespond: () => undefined,
+			agent: "claude",
+			hostUrl: null,
+		},
+		[account("/profiles/next", true)],
+	);
+	expect(view.getByLabelText("Switch account").textContent).toBe("Account");
 });

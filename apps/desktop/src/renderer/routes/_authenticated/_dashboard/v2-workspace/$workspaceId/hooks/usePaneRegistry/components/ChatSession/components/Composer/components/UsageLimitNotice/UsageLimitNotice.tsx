@@ -27,6 +27,7 @@ import {
 	type UsageAccount,
 	useHostUsageQuota,
 } from "renderer/hooks/host-service/useHostUsageQuota";
+import type { TerminalAgentBinding } from "renderer/hooks/host-service/useTerminalAgentBindings";
 import { useSetDefaultUsageAccount } from "renderer/routes/_authenticated/settings/usage/hooks/useSetDefaultUsageAccount";
 import { formatResetLabel } from "renderer/utils/usage/formatResetIn";
 import {
@@ -51,6 +52,9 @@ const TITLES: Record<string, ReturnType<typeof msg>> = {
 };
 
 export type SwitchableAgent = "claude" | "codex";
+export type SwitchAccount = (
+	setAccount: () => Promise<unknown>,
+) => Promise<void>;
 
 /**
  * The provider refused the last turn for the account's usage. One line says
@@ -63,9 +67,11 @@ export function UsageLimitNotice({
 	hostUrl,
 	limit,
 	modelLabel,
+	sessionAccount,
 	onRespond,
 	onSwitchAccount,
 }: {
+	sessionAccount?: TerminalAgentBinding["account"];
 	limit: UsageLimit;
 	onRespond: (action: UsageLimitAction) => void;
 	/** The model's name as the agent lists it; the id when it does not. */
@@ -73,8 +79,7 @@ export function UsageLimitNotice({
 	/** Which agent's logins the host can switch between; others cannot. */
 	agent?: SwitchableAgent | undefined;
 	hostUrl?: string | null | undefined;
-	/** Restarts the chat so the new default login applies to it. */
-	onSwitchAccount?: (() => void) | undefined;
+	onSwitchAccount?: SwitchAccount | undefined;
 }) {
 	const { i18n, t } = useLingui();
 	const [now, setNow] = useState(() => Date.now());
@@ -95,7 +100,12 @@ export function UsageLimitNotice({
 	const accounts = (quota.data ?? []).filter(
 		(account) => account.agent === agent,
 	);
-	const current = accounts.find((account) => account.isDefault);
+	const current = accounts.find(
+		(account) =>
+			account.agent === sessionAccount?.agent &&
+			account.selection === sessionAccount.selection &&
+			account.credentialKind === sessionAccount.credentialKind,
+	);
 	const title = limit.window ? TITLES[limit.window] : undefined;
 	const detail = [
 		modelLabel,
@@ -132,8 +142,9 @@ export function UsageLimitNotice({
 						accounts={accounts}
 						agent={agent}
 						current={current}
+						email={sessionAccount?.email}
 						hostUrl={hostUrl ?? null}
-						onSwitched={onSwitchAccount}
+						onSwitch={onSwitchAccount}
 					/>
 				)}
 				{!waiting ? (
@@ -197,14 +208,16 @@ function AccountMenu({
 	accounts,
 	agent,
 	current,
+	email,
 	hostUrl,
-	onSwitched,
+	onSwitch,
 }: {
 	accounts: UsageAccount[];
 	agent: SwitchableAgent;
 	current: UsageAccount | undefined;
+	email: string | undefined;
 	hostUrl: string | null;
-	onSwitched: (() => void) | undefined;
+	onSwitch: SwitchAccount | undefined;
 }) {
 	const { t } = useLingui();
 	const router = useRouter({ warn: false });
@@ -216,12 +229,14 @@ function AccountMenu({
 				<button
 					aria-label={t({ message: "Switch account" })}
 					className={cn(PILL_TRIGGER_CLASS, "group max-w-56")}
-					title={current?.email ?? undefined}
+					title={email ?? current?.email ?? undefined}
 					type="button"
 				>
 					<UserRound className="size-3.5 shrink-0" />
 					<span className="truncate">
-						{current?.email ?? current?.sourceLabel ?? <Trans>Account</Trans>}
+						{email ?? current?.email ?? current?.sourceLabel ?? (
+							<Trans>Account</Trans>
+						)}
 					</span>
 					<ChevronDown className={PILL_CHEVRON_CLASS} />
 				</button>
@@ -242,12 +257,15 @@ function AccountMenu({
 					return (
 						<DropdownMenuItem
 							className={cn(MENU_ROW_CLASS, "h-auto items-center py-1.5")}
-							disabled={isCurrent || setDefault.isPending}
+							disabled={isCurrent || setDefault.isPending || !onSwitch}
 							key={account.accountKey}
 							onSelect={() => {
-								void setDefault
-									.mutateAsync({ agent, selection: account.selection })
-									.then(() => onSwitched?.());
+								void onSwitch?.(() =>
+									setDefault.mutateAsync({
+										agent,
+										selection: account.selection,
+									}),
+								);
 							}}
 						>
 							<span className="flex size-3.5 shrink-0 items-center justify-center">

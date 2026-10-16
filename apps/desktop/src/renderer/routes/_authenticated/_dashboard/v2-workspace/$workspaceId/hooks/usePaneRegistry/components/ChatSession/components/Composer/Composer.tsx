@@ -36,6 +36,8 @@ import {
 } from "react";
 import { useIsDarkTheme } from "renderer/assets/app-icons/preset-icons";
 import { env } from "renderer/env.renderer";
+import { env } from "renderer/env.renderer";
+import type { TerminalAgentBinding } from "renderer/hooks/host-service/useTerminalAgentBindings";
 import { useHotkey } from "renderer/hotkeys";
 import { FileIcon, getFileIcon } from "renderer/lib/fileIcons";
 import { AgentComposer } from "renderer/routes/_authenticated/components/AgentComposer";
@@ -61,6 +63,7 @@ import { elementsForChips } from "../../utils/messageElements";
 import { AccountLimitNotice } from "./components/AccountLimitNotice";
 import { ContextWindowRing } from "./components/ContextWindowRing";
 import {
+	type SwitchAccount,
 	type SwitchableAgent,
 	UsageLimitNotice,
 } from "./components/UsageLimitNotice";
@@ -127,12 +130,13 @@ export type ComposerProps = {
 	terminalId?: string;
 	agentLabel?: string;
 	usageLimit?: {
+		sessionAccount?: TerminalAgentBinding["account"];
 		limit: UsageLimit;
 		respond: (action: UsageLimitAction) => unknown;
 		modelLabel?: string | undefined;
 		agent?: SwitchableAgent | undefined;
 		hostUrl?: string | null | undefined;
-		onSwitchAccount?: (() => void) | undefined;
+		onSwitchAccount?: SwitchAccount | undefined;
 	};
 };
 
@@ -602,6 +606,7 @@ export const Composer = memo(function Composer({
 				<div className={CHAT_COLUMN_CLASSNAME}>
 					<UsageLimitNotice
 						agent={usageLimit.agent}
+						sessionAccount={usageLimit.sessionAccount}
 						hostUrl={usageLimit.hostUrl}
 						limit={usageLimit.limit}
 						modelLabel={usageLimit.modelLabel}

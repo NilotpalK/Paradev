@@ -31,6 +31,7 @@ import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePluginMentionOptions } from "renderer/hooks/usePluginMentionOptions";
 import { useStableList } from "renderer/hooks/useStableList";
+import type { TerminalAgentBinding } from "renderer/hooks/host-service/useTerminalAgentBindings";
 import { useWorkspaceHostUrl } from "renderer/hooks/host-service/useWorkspaceHostUrl";
 import type { OpenFile } from "../../../../../../types";
 import {
@@ -53,7 +54,10 @@ import {
 	type ComposerHandle,
 	prependToDraft,
 } from "../Composer";
-import type { SwitchableAgent } from "../Composer/components/UsageLimitNotice";
+import type {
+	SwitchAccount,
+	SwitchableAgent,
+} from "../Composer/components/UsageLimitNotice";
 import { ConnectionNotice } from "../ConnectionNotice";
 import { SessionHeader } from "../SessionHeader";
 import { SubagentView } from "../SubagentView";
@@ -107,6 +111,8 @@ export function SessionView({
 	onStartNewChat,
 	onUserPrompt,
 	onRestart,
+	onSwitchAccount,
+	sessionAccount,
 	onSessionState,
 	openFile,
 	openPage,
@@ -138,8 +144,8 @@ export function SessionView({
 	onSessionState?: (session: SessionState | null) => void;
 	/** The mode the user picked, so a resumed session can start in it again. */
 	onModeChange?: (modeId: string) => void;
-	/** Reopens the conversation on a fresh agent process, as after a crash. */
-	onRestart?: () => void;
+	onSwitchAccount?: SwitchAccount;
+	sessionAccount?: TerminalAgentBinding["account"];
 	/**
 	 * Absent when the agent cannot branch its own session. The transcript is
 	 * built here because only this view holds the timeline; a branch into
@@ -548,9 +554,18 @@ export function SessionView({
 				: undefined,
 			agent,
 			hostUrl,
-			onSwitchAccount: onRestart,
+			sessionAccount,
+			onSwitchAccount,
 		};
-	}, [limit, respondToUsageLimit, harness, configOptions, hostUrl, onRestart]);
+	}, [
+		limit,
+		respondToUsageLimit,
+		harness,
+		configOptions,
+		hostUrl,
+		onSwitchAccount,
+		sessionAccount,
+	]);
 
 	const heldQueued = held?.queued;
 	const heldLaunched = held?.launched;

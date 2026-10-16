@@ -1,1 +1,5 @@
-export { type SwitchableAgent, UsageLimitNotice } from "./UsageLimitNotice";
+export {
+	type SwitchAccount,
+	type SwitchableAgent,
+	UsageLimitNotice,
+} from "./UsageLimitNotice";
