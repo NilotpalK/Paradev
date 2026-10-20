@@ -52,7 +52,7 @@ const unsubscribe = router.subscribe("onResolved", (event) => {
 const handleDeepLink = (path: string) => {
 	console.log("[deep-link] Navigating to:", path);
 	const { to, search } = parseDeepLinkPath(path);
-	router.navigate({ to, search } as Parameters<typeof router.navigate>[0]);
+	router.navigate({ to, search } as never);
 };
 const ipcRenderer = window.ipcRenderer as typeof window.ipcRenderer | undefined;
 if (ipcRenderer) {
