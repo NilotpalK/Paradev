@@ -12,6 +12,7 @@ import type {
 	Item,
 	ToolCall,
 	UserMessage,
+	UserContent,
 } from "@superset/chat/protocol";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { type ComponentProps, useRef } from "react";
@@ -78,6 +79,7 @@ function queueOf(prompts: UserMessage[]): DrawerQueue {
 		remove: mock(async (_id: string) => {}),
 		resume: mock(async () => {}),
 		steer: mock(async (_id: string) => {}),
+		update: mock(async (_id: string, _content: UserContent[]) => {}),
 	};
 }
 
@@ -98,7 +100,6 @@ function renderDrawer({
 		onStop: mock((_taskId: string) => {}),
 		onMoveToBackground: mock((_taskId: string) => {}),
 		onExit: mock(() => {}),
-		onAppendToComposer: mock((_text: string) => {}),
 	};
 	const snapshot = snapshotOf(items);
 	const view = render(
@@ -229,7 +230,6 @@ test("the drawer caps its height and scrolls", () => {
 	const view = render(
 		<div ref={attachPane}>
 			<WorkDrawer
-				onAppendToComposer={() => {}}
 				onExit={() => {}}
 				onMoveToBackground={() => {}}
 				onOpenSubagent={() => {}}
@@ -341,7 +341,6 @@ test("collapsing a section with the focused row moves focus to its header", () =
 
 test("a row removed after focus left the drawer does not pull focus back", () => {
 	const props = {
-		onAppendToComposer: () => {},
 		onExit: mock((_exit: string) => {}),
 		onMoveToBackground: () => {},
 		onOpenSubagent: () => {},
@@ -365,7 +364,6 @@ test("a row removed after focus left the drawer does not pull focus back", () =>
 
 test("a row removed while focused hands focus to its neighbour", () => {
 	const props = {
-		onAppendToComposer: () => {},
 		onExit: () => {},
 		onMoveToBackground: () => {},
 		onOpenSubagent: () => {},
@@ -386,7 +384,6 @@ test("a row removed while focused hands focus to its neighbour", () => {
 
 test("removing the first of two queued prompts hands focus to the other", () => {
 	const props = {
-		onAppendToComposer: () => {},
 		onExit: () => {},
 		onMoveToBackground: () => {},
 		onOpenSubagent: () => {},
@@ -408,7 +405,6 @@ test("removing the first of two queued prompts hands focus to the other", () => 
 
 test("a focused collapsed queue header hands focus to the prompt left behind", () => {
 	const props = {
-		onAppendToComposer: () => {},
 		onExit: () => {},
 		onMoveToBackground: () => {},
 		onOpenSubagent: () => {},
@@ -431,7 +427,6 @@ test("a focused collapsed queue header hands focus to the prompt left behind", (
 
 test("a queue collapsed at two prompts opens again after it drops to one", () => {
 	const props = {
-		onAppendToComposer: () => {},
 		onExit: () => {},
 		onMoveToBackground: () => {},
 		onOpenSubagent: () => {},
@@ -499,6 +494,35 @@ test("enter steers a queued prompt and opens a subagent", () => {
 	expect(onExit).toHaveBeenCalledTimes(2);
 });
 
+test("e edits a queued prompt in place and keeps its attachments", () => {
+	const queue = queueOf([
+		{
+			...prompt("q1", "first"),
+			content: [
+				{ type: "text", text: "first" },
+				{
+					type: "attachment",
+					attachmentId: "a1",
+					name: "shot.png",
+					mimeType: "image/png",
+				},
+			],
+		} as UserMessage,
+	]);
+	const { view } = renderDrawer({ queue });
+	const [queued] = view.getAllByRole("option");
+	fireEvent.keyDown(queued as HTMLElement, { key: "e" });
+	const editor = view.getByRole("textbox", { name: "Edit queued message" });
+	fireEvent.change(editor, { target: { value: "first, revised" } });
+	fireEvent.keyDown(editor, { key: "Enter" });
+	expect(queue.update).toHaveBeenCalledTimes(1);
+	const [id, content] = (queue.update as ReturnType<typeof mock>).mock.calls[0] as [string, UserContent[]];
+	expect(id).toBe("q1");
+	expect(content[0]).toEqual({ type: "text", text: "first, revised" });
+	expect(content.slice(1).map((part) => part.type)).toEqual(["attachment"]);
+	expect(queue.remove).not.toHaveBeenCalled();
+});
+
 test("backspace removes a queued prompt and stops a running shell", () => {
 	const queue = queueOf([prompt("q1", "first")]);
 	const { view, onStop } = renderDrawer({
@@ -556,8 +580,7 @@ function renderComposer(drawer: Partial<DrawerProps> = {}) {
 		<ComposerWithDrawer
 			recallHistory={recallHistory}
 			drawerProps={{
-				onAppendToComposer: () => {},
-				onMoveToBackground: () => {},
+						onMoveToBackground: () => {},
 				onOpenSubagent: () => {},
 				onStop: () => {},
 				snapshot: snapshotOf([exploreItem]),

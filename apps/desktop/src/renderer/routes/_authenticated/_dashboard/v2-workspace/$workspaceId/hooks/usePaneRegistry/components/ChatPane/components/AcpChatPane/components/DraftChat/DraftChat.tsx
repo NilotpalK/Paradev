@@ -54,7 +54,6 @@ export function DraftChat({
 			<div className="min-h-0 flex-1" />
 			<ConnectionNotice>{notice}</ConnectionNotice>
 			<WorkDrawer
-				onAppendToComposer={(text) => composerRef.current?.appendText(text)}
 				onExit={(exit) => composerRef.current?.returnFocus(exit === "history")}
 				onMoveToBackground={IGNORE}
 				onOpenSubagent={IGNORE}
@@ -67,7 +66,6 @@ export function DraftChat({
 			/>
 			<Composer
 				availableCommands={NO_COMMANDS}
-				canQueue={promptQueue !== undefined}
 				draftKey={draftKey}
 				inputRef={composerRef}
 				isActive={isActive}

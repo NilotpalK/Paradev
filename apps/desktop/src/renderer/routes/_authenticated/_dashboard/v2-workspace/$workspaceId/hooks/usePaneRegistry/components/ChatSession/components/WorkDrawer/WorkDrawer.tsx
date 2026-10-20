@@ -1,6 +1,6 @@
 import { plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
-import { type SessionSnapshot, userMessageText } from "@superset/chat/core";
+import type { SessionSnapshot } from "@superset/chat/core";
 import type {
 	ApprovalRequest,
 	BackgroundTask,
@@ -20,7 +20,6 @@ import {
 } from "react";
 import { useNow } from "renderer/hooks/useNow";
 import { CHAT_COLUMN_CLASSNAME, CHAT_GUTTER_CLASSNAME } from "../../constants";
-import { parseAttachmentTags } from "../../utils/attachmentTags";
 import { DrawerSection } from "./components/DrawerSection";
 import { QueuedPromptRow } from "./components/QueuedPromptRow";
 import { QueuePausedBar } from "./components/QueuePausedBar";
@@ -43,10 +42,6 @@ type Entry =
 	| { kind: "running"; row: RunningEntry }
 	| { kind: "header"; section: Section };
 
-const hasAttachments = (prompt: UserMessage) =>
-	prompt.content.some((content) => content.type === "attachment") ||
-	parseAttachmentTags(userMessageText(prompt)).attachments.length > 0;
-
 const stopsIn = (root: HTMLElement | null) => [
 	...(root?.querySelectorAll<HTMLElement>(STOP_SELECTOR) ?? []),
 ];
@@ -66,7 +61,6 @@ export function WorkDrawer({
 	approvals = [],
 	paneRef,
 	now: readNow = Date.now,
-	onAppendToComposer,
 	onExit,
 	onOpenSubagent,
 	onStop,
@@ -79,7 +73,6 @@ export function WorkDrawer({
 	approvals?: readonly ApprovalRequest[];
 	paneRef?: RefObject<HTMLElement | null>;
 	now?: () => number;
-	onAppendToComposer: (text: string) => void;
 	onExit: (exit: DrawerExit) => void;
 	onOpenSubagent: (itemId: string) => void;
 	onStop: (taskId: string) => void;
@@ -91,7 +84,8 @@ export function WorkDrawer({
 	const [activeKey, setActiveKey] = useState<string | null>(null);
 	const lastFocusRef = useRef<string | null>(null);
 	const previousKeysRef = useRef<string[]>([]);
-	const queueActions = useQueueActions(queue, onAppendToComposer);
+	const queueActions = useQueueActions(queue);
+	const [editingId, setEditingId] = useState<string | null>(null);
 	const asking = useMemo(
 		() => new Set(approvals.flatMap((approval) => approval.parentItemId ?? [])),
 		[approvals],
@@ -267,12 +261,8 @@ export function WorkDrawer({
 				handled = entry ? remove(entry) : false;
 				break;
 			case "e":
-				handled =
-					entry?.kind === "queued" &&
-					actionableQueue &&
-					!hasAttachments(entry.prompt);
-				if (handled && entry?.kind === "queued")
-					queueActions.onEdit(entry.prompt);
+				handled = entry?.kind === "queued" && actionableQueue;
+				if (handled && entry?.kind === "queued") setEditingId(entry.prompt.id);
 				break;
 			default:
 				handled = false;
@@ -373,7 +363,12 @@ export function WorkDrawer({
 									<QueuedPromptRow
 										actionable={actionableQueue}
 										key={prompt.id}
-										onEdit={queueActions.onEdit}
+										editing={editingId === prompt.id}
+										onEdit={() => setEditingId(prompt.id)}
+										onEditEnd={(text) => {
+											setEditingId(null);
+											if (text !== null) queueActions.onUpdate(prompt, text);
+										}}
 										onRemove={queueActions.onRemove}
 										onSteer={queueActions.onSteer}
 										prompt={prompt}

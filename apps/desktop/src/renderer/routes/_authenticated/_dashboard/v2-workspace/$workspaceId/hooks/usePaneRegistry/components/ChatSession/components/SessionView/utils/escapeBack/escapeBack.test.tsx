@@ -29,7 +29,6 @@ function Pane({ goBack }: { goBack: (() => void) | undefined }) {
 		// biome-ignore lint/a11y/noStaticElementInteractions: test pane
 		<div onKeyDown={escapeBack(goBack)}>
 			<WorkDrawer
-				onAppendToComposer={() => {}}
 				onExit={(exit) => entry.returnFocus(exit === "history")}
 				onMoveToBackground={() => {}}
 				onOpenSubagent={() => {}}
