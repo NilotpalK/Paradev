@@ -35,10 +35,12 @@ import { SectionHeader } from "./components/SectionHeader";
 export function PluginDetail({
 	plugin,
 	openConnect = false,
+	connectedCount = 0,
 	onConnected,
 }: {
 	plugin: CatalogPlugin;
 	openConnect?: boolean;
+	connectedCount?: number;
 	onConnected: () => void;
 }) {
 	const { t } = useLingui();
@@ -59,8 +61,8 @@ export function PluginDetail({
 	}, [openNewWorkspace, plugin.name]);
 
 	useEffect(() => {
-		if (plugin.installed) setIsConnectOpen(false);
-	}, [plugin.installed]);
+		if (connectedCount > 0) setIsConnectOpen(false);
+	}, [connectedCount]);
 
 	const installOrConnect = () => {
 		if (plugin.connector && plugin.connections.length === 0) {
