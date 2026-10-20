@@ -7,7 +7,7 @@ import {
 	DropdownMenuTrigger,
 } from "@superset/ui/dropdown-menu";
 import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	LuArrowLeft,
 	LuArrowUp,
@@ -57,6 +57,10 @@ export function PluginDetail({
 		});
 		openNewWorkspace();
 	}, [openNewWorkspace, plugin.name]);
+
+	useEffect(() => {
+		if (plugin.installed) setIsConnectOpen(false);
+	}, [plugin.installed]);
 
 	const installOrConnect = () => {
 		if (plugin.connector && plugin.connections.length === 0) {
