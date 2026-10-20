@@ -259,7 +259,9 @@ describe("plugins.list", () => {
 		live = [connection("conn-google", "google")];
 
 		const plugins = await caller.plugins.list();
-		const calendar = plugins.find((plugin) => plugin.name === "google-calendar");
+		const calendar = plugins.find(
+			(plugin) => plugin.name === "google-calendar",
+		);
 
 		expect(calendar?.connections.map((held) => held.id)).toEqual([
 			"conn-google",

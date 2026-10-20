@@ -14,8 +14,8 @@ import {
 	markBootMounted,
 	reportBootError,
 } from "./lib/boot-errors";
-import { sweepDeadPersistedKeys } from "./lib/persisted-keys";
 import { parseDeepLinkPath } from "./lib/parseDeepLinkPath";
+import { sweepDeadPersistedKeys } from "./lib/persisted-keys";
 import { persistentHistory } from "./lib/persistent-hash-history";
 import { posthog } from "./lib/posthog";
 import { pruneExpiredTerminalState } from "./lib/terminal/terminal-buffer-gc";
