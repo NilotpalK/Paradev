@@ -340,6 +340,8 @@ export const githubRouter = {
 	 * detail pane that has no host in the loop: the webhook row supplies
 	 * everything but the description, which comes from GitHub with the
 	 * installation's token.
+	 *
+	 * @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients.
 	 */
 	getPullRequest: protectedProcedure
 		.input(

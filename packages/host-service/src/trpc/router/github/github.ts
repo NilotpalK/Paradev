@@ -42,6 +42,7 @@ export const githubRouter = router({
 			return data[0] ?? null;
 		}),
 
+	/** @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients. */
 	getPR: protectedProcedure
 		.input(
 			z.object({
@@ -159,6 +160,8 @@ export const githubRouter = router({
 	 * capabilities, reviewer states and whether a check is required exist
 	 * nowhere in the synced rows, and a button offered on stale data is a
 	 * button that fails when pressed.
+	 *
+	 * @deprecated Use the API's `integration.github.getPullRequestDetail`, which acts as the viewer. Kept for released clients.
 	 */
 	getPullRequestDetail: protectedProcedure
 		.input(
@@ -190,6 +193,7 @@ export const githubRouter = router({
 			}
 		}),
 
+	/** @deprecated Use the API's `integration.github.mergePullRequest`, which acts as the viewer. Kept for released clients. */
 	mergePR: protectedProcedure
 		.input(
 			z.object({
@@ -214,6 +218,7 @@ export const githubRouter = router({
 			}
 		}),
 
+	/** @deprecated Use the API's `integration.github.setPullRequestDraft` with `draft: false`, which acts as the viewer. Kept for released clients. */
 	markPullRequestReady: protectedProcedure
 		.input(
 			z.object({
@@ -242,6 +247,7 @@ export const githubRouter = router({
 			}
 		}),
 
+	/** @deprecated Use the API's `integration.github.updatePullRequestBranch`, which acts as the viewer. Kept for released clients. */
 	updatePullRequestBranch: protectedProcedure
 		.input(
 			z.object({
@@ -266,6 +272,7 @@ export const githubRouter = router({
 			}
 		}),
 
+	/** @deprecated Use the API's `integration.github.setPullRequestState` with `state: "open"`, which acts as the viewer. Kept for released clients. */
 	reopenPullRequest: protectedProcedure
 		.input(
 			z.object({
@@ -291,6 +298,7 @@ export const githubRouter = router({
 			}
 		}),
 
+	/** @deprecated Use the API's `integration.github.dequeuePullRequest`, which acts as the viewer. Kept for released clients. */
 	dequeuePullRequest: protectedProcedure
 		.input(
 			z.object({
