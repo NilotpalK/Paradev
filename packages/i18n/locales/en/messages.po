@@ -4749,6 +4749,9 @@ msgstr "Connect external services to sync data."
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Connect GitHub in Integrations to add {repositoryFullName}."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Connect GitHub in Settings to act on pull requests as yourself"
+
 msgid "Connect GitHub…"
 msgstr "Connect GitHub…"
 
@@ -18829,6 +18832,9 @@ msgstr "This project still uses the older config.json. It keeps working; convert
 
 msgid "This project's host is offline"
 msgstr "This project's host is offline"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "This pull request has no GitHub access to act through."
 
 msgid "This pull request has no host to act through"
 msgstr "This pull request has no host to act through"

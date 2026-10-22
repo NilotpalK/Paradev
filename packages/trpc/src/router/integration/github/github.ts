@@ -19,6 +19,7 @@ import {
 import { verifyOrgAdmin, verifyOrgMembership } from "../utils";
 import { findInstalledRepository } from "./find-installed-repository";
 import { getPullRequestDiff } from "./get-pull-request-diff";
+import { pullRequestProcedures } from "./pull-request-procedures";
 import {
 	type PullRequestDetail,
 	toChecks,
@@ -31,6 +32,7 @@ import { listGithubRepositories } from "./trigger-options";
 const qstash = new Client({ token: env.QSTASH_TOKEN });
 
 export const githubRouter = {
+	...pullRequestProcedures,
 	getPullRequestDiff,
 	getInstallation: protectedProcedure
 		.input(z.object({ organizationId: z.string().uuid() }))

@@ -4749,6 +4749,9 @@ msgstr "Подключайте внешние сервисы для синхро
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Подключите GitHub в разделе «Интеграции», чтобы добавить {repositoryFullName}."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Подключите GitHub в настройках, чтобы работать с пул-реквестами от своего имени"
+
 msgid "Connect GitHub…"
 msgstr "Подключить GitHub…"
 
@@ -18829,6 +18832,9 @@ msgstr "Этот проект всё ещё использует старый co
 
 msgid "This project's host is offline"
 msgstr "Хост этого проекта офлайн"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "Нет доступа к GitHub, чтобы выполнить действие с этим пул-реквестом."
 
 msgid "This pull request has no host to act through"
 msgstr "У этого пул-реквеста нет хоста, через который можно действовать"

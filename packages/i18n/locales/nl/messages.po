@@ -4749,6 +4749,9 @@ msgstr "Verbind externe diensten om gegevens te synchroniseren."
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Koppel GitHub in Integraties om {repositoryFullName} toe te voegen."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Koppel GitHub in Instellingen om als jezelf op pull requests te handelen"
+
 msgid "Connect GitHub…"
 msgstr "GitHub koppelen…"
 
@@ -18829,6 +18832,9 @@ msgstr "Dit project gebruikt nog de oudere config.json. Die blijft werken; zet h
 
 msgid "This project's host is offline"
 msgstr "De host van dit project is offline"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "Er is geen GitHub-toegang om op deze pull request te handelen."
 
 msgid "This pull request has no host to act through"
 msgstr "Deze pull request heeft geen host om via te handelen"

@@ -4749,6 +4749,9 @@ msgstr "Kết nối dịch vụ bên ngoài để đồng bộ dữ liệu."
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Kết nối GitHub trong Tích hợp để thêm {repositoryFullName}."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Kết nối GitHub trong Cài đặt để thao tác với pull request dưới tên của bạn"
+
 msgid "Connect GitHub…"
 msgstr "Kết nối GitHub…"
 
@@ -18829,6 +18832,9 @@ msgstr "Dự án này vẫn dùng config.json cũ. Nó vẫn hoạt động; hã
 
 msgid "This project's host is offline"
 msgstr "Host của dự án này đang ngoại tuyến"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "Không có quyền truy cập GitHub để thao tác với pull request này."
 
 msgid "This pull request has no host to act through"
 msgstr "Pull request này không có máy chủ để thực hiện thao tác"

@@ -25,9 +25,14 @@ const getContentByRepo = mock(async (_input: unknown) => ({
 	...hostContent,
 	title: "repository title",
 }));
-const getPullRequest = mock(async (_input: unknown) => ({
-	title: "API title",
-}));
+const cannotAct = Object.assign(new Error("Connect GitHub"), {
+	data: { code: "PRECONDITION_FAILED" },
+});
+const getPullRequestContent = mock(
+	async (_input: unknown): Promise<unknown> => {
+		throw cannotAct;
+	},
+);
 const root = "renderer/routes/_authenticated/_dashboard";
 mock.module("@superset/workspace-client", () => ({
 	workspaceTrpc: {
@@ -56,7 +61,9 @@ mock.module("renderer/lib/host-service-client", () => ({
 }));
 mock.module("renderer/lib/cloud-trpc", () => ({
 	cloudTrpcClient: {
-		integration: { github: { getPullRequest: { query: getPullRequest } } },
+		integration: {
+			github: { getPullRequestContent: { query: getPullRequestContent } },
+		},
 	},
 }));
 mock.module(
@@ -88,7 +95,7 @@ beforeEach(() => {
 	workspaceProjectQuery.mockClear();
 	getContent.mockClear();
 	getContentByRepo.mockClear();
-	getPullRequest.mockClear();
+	getPullRequestContent.mockClear();
 });
 
 function mountDetail(
@@ -105,7 +112,22 @@ function mountDetail(
 	});
 }
 
-test("cloud projects keep the original host path without desktop discovery", async () => {
+test("the cloud reads the pull request as the viewer before any host path", async () => {
+	getPullRequestContent.mockResolvedValueOnce({ title: "viewer title" });
+	const view = mountDetail();
+	await waitFor(() =>
+		expect(view.result.current.data?.title).toBe("viewer title"),
+	);
+	expect(getPullRequestContent).toHaveBeenCalledWith({
+		organizationId: "org",
+		repoFullName: "owner/repo",
+		number: 12,
+	});
+	expect(getContent).not.toHaveBeenCalled();
+	expect(getContentByRepo).not.toHaveBeenCalled();
+});
+
+test("a cloud that cannot act yields to the workspace host's project path", async () => {
 	const view = mountDetail();
 	await waitFor(() =>
 		expect(view.result.current.data?.title).toBe("host title"),
@@ -121,7 +143,6 @@ test("cloud projects keep the original host path without desktop discovery", asy
 		prNumber: 12,
 	});
 	expect(getContentByRepo).not.toHaveBeenCalled();
-	expect(getPullRequest).not.toHaveBeenCalled();
 });
 
 test("waits for the workspace project even if desktop discovery has a match", async () => {
@@ -144,7 +165,6 @@ test("waits for the workspace project even if desktop discovery has a match", as
 	);
 	expect(view.result.current.projectId).toBeNull();
 	expect(getContent).not.toHaveBeenCalled();
-	expect(getPullRequest).not.toHaveBeenCalled();
 });
 
 for (const data of [undefined, null]) {

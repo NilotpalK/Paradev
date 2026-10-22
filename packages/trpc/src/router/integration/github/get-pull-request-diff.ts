@@ -4,10 +4,9 @@ import {
 	type PullRequestDiff,
 } from "@superset/shared/pull-request-diff";
 import { z } from "zod";
-import { installationOctokit } from "../../../lib/sandbox/clone-token";
 import { protectedProcedure } from "../../../trpc";
 import { verifyOrgMembership } from "../utils";
-import { findInstalledRepository } from "./find-installed-repository";
+import { viewerOctokit } from "./viewer-octokit";
 
 export const getPullRequestDiff = protectedProcedure
 	.input(
@@ -19,12 +18,12 @@ export const getPullRequestDiff = protectedProcedure
 	)
 	.query(async ({ ctx, input }): Promise<PullRequestDiff> => {
 		await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-		const { installation, repo } = await findInstalledRepository(
-			input.organizationId,
-			input.repoFullName,
-		);
-		const [owner, name] = repo.fullName.split("/");
-		const octokit = await installationOctokit(installation.installationId);
+		const { octokit } = await viewerOctokit({
+			userId: ctx.session.user.id,
+			organizationId: input.organizationId,
+			repoFullName: input.repoFullName,
+		});
+		const [owner, name] = input.repoFullName.split("/");
 		const pullRequest = {
 			owner: owner ?? "",
 			repo: name ?? "",

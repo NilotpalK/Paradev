@@ -4749,6 +4749,9 @@ msgstr "Verileri eşitlemek için harici hizmetleri bağlayın."
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "{repositoryFullName} eklemek için Entegrasyonlar'da GitHub'ı bağlayın."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Pull request'lerde kendi adınıza işlem yapmak için Ayarlar'dan GitHub'ı bağlayın"
+
 msgid "Connect GitHub…"
 msgstr "GitHub'ı bağla…"
 
@@ -18829,6 +18832,9 @@ msgstr "Bu proje hâlâ eski config.json dosyasını kullanıyor. Çalışmaya d
 
 msgid "This project's host is offline"
 msgstr "Bu projenin host'u çevrimdışı"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "Bu pull request üzerinde işlem yapmak için GitHub erişimi yok."
 
 msgid "This pull request has no host to act through"
 msgstr "Bu çekme isteğinin üzerinden işlem yapılacak bir ana makinesi yok"

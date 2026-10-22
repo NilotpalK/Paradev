@@ -4749,6 +4749,9 @@ msgstr "連線外部服務以同步資料。"
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "在整合中連結 GitHub 以新增 {repositoryFullName}。"
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "在設定中連接 GitHub，以你自己的身分處理拉取請求"
+
 msgid "Connect GitHub…"
 msgstr "連結 GitHub…"
 
@@ -18829,6 +18832,9 @@ msgstr "此專案仍在使用舊的 config.json。它仍可正常運作；轉換
 
 msgid "This project's host is offline"
 msgstr "此專案的主機已離線"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "沒有可用於處理此拉取請求的 GitHub 存取權限。"
 
 msgid "This pull request has no host to act through"
 msgstr "此提取請求沒有可用於操作的主機"

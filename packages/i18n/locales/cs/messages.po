@@ -4749,6 +4749,9 @@ msgstr "Připojte externí služby a synchronizujte data."
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Připojte GitHub v Integracích a přidejte {repositoryFullName}."
 
+msgid "Connect GitHub in Settings to act on pull requests as yourself"
+msgstr "Připojte GitHub v Nastavení, abyste s pull requesty pracovali sami za sebe"
+
 msgid "Connect GitHub…"
 msgstr "Připojit GitHub…"
 
@@ -18829,6 +18832,9 @@ msgstr "Tento projekt stále používá starší config.json. Dál funguje; pře
 
 msgid "This project's host is offline"
 msgstr "Host tohoto projektu je offline"
+
+msgid "This pull request has no GitHub access to act through."
+msgstr "K tomuto pull requestu není žádný přístup ke GitHubu, přes který by šlo jednat."
 
 msgid "This pull request has no host to act through"
 msgstr "Tento pull request nemá hostitele, přes kterého by bylo možné jednat"
