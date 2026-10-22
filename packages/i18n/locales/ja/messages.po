@@ -7534,6 +7534,9 @@ msgstr "チームを更新できませんでした。もう一度お試しくだ
 msgid "Failed to update URL"
 msgstr "URLの更新に失敗しました"
 
+msgid "Failed to update workspace"
+msgstr "ワークスペースを更新できませんでした"
+
 msgid "Failed to upload avatar"
 msgstr "アバターのアップロードに失敗しました"
 

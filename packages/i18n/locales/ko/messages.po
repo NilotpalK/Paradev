@@ -7534,6 +7534,9 @@ msgstr "팀을 변경하지 못했습니다. 다시 시도해 주세요."
 msgid "Failed to update URL"
 msgstr "URL을 업데이트하지 못했습니다"
 
+msgid "Failed to update workspace"
+msgstr "워크스페이스를 업데이트하지 못했습니다"
+
 msgid "Failed to upload avatar"
 msgstr "아바타를 업로드하지 못했습니다"
 

@@ -7534,6 +7534,9 @@ msgstr "Nie udało się zaktualizować zespołu. Spróbuj ponownie."
 msgid "Failed to update URL"
 msgstr "Nie udało się zaktualizować adresu URL"
 
+msgid "Failed to update workspace"
+msgstr "Nie udało się zaktualizować obszaru roboczego"
+
 msgid "Failed to upload avatar"
 msgstr "Nie udało się przesłać awatara"
 

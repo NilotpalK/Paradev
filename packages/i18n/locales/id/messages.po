@@ -7534,6 +7534,9 @@ msgstr "Gagal memperbarui tim. Silakan coba lagi."
 msgid "Failed to update URL"
 msgstr "Gagal memperbarui URL"
 
+msgid "Failed to update workspace"
+msgstr "Gagal memperbarui workspace"
+
 msgid "Failed to upload avatar"
 msgstr "Gagal mengunggah avatar"
 

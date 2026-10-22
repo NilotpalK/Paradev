@@ -7534,6 +7534,9 @@ msgstr "Team konnte nicht aktualisiert werden. Bitte versuche es erneut."
 msgid "Failed to update URL"
 msgstr "URL konnte nicht aktualisiert werden"
 
+msgid "Failed to update workspace"
+msgstr "Arbeitsbereich konnte nicht aktualisiert werden"
+
 msgid "Failed to upload avatar"
 msgstr "Avatar konnte nicht hochgeladen werden"
 

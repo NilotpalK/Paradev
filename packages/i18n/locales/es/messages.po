@@ -7534,6 +7534,9 @@ msgstr "No se pudo actualizar el equipo. Inténtalo de nuevo."
 msgid "Failed to update URL"
 msgstr "No se pudo actualizar la URL"
 
+msgid "Failed to update workspace"
+msgstr "No se pudo actualizar el espacio de trabajo"
+
 msgid "Failed to upload avatar"
 msgstr "No se pudo subir el avatar"
 

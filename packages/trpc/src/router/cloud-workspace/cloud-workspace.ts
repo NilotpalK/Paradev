@@ -1,7 +1,8 @@
-import { db } from "@superset/db/client";
+import { db, dbWs } from "@superset/db/client";
 import {
 	cloudWorkspaceRepositories,
 	cloudWorkspaces,
+	cloudWorkspaceTags,
 	cloudWorkspaceVisibilityEnum,
 	environments,
 	githubRepositories,
@@ -12,9 +13,13 @@ import {
 	CLOUD_AGENT_PROMPT_MAX_LENGTH,
 	isCloudAgentId,
 } from "@superset/shared/cloud-agent-launch";
+import {
+	normalizeWorkspaceTags,
+	workspaceTagsInputSchema,
+} from "@superset/shared/workspace-tags";
 import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { z } from "zod";
 import { organizationMachineSizes } from "../../lib/billing/plan";
 import { assertCloudAccess, assertMember } from "../../lib/cloud-guards";
@@ -139,6 +144,36 @@ async function addressSandbox(
 	}
 }
 
+/** The caller's own tags per workspace, normalized and sorted; ids with none are absent. */
+async function loadCallerTags(
+	workspaceIds: string[],
+	userId: string,
+): Promise<Map<string, string[]>> {
+	const byWorkspaceId = new Map<string, string[]>();
+	if (workspaceIds.length === 0) return byWorkspaceId;
+	const rows = await db
+		.select({
+			cloudWorkspaceId: cloudWorkspaceTags.cloudWorkspaceId,
+			tag: cloudWorkspaceTags.tag,
+		})
+		.from(cloudWorkspaceTags)
+		.where(
+			and(
+				inArray(cloudWorkspaceTags.cloudWorkspaceId, workspaceIds),
+				eq(cloudWorkspaceTags.createdByUserId, userId),
+			),
+		);
+	for (const row of rows) {
+		const tags = byWorkspaceId.get(row.cloudWorkspaceId);
+		if (tags) tags.push(row.tag);
+		else byWorkspaceId.set(row.cloudWorkspaceId, [row.tag]);
+	}
+	for (const [id, tags] of byWorkspaceId) {
+		byWorkspaceId.set(id, normalizeWorkspaceTags(tags));
+	}
+	return byWorkspaceId;
+}
+
 /**
  * Released desktop and mobile builds still read `presence`; it now lives in the realtime WorkspaceHub.
  * TODO(2026-10-26): drop `presence` from list and create once MINIMUM_DESKTOP_VERSION is past the release that stopped reading it.
@@ -193,10 +228,15 @@ export const cloudWorkspaceRouter = {
 					),
 				)
 				.orderBy(desc(cloudWorkspaces.createdAt));
+			const tagsByWorkspaceId = await loadCallerTags(
+				rows.map(({ workspace }) => workspace.id),
+				ctx.userId,
+			);
 			return rows.map(({ workspace, createdBy }) => ({
 				...workspace,
 				createdBy,
 				presence: NO_PRESENCE,
+				tags: tagsByWorkspaceId.get(workspace.id) ?? [],
 			}));
 		}),
 
@@ -402,6 +442,7 @@ export const cloudWorkspaceRouter = {
 					? { userId: creator.id, name: creator.name, image: creator.image }
 					: null,
 				presence: NO_PRESENCE,
+				tags: [] as string[],
 			};
 		}),
 
@@ -431,6 +472,47 @@ export const cloudWorkspaceRouter = {
 			}
 			nudge(row.organizationId, "cloud_workspaces");
 			return renamed ?? row;
+		}),
+
+	/**
+	 * Replaces the caller's tag set on a workspace — the sidebar's folder
+	 * membership, the same contract as host-service `workspace.update`. Tags
+	 * are personal, so anyone who can see the workspace may file it, and only
+	 * their own rows move.
+	 */
+	setTags: jwtProcedure
+		.input(z.object({ id: z.string().uuid(), tags: workspaceTagsInputSchema }))
+		.mutation(async ({ ctx, input }) => {
+			const row = await loadVisibleWorkspace(ctx, input.id);
+			await dbWs.transaction(async (tx) => {
+				// One replace-set write at a time per (workspace, user): two
+				// that overlap would each delete past the other's insert and
+				// leave the union of both sets.
+				await tx.execute(
+					sql`select pg_advisory_xact_lock(hashtext(${`${row.id}:${ctx.userId}`}))`,
+				);
+				await tx
+					.delete(cloudWorkspaceTags)
+					.where(
+						and(
+							eq(cloudWorkspaceTags.cloudWorkspaceId, row.id),
+							eq(cloudWorkspaceTags.createdByUserId, ctx.userId),
+						),
+					);
+				if (input.tags.length > 0) {
+					await tx.insert(cloudWorkspaceTags).values(
+						input.tags.map((tag) => ({
+							cloudWorkspaceId: row.id,
+							tag,
+							createdByUserId: ctx.userId,
+						})),
+					);
+				}
+			});
+			// Tags are personal, but the caller's other windows learn of the
+			// change only through the organization channel.
+			nudge(row.organizationId, "cloud_workspaces");
+			return { ...row, tags: input.tags };
 		}),
 
 	/**

@@ -7534,6 +7534,9 @@ msgstr "Takım güncellenemedi. Lütfen yeniden deneyin."
 msgid "Failed to update URL"
 msgstr "URL güncellenemedi"
 
+msgid "Failed to update workspace"
+msgstr "Çalışma alanı güncellenemedi"
+
 msgid "Failed to upload avatar"
 msgstr "Avatar yüklenemedi"
 

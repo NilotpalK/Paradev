@@ -7534,6 +7534,9 @@ msgstr "更新團隊失敗。請重試。"
 msgid "Failed to update URL"
 msgstr "更新URL失敗"
 
+msgid "Failed to update workspace"
+msgstr "更新工作區失敗"
+
 msgid "Failed to upload avatar"
 msgstr "上傳頭像失敗"
 

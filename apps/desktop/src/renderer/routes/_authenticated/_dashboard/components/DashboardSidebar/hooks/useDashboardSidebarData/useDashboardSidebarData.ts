@@ -22,6 +22,7 @@ import { useCollections } from "renderer/routes/_authenticated/providers/Collect
 import { getVisibleSidebarWorkspaces } from "renderer/routes/_authenticated/providers/CollectionsProvider/dashboardSidebarLocal";
 import { useHostWorkspaces } from "renderer/routes/_authenticated/providers/HostWorkspacesProvider";
 import { useLocalHostService } from "renderer/routes/_authenticated/providers/LocalHostServiceProvider";
+import { useTagFolderWorkspaces } from "renderer/routes/_authenticated/providers/TagFolderWorkspacesProvider";
 import {
 	deriveTagFolders,
 	useTagFolderContext,
@@ -342,29 +343,7 @@ export function useDashboardSidebarData({
 		[hostWorkspaces],
 	);
 
-	// The section lane the builder consumes is the deriveTagFolders union:
-	// stored presentation rows PLUS folders that exist only because some
-	// workspace carries the tag. A folder must exist because a workspace
-	// carries the tag, not because a local row does.
 	const tagFolderContext = useTagFolderContext();
-	const sidebarSections = useMemo(
-		() =>
-			deriveTagFolders(
-				storedSidebarSections,
-				hostWorkspaces,
-				tagFolderContext,
-			).map((section) => ({
-				id: section.sectionId,
-				projectId: section.projectId,
-				name: section.name,
-				createdAt: section.createdAt,
-				isCollapsed: section.isCollapsed,
-				tabOrder: section.tabOrder,
-				color: section.color,
-				tag: section.tag,
-			})),
-		[hostWorkspaces, storedSidebarSections, tagFolderContext],
-	);
 
 	const { data: sidebarLocalStateRows = [], isReady: sidebarLocalStateReady } =
 		useLiveQuery(
@@ -399,6 +378,38 @@ export function useDashboardSidebarData({
 	const userId = session?.user?.id ?? null;
 	const { workspaces: cloudRows, isFresh: isCloudListFresh } =
 		useCloudWorkspaces();
+	// One tag source for folders and rows alike: host tags, or the API's for
+	// a cloud row (TagFolderWorkspacesProvider).
+	const { workspaces: tagFolderWorkspaces } = useTagFolderWorkspaces();
+	const tagsById = useMemo(
+		() =>
+			new Map(
+				tagFolderWorkspaces.map((workspace) => [workspace.id, workspace.tags]),
+			),
+		[tagFolderWorkspaces],
+	);
+	// The section lane the builder consumes is the deriveTagFolders union:
+	// stored presentation rows PLUS folders that exist only because some
+	// workspace carries the tag. A folder must exist because a workspace
+	// carries the tag, not because a local row does.
+	const sidebarSections = useMemo(
+		() =>
+			deriveTagFolders(
+				storedSidebarSections,
+				tagFolderWorkspaces,
+				tagFolderContext,
+			).map((section) => ({
+				id: section.sectionId,
+				projectId: section.projectId,
+				name: section.name,
+				createdAt: section.createdAt,
+				isCollapsed: section.isCollapsed,
+				tabOrder: section.tabOrder,
+				color: section.color,
+				tag: section.tag,
+			})),
+		[storedSidebarSections, tagFolderContext, tagFolderWorkspaces],
+	);
 	const cloudSidebarEntries = useCloudSidebarStore((state) =>
 		organizationId
 			? (state.byOrganization[organizationId] ?? EMPTY_CLOUD_SIDEBAR).entries
@@ -601,7 +612,6 @@ export function useDashboardSidebarData({
 	const rawSidebarWorkspaces = useMemo(
 		() =>
 			sidebarLocalStateRows.flatMap((localState) => {
-				// A cloud row carries no host tags; its folder is its local pointer.
 				const source =
 					hostWorkspacesById.get(localState.workspaceId) ??
 					cloudRowById.get(localState.workspaceId);
@@ -620,13 +630,13 @@ export function useDashboardSidebarData({
 						lastActivityAt: source.lastActivityAt,
 						tabOrder: localState.tabOrder,
 						sectionId: localState.sectionId,
-						tags: "tags" in source ? source.tags : null,
+						tags: tagsById.get(localState.workspaceId),
 						isHidden: localState.isHidden,
 						pinnedAt: localState.pinnedAt,
 					},
 				];
 			}),
-		[cloudRowById, hostWorkspacesById, sidebarLocalStateRows],
+		[cloudRowById, hostWorkspacesById, sidebarLocalStateRows, tagsById],
 	);
 	const rawSidebarWorkspacesWithHostStatus = useMemo(
 		() =>

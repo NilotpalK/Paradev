@@ -68,6 +68,7 @@ import { CollectionsProvider } from "./providers/CollectionsProvider";
 import { HostWorkspacesProvider } from "./providers/HostWorkspacesProvider";
 import { LocalHostServiceProvider } from "./providers/LocalHostServiceProvider";
 import { SandboxAccessProvider } from "./providers/SandboxAccessProvider";
+import { TagFolderWorkspacesProvider } from "./providers/TagFolderWorkspacesProvider";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: AuthenticatedLayout,
@@ -314,43 +315,50 @@ function AuthenticatedLayout() {
 					    include them as hosts. */}
 					<SandboxAccessProvider>
 						<HostWorkspacesProvider>
-							<WorkerPoolContextProvider
-								poolOptions={{ workerFactory: createPierreWorker, poolSize: 8 }}
-								highlighterOptions={{ preferredHighlighter: "shiki-wasm" }}
-							>
-								<DiffThemeSync />
-								<AgentHooks />
-								<FileMenuListener />
-								<V2NotificationController />
-								<DockBadgeController />
-								<StarNagObserver />
-								<LeaderboardAutoPublish />
-								<RealtimeNudges />
-								<DaemonAutoUpdateFailureDialog />
-								<Outlet />
-								<V1ImportModal />
-								{isV2CloudEnabled ? (
-									<>
-										<V1MigrationContinuity />
-										<V2FlipWelcome organizationId={activeOrganizationId} />
-										<V1MigrationStatusCard
-											organizationId={activeOrganizationId}
-										/>
-										<V1TerminalsNotice organizationId={activeOrganizationId} />
-									</>
-								) : (
-									<V1FlipNotice />
-								)}
-								<V1AutoMigration />
-								<WorkspaceInitEffects />
-								{/* v2 creates from the /new-workspace route; only v1 has a modal. */}
-								{!isV2CloudEnabled && <NewWorkspaceModal />}
-								<InitGitDialog />
-								<GitInitConfirmDialog />
-								<TeardownLogsDialog />
-								<Paywall />
-								<InviteMemberDialog />
-							</WorkerPoolContextProvider>
+							<TagFolderWorkspacesProvider>
+								<WorkerPoolContextProvider
+									poolOptions={{
+										workerFactory: createPierreWorker,
+										poolSize: 8,
+									}}
+									highlighterOptions={{ preferredHighlighter: "shiki-wasm" }}
+								>
+									<DiffThemeSync />
+									<AgentHooks />
+									<FileMenuListener />
+									<V2NotificationController />
+									<DockBadgeController />
+									<StarNagObserver />
+									<LeaderboardAutoPublish />
+									<RealtimeNudges />
+									<DaemonAutoUpdateFailureDialog />
+									<Outlet />
+									<V1ImportModal />
+									{isV2CloudEnabled ? (
+										<>
+											<V1MigrationContinuity />
+											<V2FlipWelcome organizationId={activeOrganizationId} />
+											<V1MigrationStatusCard
+												organizationId={activeOrganizationId}
+											/>
+											<V1TerminalsNotice
+												organizationId={activeOrganizationId}
+											/>
+										</>
+									) : (
+										<V1FlipNotice />
+									)}
+									<V1AutoMigration />
+									<WorkspaceInitEffects />
+									{/* v2 creates from the /new-workspace route; only v1 has a modal. */}
+									{!isV2CloudEnabled && <NewWorkspaceModal />}
+									<InitGitDialog />
+									<GitInitConfirmDialog />
+									<TeardownLogsDialog />
+									<Paywall />
+									<InviteMemberDialog />
+								</WorkerPoolContextProvider>
+							</TagFolderWorkspacesProvider>
 						</HostWorkspacesProvider>
 					</SandboxAccessProvider>
 				</LocalHostServiceProvider>

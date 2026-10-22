@@ -6,6 +6,8 @@ const WORKSPACE_ID = "b502bf30-8693-4815-be65-795035e0ce5f";
 const PROJECT_ID = "proj-1";
 
 let hostHasTagFolders = true;
+let cloudAvailable = false;
+let cloudSetTagsInput: Record<string, unknown> | undefined;
 let tagSettings: Array<Record<string, unknown>> = [];
 let upsertInput: Record<string, unknown> | undefined;
 let updateInput: Record<string, unknown> | undefined;
@@ -37,7 +39,17 @@ withLocalHostService("org-1", {
 function invoke(options: Record<string, unknown>) {
 	return updateCommand.run({
 		ctx: {
-			api: {},
+			api: {
+				cloudWorkspace: {
+					available: { query: async () => ({ available: cloudAvailable }) },
+					setTags: {
+						mutate: async (input: Record<string, unknown>) => {
+							cloudSetTagsInput = input;
+							return { id: input.id, tags: input.tags };
+						},
+					},
+				},
+			},
 			config: { organizationId: "org-1" },
 			bearer: "bearer",
 		} as never,
@@ -49,6 +61,8 @@ function invoke(options: Record<string, unknown>) {
 
 afterEach(() => {
 	hostHasTagFolders = true;
+	cloudAvailable = false;
+	cloudSetTagsInput = undefined;
 	tagSettings = [];
 	upsertInput = undefined;
 	updateInput = undefined;
@@ -79,6 +93,16 @@ describe("workspaces update --group", () => {
 		await invoke({ group: "Review" });
 		expect(upsertInput).toBeUndefined();
 		expect(updateInput).toMatchObject({ tags: ["review"] });
+	});
+
+	test("rejects --group on a cloud workspace, where --tag still files it", async () => {
+		cloudAvailable = true;
+		await expect(invoke({ local: false, group: "Review" })).rejects.toThrow(
+			/--group does not apply to a cloud workspace/,
+		);
+		await invoke({ local: false, tag: ["review"] });
+		expect(cloudSetTagsInput).toEqual({ id: WORKSPACE_ID, tags: ["review"] });
+		expect(updateInput).toBeUndefined();
 	});
 
 	test("rejects --group with --tag", async () => {

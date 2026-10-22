@@ -1050,6 +1050,35 @@ export const cloudWorkspaceRepositories = pgTable(
 	],
 );
 
+/**
+ * Plain-string tags on cloud workspaces: the sidebar's folder membership,
+ * the same model as host-service `workspace_tags`. They live here rather
+ * than in the sandbox's host.db because the sidebar files a box while it
+ * sleeps. `tag` is stored already-normalized (`@superset/shared/workspace-tags`).
+ * A tag belongs to whoever applied it, so one member's folders never appear
+ * in a teammate's sidebar.
+ */
+export const cloudWorkspaceTags = pgTable(
+	"cloud_workspace_tags",
+	{
+		cloudWorkspaceId: uuid("cloud_workspace_id")
+			.notNull()
+			.references(() => cloudWorkspaces.id, { onDelete: "cascade" }),
+		tag: text().notNull(),
+		createdByUserId: uuid("created_by_user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		createdAt: timestamp("created_at", { withTimezone: true })
+			.notNull()
+			.defaultNow(),
+	},
+	(table) => [
+		primaryKey({
+			columns: [table.cloudWorkspaceId, table.tag, table.createdByUserId],
+		}),
+	],
+);
+
 export const cloudWorkspaceBoots = pgTable(
 	"cloud_workspace_boots",
 	{

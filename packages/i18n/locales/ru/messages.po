@@ -7534,6 +7534,9 @@ msgstr "Не удалось обновить команду. Попробуйт�
 msgid "Failed to update URL"
 msgstr "Не удалось обновить URL"
 
+msgid "Failed to update workspace"
+msgstr "Не удалось обновить рабочее пространство"
+
 msgid "Failed to upload avatar"
 msgstr "Не удалось загрузить аватар"
 

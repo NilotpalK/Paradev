@@ -7534,6 +7534,9 @@ msgstr "Échec de la mise à jour de l'équipe. Veuillez réessayer."
 msgid "Failed to update URL"
 msgstr "Échec de la mise à jour de l'URL"
 
+msgid "Failed to update workspace"
+msgstr "Impossible de mettre à jour l’espace de travail"
+
 msgid "Failed to upload avatar"
 msgstr "Échec de l'envoi de l'avatar"
 

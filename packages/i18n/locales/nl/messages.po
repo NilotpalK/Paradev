@@ -7534,6 +7534,9 @@ msgstr "Bijwerken van team mislukt. Probeer het opnieuw."
 msgid "Failed to update URL"
 msgstr "Bijwerken van URL mislukt"
 
+msgid "Failed to update workspace"
+msgstr "Workspace bijwerken mislukt"
+
 msgid "Failed to upload avatar"
 msgstr "Uploaden van avatar mislukt"
 

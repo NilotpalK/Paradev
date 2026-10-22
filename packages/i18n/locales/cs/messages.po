@@ -7534,6 +7534,9 @@ msgstr "Nepodařilo se aktualizovat tým. Zkuste to prosím znovu."
 msgid "Failed to update URL"
 msgstr "Nepodařilo se změnit URL"
 
+msgid "Failed to update workspace"
+msgstr "Pracovní prostor se nepodařilo aktualizovat"
+
 msgid "Failed to upload avatar"
 msgstr "Nepodařilo se nahrát avatar"
 

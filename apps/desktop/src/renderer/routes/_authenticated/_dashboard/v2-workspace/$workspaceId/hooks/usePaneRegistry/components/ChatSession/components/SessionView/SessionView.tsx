@@ -26,6 +26,7 @@ import { toast } from "@superset/ui/sonner";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePluginMentionOptions } from "renderer/hooks/usePluginMentionOptions";
+import { useStableList } from "renderer/hooks/useStableList";
 import type { OpenFile } from "../../../../../../types";
 import {
 	ChatPaneActionsProvider,
@@ -59,7 +60,6 @@ import {
 } from "../WorkDrawer";
 import { useMainSend } from "./hooks/useMainSend";
 import { useMoveToBackground } from "./hooks/useMoveToBackground";
-import { useStableList } from "./hooks/useStableList";
 import { useSubagentNavigation } from "./hooks/useSubagentNavigation";
 import { useSubagentTarget } from "./hooks/useSubagentTarget";
 import { escapeBack } from "./utils/escapeBack";

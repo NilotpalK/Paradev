@@ -959,9 +959,10 @@ superset workspaces get --field branch   # inside a workspace
 	]}
 	output="Workspace"
 >
-Update a workspace on its host (default: this machine). `--group` and `--tag`
+Update a workspace: a cloud workspace by default if your account has them, else
+one on this machine; `--local` or `--host` picks a host. `--group` and `--tag`
 replace the whole tag set, so they move the workspace from one sidebar group to
-another.
+another. A cloud workspace takes `--name` and `--tag`.
 
 ```bash
 superset workspaces update ws_… --name "better-name"
@@ -985,7 +986,9 @@ new group that shows the name as you typed it. `--tag` uses the tag as it is,
 so `--tag review` can make a second group next to the one named "Review".
 
 The position of a workspace in a group is kept by each desktop app, so the CLI
-cannot set it. Cloud workspaces cannot go in a group yet.
+cannot set it. A cloud workspace takes `--tag` on `update`, which files it into
+the matching folder of its project; `--group` is for workspaces on a host, since
+group names are kept on the host.
 
 <Command
 	name="superset workspaces open <id>"

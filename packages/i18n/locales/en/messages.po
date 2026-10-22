@@ -7534,6 +7534,9 @@ msgstr "Failed to update team. Please try again."
 msgid "Failed to update URL"
 msgstr "Failed to update URL"
 
+msgid "Failed to update workspace"
+msgstr "Failed to update workspace"
+
 msgid "Failed to upload avatar"
 msgstr "Failed to upload avatar"
 
