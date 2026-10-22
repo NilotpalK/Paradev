@@ -4746,11 +4746,17 @@ msgstr "Подключайте внешние сервисы для синхро
 msgid "Connect external services to sync data."
 msgstr "Подключайте внешние сервисы для синхронизации данных."
 
+msgid "Connect GitHub"
+msgstr "Подключить GitHub"
+
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Подключите GitHub в разделе «Интеграции», чтобы добавить {repositoryFullName}."
 
 msgid "Connect GitHub in Settings to act on pull requests as yourself"
 msgstr "Подключите GitHub в настройках, чтобы работать с пул-реквестами от своего имени"
+
+msgid "Connect GitHub to continue"
+msgstr "Подключите GitHub, чтобы продолжить"
 
 msgid "Connect GitHub…"
 msgstr "Подключить GitHub…"
@@ -4785,8 +4791,14 @@ msgstr "Подключите Slack, чтобы управлять задачам
 msgid "Connect this computer"
 msgstr "Подключите этот компьютер"
 
+msgid "Connect to act on pull requests as yourself instead of as the workspace."
+msgstr "Подключитесь, чтобы работать с пул-реквестами от своего имени, а не от имени рабочей области."
+
 msgid "Connect your {pluginLabel} account, then reload this page."
 msgstr "Подключите аккаунт {pluginLabel}, затем перезагрузите эту страницу."
+
+msgid "Connect your GitHub account to load this pull request as you."
+msgstr "Подключите свой аккаунт GitHub, чтобы загрузить этот пул-реквест от своего имени."
 
 msgid "Connect your GitHub repositories and sync pull requests. Track CI status and reviews across your team."
 msgstr "Подключите репозитории GitHub и синхронизируйте пул-реквесты. Отслеживайте статус CI и ревью по всей команде."
@@ -5334,6 +5346,9 @@ msgstr "Не удалось загрузить этот diff"
 msgid "Could not load this file."
 msgstr "Не удалось загрузить этот файл."
 
+msgid "Could not load this pull request."
+msgstr "Не удалось загрузить этот пул-реквест."
+
 msgid "Could not load your machines"
 msgstr "Не удалось загрузить ваши машины"
 
@@ -5366,9 +5381,6 @@ msgstr "Не удалось подключиться к мобильному с�
 
 msgid "Could not reach the desktop."
 msgstr "Не удалось подключиться к рабочему столу."
-
-msgid "Could not reach the host to load this pull request."
-msgstr "Не удалось связаться с хостом, чтобы загрузить этот пул-реквест."
 
 msgid "Could not reach the host to start the update. Check that it is online and try again."
 msgstr "Не удалось связаться с хостом, чтобы начать обновление. Убедитесь, что он в сети, и попробуйте снова."
@@ -14341,6 +14353,12 @@ msgstr "Пул-реквесты"
 msgid "Pull Requests"
 msgstr "Пул-реквесты"
 
+msgid "Pull requests, comments and pushes from Superset are made as you."
+msgstr "Пул-реквесты, комментарии и пуши из Superset выполняются от вашего имени."
+
+msgid "Pull requests, comments and pushes from Superset will no longer be made as you."
+msgstr "Пул-реквесты, комментарии и пуши из Superset больше не будут выполняться от вашего имени."
+
 msgid "Purple"
 msgstr "Фиолетовый"
 
@@ -17673,6 +17691,30 @@ msgstr "заменён"
 msgid "superset"
 msgstr "superset"
 
+msgid "Superset"
+msgstr "Superset"
+
+msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
+msgstr "Superset (YC P26) — это IDE с доступным исходным кодом для эпохи ИИ-агентов, в которой инженеры параллельно запускают сотни агентов для программирования, таких как Claude Code и Codex."
+
+msgid "Superset {version}"
+msgstr "Superset {version}"
+
+msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
+msgstr "Superset действует на GitHub от вашего имени. Подключите свой аккаунт GitHub, чтобы объединять, комментировать и обновлять пул-реквесты."
+
+msgid "Superset Agent"
+msgstr "Superset Agent"
+
+msgid "Superset app"
+msgstr "Приложение Superset"
+
+msgid "Superset App"
+msgstr "Приложение Superset"
+
+msgid "Superset Automations"
+msgstr "Superset Автоматизации"
+
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp выводит эндпоинт только для этой панели. Направьте на него Playwright или browser-use."
 
@@ -20821,6 +20863,9 @@ msgstr "Вы отклонили запрос на авторизацию {plugin
 
 msgid "You don't have access to this host"
 msgstr "У вас нет доступа к этому хосту"
+
+msgid "You don't have access to this pull request on GitHub, or it no longer exists."
+msgstr "У вас нет доступа к этому пул-реквесту на GitHub, или он больше не существует."
 
 msgid "You don't have access to this terminal."
 msgstr "У вас нет доступа к этому терминалу."

@@ -4746,11 +4746,17 @@ msgstr "外部サービスを接続して組織とデータを同期します。
 msgid "Connect external services to sync data."
 msgstr "外部サービスを接続してデータを同期します。"
 
+msgid "Connect GitHub"
+msgstr "GitHub を接続"
+
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "{repositoryFullName} を追加するには、連携で GitHub を接続してください。"
 
 msgid "Connect GitHub in Settings to act on pull requests as yourself"
 msgstr "自分としてプルリクエストを操作するには、設定で GitHub を接続してください"
+
+msgid "Connect GitHub to continue"
+msgstr "続行するには GitHub を接続してください"
 
 msgid "Connect GitHub…"
 msgstr "GitHub を接続…"
@@ -4785,8 +4791,14 @@ msgstr "Slackを接続して会話からタスクを管理します。任意の�
 msgid "Connect this computer"
 msgstr "このコンピューターに接続"
 
+msgid "Connect to act on pull requests as yourself instead of as the workspace."
+msgstr "接続すると、ワークスペースではなく自分としてプルリクエストを操作できます。"
+
 msgid "Connect your {pluginLabel} account, then reload this page."
 msgstr "{pluginLabel} アカウントを接続してから、このページを再読み込みしてください。"
+
+msgid "Connect your GitHub account to load this pull request as you."
+msgstr "このプルリクエストを自分として読み込むには、GitHub アカウントを接続してください。"
 
 msgid "Connect your GitHub repositories and sync pull requests. Track CI status and reviews across your team."
 msgstr "GitHubリポジトリを接続してプルリクエストを同期します。チーム全体のCIステータスとレビューを追跡できます。"
@@ -5334,6 +5346,9 @@ msgstr "この差分を読み込めませんでした"
 msgid "Could not load this file."
 msgstr "このファイルを読み込めませんでした。"
 
+msgid "Could not load this pull request."
+msgstr "このプルリクエストを読み込めませんでした。"
+
 msgid "Could not load your machines"
 msgstr "マシンを読み込めませんでした"
 
@@ -5366,9 +5381,6 @@ msgstr "モバイルシミュレーターに接続できませんでした。"
 
 msgid "Could not reach the desktop."
 msgstr "デスクトップに接続できませんでした。"
-
-msgid "Could not reach the host to load this pull request."
-msgstr "このプルリクエストを読み込むためのホストに接続できませんでした。"
 
 msgid "Could not reach the host to start the update. Check that it is online and try again."
 msgstr "更新を開始するためにホストに接続できませんでした。オンラインであることを確認して、もう一度お試しください。"
@@ -14341,6 +14353,12 @@ msgstr "プルリクエスト"
 msgid "Pull Requests"
 msgstr "プルリクエスト"
 
+msgid "Pull requests, comments and pushes from Superset are made as you."
+msgstr "Superset からのプルリクエスト、コメント、プッシュはあなたとして行われます。"
+
+msgid "Pull requests, comments and pushes from Superset will no longer be made as you."
+msgstr "Superset からのプルリクエスト、コメント、プッシュは、あなたとして行われなくなります。"
+
 msgid "Purple"
 msgstr "紫"
 
@@ -17673,6 +17691,30 @@ msgstr "置き換え済み"
 msgid "superset"
 msgstr "superset"
 
+msgid "Superset"
+msgstr "Superset"
+
+msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
+msgstr "Superset（YC P26）は、AI エージェント時代のためのソースコード公開型 IDE です。エンジニアは Claude Code や Codex などのコーディングエージェントを数百単位で並行して実行できます。"
+
+msgid "Superset {version}"
+msgstr "Superset {version}"
+
+msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
+msgstr "Superset はあなたとして GitHub を操作します。プルリクエストのマージ、コメント、更新を行うには GitHub アカウントを接続してください。"
+
+msgid "Superset Agent"
+msgstr "Supersetエージェント"
+
+msgid "Superset app"
+msgstr "Supersetアプリ"
+
+msgid "Superset App"
+msgstr "Supersetアプリ"
+
+msgid "Superset Automations"
+msgstr "Superset オートメーション"
+
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp は、そのペイン専用のエンドポイントを出力します。Playwrightやbrowser-useをそこに向けてください。"
 
@@ -20821,6 +20863,9 @@ msgstr "{plugin} の認可リクエストを拒否しました。"
 
 msgid "You don't have access to this host"
 msgstr "このホストへのアクセス権がありません"
+
+msgid "You don't have access to this pull request on GitHub, or it no longer exists."
+msgstr "GitHub でこのプルリクエストにアクセスできないか、プルリクエストがもう存在しません。"
 
 msgid "You don't have access to this terminal."
 msgstr "このターミナルへのアクセス権がありません。"

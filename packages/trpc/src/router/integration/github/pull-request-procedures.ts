@@ -1,10 +1,16 @@
 import type { PullRequestContent } from "@superset/shared/pull-request";
 import {
+	type PullRequestDetailRead,
+	PullRequestReadError,
+	pullRequestNodeId,
+	readPullRequestDetail,
+} from "@superset/shared/pull-request-detail";
+import {
 	parseReviewThreads,
 	REVIEW_THREADS_QUERY,
 	type ReviewThreadsQueryResult,
 } from "@superset/shared/pull-request-threads";
-import type { TRPCRouterRecord } from "@trpc/server";
+import { TRPCError, type TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, userError } from "../../../trpc";
 import { verifyOrgMembership } from "../utils";
@@ -25,6 +31,19 @@ export const pullRequestInputSchema = z.object({
 function repoOf(repoFullName: string): { owner: string; repo: string } {
 	const [owner = "", repo = ""] = repoFullName.split("/");
 	return { owner, repo };
+}
+
+function readError(error: unknown, fallback: string) {
+	if (error instanceof PullRequestReadError) {
+		return error.code === "NOT_FOUND"
+			? userError({
+					code: "NOT_FOUND",
+					message: "Pull request not found",
+					i18nKey: "serverError.integration.pullRequestNotFound",
+				})
+			: new TRPCError({ code: error.code, message: error.message });
+	}
+	return githubRequestError(error, fallback);
 }
 
 /**
@@ -65,6 +84,77 @@ export const pullRequestProcedures = {
 				});
 			}
 			return toPullRequestContent(node, input.repoFullName);
+		}),
+
+	/** What the mobile pull request view grades and acts from: mergeability, checks, reviewers, and the viewer's own capabilities. */
+	getPullRequestDetail: protectedProcedure
+		.input(pullRequestInputSchema)
+		.query(async ({ ctx, input }): Promise<PullRequestDetailRead> => {
+			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
+			const { octokit } = await viewerOctokit({
+				userId: ctx.session.user.id,
+				...input,
+			});
+			const { owner, repo } = repoOf(input.repoFullName);
+			try {
+				return await readPullRequestDetail(
+					{
+						graphql: (query, variables) => octokit.graphql(query, variables),
+						requestedReviewers: async () =>
+							(
+								await octokit.request(
+									"GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+									{ owner, repo, pull_number: input.number },
+								)
+							).data,
+					},
+					{ owner, repo, pullNumber: input.number },
+				);
+			} catch (error) {
+				throw readError(error, `Failed to read pull request #${input.number}`);
+			}
+		}),
+
+	updatePullRequestBranch: protectedProcedure
+		.input(pullRequestInputSchema)
+		.mutation(async ({ ctx, input }) => {
+			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
+			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
+			try {
+				await octokit.request(
+					"PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch",
+					{ ...repoOf(input.repoFullName), pull_number: input.number },
+				);
+			} catch (error) {
+				throw githubRequestError(error, "GitHub refused to update the branch.");
+			}
+			return { ok: true as const };
+		}),
+
+	dequeuePullRequest: protectedProcedure
+		.input(pullRequestInputSchema)
+		.mutation(async ({ ctx, input }) => {
+			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
+			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
+			const { owner, repo } = repoOf(input.repoFullName);
+			try {
+				const id = await pullRequestNodeId(
+					{ graphql: (query, variables) => octokit.graphql(query, variables) },
+					{ owner, repo, pullNumber: input.number },
+				);
+				await octokit.graphql(
+					`mutation($id: ID!) {
+						dequeuePullRequest(input: { id: $id }) { mergeQueueEntry { position } }
+					}`,
+					{ id },
+				);
+			} catch (error) {
+				throw readError(
+					error,
+					"GitHub refused to remove the pull request from the queue.",
+				);
+			}
+			return { ok: true as const };
 		}),
 
 	getPullRequestThreads: protectedProcedure

@@ -4746,11 +4746,17 @@ msgstr "Conecte serviços externos para sincronizar dados com a sua organizaçã
 msgid "Connect external services to sync data."
 msgstr "Conecte serviços externos para sincronizar dados."
 
+msgid "Connect GitHub"
+msgstr "Conectar GitHub"
+
 msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Conecte o GitHub em Integrações para adicionar {repositoryFullName}."
 
 msgid "Connect GitHub in Settings to act on pull requests as yourself"
 msgstr "Conecte o GitHub em Configurações para agir nos pull requests como você mesmo"
+
+msgid "Connect GitHub to continue"
+msgstr "Conecte o GitHub para continuar"
 
 msgid "Connect GitHub…"
 msgstr "Conectar GitHub…"
@@ -4785,8 +4791,14 @@ msgstr "Conecte o Slack para gerenciar tarefas a partir das conversas. Mencione 
 msgid "Connect this computer"
 msgstr "Conectar este computador"
 
+msgid "Connect to act on pull requests as yourself instead of as the workspace."
+msgstr "Conecte-se para agir nos pull requests como você mesmo, e não como o workspace."
+
 msgid "Connect your {pluginLabel} account, then reload this page."
 msgstr "Conecte sua conta do {pluginLabel} e recarregue esta página."
+
+msgid "Connect your GitHub account to load this pull request as you."
+msgstr "Conecte sua conta do GitHub para carregar este pull request como você."
 
 msgid "Connect your GitHub repositories and sync pull requests. Track CI status and reviews across your team."
 msgstr "Conecte seus repositórios do GitHub e sincronize pull requests. Acompanhe o status de CI e as revisões do time."
@@ -5334,6 +5346,9 @@ msgstr "Não foi possível carregar este diff"
 msgid "Could not load this file."
 msgstr "Não foi possível carregar este arquivo."
 
+msgid "Could not load this pull request."
+msgstr "Não foi possível carregar este pull request."
+
 msgid "Could not load your machines"
 msgstr "Não foi possível carregar suas máquinas"
 
@@ -5366,9 +5381,6 @@ msgstr "Não foi possível acessar um simulador móvel."
 
 msgid "Could not reach the desktop."
 msgstr "Não foi possível acessar a área de trabalho."
-
-msgid "Could not reach the host to load this pull request."
-msgstr "Não foi possível acessar o host para carregar este pull request."
 
 msgid "Could not reach the host to start the update. Check that it is online and try again."
 msgstr "Não foi possível alcançar o host para iniciar a atualização. Verifique se ele está online e tente novamente."
@@ -14341,6 +14353,12 @@ msgstr "Pull requests"
 msgid "Pull Requests"
 msgstr "Pull requests"
 
+msgid "Pull requests, comments and pushes from Superset are made as you."
+msgstr "Pull requests, comentários e pushes feitos pelo Superset são feitos em seu nome."
+
+msgid "Pull requests, comments and pushes from Superset will no longer be made as you."
+msgstr "Pull requests, comentários e pushes feitos pelo Superset deixarão de ser feitos em seu nome."
+
 msgid "Purple"
 msgstr "Roxo"
 
@@ -17673,6 +17691,30 @@ msgstr "substituída"
 msgid "superset"
 msgstr "superset"
 
+msgid "Superset"
+msgstr "Superset"
+
+msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
+msgstr "O Superset (YC P26) é o IDE com código-fonte disponível para a era dos agentes de IA, em que engenheiros executam centenas de agentes de programação como Claude Code e Codex em paralelo."
+
+msgid "Superset {version}"
+msgstr "Superset {version}"
+
+msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
+msgstr "O Superset age no GitHub em seu nome. Conecte sua conta do GitHub para fazer merge, comentar e atualizar pull requests."
+
+msgid "Superset Agent"
+msgstr "Superset Agent"
+
+msgid "Superset app"
+msgstr "App Superset"
+
+msgid "Superset App"
+msgstr "App Superset"
+
+msgid "Superset Automations"
+msgstr "Automações do Superset"
+
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp imprime um endpoint apenas para esse painel. Aponte o Playwright ou o browser-use para ele."
 
@@ -20821,6 +20863,9 @@ msgstr "Você recusou a solicitação de autorização do {plugin}."
 
 msgid "You don't have access to this host"
 msgstr "Você não tem acesso a este host"
+
+msgid "You don't have access to this pull request on GitHub, or it no longer exists."
+msgstr "Você não tem acesso a este pull request no GitHub, ou ele não existe mais."
 
 msgid "You don't have access to this terminal."
 msgstr "Você não tem acesso a este terminal."
