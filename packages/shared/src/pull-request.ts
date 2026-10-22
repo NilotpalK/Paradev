@@ -99,5 +99,3 @@ export interface PullRequestActivity {
 	commits: PullRequestCommit[];
 	labels: PullRequestLabel[];
 }
-
-export type PullRequestContent = PullRequestDetail & PullRequestActivity;

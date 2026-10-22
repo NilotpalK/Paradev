@@ -5,6 +5,7 @@ import { cloudTrpcClient } from "renderer/lib/cloud-trpc";
 import { getHostServiceClientByUrl } from "renderer/lib/host-service-client";
 import type { PullRequestDetail } from "../../hooks/usePullRequestDetail";
 import { combinePullRequestErrors } from "../combinePullRequestReadErrors";
+import { fromCloudPullRequest } from "../fromCloudPullRequest";
 import { fromHostPullRequestContent } from "../fromHostPullRequestContent";
 
 /** A host with the repository checked out, for `gh` when the cloud cannot act. */
@@ -119,7 +120,13 @@ export function readPullRequestContent(
 	return firstAnswer<PullRequestDetail>(
 		[
 			reachesCloud(target) &&
-				(() => deps.cloud().getPullRequestContent.query(cloudInput(target))),
+				(() => {
+					const input = cloudInput(target);
+					return deps
+						.cloud()
+						.getPullRequestDetail.query({ ...input, activity: true })
+						.then((read) => fromCloudPullRequest(read, input.repoFullName));
+				}),
 			host &&
 				projectId &&
 				(() =>

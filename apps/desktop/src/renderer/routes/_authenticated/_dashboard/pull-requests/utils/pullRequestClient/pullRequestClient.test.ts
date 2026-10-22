@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, mock, test } from "bun:test";
+import { cloudPullRequestRead } from "../fromCloudPullRequest/fixtures";
 import {
 	addPullRequestComment,
 	canActOnPullRequest,
@@ -19,9 +20,7 @@ const hostContent = {
 	checks: [],
 };
 const cloud = {
-	getPullRequestContent: {
-		query: mock(async () => ({ title: "cloud title" })),
-	},
+	getPullRequestDetail: { query: mock(async () => cloudPullRequestRead()) },
 	getPullRequestThreads: {
 		query: mock(async () => ({ reviewThreads: [], fetchFailed: false })),
 	},
@@ -80,16 +79,17 @@ describe("reads", () => {
 		expect(await readPullRequestContent(target, deps)).toMatchObject({
 			title: "cloud title",
 		});
-		expect(cloud.getPullRequestContent.query).toHaveBeenCalledWith({
+		expect(cloud.getPullRequestDetail.query).toHaveBeenCalledWith({
 			organizationId: "org",
 			repoFullName: "owner/repo",
 			number: 12,
+			activity: true,
 		});
 		expect(hostFor).not.toHaveBeenCalled();
 	});
 
 	test("a cloud that cannot act yields to the project's host, then the repository", async () => {
-		cloud.getPullRequestContent.query.mockRejectedValueOnce(cannotAct);
+		cloud.getPullRequestDetail.query.mockRejectedValueOnce(cannotAct);
 		expect(await readPullRequestContent(target, deps)).toMatchObject({
 			title: "host title",
 		});
@@ -98,9 +98,9 @@ describe("reads", () => {
 			prNumber: 12,
 		});
 
-		cloud.getPullRequestContent.query.mockRejectedValueOnce(
+		cloud.getPullRequestDetail.query.mockRejectedValueOnce(
 			new Error(
-				'No procedure found on path "integration.github.getPullRequestContent"',
+				'No procedure found on path "integration.github.getPullRequestDetail"',
 			),
 		);
 		expect(
@@ -119,18 +119,18 @@ describe("reads", () => {
 		expect(
 			await readPullRequestContent({ ...target, organizationId: null }, deps),
 		).toMatchObject({ title: "host title" });
-		expect(cloud.getPullRequestContent.query).not.toHaveBeenCalled();
+		expect(cloud.getPullRequestDetail.query).not.toHaveBeenCalled();
 	});
 
 	test("a quiet cloud miss is dropped from the error; two real failures are both reported", async () => {
-		cloud.getPullRequestContent.query.mockRejectedValueOnce(cannotAct);
+		cloud.getPullRequestDetail.query.mockRejectedValueOnce(cannotAct);
 		host.getContent.query.mockRejectedValueOnce(new Error("gh offline"));
 		host.getContentByRepo.query.mockRejectedValueOnce(new Error("gh offline"));
 		await expect(readPullRequestContent(target, deps)).rejects.toThrow(
 			"gh offline",
 		);
 
-		cloud.getPullRequestContent.query.mockRejectedValueOnce(
+		cloud.getPullRequestDetail.query.mockRejectedValueOnce(
 			new Error("Access denied"),
 		);
 		host.getContent.query.mockRejectedValueOnce(new Error("gh offline"));

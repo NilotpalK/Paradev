@@ -77,9 +77,9 @@ export const pullRequestsRouter = router({
 	/** @deprecated Use the API's `integration.github.addPullRequestComment`, which acts as the viewer. Kept for released clients. */
 	addComment,
 	createForWorkspace,
-	/** @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients. */
+	/** @deprecated Use the API's `integration.github.getPullRequestDetail` with `activity: true`, which acts as the viewer. Kept for released clients. */
 	getContent,
-	/** @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients. */
+	/** @deprecated Use the API's `integration.github.getPullRequestDetail` with `activity: true`, which acts as the viewer. Kept for released clients. */
 	getContentByRepo,
 	/** @deprecated Use the API's `integration.github.getPullRequestDiff`, which acts as the viewer. Kept for released clients. */
 	getDiff,

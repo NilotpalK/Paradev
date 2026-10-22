@@ -1,14 +1,8 @@
-import type { PullRequestCheck } from "@superset/shared/pull-request";
 import type {
+	GitHubCheckContextNode,
 	GitHubPullRequestNode,
 	GitHubPullRequestReviewDecision,
 } from "../github-query";
-
-export {
-	computeChecksStatus,
-	parseCheckContexts,
-} from "@superset/shared/pull-request-checks";
-export type { PullRequestCheck };
 
 export type PullRequestState =
 	| "open"
@@ -22,6 +16,13 @@ export type ReviewDecision =
 	| "pending"
 	| null;
 export type ChecksStatus = "success" | "failure" | "pending" | "none";
+type CheckStatus = "success" | "failure" | "pending" | "skipped" | "cancelled";
+
+export interface PullRequestCheck {
+	name: string;
+	status: CheckStatus;
+	url: string | null;
+}
 
 export function mapPullRequestState(
 	state: GitHubPullRequestNode["state"],
@@ -42,6 +43,64 @@ export function mapReviewDecision(
 	if (value === "CHANGES_REQUESTED") return "changes_requested";
 	if (value === "REVIEW_REQUIRED") return "pending";
 	return null;
+}
+
+export function parseCheckContexts(
+	nodes: GitHubCheckContextNode[],
+): PullRequestCheck[] {
+	const checks = nodes
+		.filter(
+			(node): node is NonNullable<GitHubCheckContextNode> => node !== null,
+		)
+		.map((node) => {
+			if (node.__typename === "CheckRun") {
+				return {
+					name: node.name,
+					status: mapCheckRunStatus(node.status, node.conclusion),
+					url: node.detailsUrl,
+					recency: getCheckRunRecency(node),
+				};
+			}
+
+			return {
+				name: node.context,
+				status: mapStatusContextState(node.state),
+				url: node.targetUrl,
+				recency: getStatusContextRecency(node),
+			};
+		});
+
+	const dedupedChecks = new Map<
+		string,
+		PullRequestCheck & {
+			recency: number;
+		}
+	>();
+	for (const check of checks) {
+		const existing = dedupedChecks.get(check.name);
+		if (!existing || check.recency > existing.recency) {
+			dedupedChecks.set(check.name, check);
+		}
+	}
+
+	return [...dedupedChecks.values()].map(
+		({ recency: _recency, ...check }) => check,
+	);
+}
+
+export function computeChecksStatus(checks: PullRequestCheck[]): ChecksStatus {
+	if (checks.length === 0) return "none";
+	// A cancelled run never produced a real verdict — treat it as a failure
+	// rather than falling through to "success".
+	if (
+		checks.some(
+			(check) => check.status === "failure" || check.status === "cancelled",
+		)
+	) {
+		return "failure";
+	}
+	if (checks.some((check) => check.status === "pending")) return "pending";
+	return "success";
 }
 
 export function coercePullRequestState(value: string | null): PullRequestState {
@@ -92,4 +151,70 @@ export function parseChecksJson(value: string | null): PullRequestCheck[] {
 	} catch {
 		return [];
 	}
+}
+
+function mapCheckRunStatus(
+	status: string,
+	conclusion: string | null,
+): CheckStatus {
+	if (status !== "COMPLETED") return "pending";
+
+	switch (conclusion) {
+		case "SUCCESS":
+			return "success";
+		case "FAILURE":
+		case "TIMED_OUT":
+		case "ACTION_REQUIRED":
+			return "failure";
+		case "CANCELLED":
+			return "cancelled";
+		case "SKIPPED":
+		case "NEUTRAL":
+			return "skipped";
+		default:
+			return "pending";
+	}
+}
+
+function mapStatusContextState(state: string): CheckStatus {
+	switch (state) {
+		case "SUCCESS":
+			return "success";
+		case "FAILURE":
+		case "ERROR":
+			return "failure";
+		case "EXPECTED":
+		case "PENDING":
+			return "pending";
+		default:
+			return "pending";
+	}
+}
+
+function getCheckRunRecency(
+	node: Extract<GitHubCheckContextNode, { __typename: "CheckRun" }>,
+): number {
+	const workflowRunId = node.checkSuite?.workflowRun?.databaseId;
+	if (typeof workflowRunId === "number") {
+		return workflowRunId;
+	}
+
+	const timestamp = node.completedAt ?? node.startedAt;
+	if (!timestamp) {
+		return 0;
+	}
+
+	const time = Date.parse(timestamp);
+	return Number.isNaN(time) ? 0 : time;
+}
+
+function getStatusContextRecency(
+	node: Extract<GitHubCheckContextNode, { __typename: "StatusContext" }>,
+): number {
+	if (!node.createdAt) {
+		return 0;
+	}
+
+	const time = Date.parse(node.createdAt);
+	return Number.isNaN(time) ? 0 : time;
 }

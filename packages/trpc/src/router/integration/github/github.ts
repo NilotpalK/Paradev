@@ -341,7 +341,7 @@ export const githubRouter = {
 	 * everything but the description, which comes from GitHub with the
 	 * installation's token.
 	 *
-	 * @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients.
+	 * @deprecated Use the API's `integration.github.getPullRequestDetail`, which acts as the viewer. Kept for released clients.
 	 */
 	getPullRequest: protectedProcedure
 		.input(

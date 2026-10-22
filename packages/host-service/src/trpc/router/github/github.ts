@@ -42,7 +42,7 @@ export const githubRouter = router({
 			return data[0] ?? null;
 		}),
 
-	/** @deprecated Use the API's `integration.github.getPullRequestContent`, which acts as the viewer. Kept for released clients. */
+	/** @deprecated Use the API's `integration.github.getPullRequestDetail` with `activity: true`, which acts as the viewer. Kept for released clients. */
 	getPR: protectedProcedure
 		.input(
 			z.object({

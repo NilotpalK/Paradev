@@ -1,11 +1,22 @@
+import { PullRequestReadError } from "@superset/shared/pull-request-detail";
 import { TRPCError } from "@trpc/server";
+import { userError } from "../../../trpc";
 
-/** GitHub's answer to a write, as the error code the desktop branches on. */
+/** GitHub's answer, as the error code clients branch on. */
 export function githubRequestError(
 	error: unknown,
 	fallback: string,
 ): TRPCError {
 	if (error instanceof TRPCError) return error;
+	if (error instanceof PullRequestReadError) {
+		return error.code === "NOT_FOUND"
+			? userError({
+					code: "NOT_FOUND",
+					message: "Pull request not found",
+					i18nKey: "serverError.integration.pullRequestNotFound",
+				})
+			: new TRPCError({ code: error.code, message: error.message });
+	}
 
 	const status =
 		typeof error === "object" && error !== null && "status" in error

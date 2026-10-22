@@ -2,42 +2,58 @@ import { Octokit } from "@octokit/core";
 import { githubUserTokenFor } from "../../../lib/github-user";
 import { installationOctokit } from "../../../lib/sandbox/clone-token";
 import { userError } from "../../../trpc";
+import { verifyOrgMembership } from "../utils";
 import { findInstalledRepository } from "./find-installed-repository";
 
-export const GITHUB_NOT_CONNECTED_MESSAGE =
-	"Connect GitHub in Settings to act on pull requests as yourself";
+export interface PullRequestInput {
+	organizationId: string;
+	repoFullName: string;
+	number: number;
+}
+
+export interface ViewerPullRequest {
+	octokit: Octokit;
+	owner: string;
+	repo: string;
+	number: number;
+}
 
 /**
  * GitHub as the person asking: their own connection when they have one, the
  * organization's App installation otherwise. Reads may take either; a write
  * must be theirs, or GitHub would record it under the App's name.
  */
-export async function viewerOctokit(args: {
-	userId: string;
-	organizationId: string;
-	repoFullName: string;
-}): Promise<{ octokit: Octokit; actsAsViewer: boolean }> {
-	const token = await githubUserTokenFor(args.userId);
-	if (token)
-		return { octokit: new Octokit({ auth: token }), actsAsViewer: true };
-	const { installation } = await findInstalledRepository(
-		args.organizationId,
-		args.repoFullName,
-	);
-	return {
-		octokit: await installationOctokit(installation.installationId),
-		actsAsViewer: false,
-	};
-}
-
-export async function viewerOnlyOctokit(userId: string): Promise<Octokit> {
+export async function asViewer(
+	userId: string,
+	input: PullRequestInput,
+	access: "read" | "write",
+): Promise<ViewerPullRequest> {
+	await verifyOrgMembership(userId, input.organizationId);
+	const [owner = "", repo = ""] = input.repoFullName.split("/");
 	const token = await githubUserTokenFor(userId);
-	if (!token) {
+	if (token) {
+		return {
+			octokit: new Octokit({ auth: token }),
+			owner,
+			repo,
+			number: input.number,
+		};
+	}
+	if (access === "write") {
 		throw userError({
 			code: "PRECONDITION_FAILED",
-			message: GITHUB_NOT_CONNECTED_MESSAGE,
+			message: "Connect GitHub in Settings to act on pull requests as yourself",
 			i18nKey: "serverError.githubUser.notConnected",
 		});
 	}
-	return new Octokit({ auth: token });
+	const { installation } = await findInstalledRepository(
+		input.organizationId,
+		input.repoFullName,
+	);
+	return {
+		octokit: await installationOctokit(installation.installationId),
+		owner,
+		repo,
+		number: input.number,
+	};
 }

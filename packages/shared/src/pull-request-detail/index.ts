@@ -1,4 +1,5 @@
 export {
+	type PullRequestDetailActivity,
 	type PullRequestDetailCheck,
 	type PullRequestDetailClient,
 	type PullRequestDetailInput,

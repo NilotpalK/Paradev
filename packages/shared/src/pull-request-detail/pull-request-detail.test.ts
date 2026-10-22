@@ -178,4 +178,97 @@ describe("readPullRequestDetail", () => {
 		expect(error).toBeInstanceOf(PullRequestReadError);
 		expect(error.code).toBe("NOT_FOUND");
 	});
+
+	test("activity is read only when asked for, with reviews folded into the conversation", async () => {
+		const asked: unknown[] = [];
+		const client = {
+			graphql: async <T>(
+				_query: string,
+				variables: Record<string, unknown>,
+			) => {
+				asked.push(variables.activity);
+				return pullRequest({
+					reviewThreads: {
+						pageInfo: { hasNextPage: false, endCursor: null },
+						nodes: [],
+					},
+					author: { login: "satya", avatarUrl: null },
+					headRefName: "feat/x",
+					headRepository: { nameWithOwner: "fork/widgets" },
+					createdAt: "2026-10-01T09:00:00Z",
+					updatedAt: "2026-10-02T09:00:00Z",
+					closedAt: null,
+					labels: { nodes: [{ name: "desktop", color: "1d76db" }, null] },
+					comments: {
+						nodes: [
+							{
+								id: "C1",
+								body: "On it",
+								createdAt: "2026-10-02T09:30:00Z",
+								url: "https://github.com/acme/widgets/pull/7#issuecomment-1",
+								author: { login: "satya", name: "Satya" },
+							},
+						],
+					},
+					reviews: {
+						nodes: [
+							{
+								id: "R1",
+								body: "Fix it",
+								state: "CHANGES_REQUESTED",
+								submittedAt: "2026-10-02T10:00:00Z",
+								author: { login: "lee" },
+							},
+							{
+								id: "R2",
+								body: "",
+								state: "PENDING",
+								submittedAt: null,
+								author: null,
+							},
+						],
+					},
+					commits: {
+						nodes: [
+							{
+								commit: {
+									oid: "abc",
+									messageHeadline: "feat: x ",
+									committedDate: "2026-10-01T08:00:00Z",
+									authors: { nodes: [{ name: "Satya", user: null }] },
+								},
+							},
+						],
+					},
+				}) as T;
+			},
+			requestedReviewers: async () => ({ users: [], teams: [] }),
+		};
+
+		expect((await readPullRequestDetail(client, input)).activity).toBeNull();
+		const { activity } = await readPullRequestDetail(client, input, {
+			activity: true,
+		});
+		expect(asked).toEqual([false, true]);
+		expect(activity).toMatchObject({
+			author: { login: "satya", avatarUrl: null },
+			headBranch: "feat/x",
+			headRepoFullName: "fork/widgets",
+			labels: [{ name: "desktop", color: "1d76db" }],
+			commits: [
+				{
+					oid: "abc",
+					messageHeadline: "feat: x",
+					author: { login: null, name: "Satya" },
+					url: "https://github.com/acme/widgets/pull/7/commits/abc",
+				},
+			],
+		});
+		expect(
+			activity?.comments.map((c) => [c.kind, c.id, c.reviewState]),
+		).toEqual([
+			["comment", "C1", null],
+			["review", "R1", "CHANGES_REQUESTED"],
+		]);
+	});
 });

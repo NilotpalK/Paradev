@@ -1,7 +1,5 @@
-import type { PullRequestContent } from "@superset/shared/pull-request";
 import {
 	type PullRequestDetailRead,
-	PullRequestReadError,
 	pullRequestNodeId,
 	readPullRequestDetail,
 } from "@superset/shared/pull-request-detail";
@@ -10,166 +8,73 @@ import {
 	REVIEW_THREADS_QUERY,
 	type ReviewThreadsQueryResult,
 } from "@superset/shared/pull-request-threads";
-import { TRPCError, type TRPCRouterRecord } from "@trpc/server";
+import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
-import { protectedProcedure, userError } from "../../../trpc";
-import { verifyOrgMembership } from "../utils";
+import { protectedProcedure } from "../../../trpc";
 import { githubRequestError } from "./github-request-error";
-import {
-	PULL_REQUEST_CONTENT_QUERY,
-	pullRequestContentQuerySchema,
-	toPullRequestContent,
-} from "./pull-request-content";
-import { viewerOctokit, viewerOnlyOctokit } from "./viewer-octokit";
+import { asViewer, type ViewerPullRequest } from "./viewer-octokit";
 
-export const pullRequestInputSchema = z.object({
+const pullRequestInput = z.object({
 	organizationId: z.string().uuid(),
 	repoFullName: z.string().regex(/^[\w.-]+\/[\w.-]+$/),
 	number: z.number().int().positive(),
 });
+// GitHub rejects bodies past 65536 characters.
+const body = z.string().trim().min(1).max(65536);
 
-function repoOf(repoFullName: string): { owner: string; repo: string } {
-	const [owner = "", repo = ""] = repoFullName.split("/");
-	return { owner, repo };
-}
-
-function readError(error: unknown, fallback: string) {
-	if (error instanceof PullRequestReadError) {
-		return error.code === "NOT_FOUND"
-			? userError({
-					code: "NOT_FOUND",
-					message: "Pull request not found",
-					i18nKey: "serverError.integration.pullRequestNotFound",
-				})
-			: new TRPCError({ code: error.code, message: error.message });
+async function onGithub<T>(
+	fallback: string,
+	run: () => Promise<T>,
+): Promise<T> {
+	try {
+		return await run();
+	} catch (error) {
+		throw githubRequestError(error, fallback);
 	}
-	return githubRequestError(error, fallback);
 }
+
+const graphqlOf = ({ octokit }: ViewerPullRequest) => ({
+	graphql: <T>(query: string, variables: Record<string, unknown>) =>
+		octokit.graphql<T>(query, variables),
+});
 
 /**
  * A pull request by its own identity, read and written as the person asking.
- * Nothing here needs a project or a host: the desktop reaches these for any
- * PR it can name, and falls back to a host's `gh` only when they are absent.
+ * Nothing here needs a project or a host: clients reach these for any PR
+ * they can name.
  */
 export const pullRequestProcedures = {
-	getPullRequestContent: protectedProcedure
-		.input(pullRequestInputSchema)
-		.query(async ({ ctx, input }): Promise<PullRequestContent> => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const { octokit } = await viewerOctokit({
-				userId: ctx.session.user.id,
-				...input,
-			});
-			const { owner, repo } = repoOf(input.repoFullName);
-			let raw: unknown;
-			try {
-				raw = await octokit.graphql(PULL_REQUEST_CONTENT_QUERY, {
-					owner,
-					name: repo,
-					number: input.number,
-				});
-			} catch (error) {
-				throw githubRequestError(
-					error,
-					`Failed to read pull request #${input.number}`,
-				);
-			}
-			const node =
-				pullRequestContentQuerySchema.parse(raw).repository?.pullRequest;
-			if (!node) {
-				throw userError({
-					code: "NOT_FOUND",
-					message: "Pull request not found",
-					i18nKey: "serverError.integration.pullRequestNotFound",
-				});
-			}
-			return toPullRequestContent(node, input.repoFullName);
-		}),
-
-	/** What the mobile pull request view grades and acts from: mergeability, checks, reviewers, and the viewer's own capabilities. */
+	/** Mergeability, checks, reviewers and the viewer's own capabilities; with `activity`, the conversation and commits too. */
 	getPullRequestDetail: protectedProcedure
-		.input(pullRequestInputSchema)
+		.input(pullRequestInput.extend({ activity: z.boolean().optional() }))
 		.query(async ({ ctx, input }): Promise<PullRequestDetailRead> => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const { octokit } = await viewerOctokit({
-				userId: ctx.session.user.id,
-				...input,
-			});
-			const { owner, repo } = repoOf(input.repoFullName);
-			try {
-				return await readPullRequestDetail(
+			const pr = await asViewer(ctx.session.user.id, input, "read");
+			return onGithub(`Failed to read pull request #${pr.number}`, () =>
+				readPullRequestDetail(
 					{
-						graphql: (query, variables) => octokit.graphql(query, variables),
+						...graphqlOf(pr),
 						requestedReviewers: async () =>
 							(
-								await octokit.request(
+								await pr.octokit.request(
 									"GET /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
-									{ owner, repo, pull_number: input.number },
+									{ owner: pr.owner, repo: pr.repo, pull_number: pr.number },
 								)
 							).data,
 					},
-					{ owner, repo, pullNumber: input.number },
-				);
-			} catch (error) {
-				throw readError(error, `Failed to read pull request #${input.number}`);
-			}
-		}),
-
-	updatePullRequestBranch: protectedProcedure
-		.input(pullRequestInputSchema)
-		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			try {
-				await octokit.request(
-					"PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch",
-					{ ...repoOf(input.repoFullName), pull_number: input.number },
-				);
-			} catch (error) {
-				throw githubRequestError(error, "GitHub refused to update the branch.");
-			}
-			return { ok: true as const };
-		}),
-
-	dequeuePullRequest: protectedProcedure
-		.input(pullRequestInputSchema)
-		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			const { owner, repo } = repoOf(input.repoFullName);
-			try {
-				const id = await pullRequestNodeId(
-					{ graphql: (query, variables) => octokit.graphql(query, variables) },
-					{ owner, repo, pullNumber: input.number },
-				);
-				await octokit.graphql(
-					`mutation($id: ID!) {
-						dequeuePullRequest(input: { id: $id }) { mergeQueueEntry { position } }
-					}`,
-					{ id },
-				);
-			} catch (error) {
-				throw readError(
-					error,
-					"GitHub refused to remove the pull request from the queue.",
-				);
-			}
-			return { ok: true as const };
+					{ owner: pr.owner, repo: pr.repo, pullNumber: pr.number },
+					{ activity: input.activity },
+				),
+			);
 		}),
 
 	getPullRequestThreads: protectedProcedure
-		.input(pullRequestInputSchema)
+		.input(pullRequestInput)
 		.query(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const { octokit } = await viewerOctokit({
-				userId: ctx.session.user.id,
-				...input,
-			});
-			const { owner, repo } = repoOf(input.repoFullName);
+			const pr = await asViewer(ctx.session.user.id, input, "read");
 			try {
-				const result: ReviewThreadsQueryResult = await octokit.graphql(
+				const result = await pr.octokit.graphql<ReviewThreadsQueryResult>(
 					REVIEW_THREADS_QUERY,
-					{ owner, name: repo, prNumber: input.number },
+					{ owner: pr.owner, name: pr.repo, prNumber: pr.number },
 				);
 				return {
 					reviewThreads: parseReviewThreads(result),
@@ -177,196 +82,180 @@ export const pullRequestProcedures = {
 				};
 			} catch (error) {
 				console.warn(
-					`[github.getPullRequestThreads] review threads of ${input.repoFullName}#${input.number}:`,
+					`[github.getPullRequestThreads] ${input.repoFullName}#${pr.number}:`,
 					error instanceof Error ? error.message : error,
 				);
-				// An empty list rather than an error, so the diff still shows
-				// when only its comments could not load; `fetchFailed` keeps the
-				// two apart for the caller.
+				// Empty rather than an error, so the diff still shows when only its
+				// comments failed; `fetchFailed` keeps the two apart.
 				return { reviewThreads: [], fetchFailed: true };
 			}
 		}),
 
 	addPullRequestComment: protectedProcedure
-		.input(
-			pullRequestInputSchema.extend({
-				// GitHub rejects bodies past 65536 characters.
-				body: z.string().trim().min(1).max(65536),
-			}),
-		)
+		.input(pullRequestInput.extend({ body }))
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			try {
-				const { data } = await octokit.request(
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			const { data } = await onGithub("GitHub refused the comment.", () =>
+				pr.octokit.request(
 					"POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
 					{
-						...repoOf(input.repoFullName),
-						issue_number: input.number,
+						owner: pr.owner,
+						repo: pr.repo,
+						issue_number: pr.number,
 						body: input.body,
 					},
-				);
-				return { id: data.id, url: data.html_url };
-			} catch (error) {
-				throw githubRequestError(error, "GitHub refused the comment.");
-			}
+				),
+			);
+			return { id: data.id, url: data.html_url };
 		}),
 
 	replyToPullRequestThread: protectedProcedure
 		.input(
-			pullRequestInputSchema.extend({
-				/** REST databaseId of any comment already in the thread. */
-				commentId: z.number().int().positive(),
-				body: z.string().trim().min(1).max(65536),
-			}),
+			/** `commentId`: REST databaseId of any comment already in the thread. */
+			pullRequestInput.extend({ commentId: z.number().int().positive(), body }),
 		)
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			try {
-				const { data } = await octokit.request(
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			const { data } = await onGithub("GitHub refused the reply.", () =>
+				pr.octokit.request(
 					"POST /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies",
 					{
-						...repoOf(input.repoFullName),
-						pull_number: input.number,
+						owner: pr.owner,
+						repo: pr.repo,
+						pull_number: pr.number,
 						comment_id: input.commentId,
 						body: input.body,
 					},
-				);
-				return { id: data.id };
-			} catch (error) {
-				throw githubRequestError(error, "GitHub refused the reply.");
-			}
+				),
+			);
+			return { id: data.id };
 		}),
 
 	setPullRequestThreadResolution: protectedProcedure
 		.input(
-			pullRequestInputSchema.extend({
+			pullRequestInput.extend({
 				threadId: z.string().min(1),
 				resolved: z.boolean(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			const mutation = input.resolved
-				? `mutation($threadId: ID!) {
-					resolveReviewThread(input: {threadId: $threadId}) { thread { id isResolved } }
-				}`
-				: `mutation($threadId: ID!) {
-					unresolveReviewThread(input: {threadId: $threadId}) { thread { id isResolved } }
-				}`;
-			try {
-				await octokit.graphql(mutation, { threadId: input.threadId });
-			} catch (error) {
-				throw githubRequestError(error, "GitHub refused to update the thread.");
-			}
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			const verb = input.resolved
+				? "resolveReviewThread"
+				: "unresolveReviewThread";
+			await onGithub("GitHub refused to update the thread.", () =>
+				pr.octokit.graphql(
+					`mutation($threadId: ID!) { ${verb}(input: {threadId: $threadId}) { thread { id } } }`,
+					{ threadId: input.threadId },
+				),
+			);
 			return { threadId: input.threadId, isResolved: input.resolved };
 		}),
 
 	mergePullRequest: protectedProcedure
 		.input(
-			pullRequestInputSchema.extend({
+			pullRequestInput.extend({
 				mergeMethod: z.enum(["merge", "squash", "rebase"]).default("merge"),
 				commitMessage: z.string().trim().min(1).optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			try {
-				const { data } = await octokit.request(
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			const { data } = await onGithub("GitHub refused the merge.", () =>
+				pr.octokit.request(
 					"PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
 					{
-						...repoOf(input.repoFullName),
-						pull_number: input.number,
+						owner: pr.owner,
+						repo: pr.repo,
+						pull_number: pr.number,
 						merge_method: input.mergeMethod,
 						...(input.commitMessage
 							? { commit_message: input.commitMessage }
 							: {}),
 					},
-				);
-				return { merged: data.merged, sha: data.sha, message: data.message };
-			} catch (error) {
-				throw githubRequestError(error, "GitHub refused the merge.");
-			}
+				),
+			);
+			return { merged: data.merged, sha: data.sha, message: data.message };
 		}),
 
 	setPullRequestState: protectedProcedure
-		.input(
-			// Only open/closed: a merged pull request has no way back.
-			pullRequestInputSchema.extend({ state: z.enum(["open", "closed"]) }),
-		)
+		// Only open/closed: a merged pull request has no way back.
+		.input(pullRequestInput.extend({ state: z.enum(["open", "closed"]) }))
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			try {
-				await octokit.request(
-					"PATCH /repos/{owner}/{repo}/pulls/{pull_number}",
-					{
-						...repoOf(input.repoFullName),
-						pull_number: input.number,
-						state: input.state,
-					},
-				);
-			} catch (error) {
-				throw githubRequestError(
-					error,
-					`GitHub refused to ${input.state === "closed" ? "close" : "reopen"} the pull request.`,
-				);
-			}
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			await onGithub(
+				`GitHub refused to ${input.state === "closed" ? "close" : "reopen"} the pull request.`,
+				() =>
+					pr.octokit.request(
+						"PATCH /repos/{owner}/{repo}/pulls/{pull_number}",
+						{
+							owner: pr.owner,
+							repo: pr.repo,
+							pull_number: pr.number,
+							state: input.state,
+						},
+					),
+			);
 			return { ok: true as const };
 		}),
 
 	setPullRequestDraft: protectedProcedure
-		.input(pullRequestInputSchema.extend({ draft: z.boolean() }))
+		.input(pullRequestInput.extend({ draft: z.boolean() }))
 		.mutation(async ({ ctx, input }) => {
-			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-			const octokit = await viewerOnlyOctokit(ctx.session.user.id);
-			const { owner, repo } = repoOf(input.repoFullName);
-			try {
-				const found = z
-					.object({
-						repository: z
-							.object({
-								pullRequest: z.object({ id: z.string() }).nullable(),
-							})
-							.nullable(),
-					})
-					.parse(
-						await octokit.graphql(
-							`query($owner: String!, $name: String!, $number: Int!) {
-								repository(owner: $owner, name: $name) { pullRequest(number: $number) { id } }
-							}`,
-							{ owner, name: repo, number: input.number },
-						),
-					);
-				const pullRequestId = found.repository?.pullRequest?.id;
-				if (!pullRequestId) {
-					throw userError({
-						code: "NOT_FOUND",
-						message: "Pull request not found",
-						i18nKey: "serverError.integration.pullRequestNotFound",
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			const mutation = input.draft
+				? "convertPullRequestToDraft"
+				: "markPullRequestReadyForReview";
+			await onGithub(
+				input.draft
+					? "GitHub refused to convert the pull request to a draft."
+					: "GitHub refused to mark the pull request ready for review.",
+				async () => {
+					const id = await pullRequestNodeId(graphqlOf(pr), {
+						owner: pr.owner,
+						repo: pr.repo,
+						pullNumber: pr.number,
 					});
-				}
-				await octokit.graphql(
-					input.draft
-						? `mutation($pullRequestId: ID!) {
-							convertPullRequestToDraft(input: {pullRequestId: $pullRequestId}) { pullRequest { isDraft } }
-						}`
-						: `mutation($pullRequestId: ID!) {
-							markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) { pullRequest { isDraft } }
-						}`,
-					{ pullRequestId },
-				);
-			} catch (error) {
-				throw githubRequestError(
-					error,
-					input.draft
-						? "GitHub refused to convert the pull request to a draft."
-						: "GitHub refused to mark the pull request ready for review.",
-				);
-			}
+					await pr.octokit.graphql(
+						`mutation($id: ID!) { ${mutation}(input: {pullRequestId: $id}) { pullRequest { isDraft } } }`,
+						{ id },
+					);
+				},
+			);
+			return { ok: true as const };
+		}),
+
+	updatePullRequestBranch: protectedProcedure
+		.input(pullRequestInput)
+		.mutation(async ({ ctx, input }) => {
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			await onGithub("GitHub refused to update the branch.", () =>
+				pr.octokit.request(
+					"PUT /repos/{owner}/{repo}/pulls/{pull_number}/update-branch",
+					{ owner: pr.owner, repo: pr.repo, pull_number: pr.number },
+				),
+			);
+			return { ok: true as const };
+		}),
+
+	dequeuePullRequest: protectedProcedure
+		.input(pullRequestInput)
+		.mutation(async ({ ctx, input }) => {
+			const pr = await asViewer(ctx.session.user.id, input, "write");
+			await onGithub(
+				"GitHub refused to remove the pull request from the queue.",
+				async () => {
+					const id = await pullRequestNodeId(graphqlOf(pr), {
+						owner: pr.owner,
+						repo: pr.repo,
+						pullNumber: pr.number,
+					});
+					await pr.octokit.graphql(
+						"mutation($id: ID!) { dequeuePullRequest(input: { id: $id }) { mergeQueueEntry { position } } }",
+						{ id },
+					);
+				},
+			);
 			return { ok: true as const };
 		}),
 } satisfies TRPCRouterRecord;

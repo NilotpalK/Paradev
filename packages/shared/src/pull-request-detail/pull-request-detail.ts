@@ -1,3 +1,9 @@
+import type {
+	PullRequestCommit,
+	PullRequestConversationComment,
+	PullRequestLabel,
+} from "../pull-request";
+
 /**
  * Everything one pull request view needs, read live from GitHub.
  *
@@ -54,6 +60,20 @@ export interface PullRequestDetailReviewer {
 	state: string;
 }
 
+/** The conversation and identity a full page shows; a status card asks without it. */
+export interface PullRequestDetailActivity {
+	author: { login: string; avatarUrl: string | null } | null;
+	headBranch: string;
+	/** Null when the head repository is gone (a deleted fork). */
+	headRepoFullName: string | null;
+	createdAt: string;
+	updatedAt: string;
+	closedAt: string | null;
+	labels: PullRequestLabel[];
+	comments: PullRequestConversationComment[];
+	commits: PullRequestCommit[];
+}
+
 export interface PullRequestDetailRead {
 	pullRequest: {
 		id: string;
@@ -90,6 +110,8 @@ export interface PullRequestDetailRead {
 		reopen: boolean;
 		dequeue: boolean;
 	};
+	/** Present only when asked for with `activity: true`. */
+	activity: PullRequestDetailActivity | null;
 }
 
 /**
@@ -97,7 +119,7 @@ export interface PullRequestDetailRead {
  * relative to the branch rules it runs under.
  */
 const PULL_REQUEST_DETAIL_QUERY = `
-query($owner: String!, $name: String!, $number: Int!) {
+query($owner: String!, $name: String!, $number: Int!, $activity: Boolean = false) {
 	repository(owner: $owner, name: $name) {
 		squashMergeAllowed
 		mergeCommitAllowed
@@ -121,6 +143,26 @@ query($owner: String!, $name: String!, $number: Int!) {
 			reviewThreads(first: 100) {
 				pageInfo { hasNextPage endCursor }
 				nodes { isResolved isOutdated }
+			}
+			... on PullRequest @include(if: $activity) {
+				author { login avatarUrl }
+				headRefName createdAt updatedAt closedAt
+				headRepository { nameWithOwner }
+				labels(first: 50) { nodes { name color } }
+				comments(first: 100) {
+					nodes { id body createdAt url author { login ... on User { name } } }
+				}
+				reviews(first: 100) {
+					nodes { id body state submittedAt author { login ... on User { name } } }
+				}
+				commits(last: 100) {
+					nodes {
+						commit {
+							oid messageHeadline committedDate
+							authors(first: 3) { nodes { name user { login } } }
+						}
+					}
+				}
 			}
 			statusCheckRollup {
 				contexts(first: 100) {
@@ -213,49 +255,90 @@ interface CheckContextsConnection {
 	nodes: (CheckContextNode | null)[];
 }
 
+type Nodes<T> = { nodes: (T | null)[] | null } | null;
+
+interface ActivityActor {
+	login: string;
+	name?: string | null;
+}
+
+interface ActivityFields {
+	author?: { login: string; avatarUrl: string | null } | null;
+	headRefName?: string;
+	headRepository?: { nameWithOwner: string } | null;
+	createdAt?: string;
+	updatedAt?: string;
+	closedAt?: string | null;
+	labels?: Nodes<{ name: string; color: string | null }>;
+	comments?: Nodes<{
+		id: string;
+		body: string | null;
+		createdAt: string;
+		url: string | null;
+		author: ActivityActor | null;
+	}>;
+	reviews?: Nodes<{
+		id: string;
+		body: string | null;
+		state: string | null;
+		submittedAt: string | null;
+		author: ActivityActor | null;
+	}>;
+	commits?: Nodes<{
+		commit: {
+			oid: string;
+			messageHeadline: string | null;
+			committedDate: string | null;
+			authors: Nodes<{ name: string | null; user: { login: string } | null }>;
+		};
+	}>;
+}
+
 export interface PullRequestDetailQuery {
 	repository: {
 		squashMergeAllowed: boolean;
 		mergeCommitAllowed: boolean;
 		rebaseMergeAllowed: boolean;
-		pullRequest: {
-			id: string;
-			number: number;
-			title: string;
-			body: string;
-			url: string;
-			baseRefName: string;
-			state: string;
-			isDraft: boolean;
-			merged: boolean;
-			mergedAt: string | null;
-			additions: number;
-			deletions: number;
-			changedFiles: number;
-			mergeable: string;
-			mergeStateStatus: string;
-			reviewDecision: string | null;
-			viewerCanUpdate: boolean;
-			viewerCanMergeAsAdmin: boolean;
-			mergedBy: { login: string; avatarUrl: string | null } | null;
-			mergeQueueEntry: { position: number | null; state: string } | null;
-			baseRef: {
-				branchProtectionRule: {
-					requiredApprovingReviewCount: number | null;
-					requiresConversationResolution: boolean | null;
-				} | null;
-			} | null;
-			latestOpinionatedReviews: {
-				nodes: ({
+		pullRequest:
+			| ({
+					id: string;
+					number: number;
+					title: string;
+					body: string;
+					url: string;
+					baseRefName: string;
 					state: string;
-					author: { login: string; avatarUrl: string | null } | null;
-				} | null)[];
-			} | null;
-			reviewThreads: ReviewThreadsConnection | null;
-			statusCheckRollup: {
-				contexts: CheckContextsConnection | null;
-			} | null;
-		} | null;
+					isDraft: boolean;
+					merged: boolean;
+					mergedAt: string | null;
+					additions: number;
+					deletions: number;
+					changedFiles: number;
+					mergeable: string;
+					mergeStateStatus: string;
+					reviewDecision: string | null;
+					viewerCanUpdate: boolean;
+					viewerCanMergeAsAdmin: boolean;
+					mergedBy: { login: string; avatarUrl: string | null } | null;
+					mergeQueueEntry: { position: number | null; state: string } | null;
+					baseRef: {
+						branchProtectionRule: {
+							requiredApprovingReviewCount: number | null;
+							requiresConversationResolution: boolean | null;
+						} | null;
+					} | null;
+					latestOpinionatedReviews: {
+						nodes: ({
+							state: string;
+							author: { login: string; avatarUrl: string | null } | null;
+						} | null)[];
+					} | null;
+					reviewThreads: ReviewThreadsConnection | null;
+					statusCheckRollup: {
+						contexts: CheckContextsConnection | null;
+					} | null;
+			  } & ActivityFields)
+			| null;
 	} | null;
 }
 
@@ -313,6 +396,83 @@ async function drain<Node>(
 	return nodes;
 }
 
+function listOf<T>(connection: Nodes<T> | undefined): T[] {
+	return (connection?.nodes ?? []).filter((node): node is T => node !== null);
+}
+
+function actorOf(author: ActivityActor | null) {
+	const login = author?.login?.trim();
+	return login ? { login, name: author?.name?.trim() || null } : null;
+}
+
+function toActivity(
+	pr: ActivityFields,
+	url: string,
+): PullRequestDetailActivity {
+	const comments: PullRequestConversationComment[] = [
+		...listOf(pr.comments).map((comment) => ({
+			id: comment.id,
+			kind: "comment" as const,
+			author: actorOf(comment.author),
+			body: comment.body ?? "",
+			createdAt: comment.createdAt,
+			reviewState: null,
+			url: comment.url?.trim() || null,
+		})),
+		...listOf(pr.reviews).flatMap((review) =>
+			review.submittedAt
+				? [
+						{
+							id: review.id,
+							kind: "review" as const,
+							author: actorOf(review.author),
+							body: review.body ?? "",
+							createdAt: review.submittedAt,
+							reviewState: review.state?.trim() || null,
+							url: null,
+						},
+					]
+				: [],
+		),
+	];
+	const commits = listOf(pr.commits).flatMap(
+		({ commit }): PullRequestCommit[] => {
+			if (!commit.committedDate) return [];
+			const author = listOf(commit.authors)
+				.map((entry) => ({
+					login: entry.user?.login?.trim() || null,
+					name: entry.name?.trim() || null,
+				}))
+				.find((entry) => entry.login || entry.name);
+			return [
+				{
+					oid: commit.oid,
+					messageHeadline: commit.messageHeadline?.trim() ?? "",
+					committedDate: commit.committedDate,
+					author: author ?? null,
+					url: `${url}/commits/${commit.oid}`,
+				},
+			];
+		},
+	);
+	return {
+		author: pr.author?.login
+			? { login: pr.author.login, avatarUrl: pr.author.avatarUrl ?? null }
+			: null,
+		headBranch: pr.headRefName ?? "",
+		headRepoFullName: pr.headRepository?.nameWithOwner ?? null,
+		createdAt: pr.createdAt ?? "",
+		updatedAt: pr.updatedAt ?? "",
+		closedAt: pr.closedAt?.trim() || null,
+		labels: listOf(pr.labels).map((label) => ({
+			name: label.name,
+			color: label.color?.trim() || null,
+		})),
+		comments,
+		commits,
+	};
+}
+
 function variables(input: PullRequestDetailInput, cursor?: string) {
 	return {
 		owner: input.owner,
@@ -325,10 +485,12 @@ function variables(input: PullRequestDetailInput, cursor?: string) {
 export async function readPullRequestDetail(
 	client: PullRequestDetailClient,
 	input: PullRequestDetailInput,
+	options: { activity?: boolean } = {},
 ): Promise<PullRequestDetailRead> {
+	const activity = options.activity ?? false;
 	const data = await client.graphql<PullRequestDetailQuery>(
 		PULL_REQUEST_DETAIL_QUERY,
-		variables(input),
+		{ ...variables(input), activity },
 	);
 	const pr = data.repository?.pullRequest;
 	if (!pr) {
@@ -504,6 +666,7 @@ export async function readPullRequestDetail(
 			reopen: pr.state === "CLOSED" && !pr.merged && pr.viewerCanUpdate,
 			dequeue: pr.mergeQueueEntry !== null && pr.viewerCanUpdate,
 		},
+		activity: activity ? toActivity(pr, pr.url) : null,
 	};
 }
 

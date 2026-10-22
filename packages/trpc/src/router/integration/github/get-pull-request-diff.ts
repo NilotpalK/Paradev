@@ -5,8 +5,7 @@ import {
 } from "@superset/shared/pull-request-diff";
 import { z } from "zod";
 import { protectedProcedure } from "../../../trpc";
-import { verifyOrgMembership } from "../utils";
-import { viewerOctokit } from "./viewer-octokit";
+import { asViewer } from "./viewer-octokit";
 
 export const getPullRequestDiff = protectedProcedure
 	.input(
@@ -17,18 +16,12 @@ export const getPullRequestDiff = protectedProcedure
 		}),
 	)
 	.query(async ({ ctx, input }): Promise<PullRequestDiff> => {
-		await verifyOrgMembership(ctx.session.user.id, input.organizationId);
-		const { octokit } = await viewerOctokit({
-			userId: ctx.session.user.id,
-			organizationId: input.organizationId,
-			repoFullName: input.repoFullName,
-		});
-		const [owner, name] = input.repoFullName.split("/");
-		const pullRequest = {
-			owner: owner ?? "",
-			repo: name ?? "",
-			pull_number: input.number,
-		};
+		const { octokit, owner, repo } = await asViewer(
+			ctx.session.user.id,
+			input,
+			"read",
+		);
+		const pullRequest = { owner, repo, pull_number: input.number };
 		let data: unknown;
 		try {
 			const response = await octokit.request(

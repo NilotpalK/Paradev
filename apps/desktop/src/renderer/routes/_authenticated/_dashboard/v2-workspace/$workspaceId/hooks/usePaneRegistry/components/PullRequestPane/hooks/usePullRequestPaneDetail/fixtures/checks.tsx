@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, expect, mock, test } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import { cloudPullRequestRead } from "renderer/routes/_authenticated/_dashboard/pull-requests/utils/fromCloudPullRequest/fixtures";
 import type { PullRequestProject } from "renderer/routes/_authenticated/_dashboard/pull-requests/utils/resolvePullRequestTarget";
 
 if (!GlobalRegistrator.isRegistered) GlobalRegistrator.register();
@@ -28,11 +29,9 @@ const getContentByRepo = mock(async (_input: unknown) => ({
 const cannotAct = Object.assign(new Error("Connect GitHub"), {
 	data: { code: "PRECONDITION_FAILED" },
 });
-const getPullRequestContent = mock(
-	async (_input: unknown): Promise<unknown> => {
-		throw cannotAct;
-	},
-);
+const getPullRequestDetail = mock(async (_input: unknown): Promise<unknown> => {
+	throw cannotAct;
+});
 const root = "renderer/routes/_authenticated/_dashboard";
 mock.module("@superset/workspace-client", () => ({
 	workspaceTrpc: {
@@ -62,7 +61,7 @@ mock.module("renderer/lib/host-service-client", () => ({
 mock.module("renderer/lib/cloud-trpc", () => ({
 	cloudTrpcClient: {
 		integration: {
-			github: { getPullRequestContent: { query: getPullRequestContent } },
+			github: { getPullRequestDetail: { query: getPullRequestDetail } },
 		},
 	},
 }));
@@ -95,7 +94,7 @@ beforeEach(() => {
 	workspaceProjectQuery.mockClear();
 	getContent.mockClear();
 	getContentByRepo.mockClear();
-	getPullRequestContent.mockClear();
+	getPullRequestDetail.mockClear();
 });
 
 function mountDetail(
@@ -113,15 +112,18 @@ function mountDetail(
 }
 
 test("the cloud reads the pull request as the viewer before any host path", async () => {
-	getPullRequestContent.mockResolvedValueOnce({ title: "viewer title" });
+	getPullRequestDetail.mockResolvedValueOnce(
+		cloudPullRequestRead({ title: "viewer title" }),
+	);
 	const view = mountDetail();
 	await waitFor(() =>
 		expect(view.result.current.data?.title).toBe("viewer title"),
 	);
-	expect(getPullRequestContent).toHaveBeenCalledWith({
+	expect(getPullRequestDetail).toHaveBeenCalledWith({
 		organizationId: "org",
 		repoFullName: "owner/repo",
 		number: 12,
+		activity: true,
 	});
 	expect(getContent).not.toHaveBeenCalled();
 	expect(getContentByRepo).not.toHaveBeenCalled();
