@@ -9,10 +9,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@superset/ui/dialog";
-import Image from "next/image";
+import type { ComponentProps } from "react";
+import { InvestorItem } from "../InvestorItem";
 
 interface AllInvestorsDialogProps {
-	investors: { name: string; detail?: string; logo?: string }[];
+	investors: ComponentProps<typeof InvestorItem>["investor"][];
 }
 
 export function AllInvestorsDialog({ investors }: AllInvestorsDialogProps) {
@@ -32,31 +33,8 @@ export function AllInvestorsDialog({ investors }: AllInvestorsDialogProps) {
 				</DialogHeader>
 				<ul className="grid min-h-0 grid-cols-1 gap-x-8 gap-y-6 overflow-y-auto overscroll-contain px-6 py-6 sm:grid-cols-2">
 					{investors.map((investor) => (
-						<li key={investor.name} className="flex items-center gap-3">
-							{investor.logo ? (
-								<Image
-									src={investor.logo}
-									alt=""
-									width={28}
-									height={28}
-									className="size-7 shrink-0 rounded-md"
-								/>
-							) : (
-								<span
-									aria-hidden
-									className="flex size-7 shrink-0 items-center justify-center rounded-md border border-border text-xs text-muted-foreground"
-								>
-									{investor.name.charAt(0)}
-								</span>
-							)}
-							<div className="min-w-0">
-								<p className="text-sm text-foreground">{investor.name}</p>
-								{investor.detail && (
-									<p className="text-sm text-muted-foreground">
-										{investor.detail}
-									</p>
-								)}
-							</div>
+						<li key={investor.name}>
+							<InvestorItem investor={investor} />
 						</li>
 					))}
 				</ul>

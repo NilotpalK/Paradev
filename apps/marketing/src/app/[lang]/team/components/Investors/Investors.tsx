@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import type { About } from "@/lib/about";
 import { AllInvestorsDialog } from "./components/AllInvestorsDialog";
+import { InvestorItem } from "./components/InvestorItem";
 
 interface InvestorsProps {
 	investors: About["investors"];
@@ -49,24 +50,8 @@ export function Investors({ investors, moreInvestors }: InvestorsProps) {
 
 			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6 mt-10">
 				{others.map((investor) => (
-					<li key={investor.name} className="flex items-center gap-3">
-						{investor.logo && (
-							<Image
-								src={investor.logo}
-								alt=""
-								width={28}
-								height={28}
-								className="size-7 shrink-0 rounded-md"
-							/>
-						)}
-						<div className="min-w-0">
-							<p className="text-sm text-foreground">{investor.name}</p>
-							{investor.detail && (
-								<p className="text-sm text-muted-foreground">
-									{investor.detail}
-								</p>
-							)}
-						</div>
+					<li key={investor.name}>
+						<InvestorItem investor={investor} />
 					</li>
 				))}
 			</ul>

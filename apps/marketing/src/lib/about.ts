@@ -32,6 +32,7 @@ export const aboutSchema = z.object({
 			z.object({
 				name: z.string().min(1),
 				detail: z.string().optional(),
+				href: z.string().optional(),
 				logo: z.string().optional(),
 			}),
 		)
