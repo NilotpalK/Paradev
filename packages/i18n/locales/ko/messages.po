@@ -15113,6 +15113,9 @@ msgstr "새 작업 공간을 만들 때 실행됩니다."
 msgid "Runs when a workspace is deleted."
 msgstr "작업 공간을 삭제할 때 실행됩니다."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "앱, 계정, 워크스페이스 모두 그대로입니다. 따로 하실 일은 없습니다."
+
 msgid "Same version as this app."
 msgstr "이 앱과 같은 버전입니다."
 
@@ -19327,6 +19330,9 @@ msgstr "YouTube에서 Paradev 자동화 영상 보기"
 
 msgid "Wayfinding and disclosure"
 msgstr "길 찾기와 정보 펼침"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "또한 USV가 주도한 {amount} 규모의 시드 라운드 투자를 유치했습니다."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "우리는 공개적으로 만듭니다. 대화하기 전에 우리가 일하는 방식을 확인하세요."

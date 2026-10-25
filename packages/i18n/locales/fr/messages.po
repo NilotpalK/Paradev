@@ -15113,6 +15113,9 @@ msgstr "S’exécute à la création d’un espace de travail."
 msgid "Runs when a workspace is deleted."
 msgstr "S’exécute à la suppression d’un espace de travail."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "Même application, même compte, mêmes espaces de travail. Vous n’avez rien à faire."
+
 msgid "Same version as this app."
 msgstr "Même version que cette application."
 
@@ -19327,6 +19330,9 @@ msgstr "Regarder la vidéo Paradev Automations sur YouTube"
 
 msgid "Wayfinding and disclosure"
 msgstr "Repérage et divulgation progressive"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "Nous avons aussi levé {amount} en seed, avec USV en chef de file."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Nous construisons en public, pour que vous voyiez comment nous travaillons avant de nous parler."

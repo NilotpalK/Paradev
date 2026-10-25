@@ -15113,6 +15113,9 @@ msgstr "Executado quando um espaço de trabalho é criado."
 msgid "Runs when a workspace is deleted."
 msgstr "Executado quando um espaço de trabalho é excluído."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "Mesmo app, mesma conta, mesmas áreas de trabalho. Você não precisa fazer nada."
+
 msgid "Same version as this app."
 msgstr "Mesma versão que este app."
 
@@ -19327,6 +19330,9 @@ msgstr "Assista ao vídeo do Paradev Automations no YouTube"
 
 msgid "Wayfinding and disclosure"
 msgstr "Orientação e revelação de conteúdo"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "Também levantamos uma rodada seed de {amount}, liderada pela USV."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Construímos em público, para que você veja como trabalhamos antes de falar com a gente."

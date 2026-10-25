@@ -15113,6 +15113,9 @@ msgstr "Spouští se při vytvoření pracovního prostoru."
 msgid "Runs when a workspace is deleted."
 msgstr "Spouští se při smazání pracovního prostoru."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "Stejná aplikace, stejný účet, stejné pracovní prostory. Nemusíte nic dělat."
+
 msgid "Same version as this app."
 msgstr "Stejná verze jako tato aplikace."
 
@@ -19327,6 +19330,9 @@ msgstr "Podívejte se na video o Automatizacích Paradev na YouTube"
 
 msgid "Wayfinding and disclosure"
 msgstr "Orientace a postupné odkrývání"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "Také jsme získali {amount} v seed kole, které vedl USV."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Stavíme veřejně, takže uvidíte, jak pracujeme, ještě než s námi promluvíte."

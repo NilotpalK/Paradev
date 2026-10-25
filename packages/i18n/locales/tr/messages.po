@@ -15113,6 +15113,9 @@ msgstr "Yeni bir çalışma alanı oluşturulduğunda çalışır."
 msgid "Runs when a workspace is deleted."
 msgstr "Bir çalışma alanı silindiğinde çalışır."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "Aynı uygulama, aynı hesap, aynı çalışma alanları. Hiçbir şey yapmanıza gerek yok."
+
 msgid "Same version as this app."
 msgstr "Bu uygulamayla aynı sürüm."
 
@@ -19327,6 +19330,9 @@ msgstr "YouTube'da Paradev Otomasyonlar videosunu izleyin"
 
 msgid "Wayfinding and disclosure"
 msgstr "Yönlendirme ve açma-kapama"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "Ayrıca USV liderliğinde {amount} tutarında bir tohum yatırım turu tamamladık."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Açıkta geliştiriyoruz; bizimle konuşmadan önce nasıl çalıştığımızı görebilirsiniz."

@@ -15113,6 +15113,9 @@ msgstr "新しいワークスペースの作成時に実行します。"
 msgid "Runs when a workspace is deleted."
 msgstr "ワークスペースの削除時に実行します。"
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "アプリもアカウントもワークスペースもそのままです。何もする必要はありません。"
+
 msgid "Same version as this app."
 msgstr "このアプリと同じバージョンです。"
 
@@ -19327,6 +19330,9 @@ msgstr "YouTubeでParadev オートメーションの動画を見る"
 
 msgid "Wayfinding and disclosure"
 msgstr "案内と情報の開示"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "また、USV が主導するシードラウンドで {amount} を調達しました。"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "私たちはオープンに開発しています。話す前に、私たちの働き方を見てください。"

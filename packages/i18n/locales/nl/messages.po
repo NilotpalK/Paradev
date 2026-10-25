@@ -15113,6 +15113,9 @@ msgstr "Wordt uitgevoerd bij het aanmaken van een werkruimte."
 msgid "Runs when a workspace is deleted."
 msgstr "Wordt uitgevoerd bij het verwijderen van een werkruimte."
 
+msgid "Same app, same account, same workspaces. You do not need to do anything."
+msgstr "Dezelfde app, hetzelfde account, dezelfde werkruimtes. Je hoeft niets te doen."
+
 msgid "Same version as this app."
 msgstr "Dezelfde versie als deze app."
 
@@ -19327,6 +19330,9 @@ msgstr "Bekijk de Paradev Automations-video op YouTube"
 
 msgid "Wayfinding and disclosure"
 msgstr "Wegwijs worden en informatie ontvouwen"
+
+msgid "We also raised a {amount} seed round, led by USV."
+msgstr "We hebben ook een seedronde van {amount} opgehaald, geleid door USV."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "We bouwen in het openbaar, zodat je ziet hoe we werken voordat je met ons praat."
