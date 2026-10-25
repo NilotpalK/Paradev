@@ -7,7 +7,11 @@ import { env } from "../../../env";
 import { stripeClient } from "../../../stripe";
 import { countBillableSeats } from "../../../utils/billing";
 import { catalogAutumnPlans } from "../autumn/catalog";
-import { ensureAutumnCustomer, paidAutumnPlanId } from "../autumn/customer";
+import {
+	ensureAutumnCustomer,
+	heldAutumnPlanId,
+	paidAutumnPlanId,
+} from "../autumn/customer";
 import { SEATS_FEATURE_ID } from "../autumn/features";
 import {
 	completeCheckout,
@@ -55,7 +59,7 @@ export function autumnBillingDeps(): AutumnBillingDeps {
 			yearly: env.STRIPE_PRO_YEARLY_PRICE_ID,
 		}),
 		ensureCustomer: ensureAutumnCustomer,
-		currentPlanId: paidAutumnPlanId,
+		currentPlanId: heldAutumnPlanId,
 		findLiveSubscription: async (organizationId) =>
 			(await db.query.subscriptions.findFirst({
 				where: and(

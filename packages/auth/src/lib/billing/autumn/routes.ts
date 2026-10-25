@@ -7,7 +7,6 @@ import {
 	gbHourPurchase,
 } from "@superset/shared/billing";
 import { COMPANY } from "@superset/shared/constants";
-import { AutumnError } from "autumn-js";
 import type { BetterAuthPlugin } from "better-auth";
 import {
 	APIError,
@@ -28,7 +27,7 @@ import { catalogAutumnPlans, isSelfServePlan, seatLicenseFor } from "./catalog";
 import {
 	ensureAutumnCustomer,
 	getAutumnCustomer,
-	paidAutumnPlanId,
+	heldAutumnPlanId,
 } from "./customer";
 import { paidPlanIdFromFlags } from "./entitlements";
 import {
@@ -96,13 +95,6 @@ async function refuseEnterprise(planId: string): Promise<void> {
 			message: `Enterprise subscriptions are managed by admins. Contact ${COMPANY.SUPPORT_EMAIL}.`,
 		});
 	}
-}
-
-async function heldAutumnPlanId(organizationId: string) {
-	return paidAutumnPlanId(organizationId).catch((error: unknown) => {
-		if (error instanceof AutumnError && error.statusCode === 404) return null;
-		throw error;
-	});
 }
 
 async function subscribedPlanId(
