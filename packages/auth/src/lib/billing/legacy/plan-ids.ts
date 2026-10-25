@@ -1,5 +1,6 @@
 import {
 	type AutumnCatalogPlan,
+	PLAN_METADATA,
 	type PlanTier,
 	planCatalogFromAutumn,
 } from "@superset/shared/billing";
@@ -44,6 +45,21 @@ export function currentPlanIdForLegacy(
 	return (
 		(planId === PRO_ANNUAL_PLAN_ID ? pro?.yearly : pro?.monthly)?.id ?? planId
 	);
+}
+
+/**
+ * @deprecated Released desktops cancel and restore with `pro` or `pro_annual`
+ * whatever Pro plan the organization holds; this is the plan it holds.
+ */
+// TODO(2027-01-31): drop with the desktops that hardcode autumnProPlanId.
+export function heldPlanIdForLegacy(
+	planId: string,
+	heldPlanId: string | null,
+	plans: AutumnCatalogPlan[],
+): string {
+	if (!LEGACY_CLIENT_PLAN_IDS.includes(planId) || !heldPlanId) return planId;
+	const held = plans.find((plan) => plan.id === heldPlanId);
+	return held?.metadata?.[PLAN_METADATA.family] === "pro" ? heldPlanId : planId;
 }
 
 /**
