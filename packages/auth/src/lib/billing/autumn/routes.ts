@@ -19,7 +19,10 @@ import { and, eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { autumnClient, billingUsesAutumn } from "../../../autumn";
 import { countBillableSeats } from "../../../utils/billing";
-import { LEGACY_CLIENT_PLAN_IDS } from "../legacy/plan-ids";
+import {
+	currentPlanIdForLegacy,
+	LEGACY_CLIENT_PLAN_IDS,
+} from "../legacy/plan-ids";
 import { catalogAutumnPlans, isSelfServePlan, seatLicenseFor } from "./catalog";
 import {
 	ensureAutumnCustomer,
@@ -92,6 +95,12 @@ async function refuseEnterprise(planId: string): Promise<void> {
 			message: `Enterprise subscriptions are managed by admins. Contact ${COMPANY.SUPPORT_EMAIL}.`,
 		});
 	}
+}
+
+/** Organizations still hold the retired Pro plans and must be able to cancel or restore them. */
+async function refuseEnterpriseSubscription(planId: string): Promise<void> {
+	if (LEGACY_CLIENT_PLAN_IDS.includes(planId)) return;
+	await refuseEnterprise(planId);
 }
 
 async function currentPack(organizationId: string) {
@@ -175,7 +184,14 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "attach");
-				await refuseEnterprise(ctx.body.planId);
+				const planId =
+					ctx.body.currentPlanId === undefined
+						? currentPlanIdForLegacy(
+								ctx.body.planId,
+								await catalogAutumnPlans(),
+							)
+						: ctx.body.planId;
+				await refuseEnterprise(planId);
 				const [stripeSubscription, autumnPlanId] = await Promise.all([
 					db.query.subscriptions.findFirst({
 						where: and(
@@ -221,20 +237,20 @@ export const autumnBillingRoutes = {
 					1,
 					await countBillableSeats(caller.organizationId),
 				);
-				const purchase = await seatPurchase(ctx.body.planId, seats);
+				const purchase = await seatPurchase(planId, seats);
 				const startsAt = await yearlyRenewalStart(
 					caller.organizationId,
-					ctx.body.planId,
+					planId,
 					() =>
 						autumnClient.billing.previewAttach({
 							customerId: caller.organizationId,
-							planId: ctx.body.planId,
+							planId,
 							...purchase.quantities,
 						}),
 				);
 				const result = await autumnClient.billing.attach({
 					customerId: caller.organizationId,
-					planId: ctx.body.planId,
+					planId,
 					...purchase.quantities,
 					...(startsAt && { startsAt }),
 					successUrl: ctx.body.successUrl,
@@ -368,7 +384,7 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "updateSubscription");
-				await refuseEnterprise(ctx.body.planId);
+				await refuseEnterpriseSubscription(ctx.body.planId);
 				const result = await autumnClient.billing.update({
 					customerId: caller.organizationId,
 					planId: ctx.body.planId,
@@ -391,7 +407,7 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "previewUpdateSubscription");
-				await refuseEnterprise(ctx.body.planId);
+				await refuseEnterpriseSubscription(ctx.body.planId);
 				return ctx.json(
 					await autumnClient.billing.previewUpdate({
 						customerId: caller.organizationId,

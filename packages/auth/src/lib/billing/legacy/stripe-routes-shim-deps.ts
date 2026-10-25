@@ -1,6 +1,5 @@
 import { db } from "@superset/db/client";
 import { subscriptions } from "@superset/db/schema";
-import { planCatalogFromAutumn } from "@superset/shared/billing";
 import { APIError } from "better-auth/api";
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { autumnClient } from "../../../autumn";
@@ -17,7 +16,7 @@ import {
 } from "../autumn/projection";
 import { seatPurchase } from "../autumn/seats";
 import { handleStripeBillingEvent } from "../stripe-billing-events";
-import { PRO_ANNUAL_PLAN_ID } from "./plan-ids";
+import { currentPlanIdForLegacy } from "./plan-ids";
 import { stripeFallback } from "./stripe-fallback";
 import type { AutumnBillingDeps } from "./stripe-routes-shim";
 
@@ -41,12 +40,10 @@ export function autumnBillingDeps(): AutumnBillingDeps {
 			)?.quantity;
 			if (quantity === undefined)
 				throw new Error("Missing checkout seat quantity");
-			const pro = planCatalogFromAutumn(await catalogAutumnPlans()).find(
-				(family) => family.family === "pro",
+			const planId = currentPlanIdForLegacy(
+				params.planId,
+				await catalogAutumnPlans(),
 			);
-			const planId =
-				(params.planId === PRO_ANNUAL_PLAN_ID ? pro?.yearly : pro?.monthly)
-					?.id ?? params.planId;
 			const { quantities } = await seatPurchase(planId, quantity);
 			return autumn.billing.attach({ ...params, planId, ...quantities });
 		},
