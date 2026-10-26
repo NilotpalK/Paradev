@@ -1,7 +1,11 @@
 import type { ComposerChip } from "@superset/chat-ui/PromptInput";
 import { getPluginIconUrl } from "renderer/components/PluginIcon";
 import { linkOfChip } from "../linkChip";
-import { chatReferenceUrl, parseSupersetAppLink } from "../supersetAppLink";
+import {
+	chatReferenceUrl,
+	isPlainId,
+	parseSupersetAppLink,
+} from "../supersetAppLink";
 
 const MAX_LABEL_LENGTH = 48;
 
@@ -46,7 +50,13 @@ export function chatContextLine(
 	for (const chip of chips) {
 		const link = linkOfChip(chip);
 		const target = link ? parseSupersetAppLink(link, webUrl) : null;
-		if (target?.kind !== "chat") continue;
+		if (
+			target?.kind !== "chat" ||
+			!isPlainId(target.workspaceId) ||
+			!isPlainId(target.sessionId)
+		) {
+			continue;
+		}
 		const command = `superset sessions read --workspace ${target.workspaceId} --session ${target.sessionId}`;
 		lines.set(command, `- ${JSON.stringify(chip.label)}: \`${command}\``);
 	}

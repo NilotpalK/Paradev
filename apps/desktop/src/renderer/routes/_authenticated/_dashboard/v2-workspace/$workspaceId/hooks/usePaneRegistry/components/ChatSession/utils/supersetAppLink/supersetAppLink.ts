@@ -21,6 +21,13 @@ const ROUTES: [RegExp, (id: string) => SupersetAppLink][] = [
 	],
 ];
 
+const PLAIN_ID = /^[A-Za-z0-9_-]{1,128}$/;
+
+/** Chat ids reach the agent inside a shell command, so nothing else passes. */
+export function isPlainId(value: string): boolean {
+	return PLAIN_ID.test(value);
+}
+
 function decode(segment: string): string {
 	try {
 		return decodeURIComponent(segment);
@@ -49,7 +56,10 @@ export function parseSupersetAppLink(
 		if (!segment) continue;
 		const link = build(decode(segment));
 		const sessionId = url.searchParams.get("sessionId");
-		return link.kind === "workspace" && sessionId
+		return link.kind === "workspace" &&
+			sessionId &&
+			isPlainId(link.workspaceId) &&
+			isPlainId(sessionId)
 			? { kind: "chat", workspaceId: link.workspaceId, sessionId }
 			: link;
 	}
