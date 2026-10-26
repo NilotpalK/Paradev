@@ -11,7 +11,6 @@ import {
 	DialogTitle,
 } from "@superset/ui/dialog";
 import { useReducedMotion } from "framer-motion";
-import { useRef } from "react";
 import { electronTrpc } from "renderer/lib/electron-trpc";
 import revealFilm from "./assets/paradev-reveal.mp4";
 import revealEndFrame from "./assets/paradev-reveal-end.jpg";
@@ -26,7 +25,6 @@ interface BrandRenameDialogProps {
 export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 	const openUrl = electronTrpc.external.openUrl.useMutation();
 	const reduceMotion = useReducedMotion();
-	const filmRef = useRef<HTMLVideoElement>(null);
 
 	const formerName = BRAND.FORMER_NAME;
 	const productName = BRAND.NAME;
@@ -34,13 +32,6 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 		notation: "compact",
 		maximumFractionDigits: 1,
 	});
-
-	const replayFilm = () => {
-		const film = filmRef.current;
-		if (!film || reduceMotion) return;
-		film.currentTime = 0;
-		void film.play();
-	};
 
 	const readAnnouncement = () => {
 		openUrl.mutate(ANNOUNCEMENT_URL);
@@ -54,16 +45,15 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 				showCloseButton={false}
 			>
 				<video
-					ref={filmRef}
 					src={revealFilm}
 					poster={revealEndFrame}
 					autoPlay={!reduceMotion}
+					loop
 					muted
 					playsInline
 					preload="auto"
 					aria-hidden
-					onClick={replayFilm}
-					className="aspect-[1600/838] w-full cursor-pointer bg-[#100f0e] object-cover"
+					className="aspect-[1600/838] w-full bg-[#100f0e] object-cover"
 				/>
 				<div className="p-5">
 					<DialogTitle className="text-base font-semibold">
