@@ -903,6 +903,9 @@ msgstr "{formatted}{count, plural, one {位開發者} other {位開發者}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} 現已更名為 {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} 現已更名為 {productName}！"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} 現已更名為 {productName}。產品不變，團隊不變，只是換了名字。現有的 superset.sh 連結會自動轉址，superset 指令也會繼續可用。"
 
@@ -11738,6 +11741,9 @@ msgstr "注意"
 msgid "Notes"
 msgstr "筆記"
 
+msgid "Nothing changes on your end."
+msgstr "你這邊一切照舊。"
+
 msgid "Nothing here yet."
 msgstr "這裡還沒有內容。"
 
@@ -13925,6 +13931,9 @@ msgstr "只讀取和規劃，不做任何變更"
 
 msgid "Read and send mail"
 msgstr "讀取和傳送郵件"
+
+msgid "Read announcement"
+msgstr "閱讀公告"
 
 msgid "Read deployment and build logs"
 msgstr "查看部署和建置日誌"
@@ -19328,8 +19337,8 @@ msgstr "在 YouTube 上觀看 Paradev 自動化影片"
 msgid "Wayfinding and disclosure"
 msgstr "導航定位與內容展開"
 
-msgid "We also raised an {amount} seed round"
-msgstr "我們也完成了 {amount} 種子輪募資"
+msgid "We also raised an {amount} seed round."
+msgstr "我們也完成了 {amount} 種子輪募資。"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "我們公開開發，在和我們交談之前，你就能看到我們如何工作。"

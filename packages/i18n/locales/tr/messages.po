@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {geliştirici} other {geliştirici}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} artık {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} artık {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName}'in adı artık {productName}. Aynı ürün, aynı ekip; yalnızca adı değişti. Mevcut superset.sh bağlantıları yönlendirilir ve superset komutu çalışmaya devam eder."
 
@@ -11738,6 +11741,9 @@ msgstr "Not"
 msgid "Notes"
 msgstr "Notlar"
 
+msgid "Nothing changes on your end."
+msgstr "Sizin için hiçbir şey değişmiyor."
+
 msgid "Nothing here yet."
 msgstr "Burada henüz bir şey yok."
 
@@ -13925,6 +13931,9 @@ msgstr "Hiçbir şeyi değiştirmeden oku ve planla"
 
 msgid "Read and send mail"
 msgstr "E-postaları okuyun ve gönderin"
+
+msgid "Read announcement"
+msgstr "Duyuruyu oku"
 
 msgid "Read deployment and build logs"
 msgstr "Dağıtım ve derleme günlüklerini okuyun"
@@ -19328,8 +19337,8 @@ msgstr "YouTube'da Paradev Otomasyonlar videosunu izleyin"
 msgid "Wayfinding and disclosure"
 msgstr "Yönlendirme ve açma-kapama"
 
-msgid "We also raised an {amount} seed round"
-msgstr "Ayrıca {amount} tutarında bir tohum yatırım turu tamamladık"
+msgid "We also raised an {amount} seed round."
+msgstr "Ayrıca {amount} tutarında bir tohum yatırım turu tamamladık."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Açıkta geliştiriyoruz; bizimle konuşmadan önce nasıl çalıştığımızı görebilirsiniz."

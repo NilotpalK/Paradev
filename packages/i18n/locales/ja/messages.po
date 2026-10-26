@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {人の開発者} other {人の開発者
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} は {productName} になりました"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} は {productName} になりました！"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} は {productName} に名称を変更しました。製品もチームも変わらず、変わったのは名前だけです。既存の superset.sh のリンクはリダイレクトされ、superset コマンドも引き続き使えます。"
 
@@ -11738,6 +11741,9 @@ msgstr "メモ"
 msgid "Notes"
 msgstr "ノート"
 
+msgid "Nothing changes on your end."
+msgstr "お使いの環境は何も変わりません。"
+
 msgid "Nothing here yet."
 msgstr "まだ何もありません。"
 
@@ -13925,6 +13931,9 @@ msgstr "何も変更せずに読み取りと計画のみ"
 
 msgid "Read and send mail"
 msgstr "メールの閲覧と送信"
+
+msgid "Read announcement"
+msgstr "お知らせを読む"
 
 msgid "Read deployment and build logs"
 msgstr "デプロイとビルドのログを確認"
@@ -19328,8 +19337,8 @@ msgstr "YouTubeでParadev オートメーションの動画を見る"
 msgid "Wayfinding and disclosure"
 msgstr "案内と情報の開示"
 
-msgid "We also raised an {amount} seed round"
-msgstr "また、シードラウンドで {amount} を調達しました"
+msgid "We also raised an {amount} seed round."
+msgstr "また、シードラウンドで {amount} を調達しました。"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "私たちはオープンに開発しています。話す前に、私たちの働き方を見てください。"

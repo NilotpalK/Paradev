@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {dev}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} kini menjadi {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} kini menjadi {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} kini bernama {productName}. Produknya sama, dibuat oleh tim yang sama, dan hanya namanya yang berubah. Tautan superset.sh yang ada akan dialihkan, dan perintah superset tetap berfungsi."
 
@@ -11738,6 +11741,9 @@ msgstr "Catatan"
 msgid "Notes"
 msgstr "Catatan"
 
+msgid "Nothing changes on your end."
+msgstr "Tidak ada yang berubah di sisi Anda."
+
 msgid "Nothing here yet."
 msgstr "Belum ada apa-apa di sini."
 
@@ -13925,6 +13931,9 @@ msgstr "Baca dan rencanakan tanpa mengubah apa pun"
 
 msgid "Read and send mail"
 msgstr "Baca dan kirim email"
+
+msgid "Read announcement"
+msgstr "Baca pengumuman"
 
 msgid "Read deployment and build logs"
 msgstr "Baca log deployment dan build"
@@ -19328,8 +19337,8 @@ msgstr "Tonton video Otomatisasi Paradev di YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Penunjuk arah dan pengungkapan"
 
-msgid "We also raised an {amount} seed round"
-msgstr "Kami juga meraih pendanaan seed sebesar {amount}"
+msgid "We also raised an {amount} seed round."
+msgstr "Kami juga meraih pendanaan seed sebesar {amount}."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Kami membangun secara terbuka, jadi Anda bisa melihat cara kami bekerja sebelum berbicara dengan kami."

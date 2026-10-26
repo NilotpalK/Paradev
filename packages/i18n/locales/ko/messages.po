@@ -903,6 +903,9 @@ msgstr "개발자 {formatted}{count, plural, one {명} other {명}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName}의 새 이름: {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName}, 이제 {productName}입니다!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName}의 새 이름은 {productName}입니다. 같은 제품, 같은 팀이며 이름만 바뀌었습니다. 기존 superset.sh 링크는 리디렉션되며 superset 명령어도 계속 작동합니다."
 
@@ -11738,6 +11741,9 @@ msgstr "참고"
 msgid "Notes"
 msgstr "노트"
 
+msgid "Nothing changes on your end."
+msgstr "사용 중인 환경은 그대로입니다."
+
 msgid "Nothing here yet."
 msgstr "아직 아무것도 없습니다."
 
@@ -13925,6 +13931,9 @@ msgstr "아무것도 변경하지 않고 읽고 계획만"
 
 msgid "Read and send mail"
 msgstr "메일 읽기 및 보내기"
+
+msgid "Read announcement"
+msgstr "공지 읽기"
 
 msgid "Read deployment and build logs"
 msgstr "배포 및 빌드 로그 확인"
@@ -19328,8 +19337,8 @@ msgstr "YouTube에서 Paradev 자동화 영상 보기"
 msgid "Wayfinding and disclosure"
 msgstr "길 찾기와 정보 펼침"
 
-msgid "We also raised an {amount} seed round"
-msgstr "또한 {amount} 규모의 시드 라운드 투자를 유치했습니다"
+msgid "We also raised an {amount} seed round."
+msgstr "또한 {amount} 규모의 시드 라운드 투자를 유치했습니다."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "우리는 공개적으로 만듭니다. 대화하기 전에 우리가 일하는 방식을 확인하세요."

@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {dev}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} nay là {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} nay là {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} nay đã đổi tên thành {productName}. Vẫn là sản phẩm đó, vẫn đội ngũ đó, chỉ có tên là thay đổi. Các liên kết superset.sh hiện có sẽ được chuyển hướng và lệnh superset vẫn hoạt động bình thường."
 
@@ -11738,6 +11741,9 @@ msgstr "Lưu ý"
 msgid "Notes"
 msgstr "Ghi chú"
 
+msgid "Nothing changes on your end."
+msgstr "Bạn không cần thay đổi gì cả."
+
 msgid "Nothing here yet."
 msgstr "Chưa có gì ở đây."
 
@@ -13925,6 +13931,9 @@ msgstr "Đọc và lập kế hoạch mà không thay đổi gì"
 
 msgid "Read and send mail"
 msgstr "Đọc và gửi thư"
+
+msgid "Read announcement"
+msgstr "Đọc thông báo"
 
 msgid "Read deployment and build logs"
 msgstr "Đọc log deployment và build"
@@ -19328,8 +19337,8 @@ msgstr "Xem video Tự động hóa Paradev trên YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Định hướng và mở rộng nội dung"
 
-msgid "We also raised an {amount} seed round"
-msgstr "Chúng tôi cũng vừa gọi vốn hạt giống {amount}"
+msgid "We also raised an {amount} seed round."
+msgstr "Chúng tôi cũng vừa gọi vốn hạt giống {amount}."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Chúng tôi xây dựng công khai, để bạn thấy cách chúng tôi làm việc trước khi trò chuyện với chúng tôi."

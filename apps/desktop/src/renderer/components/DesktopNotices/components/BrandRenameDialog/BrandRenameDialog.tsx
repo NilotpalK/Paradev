@@ -58,18 +58,19 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 				<div className="p-5">
 					<DialogTitle className="text-base font-semibold">
 						<Trans>
-							{formerName} is now {productName}
+							{formerName} is now {productName}!
 						</Trans>
 					</DialogTitle>
 					<DialogDescription className="mt-2 text-[13px]">
-						<Trans>We also raised an {amount} seed round</Trans>
+						<Trans>Nothing changes on your end.</Trans>{" "}
+						<Trans>We also raised an {amount} seed round.</Trans>
 					</DialogDescription>
 					<DialogFooter className="mt-5 flex-row justify-end gap-2">
 						<Button variant="ghost" size="sm" onClick={onDismiss}>
 							<Trans>Got it</Trans>
 						</Button>
 						<Button size="sm" onClick={readAnnouncement}>
-							<Trans>Read the announcement</Trans>
+							<Trans>Read announcement</Trans>
 						</Button>
 					</DialogFooter>
 				</div>

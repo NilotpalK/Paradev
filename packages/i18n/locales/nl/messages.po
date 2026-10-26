@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {devs}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} is nu {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} is nu {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} heet nu {productName}. Het is hetzelfde product van hetzelfde team; alleen de naam is veranderd. Bestaande superset.sh-links worden doorgestuurd en het superset-commando blijft werken."
 
@@ -11738,6 +11741,9 @@ msgstr "Opmerking"
 msgid "Notes"
 msgstr "Notities"
 
+msgid "Nothing changes on your end."
+msgstr "Voor jou verandert er niets."
+
 msgid "Nothing here yet."
 msgstr "Hier is nog niets."
 
@@ -13925,6 +13931,9 @@ msgstr "Lezen en plannen zonder iets te wijzigen"
 
 msgid "Read and send mail"
 msgstr "Mail lezen en verzenden"
+
+msgid "Read announcement"
+msgstr "Aankondiging lezen"
 
 msgid "Read deployment and build logs"
 msgstr "Lees deployment- en buildlogs"
@@ -19328,8 +19337,8 @@ msgstr "Bekijk de Paradev Automations-video op YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Wegwijs worden en informatie ontvouwen"
 
-msgid "We also raised an {amount} seed round"
-msgstr "We hebben ook een seedronde van {amount} opgehaald"
+msgid "We also raised an {amount} seed round."
+msgstr "We hebben ook een seedronde van {amount} opgehaald."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "We bouwen in het openbaar, zodat je ziet hoe we werken voordat je met ons praat."

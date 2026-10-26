@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {vývojář} few {vývojáři} many {vý
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} je nyní {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} je nyní {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} se nyní jmenuje {productName}. Je to stejný produkt od stejného týmu, změnil se jen název. Stávající odkazy na superset.sh přesměrují a příkaz superset funguje dál."
 
@@ -11738,6 +11741,9 @@ msgstr "Poznámka"
 msgid "Notes"
 msgstr "Poznámky"
 
+msgid "Nothing changes on your end."
+msgstr "Na vaší straně se nic nemění."
+
 msgid "Nothing here yet."
 msgstr "Zatím tu nic není."
 
@@ -13925,6 +13931,9 @@ msgstr "Číst a plánovat bez jakýchkoli změn"
 
 msgid "Read and send mail"
 msgstr "Čtení a odesílání pošty"
+
+msgid "Read announcement"
+msgstr "Přečíst oznámení"
 
 msgid "Read deployment and build logs"
 msgstr "Čtení logů nasazení a buildů"
@@ -19328,8 +19337,8 @@ msgstr "Podívejte se na video o Automatizacích Paradev na YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Orientace a postupné odkrývání"
 
-msgid "We also raised an {amount} seed round"
-msgstr "Také jsme získali {amount} v seed kole"
+msgid "We also raised an {amount} seed round."
+msgstr "Také jsme získali {amount} v seed kole."
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Stavíme veřejně, takže uvidíte, jak pracujeme, ještě než s námi promluvíte."
