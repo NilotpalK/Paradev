@@ -903,6 +903,9 @@ msgstr "{formatted}{count, plural, one {位开发者} other {位开发者}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} 现已更名为 {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} 现已更名为 {productName}！"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} 现已更名为 {productName}。产品不变，团队不变，只是换了名字。现有的 superset.sh 链接会自动跳转，superset 命令也会继续可用。"
 
@@ -7064,6 +7067,9 @@ msgstr "在你更改之前，所有人都停留在v{sharedVersion}"
 
 msgid "Everyone with access to this organization."
 msgstr "有权访问此组织的所有人。"
+
+msgid "Everything carries over."
+msgstr "一切都会保留。"
 
 msgid "Everything in {previousPlan}"
 msgstr "包含 {previousPlan} 的全部功能"
@@ -13926,6 +13932,9 @@ msgstr "只读取和规划，不做任何更改"
 msgid "Read and send mail"
 msgstr "读取和发送邮件"
 
+msgid "Read announcement"
+msgstr "阅读公告"
+
 msgid "Read deployment and build logs"
 msgstr "查看部署和构建日志"
 
@@ -19360,6 +19369,9 @@ msgstr "已找到{hostName}。在那台电脑上开启远程访问即可完成�
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "我们只收集分析类cookie，用于改进你的使用体验。"
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "我们完成了 {amount} 种子轮融资，帮你调动一支编程智能体大军。"
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "下载链接已发送至{submittedEmail}。"

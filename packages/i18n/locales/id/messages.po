@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {dev}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} kini menjadi {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} kini menjadi {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} kini bernama {productName}. Produknya sama, dibuat oleh tim yang sama, dan hanya namanya yang berubah. Tautan superset.sh yang ada akan dialihkan, dan perintah superset tetap berfungsi."
 
@@ -7064,6 +7067,9 @@ msgstr "Semua orang tetap di v{sharedVersion} sampai Anda mengubahnya"
 
 msgid "Everyone with access to this organization."
 msgstr "Semua orang yang punya akses ke organisasi ini."
+
+msgid "Everything carries over."
+msgstr "Semuanya tetap terbawa."
 
 msgid "Everything in {previousPlan}"
 msgstr "Semua yang ada di {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Baca dan rencanakan tanpa mengubah apa pun"
 msgid "Read and send mail"
 msgstr "Baca dan kirim email"
 
+msgid "Read announcement"
+msgstr "Baca pengumuman"
+
 msgid "Read deployment and build logs"
 msgstr "Baca log deployment dan build"
 
@@ -19360,6 +19369,9 @@ msgstr "Kami menemukan {hostName}. Aktifkan Akses Jarak Jauh di sana untuk menye
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Kami hanya mengumpulkan cookie analitik agar bisa meningkatkan pengalaman Anda."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Kami meraih pendanaan seed sebesar {amount} untuk membantu Anda menjalankan pasukan agen coding."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Kami mengirim tautan unduhan ke {submittedEmail}."

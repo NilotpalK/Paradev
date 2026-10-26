@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {devs}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} is nu {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} is nu {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} heet nu {productName}. Het is hetzelfde product van hetzelfde team; alleen de naam is veranderd. Bestaande superset.sh-links worden doorgestuurd en het superset-commando blijft werken."
 
@@ -7064,6 +7067,9 @@ msgstr "Iedereen blijft op v{sharedVersion} tot je dit wijzigt"
 
 msgid "Everyone with access to this organization."
 msgstr "Iedereen met toegang tot deze organisatie."
+
+msgid "Everything carries over."
+msgstr "Alles blijft behouden."
 
 msgid "Everything in {previousPlan}"
 msgstr "Alles uit {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Lezen en plannen zonder iets te wijzigen"
 msgid "Read and send mail"
 msgstr "Mail lezen en verzenden"
 
+msgid "Read announcement"
+msgstr "Aankondiging lezen"
+
 msgid "Read deployment and build logs"
 msgstr "Lees deployment- en buildlogs"
 
@@ -19360,6 +19369,9 @@ msgstr "We hebben {hostName} gevonden. Zet daar externe toegang aan om af te ron
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "We verzamelen alleen analytische cookies zodat we je ervaring kunnen verbeteren."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "We hebben een seedronde van {amount} opgehaald om je te helpen een leger aan codeeragents in te zetten."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "We hebben de downloadlink naar {submittedEmail} gestuurd."

@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {vývojář} few {vývojáři} many {vý
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} je nyní {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} je nyní {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} se nyní jmenuje {productName}. Je to stejný produkt od stejného týmu, změnil se jen název. Stávající odkazy na superset.sh přesměrují a příkaz superset funguje dál."
 
@@ -7064,6 +7067,9 @@ msgstr "Všichni zůstanou na v{sharedVersion}, dokud to nezměníte"
 
 msgid "Everyone with access to this organization."
 msgstr "Všichni s přístupem do této organizace."
+
+msgid "Everything carries over."
+msgstr "Vše zůstává zachováno."
 
 msgid "Everything in {previousPlan}"
 msgstr "Vše z plánu {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Číst a plánovat bez jakýchkoli změn"
 msgid "Read and send mail"
 msgstr "Čtení a odesílání pošty"
 
+msgid "Read announcement"
+msgstr "Přečíst oznámení"
+
 msgid "Read deployment and build logs"
 msgstr "Čtení logů nasazení a buildů"
 
@@ -19360,6 +19369,9 @@ msgstr "Našli jsme {hostName}. Dokončete to zapnutím Vzdáleného přístupu 
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Sbíráme jen analytické cookies, abychom mohli zlepšovat vaši zkušenost."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Získali jsme {amount} v seed kole, abychom vám pomohli řídit armádu kódovacích agentů."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Odkaz ke stažení jsme poslali na {submittedEmail}."

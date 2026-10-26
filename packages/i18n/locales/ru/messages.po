@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {разработчик} few {разра
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} теперь называется {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} теперь называется {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} теперь называется {productName}. Это тот же продукт и та же команда, изменилось только название. Существующие ссылки на superset.sh перенаправляются, а команда superset продолжает работать."
 
@@ -7064,6 +7067,9 @@ msgstr "Все остаются на v{sharedVersion}, пока вы это не
 
 msgid "Everyone with access to this organization."
 msgstr "Все, у кого есть доступ к этой организации."
+
+msgid "Everything carries over."
+msgstr "Всё остаётся на месте."
 
 msgid "Everything in {previousPlan}"
 msgstr "Всё из тарифа {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Читать и планировать, ничего не меняя"
 msgid "Read and send mail"
 msgstr "Чтение и отправка писем"
 
+msgid "Read announcement"
+msgstr "Читать анонс"
+
 msgid "Read deployment and build logs"
 msgstr "Чтение логов деплоя и сборки"
 
@@ -19360,6 +19369,9 @@ msgstr "Мы нашли {hostName}. Включите на нём удалённ�
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Мы собираем только аналитические cookies, чтобы улучшать ваш опыт."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Мы привлекли {amount} в посевном раунде, чтобы помочь вам запускать целую армию агентов для программирования."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Мы отправили ссылку на скачивание на {submittedEmail}."

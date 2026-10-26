@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {dev}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} ora è {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} ora è {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} ora si chiama {productName}. È lo stesso prodotto, creato dallo stesso team: cambia solo il nome. I link esistenti a superset.sh vengono reindirizzati e il comando superset continua a funzionare."
 
@@ -7064,6 +7067,9 @@ msgstr "Tutti restano sulla v{sharedVersion} finché non lo cambi"
 
 msgid "Everyone with access to this organization."
 msgstr "Tutti quelli che hanno accesso a questa organizzazione."
+
+msgid "Everything carries over."
+msgstr "Tutto resta com’è."
 
 msgid "Everything in {previousPlan}"
 msgstr "Tutto ciò che include {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Leggi e pianifica senza modificare nulla"
 msgid "Read and send mail"
 msgstr "Leggi e invia email"
 
+msgid "Read announcement"
+msgstr "Leggi l’annuncio"
+
 msgid "Read deployment and build logs"
 msgstr "Leggi i log di deploy e build"
 
@@ -19360,6 +19369,9 @@ msgstr "Abbiamo trovato {hostName}. Attiva lì l'accesso remoto per completare."
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Raccogliamo solo cookie analitici per migliorare la tua esperienza."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Abbiamo raccolto un round seed da {amount} per aiutarti a gestire un esercito di agenti di coding."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Abbiamo inviato il link di download a {submittedEmail}."

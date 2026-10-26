@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {dev} other {dev}}"
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} nay là {productName}"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} nay là {productName}!"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} nay đã đổi tên thành {productName}. Vẫn là sản phẩm đó, vẫn đội ngũ đó, chỉ có tên là thay đổi. Các liên kết superset.sh hiện có sẽ được chuyển hướng và lệnh superset vẫn hoạt động bình thường."
 
@@ -7064,6 +7067,9 @@ msgstr "Mọi người vẫn ở v{sharedVersion} cho đến khi bạn đổi"
 
 msgid "Everyone with access to this organization."
 msgstr "Tất cả những người có quyền truy cập tổ chức này."
+
+msgid "Everything carries over."
+msgstr "Mọi thứ vẫn được giữ nguyên."
 
 msgid "Everything in {previousPlan}"
 msgstr "Mọi thứ trong {previousPlan}"
@@ -13926,6 +13932,9 @@ msgstr "Đọc và lập kế hoạch mà không thay đổi gì"
 msgid "Read and send mail"
 msgstr "Đọc và gửi thư"
 
+msgid "Read announcement"
+msgstr "Đọc thông báo"
+
 msgid "Read deployment and build logs"
 msgstr "Đọc log deployment và build"
 
@@ -19360,6 +19369,9 @@ msgstr "Đã tìm thấy {hostName}. Bật Truy cập từ xa trên máy đó đ
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Chúng tôi chỉ thu thập cookie phân tích để cải thiện trải nghiệm của bạn."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Chúng tôi đã gọi vốn hạt giống {amount} để giúp bạn vận hành cả một đội quân agent lập trình."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Chúng tôi đã gửi liên kết tải tới {submittedEmail}."

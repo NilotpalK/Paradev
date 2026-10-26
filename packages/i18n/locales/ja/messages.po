@@ -903,6 +903,9 @@ msgstr "{formatted} {count, plural, one {人の開発者} other {人の開発者
 msgid "{formerName} is now {productName}"
 msgstr "{formerName} は {productName} になりました"
 
+msgid "{formerName} is now {productName}!"
+msgstr "{formerName} は {productName} になりました！"
+
 msgid "{formerName} is now called {productName}. It is the same product, built by the same team, and only the name has changed. Existing superset.sh links redirect, and the superset command keeps working."
 msgstr "{formerName} は {productName} に名称を変更しました。製品もチームも変わらず、変わったのは名前だけです。既存の superset.sh のリンクはリダイレクトされ、superset コマンドも引き続き使えます。"
 
@@ -7064,6 +7067,9 @@ msgstr "変更するまで全員がv{sharedVersion}を見続けます"
 
 msgid "Everyone with access to this organization."
 msgstr "この組織にアクセスできる全員。"
+
+msgid "Everything carries over."
+msgstr "すべてそのまま引き継がれます。"
 
 msgid "Everything in {previousPlan}"
 msgstr "{previousPlan} のすべての機能"
@@ -13926,6 +13932,9 @@ msgstr "何も変更せずに読み取りと計画のみ"
 msgid "Read and send mail"
 msgstr "メールの閲覧と送信"
 
+msgid "Read announcement"
+msgstr "お知らせを読む"
+
 msgid "Read deployment and build logs"
 msgstr "デプロイとビルドのログを確認"
 
@@ -19360,6 +19369,9 @@ msgstr "{hostName}が見つかりました。そちらでリモートアクセ�
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "体験を改善するため、分析用のCookieのみを収集しています。"
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "コーディングエージェント軍団を動かせるよう、シードラウンドで {amount} を調達しました。"
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "{submittedEmail}にダウンロードリンクを送信しました。"
