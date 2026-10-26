@@ -38,7 +38,7 @@ export const COMPANY = {
 	PRIVACY_URL: `${MARKETING_URL}/privacy`,
 	CHANGELOG_URL: `${MARKETING_URL}/changelog`,
 	X_URL: "https://x.com/paradevai",
-	LINKEDIN_URL: "https://www.linkedin.com/company/superset-sh",
+	LINKEDIN_URL: "https://www.linkedin.com/company/paradevai",
 	YOUTUBE_URL: "https://www.youtube.com/@superset-sh",
 	SUPPORT_EMAIL,
 	MAIL_TO: `mailto:${SUPPORT_EMAIL}`,
