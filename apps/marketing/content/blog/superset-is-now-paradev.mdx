@@ -2,7 +2,7 @@
 title: "Superset is now Paradev, and we raised an $11.5M seed"
 description: "Superset is now Paradev, and we raised an $11.5M seed led by USV with Y Combinator and Paul Graham. What changes, what doesn't, and what's next."
 author: kiet
-date: 2026-10-25
+date: 2026-10-26
 category: Company
 image: /images/blog/superset-is-now-paradev/hero.png
 relatedSlugs:
@@ -23,17 +23,17 @@ faq:
   - question: "Do I need to reinstall the app?"
     answer: "No. The desktop app updates to the new name on its own."
   - question: "Will my links break?"
-    answer: "No. Every superset.sh link redirects to the same page on paradev.com, and GitHub links to the old organization redirect too."
+    answer: "No. Every superset.sh link redirects to the same page on paradev.com. The GitHub repo moves to github.com/paradevai/paradev, and old GitHub links redirect too."
   - question: "Does the CLI change?"
-    answer: "No. The superset command and brew install superset-sh/tap/superset keep working."
+    answer: "No. The superset command keeps working, and paradev now works as an alias for it. Homebrew installs keep working too."
   - question: "Where do emails come from now?"
     answer: "For a few more weeks, still superset.sh, with the sender \"Paradev (formerly Superset)\". Then paradev.com."
   - question: "Why does my card statement say PARADEV?"
-    answer: "That's us. Same plan, same price."
+    answer: "Paradev is our new name. Your plan and price stay the same."
   - question: "What does Paradev mean?"
     answer: "Parallel development: running many coding agents at once, each on its own task."
   - question: "Who invested?"
-    answer: "USV led our $11.5M seed round, with Y Combinator and Paul Graham."
+    answer: "USV led our $11.5M seed round, with Y Combinator and Paul Graham. All our investors are on paradev.com/team."
   - question: "What will you do with the funding?"
     answer: "Build the software factory: agents that start work on their own, run in parallel, and leave reviewed changes ready to merge. And grow the team to build it."
   - question: "Is Paradev related to Apache Superset?"
@@ -47,19 +47,27 @@ faq:
   Your browser can [download the video](/images/blog/superset-is-now-paradev/paradev-reveal.mp4).
 </video>
 
-Today Superset becomes **Paradev**, short for parallel development, at [paradev.com](https://paradev.com). We also raised an $11.5M seed round, led by USV with Y Combinator and Paul Graham.
+Engineers used to work with one coding agent at a time. Now one engineer can run dozens at once, each on its own task. Today Superset becomes **Paradev**, short for parallel development, at [paradev.com](https://paradev.com).
 
-Only the name changes. Same app, same account, same team. There's nothing you need to do.
+We also raised an $11.5M seed round, led by USV with Y Combinator and Paul Graham, to build what comes next.
 
-## Why a new name
+Nothing changes on your end. Your account, your workspaces and the `superset` command all carry over. The details are at the end of this post.
 
-Many companies and projects are called Superset, including an unrelated open-source project. We wanted a name that's truly ours, to build a lasting company on, and one that says what our users do every day: run coding agents in parallel.
+## Why Paradev
+
+Paradev means parallel development: many agents working at the same time, each in its own workspace. It's what our users do every day, and now our name says it.
+
+We also needed a name that's ours. Many companies and projects are called Superset, including the unrelated Apache Superset. We wanted a name we can build a lasting company on.
+
+## What we've seen
+
+Three of us built the first version at a hackathon last November. When we ran several agents at once, they collided in one checkout, and it was hard to see which one needed us. So we gave every task its own workspace, with its own Git worktree, branch and terminals. It runs on your own machine, with the agents and subscriptions you already have.
+
+In under a year, more than 145,000 developers in 180 countries have created over 1.85 million agent workspaces, and one in eight Fortune 500 companies have used it.
 
 ## Our $11.5M seed
 
 USV led the round, with Y Combinator and Paul Graham.
-
-{/* TODO(Kiet): other investors and any quotes go here. Only USV, Y Combinator and Paul Graham are confirmed. */}
 
 {/* TODO(Kiet): fundraise video. Add the file under /images/blog/superset-is-now-paradev/ and remove the comment markers.
 <video autoPlay muted loop playsInline controls preload="metadata" width="1600" height="838" poster="/images/blog/superset-is-now-paradev/fundraise-poster.png" aria-label="TODO(Kiet): describe the fundraise video" className="mx-auto w-full rounded-xl">
@@ -68,13 +76,17 @@ USV led the round, with Y Combinator and Paul Graham.
 </video>
 */}
 
-In under a year, more than 145,000 developers in 180 countries have created over 1.85 million agent workspaces, and one in eight Fortune 500 companies have used it. Today one engineer runs dozens of agents in parallel. The funding lets us build what comes next, a software factory for every engineering team:
+Thank you to Nick Grossman at USV, to Paul Graham, and to Nicolas Dessaigne at Y Combinator for believing in us. Thank you also to BoxGroup, 468 Capital, Liquid 2 Ventures, Orange Collective, Palm Drive Capital, Pioneer Fund, Broom Ventures, Transpose Platform, Commit, Spot, Lombardstreet Ventures and Twenty Two Ventures. And to the founders and engineers who invested as angels, among them Siqi Chen, Jake Mintz, Gregor Zunic, Abhi Aiyer, JJ Fliegelman and Ooshma Garg. You can see everyone who backs us on our [team page](/team).
+
+## What's next
+
+Today one engineer runs dozens of agents in parallel. Next, we want every engineering team to have a software factory:
 
 - **Start.** Agents pick up work on a schedule or an event, not only when you type.
 - **Run in parallel.** Each one works in its own workspace, with its own Git worktree.
 - **Ready to merge.** You come back to reviewed changes, not a queue of half-done branches.
 
-Our most advanced users already work this way. We want every team to.
+Our most advanced users already work this way. We want every team to. This week we took one step: plugins are now on for every account, so every agent you run in Paradev gets the same skills on every machine.
 
 ## Join us
 
@@ -84,7 +96,8 @@ We're a small team, and we're hiring engineers who want to make hundreds of agen
 
 - **The name.** You'll see Paradev in the desktop app, the iPhone app, the docs and our emails.
 - **The website.** [paradev.com](https://paradev.com), with docs at [docs.paradev.com](https://docs.paradev.com). Every superset.sh link redirects to the same page on paradev.com.
-- **Our accounts.** X [@paradevai](https://x.com/paradevai), LinkedIn [/company/paradevai](https://www.linkedin.com/company/paradevai), YouTube [@paradevai](https://www.youtube.com/@paradevai) and GitHub [paradevai](https://github.com/paradevai). Old links redirect. Same [Discord](https://discord.gg/cZeD9WYcV7) server.
+- **GitHub.** The repo moves to [github.com/paradevai/paradev](https://github.com/paradevai/paradev). Old links and clone URLs redirect.
+- **Our accounts.** X [@paradevai](https://x.com/paradevai), LinkedIn [/company/paradevai](https://www.linkedin.com/company/paradevai) and YouTube [@paradevai](https://www.youtube.com/@paradevai). Old links redirect. Same [Discord](https://discord.gg/cZeD9WYcV7) server.
 - **Emails.** For a few more weeks, emails still come from superset.sh, with the sender name "Paradev (formerly Superset)". Then they move to paradev.com.
 - **Card statements.** Charges show as PARADEV.
 
@@ -94,11 +107,13 @@ We're a small team, and we're hiring engineers who want to make hundreds of agen
 - Your account, workspaces, settings, agents, automations and data. You stay signed in.
 - Pricing and billing: same plans, same prices.
 - Your integrations, such as GitHub, Slack and Linear. A sign-in or consent screen may show the new name.
-- The `superset` command in your terminal and the Homebrew tap.
+- The `superset` command in your terminal and the Homebrew tap. `paradev` now works too, as an alias.
+
+The desktop app updates to the new name on its own. There's nothing to reinstall.
 
 ## Thank you
 
-Same people, new name, and the same goal: let every engineer run as many agents as their work needs. Thank you to everyone who has built with us, filed issues, and told a friend.
+Thank you to everyone who has built with us, filed issues and told a friend. We're the same team, with the same goal: let every engineer run as many agents as their work needs.
 
 [Download Paradev](https://paradev.com/download) and run your next task in parallel.
 
