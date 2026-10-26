@@ -20,7 +20,7 @@ import {
 } from "../autumn/projection";
 import { seatPurchase } from "../autumn/seats";
 import { handleStripeBillingEvent } from "../stripe-billing-events";
-import { currentPlanIdForLegacy } from "./plan-ids";
+import { currentPlanIdForLegacy, isProFamilyPlan } from "./plan-ids";
 import { stripeFallback } from "./stripe-fallback";
 import type { AutumnBillingDeps } from "./stripe-routes-shim";
 
@@ -60,6 +60,8 @@ export function autumnBillingDeps(): AutumnBillingDeps {
 		}),
 		ensureCustomer: ensureAutumnCustomer,
 		currentPlanId: heldAutumnPlanId,
+		isProFamilyPlan: async (planId) =>
+			isProFamilyPlan(planId, await catalogAutumnPlans()),
 		findLiveSubscription: async (organizationId) =>
 			(await db.query.subscriptions.findFirst({
 				where: and(

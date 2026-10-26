@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { AutumnCatalogPlan } from "@superset/shared/billing";
-import { currentPlanIdForLegacy, heldPlanIdForLegacy } from "./plan-ids";
+import { currentPlanIdForLegacy, isProFamilyPlan } from "./plan-ids";
 
 function seatLicense(
 	id: string,
@@ -47,18 +47,16 @@ describe("currentPlanIdForLegacy", () => {
 	});
 });
 
-describe("heldPlanIdForLegacy", () => {
-	test("a released desktop cancelling a Pro plan acts on the Pro plan the organization holds", () => {
-		expect(heldPlanIdForLegacy("pro", "pro_v2_annual", catalog)).toBe(
-			"pro_v2_annual",
-		);
-		expect(heldPlanIdForLegacy("pro_annual", "pro", catalog)).toBe("pro");
+describe("isProFamilyPlan", () => {
+	test("a released desktop may act on any Pro plan, retired or current", () => {
+		for (const planId of ["pro", "pro_annual", "pro_v2", "pro_v2_annual"]) {
+			expect(isProFamilyPlan(planId, catalog)).toBe(true);
+		}
 	});
 
-	test("never resolves to a plan outside the Pro family", () => {
-		expect(heldPlanIdForLegacy("pro", "enterprise", catalog)).toBe("pro");
-		expect(heldPlanIdForLegacy("pro", "team", catalog)).toBe("pro");
-		expect(heldPlanIdForLegacy("pro", null, catalog)).toBe("pro");
-		expect(heldPlanIdForLegacy("team", "pro_v2", catalog)).toBe("team");
+	test("but never on Team, enterprise, or a plan the catalog does not know", () => {
+		for (const planId of ["team", "enterprise", "unknown"]) {
+			expect(isProFamilyPlan(planId, catalog)).toBe(false);
+		}
 	});
 });

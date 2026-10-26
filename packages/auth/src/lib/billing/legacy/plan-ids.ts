@@ -48,18 +48,17 @@ export function currentPlanIdForLegacy(
 }
 
 /**
- * @deprecated Released desktops cancel and restore with `pro` or `pro_annual`
- * whatever Pro plan the organization holds; this is the plan it holds.
+ * @deprecated Released desktops know one Pro plan; they may switch its
+ * interval, cancel and restore it, and must not touch any other plan.
  */
 // TODO(2027-01-31): drop with the desktops that hardcode autumnProPlanId.
-export function heldPlanIdForLegacy(
+export function isProFamilyPlan(
 	planId: string,
-	heldPlanId: string | null,
 	plans: AutumnCatalogPlan[],
-): string {
-	if (!LEGACY_CLIENT_PLAN_IDS.includes(planId) || !heldPlanId) return planId;
-	const held = plans.find((plan) => plan.id === heldPlanId);
-	return held?.metadata?.[PLAN_METADATA.family] === "pro" ? heldPlanId : planId;
+): boolean {
+	if (LEGACY_CLIENT_PLAN_IDS.includes(planId)) return true;
+	const plan = plans.find((candidate) => candidate.id === planId);
+	return plan?.metadata?.[PLAN_METADATA.family] === "pro";
 }
 
 /**

@@ -20,10 +20,14 @@ import { autumnClient, billingUsesAutumn } from "../../../autumn";
 import { countBillableSeats } from "../../../utils/billing";
 import {
 	currentPlanIdForLegacy,
-	heldPlanIdForLegacy,
+	isProFamilyPlan,
 	LEGACY_CLIENT_PLAN_IDS,
 } from "../legacy/plan-ids";
-import { catalogAutumnPlans, isSelfServePlan, seatLicenseFor } from "./catalog";
+import {
+	catalogAutumnPlans,
+	isSelfServePlan,
+	seatIntervalFor,
+} from "./catalog";
 import {
 	ensureAutumnCustomer,
 	getAutumnCustomer,
@@ -109,7 +113,12 @@ async function subscribedPlanId(
 		heldAutumnPlanId(organizationId),
 		catalogAutumnPlans(),
 	]);
-	return heldPlanIdForLegacy(planId, held, plans);
+	if (!held || !isProFamilyPlan(held, plans)) {
+		throw new APIError("BAD_REQUEST", {
+			message: "Update the app to change this plan.",
+		});
+	}
+	return held;
 }
 
 async function currentPack(organizationId: string) {
@@ -138,8 +147,7 @@ async function yearlyRenewalStart(
 	const customer = await getAutumnCustomer(organizationId);
 	const currentPlanId = paidPlanIdFromFlags(customer.flags);
 	if (!currentPlanId || currentPlanId === planId) return undefined;
-	const license = await seatLicenseFor(currentPlanId);
-	if (license?.price?.interval !== "year") return undefined;
+	if ((await seatIntervalFor(currentPlanId)) !== "year") return undefined;
 	const active = customer.subscriptions.find(
 		(subscription) =>
 			subscription.planId === currentPlanId &&
@@ -193,12 +201,10 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "attach");
+				const plans = await catalogAutumnPlans();
 				const planId =
 					ctx.body.currentPlanId === undefined
-						? currentPlanIdForLegacy(
-								ctx.body.planId,
-								await catalogAutumnPlans(),
-							)
+						? currentPlanIdForLegacy(ctx.body.planId, plans)
 						: ctx.body.planId;
 				await refuseEnterprise(planId);
 				const [stripeSubscription, autumnPlanId] = await Promise.all([
@@ -227,7 +233,7 @@ export const autumnBillingRoutes = {
 				}
 				if (
 					ctx.body.currentPlanId === undefined
-						? autumnPlanId && !LEGACY_CLIENT_PLAN_IDS.includes(autumnPlanId)
+						? autumnPlanId && !isProFamilyPlan(autumnPlanId, plans)
 						: ctx.body.currentPlanId !== autumnPlanId
 				) {
 					await invalidateOrganizationBilling(caller.organizationId);
