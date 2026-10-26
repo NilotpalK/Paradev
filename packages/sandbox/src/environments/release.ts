@@ -476,18 +476,19 @@ if (!SKIP_IMAGE) {
 
 // 5. rows
 const { db, dbWs } = await import("@superset/db/client");
-const { environments, environmentRepositories, githubRepositories } =
-	await import("@superset/db/schema");
-const { and, eq, isNull } = await import("drizzle-orm");
+const { environments, environmentRepositories } = await import(
+	"@superset/db/schema"
+);
+const { eq, isNull } = await import("drizzle-orm");
+const { releaseRepositoryWhere } = await import(
+	"./utils/releaseRepositoryWhere"
+);
 const { recordReleasedBundle } = await import("./record-bundle");
 
 // The golden baked the monorepo at its path; a fork asks for the same, and
 // the box acts on the monorepo's own .superset/config.json.
 const monorepo = await db.query.githubRepositories.findFirst({
-	where: and(
-		eq(githubRepositories.organizationId, ORGANIZATION_ID as string),
-		eq(githubRepositories.fullName, REPO_FULL_NAME),
-	),
+	where: releaseRepositoryWhere(ORGANIZATION_ID as string, REPO_FULL_NAME),
 });
 if (!monorepo)
 	fail(

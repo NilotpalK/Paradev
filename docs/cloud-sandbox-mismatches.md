@@ -481,6 +481,12 @@ live cwd. An interrupted clone (a wake that ends the session mid-fetch)
 leaves a repository that can fetch nothing; the runner reclones rather than
 failing every boot.
 
+**GitHub names are case-insensitive; the release database lookup was not.** After the repository
+rename, production stored `ParadevAI/Paradev` while the release requested `paradevai/paradev`.
+An exact SQL comparison reported an installed repository as disconnected and stopped the release
+before environment pins advanced. **Fixed:** the release compares normalized names while retaining
+the organization constraint. No repository reconnection or production data rewrite is needed.
+
 **A freshly pushed image is not usable for a few minutes.** VCR reports the
 tag `Preparing` while it optimises a `linux/amd64` build (a gigabyte takes
 about four minutes), and `Sandbox.create` answers 409 `image_not_ready` until
