@@ -1,5 +1,7 @@
 import type { BundledLanguage } from "shiki";
+import { Investors } from "@/app/[lang]/components/Investors";
 import { StoreBadges } from "@/app/[lang]/components/StoreBadges";
+import { getAbout } from "@/lib/about";
 import { slugify } from "@/lib/blog-utils";
 import { getPublicImageSize } from "@/lib/public-image-size";
 import { BlogCodeBlock } from "./BlogCodeBlock";
@@ -112,6 +114,14 @@ export const mdxComponents = {
 	Video,
 	Testimonial,
 	TestimonialGrid,
+	Investors: () => {
+		const { investors, moreInvestors } = getAbout();
+		return (
+			<div className="not-prose my-10">
+				<Investors investors={investors} moreInvestors={moreInvestors} />
+			</div>
+		);
+	},
 	StoreBadges: (props: React.ComponentProps<typeof StoreBadges>) => (
 		<div className="not-prose my-6">
 			<StoreBadges {...props} />
