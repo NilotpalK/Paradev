@@ -36,7 +36,6 @@ import {
 } from "react";
 import { useIsDarkTheme } from "renderer/assets/app-icons/preset-icons";
 import { env } from "renderer/env.renderer";
-import { env } from "renderer/env.renderer";
 import type { TerminalAgentBinding } from "renderer/hooks/host-service/useTerminalAgentBindings";
 import { useHotkey } from "renderer/hotkeys";
 import { FileIcon, getFileIcon } from "renderer/lib/fileIcons";

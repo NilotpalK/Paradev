@@ -137,7 +137,6 @@ export function AcpChatPane({
 			.closeSession({ sessionId: orphan })
 			.catch(() => undefined);
 	});
-	const [unreachable, setUnreachable] = useState(false);
 	const [switchingAccount, setSwitchingAccount] = useState(false);
 	const [transferredFrom, setTransferredFrom] = useState<string | null>(null);
 
@@ -732,7 +731,6 @@ export function AcpChatPane({
 			onRestartAndContinue={harness ? restartAndContinue : undefined}
 			onStartNewChat={harness ? startNewChat : undefined}
 			onUserPrompt={agent ? () => saveLastChatAgent(agent.id) : undefined}
-			onRestart={recover}
 			onSwitchAccount={switchAccount}
 			sessionAccount={sessionAccount}
 			openFile={onOpenFile}

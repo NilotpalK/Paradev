@@ -12,12 +12,12 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { PluginIcon } from "renderer/components/PluginIcon";
 import { useTranscriptPlugins } from "../../providers/TranscriptPluginsProvider";
-import { toolTitle } from "../../utils/toolTitle";
 import {
 	toolCallCommand,
 	toolCallIntent,
 	unwrapShellCommand,
 } from "../../utils/shellIntent";
+import { toolTitle } from "../../utils/toolTitle";
 import { ToolContentList } from "../ToolContentList";
 import { FileChangeTitle } from "./components/FileChangeTitle";
 import { RunningTime } from "./components/RunningTime";

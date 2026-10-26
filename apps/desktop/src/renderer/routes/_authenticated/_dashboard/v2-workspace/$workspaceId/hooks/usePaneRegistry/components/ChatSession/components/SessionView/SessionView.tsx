@@ -6,8 +6,8 @@ import {
 	latestSessionUsage,
 	launchConfigSelections,
 	type OutboxEntry,
-	userMessageText,
 	presetForAnyHarness,
+	userMessageText,
 } from "@superset/chat/core";
 import type {
 	AvailableCommand,
@@ -110,7 +110,6 @@ export function SessionView({
 	onRestartAndContinue,
 	onStartNewChat,
 	onUserPrompt,
-	onRestart,
 	onSwitchAccount,
 	sessionAccount,
 	onSessionState,

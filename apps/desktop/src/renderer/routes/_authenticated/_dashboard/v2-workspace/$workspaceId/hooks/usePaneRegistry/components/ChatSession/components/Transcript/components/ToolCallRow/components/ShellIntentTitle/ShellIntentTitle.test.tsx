@@ -76,7 +76,6 @@ test("a path typed in another directory shows as typed and opens where it ran", 
 		<ChatPaneActionsProvider openLink={openLink}>
 			<ShellIntentTitle
 				intent={{ verb: "read", path: "index.ts", cwd: "/repo/src" }}
-				verb="Read"
 				running={false}
 			/>
 		</ChatPaneActionsProvider>,
