@@ -11,11 +11,7 @@ const RAIL_END = W - 96;
 
 const DELAYS = [0, 2.3, 0.8, 3.1, 1.5, 4.2, 0.4, 2.9, 1.9, 3.6];
 
-interface RunningLineProps {
-	startLabel?: string;
-}
-
-export function RunningLine({ startLabel = "SEPTEMBER" }: RunningLineProps) {
+export function RunningLine() {
 	const { _: translate } = useTranslation();
 
 	return (
@@ -127,7 +123,7 @@ export function RunningLine({ startLabel = "SEPTEMBER" }: RunningLineProps) {
 						letterSpacing: "0.14em",
 					}}
 				>
-					{startLabel}
+					SEPTEMBER
 				</text>
 			</svg>
 		</div>

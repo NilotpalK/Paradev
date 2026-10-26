@@ -1,7 +1,7 @@
 import type { BundledLanguage } from "shiki";
 import { Investors } from "@/app/[lang]/components/Investors";
+import { LogoMarquee } from "@/app/[lang]/components/LogoMarquee";
 import { PhotoFan } from "@/app/[lang]/components/PhotoFan";
-import { RunningLine } from "@/app/[lang]/components/RunningLine";
 import { StoreBadges } from "@/app/[lang]/components/StoreBadges";
 import { StoryPhoto } from "@/app/[lang]/components/StoryPhoto";
 import { getAbout } from "@/lib/about";
@@ -127,9 +127,9 @@ export const mdxComponents = {
 			</div>
 		);
 	},
-	RunningLine: ({ startLabel }: { startLabel?: string }) => (
+	LogoMarquee: () => (
 		<div className="not-prose my-8">
-			<RunningLine startLabel={startLabel} />
+			<LogoMarquee />
 		</div>
 	),
 	TeamPhotos: () => {
