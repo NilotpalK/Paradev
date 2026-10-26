@@ -3,7 +3,7 @@ import { isSupportedLocale } from "@superset/i18n";
 import { getI18nInstance, preloadServerLocale } from "@superset/i18n/server";
 import type { PlanFamily } from "@superset/shared/billing";
 import { BRAND } from "@superset/shared/brand";
-import { CANONICAL_URLS, COMPANY } from "@superset/shared/constants";
+import { COMPANY } from "@superset/shared/constants";
 import { MCP_CAPABILITIES } from "@/app/[lang]/mcp-install/components/McpCapabilities/constants";
 import {
 	COMPARISON_SECTIONS,
@@ -26,6 +26,7 @@ import {
 	planPriceValues,
 } from "@/app/[lang]/pricing/utils/planPriceValues";
 import { fetchParticipant } from "@/app/[lang]/utils/fetchLeaderboard";
+import { env } from "@/env";
 import { getBlogPost } from "@/lib/blog";
 import { getCategoryPage } from "@/lib/category";
 import { getChangelogEntry } from "@/lib/changelog";
@@ -101,7 +102,7 @@ function pricingPage(i18n: I18n, catalog: PlanFamily[]): MarkdownPage {
 								`  - ${i18n._({ ...line, values: featureValues(set) })}`,
 						),
 				]),
-			`- [${i18n._({ ...tier.cta.label, values: { plan: tierName(tier) } })}](${tier.price.kind === "seat" ? checkoutHref(CANONICAL_URLS.APP, tier.id, Boolean(set?.hasYearlyDiscount)) : tier.cta.href.startsWith("/") ? baseUrl + tier.cta.href : tier.cta.href})`,
+			`- [${i18n._({ ...tier.cta.label, values: { plan: tierName(tier) } })}](${tier.price.kind === "seat" ? checkoutHref(env.NEXT_PUBLIC_WEB_URL, tier.id, Boolean(set?.hasYearlyDiscount)) : tier.cta.href.startsWith("/") ? baseUrl + tier.cta.href : tier.cta.href})`,
 			"",
 		];
 	});

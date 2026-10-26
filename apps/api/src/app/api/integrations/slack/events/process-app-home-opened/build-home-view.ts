@@ -1,5 +1,5 @@
 import type { KnownBlock } from "@slack/types";
-import { CANONICAL_URLS } from "@superset/shared/constants";
+import { env } from "@/env";
 import { DEFAULT_SLACK_MODEL, SLACK_MODELS } from "../../constants";
 
 interface BuildHomeViewParams {
@@ -171,7 +171,7 @@ export function buildHomeView({
 						text: "Open Paradev",
 						emoji: true,
 					},
-					url: CANONICAL_URLS.APP,
+					url: env.NEXT_PUBLIC_WEB_URL,
 					style: "primary",
 				},
 			],
