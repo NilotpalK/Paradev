@@ -173,16 +173,26 @@ export function EnvironmentEditorDialog({
 		: appSettingsUrl;
 	const openUrl = electronTrpc.external.openUrl.useMutation();
 	const [isAwaitingGitHub, setIsAwaitingGitHub] = useState(false);
+	const openFreshInstallUrl = async (fallbackUrl: string) => {
+		const fresh = await utils.integration.github.getInstallation
+			.fetch({ organizationId }, { staleTime: 0 })
+			.catch(() => null);
+		openUrl.mutate(fresh?.installUrl ?? fallbackUrl);
+		setIsAwaitingGitHub(true);
+	};
 	const configureGitHubApp = appSettingsUrl
 		? () => {
-				openUrl.mutate(appSettingsUrl);
-				setIsAwaitingGitHub(true);
+				void openFreshInstallUrl(appSettingsUrl);
 			}
 		: null;
 	const configureMissingRepoGitHubApp = missingRepoConfigureUrl
 		? () => {
-				openUrl.mutate(missingRepoConfigureUrl);
-				setIsAwaitingGitHub(true);
+				if (matchingMissingInstallation) {
+					openUrl.mutate(missingRepoConfigureUrl);
+					setIsAwaitingGitHub(true);
+				} else {
+					void openFreshInstallUrl(missingRepoConfigureUrl);
+				}
 			}
 		: null;
 	// Access granted on GitHub reaches the list by webhook; look again when the

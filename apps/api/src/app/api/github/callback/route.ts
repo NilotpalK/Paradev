@@ -41,8 +41,12 @@ export async function GET(request: Request) {
 	const rawState = url.searchParams.get("state");
 	const desktopState = rawState ? readGithubAppInstallState(rawState) : null;
 
+	const hasWebCookie = Boolean(
+		request.headers.get("cookie")?.includes(`${STATE_COOKIES.github}=`),
+	);
+
 	if (url.searchParams.get("setup_action") === "cancel") {
-		if (desktopState) {
+		if (desktopState || !hasWebCookie) {
 			return desktopPage(
 				"GitHub was not connected",
 				"You cancelled on GitHub.",
@@ -52,6 +56,14 @@ export async function GET(request: Request) {
 		return exitOAuthFlow(
 			STATE_COOKIES.github,
 			`${settingsUrl}?error=installation_cancelled`,
+		);
+	}
+
+	if (!desktopState && !hasWebCookie) {
+		return desktopPage(
+			"GitHub was not connected",
+			"The link expired; open it again from Superset.",
+			400,
 		);
 	}
 
@@ -201,6 +213,7 @@ export async function GET(request: Request) {
 						.limit(2);
 					shouldRehome =
 						oldOrgMembers.length <= 1 &&
+						(await organizationSyncsNow(organizationId)) &&
 						!(await organizationSyncsNow(
 							existingUserInstallation.organizationId,
 						));
