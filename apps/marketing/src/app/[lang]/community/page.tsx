@@ -56,7 +56,7 @@ const COMMUNITY_LINKS = [
 	},
 	{
 		name: "LINKEDIN",
-		href: "https://www.linkedin.com/company/superset-sh",
+		href: "https://www.linkedin.com/company/paradevai",
 		cta: msg({
 			message: "FOLLOW US",
 		}),
