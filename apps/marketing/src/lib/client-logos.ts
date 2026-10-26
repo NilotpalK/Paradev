@@ -16,18 +16,6 @@ export const CLIENT_LOGOS: ClientLogo[] = [
 		height: 16,
 	},
 	{
-		name: "netflix",
-		label: "Netflix",
-		logo: "/logos/netflix-wordmark.svg",
-		height: 22,
-	},
-	{
-		name: "doordash",
-		label: "DoorDash",
-		logo: "/logos/doordash-wordmark.svg",
-		height: 16,
-	},
-	{
 		name: "mistral",
 		label: "Mistral AI",
 		logo: "/logos/mistral-wordmark.png",
@@ -81,6 +69,18 @@ export const CLIENT_LOGOS: ClientLogo[] = [
 		label: "CFO.ai",
 		logo: "/logos/cfo-ai-wordmark.svg",
 		height: 24,
+	},
+	{
+		name: "ramp",
+		label: "Ramp",
+		logo: "/logos/ramp-wordmark.svg",
+		height: 20,
+	},
+	{
+		name: "atlassian",
+		label: "Atlassian",
+		logo: "/logos/atlassian-white.png",
+		height: 36,
 	},
 	{
 		name: "adobe",
