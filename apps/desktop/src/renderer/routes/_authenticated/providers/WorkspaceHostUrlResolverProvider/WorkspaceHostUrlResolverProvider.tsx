@@ -3,6 +3,7 @@ import {
 	type ReactNode,
 	useCallback,
 	useContext,
+	useInsertionEffect,
 	useRef,
 } from "react";
 import { resolveWorkspaceHostTarget } from "renderer/hooks/host-service/useWorkspaceHostUrl";
@@ -33,19 +34,22 @@ export function WorkspaceHostUrlResolverProvider({
 	const { machineId, activeHostUrl } = useLocalHostService();
 	const relayUrl = useRelayUrl();
 	const latest = useRef<ResolveWorkspaceHostUrl>(() => null);
-	latest.current = (workspaceId) => {
-		const target = resolveWorkspaceHostTarget({
-			workspaceId,
-			workspaces,
-			isReady,
-			sandboxes,
-			sandboxesReady,
-			machineId,
-			activeHostUrl,
-			relayUrl,
-		});
-		return target.status === "ready" ? target.url : null;
-	};
+	// Updated after commit, never from a render React may discard.
+	useInsertionEffect(() => {
+		latest.current = (workspaceId) => {
+			const target = resolveWorkspaceHostTarget({
+				workspaceId,
+				workspaces,
+				isReady,
+				sandboxes,
+				sandboxesReady,
+				machineId,
+				activeHostUrl,
+				relayUrl,
+			});
+			return target.status === "ready" ? target.url : null;
+		};
+	});
 	const resolve = useCallback<ResolveWorkspaceHostUrl>(
 		(workspaceId) => latest.current(workspaceId),
 		[],

@@ -290,15 +290,15 @@ export function useDashboardSidebarStateSource() {
 
 	// Folder membership lives in tags beside the workspace — on its host, or
 	// on the API for a cloud row; every write goes through the optimistic path
-	// (cache patch → mutation → invalidate + toast on failure).
+	// (cache patch → mutation → invalidate + toast on failure). The runner
+	// reports and rolls back a failure itself, so callers fire and forget.
 	const writeWorkspaceTags = useCallback(
-		(workspaceId: string, tags: string[]) => {
-			const transaction = cloudWorkspaceIds.has(workspaceId)
-				? v2Workspaces.setCloudWorkspaceTags(workspaceId, tags)
-				: v2Workspaces.updateWorkspace(workspaceId, { tags });
-			// Resolves once the write was accepted (rejection already rolled
-			// back the cache and toasted); rename gates its rekey on it.
-			return transaction?.isPersisted.promise ?? Promise.reject();
+		(workspaceId: string, tags: string[]): void => {
+			if (cloudWorkspaceIds.has(workspaceId)) {
+				v2Workspaces.setCloudWorkspaceTags(workspaceId, tags);
+				return;
+			}
+			v2Workspaces.updateWorkspace(workspaceId, { tags });
 		},
 		[cloudWorkspaceIds, v2Workspaces],
 	);
@@ -316,7 +316,7 @@ export function useDashboardSidebarStateSource() {
 						!hostWorkspacesCache.isSandboxHost(workspace.hostId),
 				);
 			if (!served) return;
-			void writeWorkspaceTags(workspaceId, tags);
+			writeWorkspaceTags(workspaceId, tags);
 		},
 		[
 			cloudWorkspaceIds,
@@ -898,7 +898,7 @@ export function useDashboardSidebarStateSource() {
 						: [],
 				),
 			);
-			void writeWorkspaceTags(
+			writeWorkspaceTags(
 				workspaceId,
 				applyFolderTagChange(
 					getWorkspaceTags(tagWorkspaces, workspaceId),

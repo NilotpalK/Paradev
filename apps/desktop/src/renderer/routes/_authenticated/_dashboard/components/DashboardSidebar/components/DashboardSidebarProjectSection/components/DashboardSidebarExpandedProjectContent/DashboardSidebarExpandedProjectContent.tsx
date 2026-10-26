@@ -1,7 +1,7 @@
 import { SortableContext } from "@dnd-kit/sortable";
 import { useLingui } from "@lingui/react/macro";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useInsertionEffect, useMemo, useRef } from "react";
 import { useStableList } from "renderer/hooks/useStableList";
 import {
 	dropZoneId,
@@ -127,11 +127,13 @@ export function DashboardSidebarExpandedProjectContent({
 		selectableWorkspaceIds,
 		selectWorkspaceFromEvent,
 	});
-	latestSelection.current = {
-		containerId,
-		selectableWorkspaceIds,
-		selectWorkspaceFromEvent,
-	};
+	useInsertionEffect(() => {
+		latestSelection.current = {
+			containerId,
+			selectableWorkspaceIds,
+			selectWorkspaceFromEvent,
+		};
+	});
 	const selectionHandlers = useRef(
 		new Map<string, (event: WorkspaceSelectionEvent) => boolean>(),
 	);

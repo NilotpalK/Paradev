@@ -1,7 +1,14 @@
 import { useLingui } from "@lingui/react/macro";
 import { useLiveQuery } from "@tanstack/react-db";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import {
+	useCallback,
+	useEffect,
+	useInsertionEffect,
+	useMemo,
+	useReducer,
+	useRef,
+} from "react";
 import { resolveProjectIconUrl } from "renderer/hooks/host-projects/resolveProjectIconUrl";
 import { useHostProjects } from "renderer/hooks/host-projects/useHostProjects";
 import { useKnownHosts } from "renderer/hooks/known-hosts/useKnownHosts";
@@ -672,10 +679,12 @@ export function useDashboardSidebarData() {
 		pullRequestQueryTargets,
 		visibleSidebarWorkspaces,
 	});
-	refreshInputsRef.current = {
-		pullRequestQueryTargets,
-		visibleSidebarWorkspaces,
-	};
+	useInsertionEffect(() => {
+		refreshInputsRef.current = {
+			pullRequestQueryTargets,
+			visibleSidebarWorkspaces,
+		};
+	});
 	const refreshWorkspacePullRequest = useCallback(
 		async (workspaceId: string) => {
 			const { pullRequestQueryTargets, visibleSidebarWorkspaces } =

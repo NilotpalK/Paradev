@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useInsertionEffect, useMemo, useRef } from "react";
 
 /**
  * Wraps `read()` in a view whose identity never changes: every property and
@@ -53,6 +53,11 @@ export function useStableActions<Actions extends object>(
 	actions: Actions,
 ): Actions {
 	const latest = useRef(actions);
-	latest.current = actions;
+	// After commit, not during render: React may discard a render, and an
+	// insertion effect runs before every layout and passive effect, so no
+	// consumer's effect reads the previous commit's actions.
+	useInsertionEffect(() => {
+		latest.current = actions;
+	});
 	return useMemo(() => createStableDelegate(() => latest.current), []);
 }

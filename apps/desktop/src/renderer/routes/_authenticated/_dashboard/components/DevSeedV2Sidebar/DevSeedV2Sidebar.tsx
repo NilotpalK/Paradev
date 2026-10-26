@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { env } from "renderer/env.renderer";
 import { useAccessibleV2Workspaces } from "renderer/routes/_authenticated/_dashboard/v2-workspaces/hooks/useAccessibleV2Workspaces";
 import { useDashboardSidebarState } from "renderer/routes/_authenticated/hooks/useDashboardSidebarState";
@@ -16,7 +16,7 @@ const SEED_FLAG_KEY = "superset:dev:v2-sidebar-seeded";
  * runtime instead. The flag prevents re-pinning workspaces the user later
  * unpins.
  */
-function DevSeedV2SidebarEffect(): null {
+function DevSeedV2SidebarEffect({ onSeeded }: { onSeeded: () => void }): null {
 	const collections = useCollections();
 	const { ensureWorkspaceInSidebar } = useDashboardSidebarState();
 	const { all: accessibleWorkspaces } = useAccessibleV2Workspaces();
@@ -27,6 +27,7 @@ function DevSeedV2SidebarEffect(): null {
 		if (accessibleWorkspaces.length === 0) return;
 		if (collections.v2WorkspaceLocalState.state.size > 0) {
 			window.localStorage.setItem(SEED_FLAG_KEY, "1");
+			onSeeded();
 			return;
 		}
 
@@ -37,18 +38,21 @@ function DevSeedV2SidebarEffect(): null {
 			ensureWorkspaceInSidebar(workspace.id, workspace.projectId);
 		}
 		window.localStorage.setItem(SEED_FLAG_KEY, "1");
-	}, [accessibleWorkspaces, collections, ensureWorkspaceInSidebar]);
+		onSeeded();
+	}, [accessibleWorkspaces, collections, ensureWorkspaceInSidebar, onSeeded]);
 
 	return null;
 }
 
 /**
- * The seed runs once per profile; after the flag is set nothing is mounted,
- * so a seeded dev profile pays no subscription cost either.
+ * The seed runs once per profile. The effect unmounts as soon as it sets the
+ * flag, and a seeded profile never mounts it, so neither pays for its
+ * subscriptions afterwards.
  */
 export function DevSeedV2Sidebar() {
-	const [seeded] = useState(
+	const [seeded, setSeeded] = useState(
 		() => window.localStorage.getItem(SEED_FLAG_KEY) === "1",
 	);
-	return seeded ? null : <DevSeedV2SidebarEffect />;
+	const markSeeded = useCallback(() => setSeeded(true), []);
+	return seeded ? null : <DevSeedV2SidebarEffect onSeeded={markSeeded} />;
 }
