@@ -9,5 +9,9 @@ export function seedSandboxAgents(
 	agentDir: string = pdevAgentDir(),
 ): void {
 	for (const agent of CLOUD_AGENT_IDS) ensurePresetRow(db, agent);
-	trustPdevWorkspace(workspaceRoot, agentDir);
+	try {
+		trustPdevWorkspace(workspaceRoot, agentDir);
+	} catch (error) {
+		console.warn("[sandbox] could not prepare pdev folder trust", error);
+	}
 }

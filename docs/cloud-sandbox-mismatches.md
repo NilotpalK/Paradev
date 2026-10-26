@@ -287,7 +287,9 @@ Claude to chat, sending pdev to a terminal even when ACP chat was enabled. **Fix
 ensures configurations for all installed cloud agents and seeds pdev folder trust, including on
 existing boxes. Both new-workspace and pinned-automation dispatch allow pdev chat through the
 existing `acp-chat` flag; clients still apply `pdev-agent` visibility. Registration and trust repair
-require a published host-service/sandbox bundle and a box restart. This does not remove unrelated
+require a published host-service/sandbox bundle, an updated environment bundle pin, and a box
+restart. Trust repair is best-effort: a failed pdev trust write must not prevent host-service from
+starting. This does not remove unrelated
 default agent configurations or make their CLIs available in the image.
 
 **Agent CLIs are pre-configured in the image.** A first run otherwise opens a

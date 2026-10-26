@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { CLOUD_AGENT_IDS } from "@superset/shared/cloud-agent-launch";
@@ -44,6 +44,17 @@ describe("seedSandboxAgents", () => {
 		).toEqual({
 			"/workspace": true,
 		});
+	});
+
+	test("keeps agents registered when pdev folder trust cannot be written", () => {
+		const invalidDir = join(agentDir, "not-a-directory");
+		writeFileSync(invalidDir, "file");
+
+		expect(() => seedSandboxAgents(db, "/workspace", invalidDir)).not.toThrow();
+		const rows = db.select().from(schema.hostAgentConfigs).all();
+		for (const agent of CLOUD_AGENT_IDS) {
+			expect(rows.some((row) => row.presetId === agent)).toBe(true);
+		}
 	});
 
 	test("backfills pdev on an existing Claude workspace without replacing agent settings", () => {
