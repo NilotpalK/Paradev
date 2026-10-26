@@ -306,6 +306,19 @@ ten-minute keepalive. Successful wakes keep that normal interval. These are
 code-level startup gaps, not a verified explanation of any particular user's
 delay.
 
+**Cloud agent registration cannot depend on the first launch.** The creation picker knows which
+CLIs the image installs, but the chat picker reads the sandbox's persisted agent configurations.
+Flag-gated pdev was excluded from default configurations and only added when it was the initial
+launch agent, so Claude-created and idle boxes hid it. The cloud launch gate also allowed only
+Claude to chat, sending pdev to a terminal even when ACP chat was enabled. **Fixed:** every boot
+ensures configurations for all installed cloud agents and seeds pdev folder trust, including on
+existing boxes. Both new-workspace and pinned-automation dispatch allow pdev chat through the
+existing `acp-chat` flag; clients still apply `pdev-agent` visibility. Registration and trust repair
+require a published host-service/sandbox bundle, an updated environment bundle pin, and a box
+restart. Trust repair is best-effort: a failed pdev trust write must not prevent host-service from
+starting. This does not remove unrelated
+default agent configurations or make their CLIs available in the image.
+
 **Agent CLIs are pre-configured in the image.** A first run otherwise opens a
 theme picker, an API-key approval and a workspace trust dialog — three
 confirmations no one is there to answer. The bundle carries
@@ -494,6 +507,12 @@ directory instead of replacing it so a shell already sitting in it keeps a
 live cwd. An interrupted clone (a wake that ends the session mid-fetch)
 leaves a repository that can fetch nothing; the runner reclones rather than
 failing every boot.
+
+**GitHub names are case-insensitive; the release database lookup was not.** After the repository
+rename, production stored `ParadevAI/Paradev` while the release requested `paradevai/paradev`.
+An exact SQL comparison reported an installed repository as disconnected and stopped the release
+before environment pins advanced. **Fixed:** the release compares normalized names while retaining
+the organization constraint. No repository reconnection or production data rewrite is needed.
 
 **A freshly pushed image is not usable for a few minutes.** VCR reports the
 tag `Preparing` while it optimises a `linux/amd64` build (a gigabyte takes

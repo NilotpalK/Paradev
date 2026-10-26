@@ -38,7 +38,7 @@ import {
 	withPendingLaunchReport,
 } from "./launchMarker";
 import { buildStartHookEnv } from "./utils/buildStartHookEnv";
-import { pdevAgentDir, trustPdevWorkspace } from "./utils/trustPdevWorkspace";
+import { seedSandboxAgents } from "./utils/seedSandboxAgents";
 
 /**
  * Makes a sandbox describe its own workspace, instead of being described from
@@ -327,12 +327,8 @@ export async function launchSandboxAgentOnce(
 		`${agent} ${new Date().toISOString()}\n`,
 	);
 	try {
-		// Nothing has listed this host's agents yet, so the built-in presets are
-		// not in its table; the launch resolves the agent through that table.
 		ensurePresetRow(ctx.db, agent);
 		if (agent === "claude") approveClaudeApiKey();
-		if (agent === "pdev")
-			trustPdevWorkspace(identity.workspaceRoot, pdevAgentDir());
 		// Images the composer sent with the prompt: the bytes live in cloud
 		// storage because this box did not exist when they were uploaded.
 		// A download that fails must not cost the launch its prompt.
@@ -486,7 +482,9 @@ export function sandboxRepositoryWorkspaceId(
 export function runSandboxSelfSeed(
 	db: HostDb,
 	identity: SandboxIdentity,
+	agentDir?: string,
 ): void {
+	seedSandboxAgents(db, identity.workspaceRoot, agentDir);
 	const root = identity.workspaceRoot;
 	const now = Date.now();
 	identity.repositories.forEach((repo, index) => {
