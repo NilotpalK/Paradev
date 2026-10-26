@@ -482,8 +482,9 @@ export function sandboxRepositoryWorkspaceId(
 export function runSandboxSelfSeed(
 	db: HostDb,
 	identity: SandboxIdentity,
+	agentDir?: string,
 ): void {
-	seedSandboxAgents(db, identity.workspaceRoot);
+	seedSandboxAgents(db, identity.workspaceRoot, agentDir);
 	const root = identity.workspaceRoot;
 	const now = Date.now();
 	identity.repositories.forEach((repo, index) => {
