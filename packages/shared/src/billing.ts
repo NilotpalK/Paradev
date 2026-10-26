@@ -458,6 +458,18 @@ export function familyForPlan(
 	return null;
 }
 
+/** The plan on sale in the same family and interval, for a retired plan too. */
+export function currentPlanFor(
+	catalog: PlanFamily[],
+	autumnPlanId: string,
+): string | null {
+	const match = familyForPlan(catalog, autumnPlanId);
+	if (!match) return null;
+	const { family, interval } = match;
+	const plan = interval === "year" ? family.yearly : family.monthly;
+	return plan?.id ?? null;
+}
+
 export function maxYearlyDiscount(catalog: PlanFamily[]): number {
 	return Math.max(
 		0,

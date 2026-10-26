@@ -2,8 +2,10 @@ import {
 	type AutumnCatalogPlan,
 	type AutumnRestPlan,
 	catalogPlansFrom,
+	currentPlanFor,
 	fromAutumnRest,
 	isSelfServeAutumnPlan,
+	planCatalogFromAutumn,
 	seatLicensePlan,
 } from "@superset/shared/billing";
 import { autumnRest } from "../../../autumn";
@@ -73,6 +75,18 @@ export async function isSelfServePlan(planId: string): Promise<boolean> {
 	return (await catalogAutumnPlans()).some(
 		(plan) => plan.id === planId && isSelfServeAutumnPlan(plan),
 	);
+}
+
+/** Self-serve, or the retired Pro that organizations still hold and manage. */
+export async function isCustomerManagedPlan(planId: string): Promise<boolean> {
+	return LEGACY_CLIENT_PLAN_IDS.includes(planId) || isSelfServePlan(planId);
+}
+
+/** Released desktops send retired `pro`/`pro_annual`; they buy today's Pro. */
+export async function planToSell(planId: string): Promise<string> {
+	if (!LEGACY_CLIENT_PLAN_IDS.includes(planId)) return planId;
+	const catalog = planCatalogFromAutumn(await catalogAutumnPlans());
+	return currentPlanFor(catalog, planId) ?? planId;
 }
 
 /** The seat license a plan sells, or null when its seats are a feature quantity. */

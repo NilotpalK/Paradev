@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import {
 	type AutumnCatalogPlan,
 	catalogPlansFrom,
+	currentPlanFor,
 	defaultMachineSize,
 	familyForPlan,
 	fromAutumnRest,
@@ -315,6 +316,48 @@ describe("planCatalogFromAutumn", () => {
 			interval: "year",
 		});
 		expect(familyForPlan(lineup, "enterprise")).toBeNull();
+	});
+
+	test("a retired plan maps to the plan on sale in its family and interval", () => {
+		const withRetiredAnnual = planCatalogFromAutumn([
+			seatLicense("pro_seat", 20, "month", 19200),
+			seatLicense("pro_seat_annual", 192, "year", 19200),
+			parentPlan("pro_v2", "pro_seat", { self_serve: true, family: "pro" }),
+			parentPlan("pro_v2_annual", "pro_seat_annual", {
+				self_serve: true,
+				family: "pro",
+			}),
+			{
+				id: "pro_annual",
+				name: "Pro",
+				metadata: { self_serve: false, family: "pro" },
+				items: [
+					{ featureId: "seats", price: { amount: 180, interval: "year" } },
+				],
+			},
+		]);
+		expect(currentPlanFor(lineup, "pro")).toBe("pro_v2");
+		expect(currentPlanFor(withRetiredAnnual, "pro_annual")).toBe(
+			"pro_v2_annual",
+		);
+		expect(currentPlanFor(lineup, "ultra_annual")).toBe("ultra_annual");
+		expect(currentPlanFor(lineup, "enterprise")).toBeNull();
+		const monthlyOnly = planCatalogFromAutumn([
+			seatLicense("pro_seat_annual", 192, "year", 19200),
+			parentPlan("pro_v2_annual", "pro_seat_annual", {
+				self_serve: true,
+				family: "pro",
+			}),
+			{
+				id: "pro",
+				name: "Pro",
+				metadata: { self_serve: false, family: "pro" },
+				items: [
+					{ featureId: "seats", price: { amount: 20, interval: "month" } },
+				],
+			},
+		]);
+		expect(currentPlanFor(monthlyOnly, "pro")).toBeNull();
 	});
 
 	test("the lineup keeps license and retired plans and drops enterprise contracts", () => {

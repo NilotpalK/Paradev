@@ -7,7 +7,6 @@ import {
 	gbHourPurchase,
 } from "@superset/shared/billing";
 import { COMPANY } from "@superset/shared/constants";
-import { AutumnError } from "autumn-js";
 import type { BetterAuthPlugin } from "better-auth";
 import {
 	APIError,
@@ -20,11 +19,17 @@ import { z } from "zod";
 import { autumnClient, billingUsesAutumn } from "../../../autumn";
 import { countBillableSeats } from "../../../utils/billing";
 import { LEGACY_CLIENT_PLAN_IDS } from "../legacy/plan-ids";
-import { catalogAutumnPlans, isSelfServePlan, seatLicenseFor } from "./catalog";
+import {
+	catalogAutumnPlans,
+	isCustomerManagedPlan,
+	isSelfServePlan,
+	planToSell,
+	seatLicenseFor,
+} from "./catalog";
 import {
 	ensureAutumnCustomer,
 	getAutumnCustomer,
-	paidAutumnPlanId,
+	paidAutumnPlanIdOrNone,
 } from "./customer";
 import { paidPlanIdFromFlags } from "./entitlements";
 import {
@@ -86,11 +91,17 @@ async function billingCaller(
 	return { organizationId, userId: session.user.id, role };
 }
 
+const ENTERPRISE_MESSAGE = `Enterprise subscriptions are managed by admins. Contact ${COMPANY.SUPPORT_EMAIL}.`;
+
 async function refuseEnterprise(planId: string): Promise<void> {
 	if (!(await isSelfServePlan(planId))) {
-		throw new APIError("FORBIDDEN", {
-			message: `Enterprise subscriptions are managed by admins. Contact ${COMPANY.SUPPORT_EMAIL}.`,
-		});
+		throw new APIError("FORBIDDEN", { message: ENTERPRISE_MESSAGE });
+	}
+}
+
+async function refuseUnmanagedPlan(planId: string): Promise<void> {
+	if (!(await isCustomerManagedPlan(planId))) {
+		throw new APIError("FORBIDDEN", { message: ENTERPRISE_MESSAGE });
 	}
 }
 
@@ -175,7 +186,8 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "attach");
-				await refuseEnterprise(ctx.body.planId);
+				const planId = await planToSell(ctx.body.planId);
+				await refuseEnterprise(planId);
 				const [stripeSubscription, autumnPlanId] = await Promise.all([
 					db.query.subscriptions.findFirst({
 						where: and(
@@ -184,12 +196,7 @@ export const autumnBillingRoutes = {
 						),
 						columns: { plan: true },
 					}),
-					paidAutumnPlanId(caller.organizationId).catch((error: unknown) => {
-						if (error instanceof AutumnError && error.statusCode === 404) {
-							return null;
-						}
-						throw error;
-					}),
+					paidAutumnPlanIdOrNone(caller.organizationId),
 				]);
 				if (
 					stripeSubscription?.plan === "enterprise" ||
@@ -221,20 +228,20 @@ export const autumnBillingRoutes = {
 					1,
 					await countBillableSeats(caller.organizationId),
 				);
-				const purchase = await seatPurchase(ctx.body.planId, seats);
+				const purchase = await seatPurchase(planId, seats);
 				const startsAt = await yearlyRenewalStart(
 					caller.organizationId,
-					ctx.body.planId,
+					planId,
 					() =>
 						autumnClient.billing.previewAttach({
 							customerId: caller.organizationId,
-							planId: ctx.body.planId,
+							planId,
 							...purchase.quantities,
 						}),
 				);
 				const result = await autumnClient.billing.attach({
 					customerId: caller.organizationId,
-					planId: ctx.body.planId,
+					planId,
 					...purchase.quantities,
 					...(startsAt && { startsAt }),
 					successUrl: ctx.body.successUrl,
@@ -330,22 +337,23 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "previewAttach");
-				await refuseEnterprise(ctx.body.planId);
+				const planId = await planToSell(ctx.body.planId);
+				await refuseEnterprise(planId);
 				await ensureAutumnCustomer(caller.organizationId);
 				const seats = Math.max(
 					1,
 					await countBillableSeats(caller.organizationId),
 				);
-				const { quantities } = await seatPurchase(ctx.body.planId, seats);
+				const { quantities } = await seatPurchase(planId, seats);
 				const params = {
 					customerId: caller.organizationId,
-					planId: ctx.body.planId,
+					planId,
 					...quantities,
 				};
 				const preview = await autumnClient.billing.previewAttach(params);
 				const startsAt = await yearlyRenewalStart(
 					caller.organizationId,
-					ctx.body.planId,
+					planId,
 					async () => preview,
 				);
 				return ctx.json(
@@ -368,7 +376,7 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "updateSubscription");
-				await refuseEnterprise(ctx.body.planId);
+				await refuseUnmanagedPlan(ctx.body.planId);
 				const result = await autumnClient.billing.update({
 					customerId: caller.organizationId,
 					planId: ctx.body.planId,
@@ -391,7 +399,7 @@ export const autumnBillingRoutes = {
 			},
 			async (ctx) => {
 				const caller = await billingCaller(ctx, "previewUpdateSubscription");
-				await refuseEnterprise(ctx.body.planId);
+				await refuseUnmanagedPlan(ctx.body.planId);
 				return ctx.json(
 					await autumnClient.billing.previewUpdate({
 						customerId: caller.organizationId,
