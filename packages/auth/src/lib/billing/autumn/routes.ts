@@ -137,7 +137,7 @@ async function currentPack(organizationId: string) {
 	return { planId, pack };
 }
 
-async function yearlyRenewalStart(
+export async function yearlyRenewalStart(
 	organizationId: string,
 	planId: string,
 	preview: () => Promise<{

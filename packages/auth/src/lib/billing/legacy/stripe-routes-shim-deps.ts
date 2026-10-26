@@ -18,6 +18,7 @@ import {
 	syncFromStripeEvent,
 	syncOrganizationSubscription,
 } from "../autumn/projection";
+import { yearlyRenewalStart } from "../autumn/routes";
 import { seatPurchase } from "../autumn/seats";
 import { handleStripeBillingEvent } from "../stripe-billing-events";
 import { currentPlanIdForLegacy, isProFamilyPlan } from "./plan-ids";
@@ -49,7 +50,19 @@ export function autumnBillingDeps(): AutumnBillingDeps {
 				await catalogAutumnPlans(),
 			);
 			const { quantities } = await seatPurchase(planId, quantity);
-			return autumn.billing.attach({ ...params, planId, ...quantities });
+			const startsAt = await yearlyRenewalStart(params.customerId, planId, () =>
+				autumn.billing.previewAttach({
+					customerId: params.customerId,
+					planId,
+					...quantities,
+				}),
+			);
+			return autumn.billing.attach({
+				...params,
+				planId,
+				...quantities,
+				...(startsAt && { startsAt }),
+			});
 		},
 		update: (params) => autumn.billing.update(params),
 		managedByAutumn: async (organizationId) =>
