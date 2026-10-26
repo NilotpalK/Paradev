@@ -2,12 +2,14 @@ import { dbWs } from "@superset/db/client";
 import {
 	environmentRepositories,
 	environments,
+	githubInstallations,
 	githubRepositories,
 } from "@superset/db/schema";
 import { SANDBOX_IMAGE_NAME } from "@superset/shared/constants";
 import type { SandboxRegionId } from "@superset/shared/sandbox-regions";
 import { and, asc, eq, isNull, or, sql } from "drizzle-orm";
 import { userError } from "../../trpc";
+import { isRepositoryVisibleToUser } from "../integration/github/personal-installation";
 import { currentBundleSha } from "./current-bundle";
 
 interface CarryingEnvironment {
@@ -74,16 +76,32 @@ export async function ensureDefaultEnvironment(args: {
 		if (existing) return { id: existing.id, created: false };
 
 		const [repository] = await tx
-			.select({ id: githubRepositories.id, name: githubRepositories.name })
+			.select({
+				id: githubRepositories.id,
+				name: githubRepositories.name,
+				organizationId: githubRepositories.organizationId,
+				accountType: githubInstallations.accountType,
+				connectedByUserId: githubInstallations.connectedByUserId,
+			})
 			.from(githubRepositories)
-			.where(
-				and(
-					eq(githubRepositories.id, args.repositoryId),
-					eq(githubRepositories.organizationId, args.organizationId),
-				),
+			.innerJoin(
+				githubInstallations,
+				eq(githubRepositories.installationId, githubInstallations.id),
 			)
+			.where(eq(githubRepositories.id, args.repositoryId))
 			.limit(1);
-		if (!repository) {
+		if (
+			!repository ||
+			!isRepositoryVisibleToUser({
+				repository: { organizationId: repository.organizationId },
+				installation: {
+					accountType: repository.accountType,
+					connectedByUserId: repository.connectedByUserId,
+				},
+				organizationId: args.organizationId,
+				userId: args.userId,
+			})
+		) {
 			throw userError({
 				code: "NOT_FOUND",
 				message: "The repository is not connected to this organization",
@@ -100,7 +118,7 @@ export async function ensureDefaultEnvironment(args: {
 				sourceRef: SANDBOX_IMAGE_NAME,
 				region: args.region,
 				bundleSha: await currentBundleSha(),
-				scope: "organization",
+				scope: repository.accountType === "User" ? "personal" : "organization",
 				primaryRepositoryId: repository.id,
 				createdByUserId: args.userId,
 			})

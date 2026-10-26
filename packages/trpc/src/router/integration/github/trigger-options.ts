@@ -1,19 +1,42 @@
 import { db } from "@superset/db/client";
 import { githubInstallations, githubRepositories } from "@superset/db/schema";
 import { findProviderIdentity } from "@superset/db/utils";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, inArray } from "drizzle-orm";
 import { installationOctokit } from "../../../lib/sandbox/clone-token";
 import type { TriggerOptionSource } from "../trigger-options";
+import {
+	syncPersonalGithubInstallation,
+	visibleGithubInstallations,
+} from "./personal-installation";
 
-/** The synced repositories of the organization's installation, newest first. */
-export async function listGithubRepositories(organizationId: string) {
-	const installation = await db.query.githubInstallations.findFirst({
-		where: eq(githubInstallations.organizationId, organizationId),
-		columns: { id: true },
+/**
+ * The synced repositories of the organization's installation and the caller's
+ * personal installation, newest first.
+ */
+export async function listGithubRepositories(
+	organizationId: string,
+	userId?: string,
+) {
+	if (userId) {
+		await syncPersonalGithubInstallation({ organizationId, userId }).catch(
+			(error) => {
+				console.warn(
+					`[integration.github] personal installation sync failed for ${userId}:`,
+					error instanceof Error ? error.message : error,
+				);
+			},
+		);
+	}
+	const installations = await visibleGithubInstallations({
+		organizationId,
+		userId,
 	});
-	if (!installation) return [];
+	if (installations.length === 0) return [];
 	return db.query.githubRepositories.findMany({
-		where: eq(githubRepositories.installationId, installation.id),
+		where: inArray(
+			githubRepositories.installationId,
+			installations.map((row) => row.id),
+		),
 		orderBy: [desc(githubRepositories.updatedAt)],
 	});
 }
@@ -22,8 +45,11 @@ export async function listGithubRepositories(organizationId: string) {
  * repoId is GitHub's numeric id, which is what the matcher compares against —
  * a full name would stop matching the moment someone renames the repo.
  */
-const repositories: TriggerOptionSource = async ({ organizationId }) => {
-	const list = await listGithubRepositories(organizationId);
+const repositories: TriggerOptionSource = async ({
+	organizationId,
+	userId,
+}) => {
+	const list = await listGithubRepositories(organizationId, userId);
 	return list.map((repo) => {
 		// Name as the label, owner as the muted hint beside it — every repo in
 		// one installation shares the owner, so repeating it per row is noise.

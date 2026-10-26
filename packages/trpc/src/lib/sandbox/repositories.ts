@@ -23,8 +23,9 @@ import {
 	type SandboxRepository,
 	sandboxRepositoryPath,
 } from "@superset/shared/sandbox-contract";
-import { and, eq, inArray } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { env } from "../../env";
+import { isRepositoryVisibleToUser } from "../../router/integration/github/personal-installation";
 import { installationOctokit } from "./clone-token";
 
 export type RepositoryRow = typeof githubRepositories.$inferSelect;
@@ -56,33 +57,52 @@ export function workspaceBranchName(workspace: {
 	return `superset/${slug || "workspace"}-${workspace.id.slice(0, 8)}`;
 }
 
-/** Repositories by id, in the order given, all in one installation of `organizationId`. */
+/**
+ * Repositories by id, in the order given, all in one installation of
+ * `organizationId` (or the caller's personal installation when `userId` is
+ * given).
+ */
 export async function loadRepositories(args: {
 	organizationId: string;
 	repositoryIds: readonly string[];
+	userId?: string;
 }): Promise<RepositoryRow[]> {
 	if (args.repositoryIds.length === 0) return [];
 	const rows = await db
-		.select()
+		.select({
+			repository: githubRepositories,
+			installation: {
+				accountType: githubInstallations.accountType,
+				connectedByUserId: githubInstallations.connectedByUserId,
+			},
+		})
 		.from(githubRepositories)
-		.where(
-			and(
-				inArray(githubRepositories.id, [...args.repositoryIds]),
-				eq(githubRepositories.organizationId, args.organizationId),
-			),
-		);
-	if (rows.length !== new Set(args.repositoryIds).size) {
+		.innerJoin(
+			githubInstallations,
+			eq(githubRepositories.installationId, githubInstallations.id),
+		)
+		.where(inArray(githubRepositories.id, [...args.repositoryIds]));
+	const accessible = rows.filter(({ repository, installation }) =>
+		isRepositoryVisibleToUser({
+			repository,
+			installation,
+			organizationId: args.organizationId,
+			userId: args.userId,
+		}),
+	);
+	if (accessible.length !== new Set(args.repositoryIds).size) {
 		throw new RepositoryError(
 			"A repository is not connected to this organization",
 		);
 	}
-	const installations = new Set(rows.map((row) => row.installationId));
+	const repositories = accessible.map((row) => row.repository);
+	const installations = new Set(repositories.map((row) => row.installationId));
 	if (installations.size > 1) {
 		throw new RepositoryError(
 			"Every repository of an environment must come from one GitHub installation",
 		);
 	}
-	return sortRepositories(rows);
+	return sortRepositories(repositories);
 }
 
 /** Repositories read the same everywhere: by full name. */

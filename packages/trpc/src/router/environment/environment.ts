@@ -123,6 +123,7 @@ async function repositoriesByEnvironment(
 async function setEnvironmentRepositories(args: {
 	environmentId: string;
 	organizationId: string;
+	userId: string;
 	repositoryIds: readonly string[];
 	primaryRepositoryId: string;
 }): Promise<void> {
@@ -131,6 +132,7 @@ async function setEnvironmentRepositories(args: {
 		repositories = await loadRepositories({
 			organizationId: args.organizationId,
 			repositoryIds: args.repositoryIds,
+			userId: args.userId,
 		});
 	} catch (error) {
 		if (!(error instanceof RepositoryError)) throw error;
@@ -285,6 +287,7 @@ export const environmentRouter = {
 				await setEnvironmentRepositories({
 					environmentId: row.id,
 					organizationId: input.organizationId,
+					userId: ctx.userId,
 					repositoryIds: input.repositoryIds,
 					primaryRepositoryId: input.primaryRepositoryId,
 				});
@@ -533,6 +536,7 @@ export const environmentRouter = {
 				await setEnvironmentRepositories({
 					environmentId: input.id,
 					organizationId: current.organizationId,
+					userId: ctx.userId,
 					repositoryIds: input.repositoryIds,
 					primaryRepositoryId,
 				});

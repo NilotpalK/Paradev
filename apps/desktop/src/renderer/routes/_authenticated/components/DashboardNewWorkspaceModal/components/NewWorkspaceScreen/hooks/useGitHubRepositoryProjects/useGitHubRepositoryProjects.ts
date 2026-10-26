@@ -35,12 +35,12 @@ export function useGitHubRepositoryProjects({
 	const repositoriesQuery =
 		cloudTrpc.integration.github.listRepositories.useQuery(
 			{ organizationId: organizationId ?? "" },
-			{ enabled: isEnabled },
+			{ enabled: isEnabled, refetchOnWindowFocus: "always" },
 		);
 	const installationQuery =
 		cloudTrpc.integration.github.getInstallation.useQuery(
 			{ organizationId: organizationId ?? "" },
-			{ enabled: isEnabled },
+			{ enabled: isEnabled, refetchOnWindowFocus: "always" },
 		);
 
 	const repositoriesByFullName = useMemo(
@@ -79,10 +79,13 @@ export function useGitHubRepositoryProjects({
 	}, [repositoriesByFullName, projects]);
 
 	const installation = installationQuery.data;
+	const configureUrl =
+		installation?.installUrl ??
+		(installation?.installationId ? githubAppSettingsUrl(installation) : null);
 	const connection: GitHubConnectionAction = !installationQuery.isSuccess
 		? null
-		: installation?.installationId
-			? { kind: "configure", url: githubAppSettingsUrl(installation) }
+		: configureUrl
+			? { kind: "configure", url: configureUrl }
 			: { kind: "connect" };
 
 	return {
