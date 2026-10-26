@@ -595,6 +595,7 @@ export function SessionView({
 				/>
 				<Composer
 					presetId={presetId}
+					sessionId={client.sessionId}
 					agentSwitcher={agentSwitcher}
 					availableCommands={sessionState?.availableCommands ?? NO_COMMANDS}
 					configOptions={sessionState?.configOptions ?? NO_CONFIG_OPTIONS}

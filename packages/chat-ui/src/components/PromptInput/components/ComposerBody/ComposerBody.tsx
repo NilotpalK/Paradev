@@ -40,6 +40,7 @@ import {
 	XIcon,
 } from "lucide-react";
 import {
+	type ReactNode,
 	useCallback,
 	useEffect,
 	useImperativeHandle,
@@ -57,6 +58,10 @@ import {
 } from "../../hooks/useMentionSources";
 import { usePastedTexts } from "../../hooks/usePastedTexts";
 import { MentionChipNode } from "../../nodes/mentionChipNode";
+import {
+	ChipRenderProvider,
+	useRenderChip,
+} from "../../providers/ChipRenderProvider";
 import type {
 	ComposerActionContext,
 	ComposerChip,
@@ -131,6 +136,7 @@ export type ComposerBodyProps = Required<
 		| "onMentionHighlight"
 		| "onAttachmentClick"
 		| "onChipClick"
+		| "chipForPaste"
 		| "ref"
 		| "header"
 		| "onAddFiles"
@@ -140,6 +146,10 @@ export type ComposerBodyProps = Required<
 		| "autoFocus"
 		| "history"
 	>;
+
+function withoutTooltip(_chip: ComposerChip, rendered: ReactNode): ReactNode {
+	return rendered;
+}
 
 function $insertChipAtSelection(chip: ComposerChip) {
 	let selection = $getSelection();
@@ -190,6 +200,7 @@ export function ComposerBody({
 	onMentionHighlight,
 	onAttachmentClick,
 	onChipClick,
+	chipForPaste,
 	ref,
 	header,
 	onAddFiles,
@@ -295,6 +306,7 @@ export function ComposerBody({
 	const [browseOpen, setBrowseOpen] = useState(false);
 	const [browseIndex, setBrowseIndex] = useState(0);
 	const [typeaheadDismissed, setTypeaheadDismissed] = useState(false);
+	const renderChip = useRenderChip();
 	const rootRef = useRef<HTMLDivElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	// Lexical command listeners register once; this ref bridges them to live React state.
@@ -395,6 +407,8 @@ export function ComposerBody({
 	};
 	const addFilesRef = useRef(addFiles);
 	addFilesRef.current = addFiles;
+	const chipForPasteRef = useRef(chipForPaste);
+	chipForPasteRef.current = chipForPaste;
 
 	const dropZone = useComposerDropZone();
 	useEffect(() => {
@@ -630,7 +644,12 @@ export function ComposerBody({
 					addFilesRef.current(files);
 					return true;
 				}
-				return false;
+				const pasted = event.clipboardData?.getData("text/plain").trim();
+				const chip = pasted ? chipForPasteRef.current?.(pasted) : null;
+				if (!chip) return false;
+				event.preventDefault();
+				editor.update(() => $insertChipAtSelection(chip));
+				return true;
 			},
 			COMMAND_PRIORITY_HIGH,
 		);
@@ -809,350 +828,356 @@ export function ComposerBody({
 		if (autoFocus) focusAtEnd();
 	}, [autoFocus, focusAtEnd]);
 
+	// A chip's hover card or tooltip opens above the composer, where these
+	// menus open, and would catch a click meant for the menu.
+	const chipMenuOpen =
+		mentionQuery !== null || commandQuery !== null || browseOpen;
 	return (
-		// biome-ignore lint/a11y/noStaticElementInteractions: drag-and-drop target; keyboard users attach via the file picker button
-		<div
-			ref={rootRef}
-			className={cn(
-				"relative flex flex-col rounded-2xl bg-card ring-1 ring-border transition-shadow focus-within:ring-ring/40",
-			)}
-			onDragOver={(event) => {
-				if (dropZone == null && event.dataTransfer.types.includes("Files")) {
-					event.preventDefault();
-					setDragging(true);
-				}
-			}}
-			onDragLeave={(event) => {
-				if (!event.currentTarget.contains(event.relatedTarget as Node | null))
-					setDragging(false);
-			}}
-			onDrop={(event) => {
-				if (
-					dropZone == null &&
-					!isDropHandled(event.nativeEvent) &&
-					event.dataTransfer.files.length > 0
-				) {
-					event.preventDefault();
-					markDropHandled(event.nativeEvent);
-					addFiles(event.dataTransfer.files);
-				}
-				setDragging(false);
-			}}
-		>
+		<ChipRenderProvider renderChip={chipMenuOpen ? withoutTooltip : renderChip}>
+			{/* biome-ignore lint/a11y/noStaticElementInteractions: drag-and-drop target; keyboard users attach via the file picker button */}
 			<div
-				ref={setMenuSlot}
+				ref={rootRef}
 				className={cn(
-					"pointer-events-none absolute inset-x-0 [&>*]:pointer-events-auto",
-					placement === "bottom" ? "top-full pt-2" : "bottom-full pb-2",
+					"relative flex flex-col rounded-2xl bg-card ring-1 ring-border transition-shadow focus-within:ring-ring/40",
 				)}
+				onDragOver={(event) => {
+					if (dropZone == null && event.dataTransfer.types.includes("Files")) {
+						event.preventDefault();
+						setDragging(true);
+					}
+				}}
+				onDragLeave={(event) => {
+					if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+						setDragging(false);
+				}}
+				onDrop={(event) => {
+					if (
+						dropZone == null &&
+						!isDropHandled(event.nativeEvent) &&
+						event.dataTransfer.files.length > 0
+					) {
+						event.preventDefault();
+						markDropHandled(event.nativeEvent);
+						addFiles(event.dataTransfer.files);
+					}
+					setDragging(false);
+				}}
 			>
-				{browseOpen && (
-					<MentionMenu
-						sections={browseSections}
-						className="max-w-80"
-						selectedIndex={browseIndex}
-						onHighlight={setBrowseIndex}
-						onSelectionChange={onMentionHighlight}
-						onSelect={selectBrowseEntry}
-					/>
-				)}
-			</div>
-			{panel?.bare ? (
 				<div
-					role="dialog"
-					aria-label={panel.title}
+					ref={setMenuSlot}
 					className={cn(
-						"absolute inset-x-0 z-30",
+						"pointer-events-none absolute inset-x-0 [&>*]:pointer-events-auto",
 						placement === "bottom" ? "top-full pt-2" : "bottom-full pb-2",
 					)}
 				>
-					{panel.render({ close: closePanel })}
+					{browseOpen && (
+						<MentionMenu
+							sections={browseSections}
+							className="max-w-80"
+							selectedIndex={browseIndex}
+							onHighlight={setBrowseIndex}
+							onSelectionChange={onMentionHighlight}
+							onSelect={selectBrowseEntry}
+						/>
+					)}
 				</div>
-			) : (
-				panel && (
-					<ComposerPanel
-						title={panel.title}
-						placement={placement}
-						onClose={() => setPanel(null)}
+				{panel?.bare ? (
+					<div
+						role="dialog"
+						aria-label={panel.title}
+						className={cn(
+							"absolute inset-x-0 z-30",
+							placement === "bottom" ? "top-full pt-2" : "bottom-full pb-2",
+						)}
 					>
 						{panel.render({ close: closePanel })}
-					</ComposerPanel>
-				)
-			)}
-			<div
-				aria-hidden={!dragging}
-				className={cn(
-					"pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-primary/10 transition-opacity duration-150 motion-reduce:transition-none",
-					dragging ? "opacity-100" : "opacity-0",
+					</div>
+				) : (
+					panel && (
+						<ComposerPanel
+							title={panel.title}
+							placement={placement}
+							onClose={() => setPanel(null)}
+						>
+							{panel.render({ close: closePanel })}
+						</ComposerPanel>
+					)
 				)}
-			>
-				<span
+				<div
+					aria-hidden={!dragging}
 					className={cn(
-						"inline-flex items-center rounded-md border border-border/50 bg-secondary px-3 py-1 text-sm text-foreground shadow transition-transform duration-150 motion-reduce:transition-none",
-						dragging ? "scale-100" : "scale-95",
+						"pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-primary/10 transition-opacity duration-150 motion-reduce:transition-none",
+						dragging ? "opacity-100" : "opacity-0",
 					)}
 				>
-					<Trans>Drop to attach</Trans>
-				</span>
-			</div>
-			{header}
-			<AttachmentPills
-				attachments={attachments}
-				pastedTexts={pasted.cards}
-				onShowPastedText={pasted.showInTextField}
-				onRemovePastedText={pasted.remove}
-				onAttachmentClick={onAttachmentClick}
-				onPreviewError={(id) =>
-					setAttachments((previous) =>
-						previous.map((entry) => {
-							if (entry.id !== id || !entry.previewUrl) return entry;
-							URL.revokeObjectURL(entry.previewUrl);
-							return { ...entry, previewUrl: undefined };
-						}),
-					)
-				}
-				onRemove={(id) =>
-					setAttachments((previous) =>
-						previous.filter((entry) => {
-							if (entry.id !== id) return true;
-							releaseAttachment(entry);
-							return false;
-						}),
-					)
-				}
-			/>
-			<div className="relative px-4 pt-3.5 pb-1">
-				<PlainTextPlugin
-					contentEditable={
-						<ContentEditable
-							className="prompt-input-editor"
-							spellCheck={false}
-						/>
-					}
-					placeholder={
-						<span className="pointer-events-none absolute top-3.5 left-4 text-sm leading-[1.625] text-muted-foreground/70">
-							{placeholder}
-						</span>
-					}
-					ErrorBoundary={LexicalErrorBoundary}
-				/>
-				<HistoryPlugin />
-				<LexicalTypeaheadMenuPlugin<MentionTypeaheadOption>
-					onQueryChange={setMentionQuery}
-					onSelectOption={(option, nodeToReplace, closeMenu) =>
-						selectMentionEntry(option.entry, nodeToReplace, closeMenu)
-					}
-					options={mentionOptions}
-					triggerFn={(text) => matchToken(text, "@")}
-					commandPriority={COMMAND_PRIORITY_HIGH}
-					onClose={() => setMentionQuery(null)}
-					menuRenderFn={(
-						anchorElementRef,
-						{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
-					) =>
-						anchorElementRef.current && menuSlot && !typeaheadDismissed
-							? createPortal(
-									<MentionMenu
-										sections={sections}
-										selectedIndex={selectedIndex}
-										onHighlight={setHighlightedIndex}
-										onSelectionChange={onMentionHighlight}
-										onSelect={(entry) => {
-											const option = mentionOptions.find(
-												(candidate) => candidate.entry.id === entry.id,
-											);
-											if (option) selectOptionAndCleanUp(option);
-										}}
-									/>,
-									menuSlot,
-								)
-							: null
-					}
-				/>
-				<LexicalTypeaheadMenuPlugin<CommandTypeaheadOption>
-					onQueryChange={setCommandQuery}
-					onSelectOption={(option, nodeToReplace, closeMenu) => {
-						editor.update(() => {
-							nodeToReplace?.remove();
-							closeMenu();
-						});
-						void option.command.onSelect(actionContextRef.current);
-					}}
-					options={commandOptions}
-					triggerFn={(text) => matchCommandToken(text)}
-					commandPriority={COMMAND_PRIORITY_HIGH}
-					menuRenderFn={(
-						anchorElementRef,
-						{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
-					) =>
-						anchorElementRef.current &&
-						menuSlot &&
-						!commandDismissed &&
-						rankedCommands.length > 0
-							? createPortal(
-									<CommandMenu
-										commands={rankedCommands}
-										selectedIndex={selectedIndex}
-										onHighlight={setHighlightedIndex}
-										onSelect={(command) => {
-											const option = commandOptions.find(
-												(candidate) => candidate.command.id === command.id,
-											);
-											if (option) selectOptionAndCleanUp(option);
-										}}
-									/>,
-									menuSlot,
-								)
-							: null
-					}
-				/>
-			</div>
-			<div
-				className="flex min-h-12 items-center gap-2 px-3 pb-2.5"
-				data-composer-footer
-			>
-				<ContextButton
-					onClick={toggleBrowseMenu}
-					disabled={dictationSession.status !== "idle"}
-				/>
-				<input
-					ref={fileInputRef}
-					type="file"
-					multiple
-					className="hidden"
-					onChange={(event) => {
-						if (event.target.files) addFiles(event.target.files);
-						event.target.value = "";
-					}}
-				/>
-				{dictationSession.status === "error" ? (
-					<>
-						<span className="min-w-0 flex-1 truncate pl-1 text-sm text-muted-foreground">
-							{dictationSession.error?.message}
-						</span>
-						<button
-							type="button"
-							aria-label={t({
-								message: "Retry dictation",
-							})}
-							onClick={() => void dictationSession.retry()}
-							className={FILLED_FOOTER_BUTTON_CLASS}
-						>
-							<RefreshCcwIcon className="size-3.5" />
-						</button>
-						<button
-							type="button"
-							aria-label={t({
-								message: "Discard recording",
-							})}
-							onClick={dictationSession.cancel}
-							className={GHOST_FOOTER_BUTTON_CLASS}
-						>
-							<XIcon className="size-3.5" />
-						</button>
-						<button
-							type="button"
-							aria-label={t({
-								message: "Send message",
-							})}
-							disabled
-							className={INACTIVE_SEND_BUTTON_CLASS}
-						>
-							<ArrowUpIcon className="size-4" />
-						</button>
-					</>
-				) : dictationSession.status !== "idle" ? (
-					<>
-						<DictationBar
-							canvasRef={dictationSession.canvasRef}
-							seconds={dictationSession.seconds}
-							status={
-								dictationSession.status === "transcribing"
-									? "transcribing"
-									: "recording"
-							}
-						/>
-						<button
-							type="button"
-							aria-label={t({
-								message: "Stop dictation",
-							})}
-							disabled={dictationSession.status === "transcribing"}
-							onClick={() => void dictationSession.finish()}
-							className={cn(
-								FILLED_FOOTER_BUTTON_CLASS,
-								"disabled:cursor-default disabled:opacity-50",
-							)}
-						>
-							<SquareIcon className="size-3 fill-current" />
-						</button>
-						<button
-							type="button"
-							aria-label={t({
-								message: "Send message",
-							})}
-							disabled
-							className={INACTIVE_SEND_BUTTON_CLASS}
-						>
-							<ArrowUpIcon className="size-4" />
-						</button>
-					</>
-				) : (
-					<>
-						{toolbar}
-						<div className="flex-1" />
-						{toolbarEnd}
-						{dictation && (
-							<button
-								type="button"
-								aria-label={t({
-									message: "Dictate",
-								})}
-								onClick={async () => {
-									setBrowseOpen(false);
-									await dictationSession.start();
-									editor.focus();
-								}}
-								className={GHOST_FOOTER_BUTTON_CLASS}
-							>
-								<MicIcon className="size-4" />
-							</button>
+					<span
+						className={cn(
+							"inline-flex items-center rounded-md border border-border/50 bg-secondary px-3 py-1 text-sm text-foreground shadow transition-transform duration-150 motion-reduce:transition-none",
+							dragging ? "scale-100" : "scale-95",
 						)}
-						{hideSubmit ? null : status === "streaming" &&
-							!(submitWhileStreaming && canSend) ? (
+					>
+						<Trans>Drop to attach</Trans>
+					</span>
+				</div>
+				{header}
+				<AttachmentPills
+					attachments={attachments}
+					pastedTexts={pasted.cards}
+					onShowPastedText={pasted.showInTextField}
+					onRemovePastedText={pasted.remove}
+					onAttachmentClick={onAttachmentClick}
+					onPreviewError={(id) =>
+						setAttachments((previous) =>
+							previous.map((entry) => {
+								if (entry.id !== id || !entry.previewUrl) return entry;
+								URL.revokeObjectURL(entry.previewUrl);
+								return { ...entry, previewUrl: undefined };
+							}),
+						)
+					}
+					onRemove={(id) =>
+						setAttachments((previous) =>
+							previous.filter((entry) => {
+								if (entry.id !== id) return true;
+								releaseAttachment(entry);
+								return false;
+							}),
+						)
+					}
+				/>
+				<div className="relative px-4 pt-3.5 pb-1">
+					<PlainTextPlugin
+						contentEditable={
+							<ContentEditable
+								className="prompt-input-editor"
+								spellCheck={false}
+							/>
+						}
+						placeholder={
+							<span className="pointer-events-none absolute top-3.5 left-4 text-sm leading-[1.625] text-muted-foreground/70">
+								{placeholder}
+							</span>
+						}
+						ErrorBoundary={LexicalErrorBoundary}
+					/>
+					<HistoryPlugin />
+					<LexicalTypeaheadMenuPlugin<MentionTypeaheadOption>
+						onQueryChange={setMentionQuery}
+						onSelectOption={(option, nodeToReplace, closeMenu) =>
+							selectMentionEntry(option.entry, nodeToReplace, closeMenu)
+						}
+						options={mentionOptions}
+						triggerFn={(text) => matchToken(text, "@")}
+						commandPriority={COMMAND_PRIORITY_HIGH}
+						onClose={() => setMentionQuery(null)}
+						menuRenderFn={(
+							anchorElementRef,
+							{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
+						) =>
+							anchorElementRef.current && menuSlot && !typeaheadDismissed
+								? createPortal(
+										<MentionMenu
+											sections={sections}
+											selectedIndex={selectedIndex}
+											onHighlight={setHighlightedIndex}
+											onSelectionChange={onMentionHighlight}
+											onSelect={(entry) => {
+												const option = mentionOptions.find(
+													(candidate) => candidate.entry.id === entry.id,
+												);
+												if (option) selectOptionAndCleanUp(option);
+											}}
+										/>,
+										menuSlot,
+									)
+								: null
+						}
+					/>
+					<LexicalTypeaheadMenuPlugin<CommandTypeaheadOption>
+						onQueryChange={setCommandQuery}
+						onSelectOption={(option, nodeToReplace, closeMenu) => {
+							editor.update(() => {
+								nodeToReplace?.remove();
+								closeMenu();
+							});
+							void option.command.onSelect(actionContextRef.current);
+						}}
+						options={commandOptions}
+						triggerFn={(text) => matchCommandToken(text)}
+						commandPriority={COMMAND_PRIORITY_HIGH}
+						menuRenderFn={(
+							anchorElementRef,
+							{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
+						) =>
+							anchorElementRef.current &&
+							menuSlot &&
+							!commandDismissed &&
+							rankedCommands.length > 0
+								? createPortal(
+										<CommandMenu
+											commands={rankedCommands}
+											selectedIndex={selectedIndex}
+											onHighlight={setHighlightedIndex}
+											onSelect={(command) => {
+												const option = commandOptions.find(
+													(candidate) => candidate.command.id === command.id,
+												);
+												if (option) selectOptionAndCleanUp(option);
+											}}
+										/>,
+										menuSlot,
+									)
+								: null
+						}
+					/>
+				</div>
+				<div
+					className="flex min-h-12 items-center gap-2 px-3 pb-2.5"
+					data-composer-footer
+				>
+					<ContextButton
+						onClick={toggleBrowseMenu}
+						disabled={dictationSession.status !== "idle"}
+					/>
+					<input
+						ref={fileInputRef}
+						type="file"
+						multiple
+						className="hidden"
+						onChange={(event) => {
+							if (event.target.files) addFiles(event.target.files);
+							event.target.value = "";
+						}}
+					/>
+					{dictationSession.status === "error" ? (
+						<>
+							<span className="min-w-0 flex-1 truncate pl-1 text-sm text-muted-foreground">
+								{dictationSession.error?.message}
+							</span>
 							<button
 								type="button"
 								aria-label={t({
-									message: "Stop response",
+									message: "Retry dictation",
 								})}
-								onClick={onStop}
+								onClick={() => void dictationSession.retry()}
 								className={FILLED_FOOTER_BUTTON_CLASS}
 							>
-								<SquareIcon className="size-3 fill-current" />
+								<RefreshCcwIcon className="size-3.5" />
 							</button>
-						) : (
+							<button
+								type="button"
+								aria-label={t({
+									message: "Discard recording",
+								})}
+								onClick={dictationSession.cancel}
+								className={GHOST_FOOTER_BUTTON_CLASS}
+							>
+								<XIcon className="size-3.5" />
+							</button>
 							<button
 								type="button"
 								aria-label={t({
 									message: "Send message",
 								})}
-								disabled={!canSend}
-								onClick={() => submit()}
-								className={
-									canSend
-										? cn(
-												FOOTER_BUTTON_CLASS,
-												"cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90",
-											)
-										: INACTIVE_SEND_BUTTON_CLASS
-								}
+								disabled
+								className={INACTIVE_SEND_BUTTON_CLASS}
 							>
 								<ArrowUpIcon className="size-4" />
 							</button>
-						)}
-					</>
-				)}
+						</>
+					) : dictationSession.status !== "idle" ? (
+						<>
+							<DictationBar
+								canvasRef={dictationSession.canvasRef}
+								seconds={dictationSession.seconds}
+								status={
+									dictationSession.status === "transcribing"
+										? "transcribing"
+										: "recording"
+								}
+							/>
+							<button
+								type="button"
+								aria-label={t({
+									message: "Stop dictation",
+								})}
+								disabled={dictationSession.status === "transcribing"}
+								onClick={() => void dictationSession.finish()}
+								className={cn(
+									FILLED_FOOTER_BUTTON_CLASS,
+									"disabled:cursor-default disabled:opacity-50",
+								)}
+							>
+								<SquareIcon className="size-3 fill-current" />
+							</button>
+							<button
+								type="button"
+								aria-label={t({
+									message: "Send message",
+								})}
+								disabled
+								className={INACTIVE_SEND_BUTTON_CLASS}
+							>
+								<ArrowUpIcon className="size-4" />
+							</button>
+						</>
+					) : (
+						<>
+							{toolbar}
+							<div className="flex-1" />
+							{toolbarEnd}
+							{dictation && (
+								<button
+									type="button"
+									aria-label={t({
+										message: "Dictate",
+									})}
+									onClick={async () => {
+										setBrowseOpen(false);
+										await dictationSession.start();
+										editor.focus();
+									}}
+									className={GHOST_FOOTER_BUTTON_CLASS}
+								>
+									<MicIcon className="size-4" />
+								</button>
+							)}
+							{hideSubmit ? null : status === "streaming" &&
+								!(submitWhileStreaming && canSend) ? (
+								<button
+									type="button"
+									aria-label={t({
+										message: "Stop response",
+									})}
+									onClick={onStop}
+									className={FILLED_FOOTER_BUTTON_CLASS}
+								>
+									<SquareIcon className="size-3 fill-current" />
+								</button>
+							) : (
+								<button
+									type="button"
+									aria-label={t({
+										message: "Send message",
+									})}
+									disabled={!canSend}
+									onClick={() => submit()}
+									className={
+										canSend
+											? cn(
+													FOOTER_BUTTON_CLASS,
+													"cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90",
+												)
+											: INACTIVE_SEND_BUTTON_CLASS
+									}
+								>
+									<ArrowUpIcon className="size-4" />
+								</button>
+							)}
+						</>
+					)}
+				</div>
 			</div>
-		</div>
+		</ChipRenderProvider>
 	);
 }

@@ -3679,6 +3679,9 @@ msgstr "Сессия чата не найдена"
 msgid "Chat surfaces: messages, reasoning, suggestions"
 msgstr "Поверхности чата: сообщения, рассуждения, подсказки"
 
+msgid "Chats"
+msgstr "Чаты"
+
 msgid "Check again"
 msgstr "Проверить снова"
 
@@ -9948,6 +9951,9 @@ msgstr "Индикаторы загрузки и текущей активнос
 msgid "Loading changes..."
 msgstr "Загрузка изменений..."
 
+msgid "Loading chat"
+msgstr "Загрузка чата"
+
 msgid "Loading comments…"
 msgstr "Загрузка комментариев…"
 
@@ -9983,6 +9989,9 @@ msgstr "Загрузка задач..."
 
 msgid "Loading issues…"
 msgstr "Загрузка задач…"
+
+msgid "Loading link preview"
+msgstr "Загрузка предпросмотра ссылки"
 
 msgid "Loading members..."
 msgstr "Загрузка участников..."
@@ -11339,6 +11348,9 @@ msgstr "Открытых комментариев ревью нет."
 
 msgid "No organization selected"
 msgstr "Организация не выбрана"
+
+msgid "No other chats here"
+msgstr "Других чатов здесь нет"
 
 msgid "No pages match"
 msgstr "Нет подходящих страниц"
@@ -17862,6 +17874,12 @@ msgstr "Это нельзя отменить."
 
 msgid "This chat has ended."
 msgstr "Этот чат завершён."
+
+msgid "This chat is empty."
+msgstr "Этот чат пуст."
+
+msgid "This chat may have been removed or you may not have access."
+msgstr "Возможно, этот чат удалён или у вас нет к нему доступа."
 
 msgid "This chat stopped because the conversation continued in a terminal."
 msgstr "Этот чат остановлен, потому что разговор продолжился в терминале."

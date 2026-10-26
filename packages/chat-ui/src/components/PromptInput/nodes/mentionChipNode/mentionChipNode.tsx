@@ -7,6 +7,7 @@ import {
 } from "lexical";
 import type { JSX } from "react";
 import { Chip } from "../../../Chip";
+import { useRenderChip } from "../../providers/ChipRenderProvider";
 import type { ComposerChip } from "../../types";
 
 function MentionChipComponent({
@@ -17,7 +18,12 @@ function MentionChipComponent({
 	chip: ComposerChip;
 }) {
 	const [isSelected] = useLexicalNodeSelection(nodeKey);
-	return <Chip chip={chip} mention selected={isSelected} />;
+	const renderChip = useRenderChip();
+	const wrapped = renderChip?.(
+		chip,
+		<Chip chip={chip} mention selected={isSelected} tooltip={false} />,
+	);
+	return wrapped ?? <Chip chip={chip} mention selected={isSelected} />;
 }
 
 export type SerializedMentionChipNode = Spread<

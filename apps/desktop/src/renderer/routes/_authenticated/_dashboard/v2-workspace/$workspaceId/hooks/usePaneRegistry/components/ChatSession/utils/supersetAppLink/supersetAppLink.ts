@@ -5,7 +5,8 @@ export type SupersetAppLink =
 	| { kind: "task"; taskId: string }
 	| { kind: "automation"; automationId: string }
 	| { kind: "plugin"; pluginName: string }
-	| { kind: "workspace"; workspaceId: string };
+	| { kind: "workspace"; workspaceId: string }
+	| { kind: "chat"; workspaceId: string; sessionId: string };
 
 const ROUTES: [RegExp, (id: string) => SupersetAppLink][] = [
 	[/^\/tasks\/([^/]+)\/?$/, (taskId) => ({ kind: "task", taskId })],
@@ -45,7 +46,23 @@ export function parseSupersetAppLink(
 	if (slug) return { kind: "page", slug };
 	for (const [pattern, build] of ROUTES) {
 		const segment = url.pathname.match(pattern)?.[1];
-		if (segment) return build(decode(segment));
+		if (!segment) continue;
+		const link = build(decode(segment));
+		const sessionId = url.searchParams.get("sessionId");
+		return link.kind === "workspace" && sessionId
+			? { kind: "chat", workspaceId: link.workspaceId, sessionId }
+			: link;
 	}
 	return null;
+}
+
+/** The shareable link to one chat: its workspace, opened on that session. */
+export function chatReferenceUrl(
+	workspaceId: string,
+	sessionId: string,
+	webUrl: string,
+): string {
+	const url = new URL(`/workspaces/${encodeURIComponent(workspaceId)}`, webUrl);
+	url.searchParams.set("sessionId", sessionId);
+	return url.toString();
 }

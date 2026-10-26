@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { parseSupersetAppLink } from "./supersetAppLink";
+import { chatReferenceUrl, parseSupersetAppLink } from "./supersetAppLink";
 
 const WEB = "https://app.superset.sh";
 
@@ -36,5 +36,17 @@ describe("parseSupersetAppLink", () => {
 		expect(parseSupersetAppLink("https://app.superset.sh/tasks/a/b", WEB)).toBe(
 			null,
 		);
+	});
+
+	test("a workspace link with a session is a chat reference, and round-trips", () => {
+		const url = chatReferenceUrl("ws 1", "session-9", WEB);
+		expect(url).toBe(
+			"https://app.superset.sh/workspaces/ws%201?sessionId=session-9",
+		);
+		expect(parseSupersetAppLink(url, WEB)).toEqual({
+			kind: "chat",
+			workspaceId: "ws 1",
+			sessionId: "session-9",
+		});
 	});
 });

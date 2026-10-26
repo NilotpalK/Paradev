@@ -67,6 +67,8 @@ const MAX_CONSOLE_ENTRIES = 500;
 // bound each attempt, retry until the deadline.
 const CAPTURE_DEADLINE_MS = 15_000;
 const CAPTURE_ATTEMPT_TIMEOUT_MS = 1_500;
+const PREVIEW_CAPTURE_WIDTH = 720;
+const PREVIEW_CAPTURE_RATIO = 1.6;
 const CAPTURE_RETRY_INTERVAL_MS = 100;
 
 function sanitizeUrl(url: string): string {
@@ -779,6 +781,30 @@ class BrowserManager extends EventEmitter {
 		await writeClipboardImage(image);
 		const wc = this.getWebContents(paneId);
 		return { image, url: wc?.getURL() ?? "" };
+	}
+
+	/** A link preview card's picture of an open page; leaves the clipboard alone. */
+	async capturePreview(
+		paneId: string,
+	): Promise<{ dataUrl: string; width: number; height: number }> {
+		const image = await this.capturePageImage(paneId);
+		const size = image.getSize();
+		const top = image.crop({
+			x: 0,
+			y: 0,
+			width: size.width,
+			height: Math.min(
+				size.height,
+				Math.round(size.width / PREVIEW_CAPTURE_RATIO),
+			),
+		});
+		const scaled =
+			size.width > PREVIEW_CAPTURE_WIDTH
+				? top.resize({ width: PREVIEW_CAPTURE_WIDTH })
+				: top;
+		const { width, height } = scaled.getSize();
+		const jpeg = scaled.toJPEG(80).toString("base64");
+		return { dataUrl: `data:image/jpeg;base64,${jpeg}`, width, height };
 	}
 
 	/** Screenshot for programmatic callers — must not clobber the clipboard. */
