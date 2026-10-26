@@ -12,8 +12,8 @@ import {
 } from "@superset/ui/dialog";
 import { useReducedMotion } from "framer-motion";
 import { electronTrpc } from "renderer/lib/electron-trpc";
-import revealFilm from "./assets/paradev-reveal.mp4";
-import revealEndFrame from "./assets/paradev-reveal-end.jpg";
+import revealFilm from "./assets/paradev-reveal-dialog.mp4";
+import revealEndFrame from "./assets/paradev-reveal-dialog-end.jpg";
 
 const ANNOUNCEMENT_URL = `${COMPANY.MARKETING_URL}/blog/superset-is-now-paradev`;
 const SEED_AMOUNT_USD = 11_500_000;
@@ -53,7 +53,7 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 					playsInline
 					preload="auto"
 					aria-hidden
-					className="aspect-[1600/838] w-full bg-[#100f0e] object-cover"
+					className="aspect-[1280/560] w-full bg-[#100f0e] object-cover"
 				/>
 				<div className="p-5">
 					<DialogTitle className="text-base font-semibold">
@@ -62,14 +62,8 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 						</Trans>
 					</DialogTitle>
 					<DialogDescription className="mt-2 text-[13px]">
-						<Trans>
-							Same app, same account, same workspaces. You do not need to do
-							anything.
-						</Trans>
+						<Trans>We also raised an {amount} seed round</Trans>
 					</DialogDescription>
-					<p className="mt-3 font-mono text-xs text-muted-foreground">
-						<Trans>We also raised a {amount} seed round, led by USV.</Trans>
-					</p>
 					<DialogFooter className="mt-5 flex-row justify-end gap-2">
 						<Button variant="ghost" size="sm" onClick={onDismiss}>
 							<Trans>Got it</Trans>

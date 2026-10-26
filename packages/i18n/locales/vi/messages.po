@@ -15113,9 +15113,6 @@ msgstr "Chạy khi tạo không gian làm việc mới."
 msgid "Runs when a workspace is deleted."
 msgstr "Chạy khi xóa không gian làm việc."
 
-msgid "Same app, same account, same workspaces. You do not need to do anything."
-msgstr "Vẫn ứng dụng đó, vẫn tài khoản đó, vẫn các workspace đó. Bạn không cần làm gì cả."
-
 msgid "Same version as this app."
 msgstr "Cùng phiên bản với ứng dụng này."
 
@@ -19331,8 +19328,8 @@ msgstr "Xem video Tự động hóa Paradev trên YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Định hướng và mở rộng nội dung"
 
-msgid "We also raised a {amount} seed round, led by USV."
-msgstr "Chúng tôi cũng vừa gọi vốn hạt giống {amount} do USV dẫn đầu."
+msgid "We also raised an {amount} seed round"
+msgstr "Chúng tôi cũng vừa gọi vốn hạt giống {amount}"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Chúng tôi xây dựng công khai, để bạn thấy cách chúng tôi làm việc trước khi trò chuyện với chúng tôi."

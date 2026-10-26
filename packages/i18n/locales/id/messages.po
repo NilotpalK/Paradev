@@ -15113,9 +15113,6 @@ msgstr "Dijalankan saat ruang kerja baru dibuat."
 msgid "Runs when a workspace is deleted."
 msgstr "Dijalankan saat ruang kerja dihapus."
 
-msgid "Same app, same account, same workspaces. You do not need to do anything."
-msgstr "Aplikasi yang sama, akun yang sama, workspace yang sama. Anda tidak perlu melakukan apa pun."
-
 msgid "Same version as this app."
 msgstr "Versi yang sama dengan aplikasi ini."
 
@@ -19331,8 +19328,8 @@ msgstr "Tonton video Otomatisasi Paradev di YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Penunjuk arah dan pengungkapan"
 
-msgid "We also raised a {amount} seed round, led by USV."
-msgstr "Kami juga meraih pendanaan seed sebesar {amount} yang dipimpin oleh USV."
+msgid "We also raised an {amount} seed round"
+msgstr "Kami juga meraih pendanaan seed sebesar {amount}"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Kami membangun secara terbuka, jadi Anda bisa melihat cara kami bekerja sebelum berbicara dengan kami."

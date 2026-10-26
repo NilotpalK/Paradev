@@ -15113,9 +15113,6 @@ msgstr "创建新工作区时运行。"
 msgid "Runs when a workspace is deleted."
 msgstr "删除工作区时运行。"
 
-msgid "Same app, same account, same workspaces. You do not need to do anything."
-msgstr "应用、账户和工作区都保持不变，你无需任何操作。"
-
 msgid "Same version as this app."
 msgstr "与此应用版本相同。"
 
@@ -19331,8 +19328,8 @@ msgstr "在 YouTube 上观看 Paradev 自动化视频"
 msgid "Wayfinding and disclosure"
 msgstr "导航定位与内容展开"
 
-msgid "We also raised a {amount} seed round, led by USV."
-msgstr "我们还完成了由 USV 领投的 {amount} 种子轮融资。"
+msgid "We also raised an {amount} seed round"
+msgstr "我们还完成了 {amount} 种子轮融资"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "我们公开构建，你在和我们交谈之前就能看到我们如何工作。"

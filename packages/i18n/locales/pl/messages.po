@@ -15113,9 +15113,6 @@ msgstr "Uruchamia się przy tworzeniu obszaru roboczego."
 msgid "Runs when a workspace is deleted."
 msgstr "Uruchamia się przy usuwaniu obszaru roboczego."
 
-msgid "Same app, same account, same workspaces. You do not need to do anything."
-msgstr "Ta sama aplikacja, to samo konto, te same obszary robocze. Nie musisz nic robić."
-
 msgid "Same version as this app."
 msgstr "Ta sama wersja co ta aplikacja."
 
@@ -19331,8 +19328,8 @@ msgstr "Obejrzyj film o Paradev Automatyzacje na YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Orientacja i odsłanianie treści"
 
-msgid "We also raised a {amount} seed round, led by USV."
-msgstr "Pozyskaliśmy też {amount} w rundzie seed, której liderem jest USV."
+msgid "We also raised an {amount} seed round"
+msgstr "Pozyskaliśmy też {amount} w rundzie seed"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Budujemy publicznie, więc zobaczysz, jak pracujemy, zanim z nami porozmawiasz."

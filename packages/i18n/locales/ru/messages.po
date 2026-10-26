@@ -15113,9 +15113,6 @@ msgstr "Выполняется при создании рабочего прос
 msgid "Runs when a workspace is deleted."
 msgstr "Выполняется при удалении рабочего пространства."
 
-msgid "Same app, same account, same workspaces. You do not need to do anything."
-msgstr "То же приложение, тот же аккаунт, те же рабочие области. Ничего делать не нужно."
-
 msgid "Same version as this app."
 msgstr "Та же версия, что и у этого приложения."
 
@@ -19331,8 +19328,8 @@ msgstr "Посмотрите видео про Paradev Автоматизаци�
 msgid "Wayfinding and disclosure"
 msgstr "Навигация и раскрытие"
 
-msgid "We also raised a {amount} seed round, led by USV."
-msgstr "А ещё мы привлекли {amount} в посевном раунде под руководством USV."
+msgid "We also raised an {amount} seed round"
+msgstr "А ещё мы привлекли {amount} в посевном раунде"
 
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Мы строим открыто, чтобы вы видели, как мы работаем, ещё до разговора с нами."
