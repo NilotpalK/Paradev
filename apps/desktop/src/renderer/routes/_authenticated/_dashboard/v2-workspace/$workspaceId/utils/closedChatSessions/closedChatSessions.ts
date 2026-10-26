@@ -14,3 +14,16 @@ export function reopenChatSession(sessionId: string): void {
 export function isChatSessionClosed(sessionId: string): boolean {
 	return closed.has(sessionId);
 }
+
+const closedTerminals = new Set<string>();
+
+export function markChatTerminalClosed(terminalId: string): () => void {
+	closedTerminals.add(terminalId);
+	return () => {
+		closedTerminals.delete(terminalId);
+	};
+}
+
+export function isChatTerminalClosed(terminalId: string): boolean {
+	return closedTerminals.has(terminalId);
+}

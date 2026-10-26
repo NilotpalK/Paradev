@@ -7,7 +7,10 @@ import { useWorkspaceEvent } from "renderer/hooks/host-service/useWorkspaceEvent
 import { useAcpChatEnabled } from "renderer/hooks/useAcpChatEnabled";
 import type { StoreApi } from "zustand/vanilla";
 import type { ChatPaneData, PaneViewerData } from "../../types";
-import { isChatSessionClosed } from "../../utils/closedChatSessions";
+import {
+	isChatSessionClosed,
+	isChatTerminalClosed,
+} from "../../utils/closedChatSessions";
 import { useChatWiring } from "../usePaneRegistry/components/ChatSession/hooks/useSessionClient";
 
 interface UseAutoAdoptChatSessionsArgs {
@@ -71,6 +74,7 @@ export function useAutoAdoptChatSessions({
 					!isChatSessionClosed(session.sessionId) &&
 					!attached.has(session.sessionId) &&
 					!(session.terminalId && attached.has(session.terminalId)) &&
+					!(session.terminalId && isChatTerminalClosed(session.terminalId)) &&
 					presetForAcpHarness(session.harness),
 			)
 			.sort((a, b) => a.updatedAt - b.updatedAt);

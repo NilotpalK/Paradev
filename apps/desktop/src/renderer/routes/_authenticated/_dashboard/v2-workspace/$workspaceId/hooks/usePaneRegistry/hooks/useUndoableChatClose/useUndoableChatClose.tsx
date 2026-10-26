@@ -8,6 +8,7 @@ import type { ChatPaneData, PaneViewerData } from "../../../../types";
 import {
 	isChatSessionClosed,
 	markChatSessionClosed,
+	markChatTerminalClosed,
 } from "../../../../utils/closedChatSessions";
 import {
 	addPendingChatStop,
@@ -18,6 +19,7 @@ import { useChatWiring } from "../../components/ChatSession/hooks/useSessionClie
 import { useChatSubagentStore } from "../../stores/chatSubagentStore";
 import { ChatClosedToast } from "./components/ChatClosedToast";
 import { createClosedChatBatches } from "./utils/closedChatBatches";
+import { findStrayChatSessions } from "./utils/findStrayChatSessions";
 
 const UNDO_WINDOW_MS = 10_000;
 
@@ -32,9 +34,11 @@ interface ClosedChat {
 export function useUndoableChatClose({
 	workspaceId,
 	store,
+	linkedStores,
 }: {
 	workspaceId: string;
 	store: StoreApi<WorkspaceStore<PaneViewerData>>;
+	linkedStores?: readonly StoreApi<WorkspaceStore<PaneViewerData>>[];
 }): (pane: Pane<PaneViewerData>) => void {
 	const { t } = useLingui();
 	const wiring = useChatWiring();
@@ -51,6 +55,34 @@ export function useUndoableChatClose({
 			}
 		},
 		[wiring.transport],
+	);
+	const stopStrayChats = useCallback(
+		async (terminalId: string, closedSessionId: string | null) => {
+			const sessions = await wiring.transport
+				.listSessions({ workspaceId })
+				.catch((error: unknown) => {
+					console.warn("[acp-chat] could not list chats to stop", error);
+					return [];
+				});
+			const kept = new Set<string>(closedSessionId ? [closedSessionId] : []);
+			for (const paneStore of [store, ...(linkedStores ?? [])]) {
+				for (const tab of paneStore.getState().tabs) {
+					for (const pane of Object.values(tab.panes)) {
+						const { sessionId } = pane.data as Partial<ChatPaneData>;
+						if (pane.kind === "chat-v3" && sessionId) kept.add(sessionId);
+					}
+				}
+			}
+			for (const stray of findStrayChatSessions(sessions, terminalId, kept)) {
+				markChatSessionClosed(stray.sessionId);
+				void wiring.transport
+					.closeSession({ sessionId: stray.sessionId })
+					.catch((error: unknown) =>
+						console.warn("[acp-chat] could not stop a stray chat", error),
+					);
+			}
+		},
+		[wiring.transport, workspaceId, store, linkedStores],
 	);
 	const latest = useRef({ store, stopChat, t });
 	latest.current = { store, stopChat, t };
@@ -137,22 +169,28 @@ export function useUndoableChatClose({
 	return useCallback(
 		(pane) => {
 			const data = pane.data as ChatPaneData;
-			const { sessionId } = data;
+			const { sessionId, terminalId } = data;
+			const reopenTerminal = markChatTerminalClosed(terminalId);
+			void stopStrayChats(terminalId, sessionId);
 			if (!sessionId || isChatSessionClosed(sessionId)) return;
 			const index = previousTabs.current.findIndex(
 				(tab) => tab.panes[pane.id] !== undefined,
 			);
 			const tab = previousTabs.current[index];
 			addPendingChatStop(workspaceId, sessionId);
+			const reopenSession = markChatSessionClosed(sessionId);
 			batches.closed.add({
 				pane,
 				slot:
 					tab && Object.keys(tab.panes).length === 1 ? { tab, index } : null,
 				sessionId,
 				title: pane.titleOverride ?? data.chatTitle ?? t({ message: "Chat" }),
-				reopen: markChatSessionClosed(sessionId),
+				reopen: () => {
+					reopenSession();
+					reopenTerminal();
+				},
 			});
 		},
-		[batches, workspaceId, t],
+		[batches, workspaceId, t, stopStrayChats],
 	);
 }

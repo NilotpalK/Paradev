@@ -34,6 +34,7 @@ import { useForkChat } from "../../hooks/useForkChat";
 import { readSavedChatMode } from "../../utils/savedChatMode";
 import { AcpRecovery } from "./components/AcpRecovery";
 import { DraftChat } from "./components/DraftChat";
+import { useReplacementSession } from "./hooks/useReplacementSession";
 import { createWhenReachable } from "./utils/createWhenReachable";
 import {
 	isChatCreateWatched,
@@ -115,7 +116,15 @@ export function AcpChatPane({
 	)?.label;
 	const harness = acpHarnessForPreset(agent?.id);
 	const [failure, setFailure] = useState<string | null>(null);
-	const [replacement, setReplacement] = useState<string | null>(null);
+	const {
+		replacement,
+		hold: holdReplacement,
+		release: releaseReplacement,
+	} = useReplacementSession((orphan) => {
+		void wiring.transport
+			.closeSession({ sessionId: orphan })
+			.catch(() => undefined);
+	});
 
 	// The stored session outlives its process — after a host restart the row
 	// still reads "idle" and only the send fails. Ask who is actually running.
@@ -192,7 +201,7 @@ export function AcpChatPane({
 					},
 				);
 				if (!mounted.current) return;
-				if (replacing) setReplacement(createdId);
+				if (replacing) holdReplacement(createdId);
 				else onSessionCreated(createdId);
 			} catch (error) {
 				attaching.current = false;
@@ -206,6 +215,7 @@ export function AcpChatPane({
 			workspaceId,
 			terminalId,
 			onSessionCreated,
+			holdReplacement,
 			modelId,
 			modeId,
 			agent,
@@ -421,12 +431,12 @@ export function AcpChatPane({
 		const commit = () => {
 			recoveryInFlight.current = false;
 			onSessionCreated(replacement);
-			setReplacement(null);
+			releaseReplacement();
 		};
 		const status = replacementState?.session?.status;
 		if (status === "dead") {
 			recoveryInFlight.current = false;
-			setReplacement(null);
+			releaseReplacement();
 			setFailure(
 				replacementState?.lastError ??
 					t({ message: "The agent stopped while resuming the conversation." }),
@@ -439,7 +449,7 @@ export function AcpChatPane({
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
-	}, [replacement, replacementState, onSessionCreated, t]);
+	}, [replacement, replacementState, onSessionCreated, releaseReplacement, t]);
 	const recovering =
 		replacement !== null ||
 		(recoverable && recoveries.current < MAX_RECOVERIES);
