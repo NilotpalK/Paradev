@@ -126,6 +126,39 @@ export function describeMessage(message: SlackMessage): string {
 	return line;
 }
 
+export type DescribedMessage = { ts: string; sender: string; text: string };
+
+const DESCRIBED_MESSAGE = /^\[(\d+\.\d+)\] (.+?): (.*)$/;
+const THREAD_NOTE = / (💬 \d+ repl(y|ies)|↪️ in thread)$/u;
+
+/** The messages in a tool's output, read back from `describeMessage` lines. */
+export function readDescribedMessages(output: string): DescribedMessage[] {
+	const messages: DescribedMessage[] = [];
+	for (const line of output.split("\n")) {
+		const match = DESCRIBED_MESSAGE.exec(line);
+		if (match) {
+			const [, ts = "", sender = "", text = ""] = match;
+			messages.push({ ts, sender, text });
+			continue;
+		}
+		const last = messages.at(-1);
+		if (last && line) last.text += `\n${line}`;
+	}
+	for (const message of messages) {
+		message.text = message.text.replace(THREAD_NOTE, "").trim();
+	}
+	return messages;
+}
+
+/** Name and title from `get_user` output. */
+export function readDescribedUser(
+	output: string,
+): { name: string; title: string | null } | null {
+	const name = /^User: <@[^>]+> - (.+)$/m.exec(output)?.[1]?.trim();
+	if (!name) return null;
+	return { name, title: /^Title: (.+)$/m.exec(output)?.[1]?.trim() ?? null };
+}
+
 function cursorNote(payload: SlackResponse): string {
 	const cursor = payload.response_metadata?.next_cursor;
 	return cursor ? `\n📄 More available. Use cursor: "${cursor}"` : "";
