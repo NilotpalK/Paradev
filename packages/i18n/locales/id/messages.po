@@ -7068,6 +7068,9 @@ msgstr "Semua orang tetap di v{sharedVersion} sampai Anda mengubahnya"
 msgid "Everyone with access to this organization."
 msgstr "Semua orang yang punya akses ke organisasi ini."
 
+msgid "Everything carries over."
+msgstr "Semuanya tetap terbawa."
+
 msgid "Everything in {previousPlan}"
 msgstr "Semua yang ada di {previousPlan}"
 
@@ -11740,9 +11743,6 @@ msgstr "Catatan"
 
 msgid "Notes"
 msgstr "Catatan"
-
-msgid "Nothing changes on your end."
-msgstr "Tidak ada yang berubah di sisi Anda."
 
 msgid "Nothing here yet."
 msgstr "Belum ada apa-apa di sini."
@@ -19337,9 +19337,6 @@ msgstr "Tonton video Otomatisasi Paradev di YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Penunjuk arah dan pengungkapan"
 
-msgid "We also raised an {amount} seed round."
-msgstr "Kami juga meraih pendanaan seed sebesar {amount}."
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Kami membangun secara terbuka, jadi Anda bisa melihat cara kami bekerja sebelum berbicara dengan kami."
 
@@ -19372,6 +19369,9 @@ msgstr "Kami menemukan {hostName}. Aktifkan Akses Jarak Jauh di sana untuk menye
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Kami hanya mengumpulkan cookie analitik agar bisa meningkatkan pengalaman Anda."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Kami meraih pendanaan seed sebesar {amount} untuk membantu Anda menjalankan pasukan agen coding."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Kami mengirim tautan unduhan ke {submittedEmail}."

@@ -7068,6 +7068,9 @@ msgstr "변경하기 전까지 모두 v{sharedVersion}을(를) 봅니다"
 msgid "Everyone with access to this organization."
 msgstr "이 조직에 접근할 수 있는 모든 사람입니다."
 
+msgid "Everything carries over."
+msgstr "모든 것이 그대로 이어집니다."
+
 msgid "Everything in {previousPlan}"
 msgstr "{previousPlan}의 모든 기능"
 
@@ -11740,9 +11743,6 @@ msgstr "참고"
 
 msgid "Notes"
 msgstr "노트"
-
-msgid "Nothing changes on your end."
-msgstr "사용 중인 환경은 그대로입니다."
 
 msgid "Nothing here yet."
 msgstr "아직 아무것도 없습니다."
@@ -19337,9 +19337,6 @@ msgstr "YouTube에서 Paradev 자동화 영상 보기"
 msgid "Wayfinding and disclosure"
 msgstr "길 찾기와 정보 펼침"
 
-msgid "We also raised an {amount} seed round."
-msgstr "또한 {amount} 규모의 시드 라운드 투자를 유치했습니다."
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "우리는 공개적으로 만듭니다. 대화하기 전에 우리가 일하는 방식을 확인하세요."
 
@@ -19372,6 +19369,9 @@ msgstr "{hostName}을(를) 찾았습니다. 거기에서 원격 액세스를 켜
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "사용 경험 개선을 위한 분석 쿠키만 수집합니다."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "코딩 에이전트 군단을 운영할 수 있도록 {amount} 규모의 시드 라운드 투자를 유치했습니다."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "{submittedEmail}으로 다운로드 링크를 보냈습니다."

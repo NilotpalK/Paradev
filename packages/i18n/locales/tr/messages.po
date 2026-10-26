@@ -7068,6 +7068,9 @@ msgstr "Siz değiştirene kadar herkes v{sharedVersion} sürümünde kalır"
 msgid "Everyone with access to this organization."
 msgstr "Bu kuruluşa erişimi olan herkes."
 
+msgid "Everything carries over."
+msgstr "Her şey olduğu gibi kalıyor."
+
 msgid "Everything in {previousPlan}"
 msgstr "{previousPlan} planındaki her şey"
 
@@ -11740,9 +11743,6 @@ msgstr "Not"
 
 msgid "Notes"
 msgstr "Notlar"
-
-msgid "Nothing changes on your end."
-msgstr "Sizin için hiçbir şey değişmiyor."
 
 msgid "Nothing here yet."
 msgstr "Burada henüz bir şey yok."
@@ -19337,9 +19337,6 @@ msgstr "YouTube'da Paradev Otomasyonlar videosunu izleyin"
 msgid "Wayfinding and disclosure"
 msgstr "Yönlendirme ve açma-kapama"
 
-msgid "We also raised an {amount} seed round."
-msgstr "Ayrıca {amount} tutarında bir tohum yatırım turu tamamladık."
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Açıkta geliştiriyoruz; bizimle konuşmadan önce nasıl çalıştığımızı görebilirsiniz."
 
@@ -19372,6 +19369,9 @@ msgstr "{hostName} bulundu. Tamamlamak için orada uzaktan erişimi açın."
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Deneyiminizi iyileştirebilmek için yalnızca analiz çerezleri topluyoruz."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Bir kodlama ajanı ordusu yönetmenize yardımcı olmak için {amount} tutarında bir tohum yatırım turu tamamladık."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "İndirme bağlantısını {submittedEmail} adresine gönderdik."

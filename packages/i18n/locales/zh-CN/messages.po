@@ -7068,6 +7068,9 @@ msgstr "在你更改之前，所有人都停留在v{sharedVersion}"
 msgid "Everyone with access to this organization."
 msgstr "有权访问此组织的所有人。"
 
+msgid "Everything carries over."
+msgstr "一切都会保留。"
+
 msgid "Everything in {previousPlan}"
 msgstr "包含 {previousPlan} 的全部功能"
 
@@ -11740,9 +11743,6 @@ msgstr "注意"
 
 msgid "Notes"
 msgstr "笔记"
-
-msgid "Nothing changes on your end."
-msgstr "你这边一切照旧。"
 
 msgid "Nothing here yet."
 msgstr "这里还没有内容。"
@@ -19337,9 +19337,6 @@ msgstr "在 YouTube 上观看 Paradev 自动化视频"
 msgid "Wayfinding and disclosure"
 msgstr "导航定位与内容展开"
 
-msgid "We also raised an {amount} seed round."
-msgstr "我们还完成了 {amount} 种子轮融资。"
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "我们公开构建，你在和我们交谈之前就能看到我们如何工作。"
 
@@ -19372,6 +19369,9 @@ msgstr "已找到{hostName}。在那台电脑上开启远程访问即可完成�
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "我们只收集分析类cookie，用于改进你的使用体验。"
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "我们完成了 {amount} 种子轮融资，帮你调动一支编程智能体大军。"
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "下载链接已发送至{submittedEmail}。"

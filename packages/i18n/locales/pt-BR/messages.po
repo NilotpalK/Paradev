@@ -7068,6 +7068,9 @@ msgstr "Todo mundo fica na v{sharedVersion} até você mudar isso"
 msgid "Everyone with access to this organization."
 msgstr "Todo mundo com acesso a esta organização."
 
+msgid "Everything carries over."
+msgstr "Tudo continua com você."
+
 msgid "Everything in {previousPlan}"
 msgstr "Tudo do {previousPlan}"
 
@@ -11740,9 +11743,6 @@ msgstr "Observação"
 
 msgid "Notes"
 msgstr "Notas"
-
-msgid "Nothing changes on your end."
-msgstr "Nada muda para você."
 
 msgid "Nothing here yet."
 msgstr "Nada aqui ainda."
@@ -19337,9 +19337,6 @@ msgstr "Assista ao vídeo do Paradev Automations no YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Orientação e revelação de conteúdo"
 
-msgid "We also raised an {amount} seed round."
-msgstr "Também levantamos uma rodada seed de {amount}."
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "Construímos em público, para que você veja como trabalhamos antes de falar com a gente."
 
@@ -19372,6 +19369,9 @@ msgstr "Encontramos {hostName}. Ative o acesso remoto nele para concluir."
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "Coletamos apenas cookies de análise para melhorar sua experiência."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "Levantamos uma rodada seed de {amount} para ajudar você a comandar um exército de agentes de código."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "Enviamos o link de download para {submittedEmail}."

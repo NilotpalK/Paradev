@@ -62,8 +62,11 @@ export function BrandRenameDialog({ onDismiss }: BrandRenameDialogProps) {
 						</Trans>
 					</DialogTitle>
 					<DialogDescription className="mt-2 text-[13px]">
-						<Trans>Nothing changes on your end.</Trans>{" "}
-						<Trans>We also raised an {amount} seed round.</Trans>
+						<Trans>Everything carries over.</Trans>{" "}
+						<Trans>
+							We raised an {amount} seed round to help you run an army of coding
+							agents.
+						</Trans>
 					</DialogDescription>
 					<DialogFooter className="mt-5 flex-row justify-end gap-2">
 						<Button variant="ghost" size="sm" onClick={onDismiss}>

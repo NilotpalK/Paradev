@@ -7068,6 +7068,9 @@ msgstr "在你更改之前，所有人都停留在v{sharedVersion}"
 msgid "Everyone with access to this organization."
 msgstr "有權存取此組織的所有人。"
 
+msgid "Everything carries over."
+msgstr "一切都會保留。"
+
 msgid "Everything in {previousPlan}"
 msgstr "包含 {previousPlan} 的所有功能"
 
@@ -11740,9 +11743,6 @@ msgstr "注意"
 
 msgid "Notes"
 msgstr "筆記"
-
-msgid "Nothing changes on your end."
-msgstr "你這邊一切照舊。"
 
 msgid "Nothing here yet."
 msgstr "這裡還沒有內容。"
@@ -19337,9 +19337,6 @@ msgstr "在 YouTube 上觀看 Paradev 自動化影片"
 msgid "Wayfinding and disclosure"
 msgstr "導航定位與內容展開"
 
-msgid "We also raised an {amount} seed round."
-msgstr "我們也完成了 {amount} 種子輪募資。"
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "我們公開開發，在和我們交談之前，你就能看到我們如何工作。"
 
@@ -19372,6 +19369,9 @@ msgstr "已找到{hostName}。在那台電腦上開啟遠端存取即可完成�
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "我們只收集分析類cookie，用於改進你的使用體驗。"
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "我們完成了 {amount} 種子輪募資，幫你調動一支程式代理程式大軍。"
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "下載連結已傳送至{submittedEmail}。"

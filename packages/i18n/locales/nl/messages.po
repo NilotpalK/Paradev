@@ -7068,6 +7068,9 @@ msgstr "Iedereen blijft op v{sharedVersion} tot je dit wijzigt"
 msgid "Everyone with access to this organization."
 msgstr "Iedereen met toegang tot deze organisatie."
 
+msgid "Everything carries over."
+msgstr "Alles blijft behouden."
+
 msgid "Everything in {previousPlan}"
 msgstr "Alles uit {previousPlan}"
 
@@ -11740,9 +11743,6 @@ msgstr "Opmerking"
 
 msgid "Notes"
 msgstr "Notities"
-
-msgid "Nothing changes on your end."
-msgstr "Voor jou verandert er niets."
 
 msgid "Nothing here yet."
 msgstr "Hier is nog niets."
@@ -19337,9 +19337,6 @@ msgstr "Bekijk de Paradev Automations-video op YouTube"
 msgid "Wayfinding and disclosure"
 msgstr "Wegwijs worden en informatie ontvouwen"
 
-msgid "We also raised an {amount} seed round."
-msgstr "We hebben ook een seedronde van {amount} opgehaald."
-
 msgid "We build in public, so you can see how we work before you talk to us."
 msgstr "We bouwen in het openbaar, zodat je ziet hoe we werken voordat je met ons praat."
 
@@ -19372,6 +19369,9 @@ msgstr "We hebben {hostName} gevonden. Zet daar externe toegang aan om af te ron
 
 msgid "We only collect analytics cookies so we can improve your experience."
 msgstr "We verzamelen alleen analytische cookies zodat we je ervaring kunnen verbeteren."
+
+msgid "We raised an {amount} seed round to help you run an army of coding agents."
+msgstr "We hebben een seedronde van {amount} opgehaald om je te helpen een leger aan codeeragents in te zetten."
 
 msgid "We sent the download link to {submittedEmail}."
 msgstr "We hebben de downloadlink naar {submittedEmail} gestuurd."
