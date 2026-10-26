@@ -37,7 +37,7 @@ export const COMPANY = {
 	TERMS_URL: `${MARKETING_URL}/terms`,
 	PRIVACY_URL: `${MARKETING_URL}/privacy`,
 	CHANGELOG_URL: `${MARKETING_URL}/changelog`,
-	X_URL: "https://x.com/superset_sh",
+	X_URL: "https://x.com/paradevai",
 	LINKEDIN_URL: "https://www.linkedin.com/company/superset-sh",
 	YOUTUBE_URL: "https://www.youtube.com/@superset-sh",
 	SUPPORT_EMAIL,

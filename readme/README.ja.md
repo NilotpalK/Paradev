@@ -17,7 +17,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/stargazers)
 [![GitHub release](https://img.shields.io/github/v/release/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/releases)
 [![License](https://img.shields.io/badge/license-Elastic%20License%202.0-blue?style=flat)](../LICENSE.md)
-[![Twitter](https://img.shields.io/badge/@superset__sh-555?logo=x)](https://x.com/superset_sh)
+[![Twitter](https://img.shields.io/badge/@paradevai-555?logo=x)](https://x.com/paradevai)
 [![Discord](https://img.shields.io/badge/Discord-555?logo=discord)](https://discord.gg/cZeD9WYcV7)
 
 <br />
@@ -27,7 +27,7 @@ Claude Code、Codex、その他あらゆるCLIエージェントを、それぞ�
 
 <br />
 
-[**macOS版をダウンロード**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [ドキュメント](https://docs.superset.sh) &nbsp;&bull;&nbsp; [変更履歴](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
+[**macOS版をダウンロード**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [ドキュメント](https://docs.paradev.com) &nbsp;&bull;&nbsp; [変更履歴](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
 
 <br />
 
@@ -57,11 +57,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 100以上のコーディングエージェントを一度に実行。それぞれが独自のブランチ、ターミナル、環境を持つgit worktreeで動作します。結果を比較して、最良のものをマージしましょう。
 
-[ドキュメント →](https://docs.superset.sh/workspaces)
+[ドキュメント →](https://docs.paradev.com/workspaces)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="他のエージェントが並列ワークスペースで動作する中、課金システムの移行をストリーミングするClaude" width="100%" /></a>
+  <a href="https://docs.paradev.com/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="他のエージェントが並列ワークスペースで動作する中、課金システムの移行をストリーミングするClaude" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -71,11 +71,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 サイドバーからすべてのエージェントを追跡。作業中インジケーター、完了チャイム、対応が必要なときのDockバッジ付きです。
 
-[ドキュメント →](https://docs.superset.sh/agent-integration)
+[ドキュメント →](https://docs.paradev.com/agent-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="タスクを完了したエージェントと、作業中から完了に切り替わるサイドバーのステータス" width="100%" /></a>
+  <a href="https://docs.paradev.com/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="タスクを完了したエージェントと、作業中から完了に切り替わるサイドバーのステータス" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -85,11 +85,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 タブ、無制限の分割、プリセット、再起動後も維持される永続セッション。⌘Iを押すと、複数行編集と@ファイルメンションに対応したリッチプロンプトエディタが開きます。
 
-[ドキュメント →](https://docs.superset.sh/terminal-integration)
+[ドキュメント →](https://docs.paradev.com/terminal-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="分割ターミナルの隣で、リッチプロンプトエディタに@ファイルメンション付きのフォローアップを入力する様子" width="100%" /></a>
+  <a href="https://docs.paradev.com/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="分割ターミナルの隣で、リッチプロンプトエディタに@ファイルメンション付きのフォローアップを入力する様子" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -99,11 +99,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 アプリを離れずにエージェントの変更を確認・コメント・編集し、準備ができたらコミットしてプッシュできます。
 
-[ドキュメント →](https://docs.superset.sh/diff-viewer)
+[ドキュメント →](https://docs.paradev.com/diff-viewer)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="差分ビューアでエージェントの変更をレビューする様子" width="100%" /></a>
+  <a href="https://docs.paradev.com/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="差分ビューアでエージェントの変更をレビューする様子" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -113,11 +113,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 実行中の開発サーバーをブラウザペインでプレビュー。ポートはワークスペースごとに検出されるため、各worktreeが独自のプレビューを持てます。
 
-[ドキュメント →](https://docs.superset.sh/browser)
+[ドキュメント →](https://docs.paradev.com/browser)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="検出されたポートで開発サーバーをプレビューするアプリ内ブラウザ" width="100%" /></a>
+  <a href="https://docs.paradev.com/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="検出されたポートで開発サーバーをプレビューするアプリ内ブラウザ" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -127,11 +127,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 エージェントセッションをスケジュール実行:夜間にissueをトリアージし、週次の変更履歴を下書きし、依存関係を最新に保ちます。
 
-[ドキュメント →](https://docs.superset.sh/automations)
+[ドキュメント →](https://docs.paradev.com/automations)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="スケジュールされたエージェントオートメーション" width="100%" /></a>
+  <a href="https://docs.paradev.com/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="スケジュールされたエージェントオートメーション" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -141,11 +141,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 別のマシンを接続し、そのワークスペースにどこからでもアクセス:デスクトップアプリ、CLI、スマートフォンから。オフラインのホストはカスタムコマンドで起動できます。
 
-[ドキュメント →](https://docs.superset.sh/remote-access)
+[ドキュメント →](https://docs.paradev.com/remote-access)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="組織設定のホストとメンバー" width="100%" /></a>
+  <a href="https://docs.paradev.com/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="組織設定のホストとメンバー" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -155,11 +155,11 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 どのシェルからでもスクリプト化:ワークスペースの作成、エージェントの起動、ターミナルの読み取り、オートメーションの管理を単一のバイナリで。コマンドを実行できるエージェントなら、Paradevを操作できます。
 
-[ドキュメント →](https://docs.superset.sh/cli/getting-started)
+[ドキュメント →](https://docs.paradev.com/cli/getting-started)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Paradev CLIからワークスペースを作成してエージェントを起動する様子" width="100%" /></a>
+  <a href="https://docs.paradev.com/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Paradev CLIからワークスペースを作成してエージェントを起動する様子" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -169,27 +169,27 @@ Paradevは、CLIベースのコーディングエージェントを独立したg
 
 1つの検索ボックスから任意のワークスペース、アクション、設定にジャンプ。
 
-[ドキュメント →](https://docs.superset.sh/keyboard-shortcuts)
+[ドキュメント →](https://docs.paradev.com/keyboard-shortcuts)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="コマンドパレットに入力してワークスペースのアクションをリアルタイムに絞り込む様子" width="100%" /></a>
+  <a href="https://docs.paradev.com/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="コマンドパレットに入力してワークスペースのアクションをリアルタイムに絞り込む様子" width="100%" /></a>
 </td>
 </tr>
 </table>
 
 **さらに同梱されている機能:**
 
-- **[内蔵スキル](https://docs.superset.sh/skills)**: エージェントには `superset:*` スキル(並列エージェントのオーケストレーション、オートメーションのスケジュール、フィードバックの送信、問題の診断)が起動時に自動でプロビジョニングされます
-- **[モデルピッカーとカスタムエージェント](https://docs.superset.sh/agent-integration)**: 起動時にモデルと推論の強度を選択でき、任意のターミナルエージェントを独自のアイコン付きで追加できます
-- **[ワークスペースセットアップスクリプト](https://docs.superset.sh/setup-teardown-scripts)**: 環境設定、依存関係のインストール、開発サーバーの起動をワークスペースごとに自動化
-- **[ターミナルプリセット](https://docs.superset.sh/terminal-presets)**: エージェントとシェルのレイアウトを保存し、キー1つで開けます
-- **[SlackとLinear](https://docs.superset.sh/use-with-linear)**: SlackメッセージやLinearのissueからワークスペースを立ち上げ
-- **[IDEで開く](https://docs.superset.sh/use-with-ide)**: Cursor、VS Code、任意のエディタへワンクリックで引き継ぎ
-- **[カスタムテーマ](https://docs.superset.sh/custom-themes)**: テーマファイルの作成、編集、インポート
-- **[キーボードショートカット](https://docs.superset.sh/keyboard-shortcuts)**: すべてのアクションは**設定 → キーボードショートカット**(⌘/)で再割り当てできます
-- **[プロバイダーの持ち込み](https://docs.superset.sh/providers)**: OpenRouter、Bedrock、Vertex、Vercel AI Gatewayを接続
-- **その他多数**: 毎日出荷しているため、このリストは常に追いついていません。本当の機能リストは[変更履歴](https://superset.sh/changelog)です。
+- **[内蔵スキル](https://docs.paradev.com/skills)**: エージェントには `superset:*` スキル(並列エージェントのオーケストレーション、オートメーションのスケジュール、フィードバックの送信、問題の診断)が起動時に自動でプロビジョニングされます
+- **[モデルピッカーとカスタムエージェント](https://docs.paradev.com/agent-integration)**: 起動時にモデルと推論の強度を選択でき、任意のターミナルエージェントを独自のアイコン付きで追加できます
+- **[ワークスペースセットアップスクリプト](https://docs.paradev.com/setup-teardown-scripts)**: 環境設定、依存関係のインストール、開発サーバーの起動をワークスペースごとに自動化
+- **[ターミナルプリセット](https://docs.paradev.com/terminal-presets)**: エージェントとシェルのレイアウトを保存し、キー1つで開けます
+- **[SlackとLinear](https://docs.paradev.com/use-with-linear)**: SlackメッセージやLinearのissueからワークスペースを立ち上げ
+- **[IDEで開く](https://docs.paradev.com/use-with-ide)**: Cursor、VS Code、任意のエディタへワンクリックで引き継ぎ
+- **[カスタムテーマ](https://docs.paradev.com/custom-themes)**: テーマファイルの作成、編集、インポート
+- **[キーボードショートカット](https://docs.paradev.com/keyboard-shortcuts)**: すべてのアクションは**設定 → キーボードショートカット**(⌘/)で再割り当てできます
+- **[プロバイダーの持ち込み](https://docs.paradev.com/providers)**: OpenRouter、Bedrock、Vertex、Vercel AI Gatewayを接続
+- **その他多数**: 毎日出荷しているため、このリストは常に追いついていません。本当の機能リストは[変更履歴](https://paradev.com/changelog)です。
 
 ## 対応エージェント
 
@@ -237,14 +237,14 @@ Paradevは、次のものを含むあらゆるCLIベースのコーディング�
 | サーフェス | できること |
 |:--------|:-------------|
 | [**デスクトップアプリ**](https://github.com/paradevai/paradev/releases/latest) | フル機能のIDE:ターミナル、差分ビューア、アプリ内ブラウザ、オートメーション |
-| [**CLI**](https://docs.superset.sh/cli/getting-started) | ワークスペース、エージェント、ターミナル、ホストをあらゆるシェルから管理できる単一の `superset` バイナリ |
-| [**TypeScript SDK**](https://docs.superset.sh/sdk/getting-started) | [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk)を使ってNode、Bun、DenoからParadevをプログラムで操作 |
-| [**MCPサーバー**](https://docs.superset.sh/mcp) | Claude Code、Codex、Cursorなどのエージェント自身にワークスペースを作成・管理させる |
+| [**CLI**](https://docs.paradev.com/cli/getting-started) | ワークスペース、エージェント、ターミナル、ホストをあらゆるシェルから管理できる単一の `superset` バイナリ |
+| [**TypeScript SDK**](https://docs.paradev.com/sdk/getting-started) | [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk)を使ってNode、Bun、DenoからParadevをプログラムで操作 |
+| [**MCPサーバー**](https://docs.paradev.com/mcp) | Claude Code、Codex、Cursorなどのエージェント自身にワークスペースを作成・管理させる |
 
 CLIはデスクトップアプリに同梱されていますが、単体でもインストールできます:
 
 ```bash
-curl -fsSL https://superset.sh/cli/install.sh | sh
+curl -fsSL https://paradev.com/cli/install.sh | sh
 # or
 brew install paradevai/tap/superset
 ```
@@ -287,7 +287,7 @@ Neonアカウントやサードパーティの認証情報は不要です。`set
 
 ## 設定
 
-ワークスペースのセットアップ、ティアダウン、実行スクリプトは `.superset/config.json` で設定します。[完全なドキュメント](https://docs.superset.sh/setup-teardown-scripts)を参照してください。
+ワークスペースのセットアップ、ティアダウン、実行スクリプトは `.superset/config.json` で設定します。[完全なドキュメント](https://docs.paradev.com/setup-teardown-scripts)を参照してください。
 
 ```json
 {
@@ -297,7 +297,7 @@ Neonアカウントやサードパーティの認証情報は不要です。`set
 }
 ```
 
-キーボードショートカットは**設定 → キーボードショートカット**(⌘/)でカスタマイズできます。[ショートカット一覧](https://docs.superset.sh/keyboard-shortcuts)も参照してください。
+キーボードショートカットは**設定 → キーボードショートカット**(⌘/)でカスタマイズできます。[ショートカット一覧](https://docs.paradev.com/keyboard-shortcuts)も参照してください。
 
 ## 技術スタック
 
@@ -332,7 +332,7 @@ Neonアカウントやサードパーティの認証情報は不要です。`set
 Paradevコミュニティに参加して、サポートを受けたり、フィードバックを共有したり、他のユーザーとつながりましょう:
 
 - **[Discord](https://discord.gg/cZeD9WYcV7)**: チームやコミュニティとチャット
-- **[Twitter](https://x.com/superset_sh)**: 最新情報とお知らせをフォロー
+- **[Twitter](https://x.com/paradevai)**: 最新情報とお知らせをフォロー
 - **[GitHub Issues](https://github.com/paradevai/paradev/issues)**: バグ報告と機能リクエスト
 - **[GitHub Discussions](https://github.com/paradevai/paradev/discussions)**: 質問やアイデアの共有
 

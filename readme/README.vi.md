@@ -17,7 +17,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/stargazers)
 [![GitHub release](https://img.shields.io/github/v/release/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/releases)
 [![License](https://img.shields.io/badge/license-Elastic%20License%202.0-blue?style=flat)](../LICENSE.md)
-[![Twitter](https://img.shields.io/badge/@superset__sh-555?logo=x)](https://x.com/superset_sh)
+[![Twitter](https://img.shields.io/badge/@paradevai-555?logo=x)](https://x.com/paradevai)
 [![Discord](https://img.shields.io/badge/Discord-555?logo=discord)](https://discord.gg/cZeD9WYcV7)
 
 <br />
@@ -27,7 +27,7 @@ Dành thời gian để ship, không phải để chờ.
 
 <br />
 
-[**Tải về cho macOS**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [Tài liệu](https://docs.superset.sh) &nbsp;&bull;&nbsp; [Changelog](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
+[**Tải về cho macOS**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [Tài liệu](https://docs.paradev.com) &nbsp;&bull;&nbsp; [Changelog](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
 
 <br />
 
@@ -57,11 +57,11 @@ Chờ ít hơn, ship nhiều hơn.
 
 Chạy 100+ coding agent cùng lúc, mỗi agent trong một git worktree riêng với nhánh, terminal và môi trường riêng. So sánh kết quả và merge phương án thắng cuộc.
 
-[Tài liệu →](https://docs.superset.sh/workspaces)
+[Tài liệu →](https://docs.paradev.com/workspaces)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="Claude đang stream một cuộc migration billing trong khi các agent khác chạy ở những workspace song song" width="100%" /></a>
+  <a href="https://docs.paradev.com/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="Claude đang stream một cuộc migration billing trong khi các agent khác chạy ở những workspace song song" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -71,11 +71,11 @@ Chạy 100+ coding agent cùng lúc, mỗi agent trong một git worktree riêng
 
 Theo dõi từng agent từ thanh bên, với chỉ báo đang làm việc, âm báo hoàn thành và badge trên Dock khi có agent cần bạn chú ý.
 
-[Tài liệu →](https://docs.superset.sh/agent-integration)
+[Tài liệu →](https://docs.paradev.com/agent-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="Một agent hoàn thành tác vụ và trạng thái trên thanh bên chuyển từ đang làm việc sang xong" width="100%" /></a>
+  <a href="https://docs.paradev.com/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="Một agent hoàn thành tác vụ và trạng thái trên thanh bên chuyển từ đang làm việc sang xong" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -85,11 +85,11 @@ Theo dõi từng agent từ thanh bên, với chỉ báo đang làm việc, âm 
 
 Tab, chia màn hình không giới hạn, preset và các phiên bền vững sống sót qua khởi động lại. Nhấn ⌘I để mở trình soạn prompt phong phú với chỉnh sửa nhiều dòng và nhắc file bằng @.
 
-[Tài liệu →](https://docs.superset.sh/terminal-integration)
+[Tài liệu →](https://docs.paradev.com/terminal-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="Gõ câu hỏi tiếp theo với một lượt nhắc file bằng @ trong trình soạn prompt phong phú cạnh terminal được chia đôi" width="100%" /></a>
+  <a href="https://docs.paradev.com/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="Gõ câu hỏi tiếp theo với một lượt nhắc file bằng @ trong trình soạn prompt phong phú cạnh terminal được chia đôi" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -99,11 +99,11 @@ Tab, chia màn hình không giới hạn, preset và các phiên bền vững s�
 
 Kiểm tra, bình luận và chỉnh sửa thay đổi của agent mà không cần rời ứng dụng, rồi commit và push khi đã sẵn sàng.
 
-[Tài liệu →](https://docs.superset.sh/diff-viewer)
+[Tài liệu →](https://docs.paradev.com/diff-viewer)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="Review thay đổi của một agent trong trình xem diff" width="100%" /></a>
+  <a href="https://docs.paradev.com/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="Review thay đổi của một agent trong trình xem diff" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -113,11 +113,11 @@ Kiểm tra, bình luận và chỉnh sửa thay đổi của agent mà không c�
 
 Xem trước các dev server đang chạy trong một khung trình duyệt. Cổng được phát hiện theo từng workspace, nên mỗi worktree có bản xem trước riêng.
 
-[Tài liệu →](https://docs.superset.sh/browser)
+[Tài liệu →](https://docs.paradev.com/browser)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="Trình duyệt trong ứng dụng xem trước một dev server với các cổng được phát hiện" width="100%" /></a>
+  <a href="https://docs.paradev.com/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="Trình duyệt trong ứng dụng xem trước một dev server với các cổng được phát hiện" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -127,11 +127,11 @@ Xem trước các dev server đang chạy trong một khung trình duyệt. Cổ
 
 Chạy các phiên agent theo lịch: phân loại issue qua đêm, soạn changelog hàng tuần, giữ dependency luôn mới.
 
-[Tài liệu →](https://docs.superset.sh/automations)
+[Tài liệu →](https://docs.paradev.com/automations)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="Các tự động hóa agent theo lịch" width="100%" /></a>
+  <a href="https://docs.paradev.com/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="Các tự động hóa agent theo lịch" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -141,11 +141,11 @@ Chạy các phiên agent theo lịch: phân loại issue qua đêm, soạn chang
 
 Kết nối một máy khác và truy cập workspace của nó từ bất cứ đâu: ứng dụng desktop, CLI hoặc điện thoại của bạn. Đánh thức host đang offline bằng lệnh tùy chỉnh.
 
-[Tài liệu →](https://docs.superset.sh/remote-access)
+[Tài liệu →](https://docs.paradev.com/remote-access)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="Host và thành viên trong cài đặt tổ chức" width="100%" /></a>
+  <a href="https://docs.paradev.com/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="Host và thành viên trong cài đặt tổ chức" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -155,11 +155,11 @@ Kết nối một máy khác và truy cập workspace của nó từ bất cứ 
 
 Viết script từ bất kỳ shell nào: tạo workspace, khởi chạy agent, đọc terminal của chúng và quản lý tự động hóa với một binary duy nhất. Nếu một agent chạy được lệnh, nó điều khiển được Paradev.
 
-[Tài liệu →](https://docs.superset.sh/cli/getting-started)
+[Tài liệu →](https://docs.paradev.com/cli/getting-started)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Tạo một workspace và khởi chạy một agent từ Paradev CLI" width="100%" /></a>
+  <a href="https://docs.paradev.com/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Tạo một workspace và khởi chạy một agent từ Paradev CLI" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -169,27 +169,27 @@ Viết script từ bất kỳ shell nào: tạo workspace, khởi chạy agent, 
 
 Nhảy đến bất kỳ workspace, hành động hay cài đặt nào từ một ô tìm kiếm duy nhất.
 
-[Tài liệu →](https://docs.superset.sh/keyboard-shortcuts)
+[Tài liệu →](https://docs.paradev.com/keyboard-shortcuts)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="Gõ trong bảng lệnh và lọc trực tiếp các hành động của workspace" width="100%" /></a>
+  <a href="https://docs.paradev.com/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="Gõ trong bảng lệnh và lọc trực tiếp các hành động của workspace" width="100%" /></a>
 </td>
 </tr>
 </table>
 
 **Cũng có sẵn trong hộp:**
 
-- **[Skill tích hợp](https://docs.superset.sh/skills)**: agent được nạp sẵn các skill `superset:*` (điều phối agent song song, lên lịch tự động hóa, gửi phản hồi, chẩn đoán sự cố), được cung cấp tự động khi khởi chạy
-- **[Bộ chọn model & agent tùy chỉnh](https://docs.superset.sh/agent-integration)**: chọn model và mức độ suy luận khi khởi chạy, và thêm bất kỳ terminal agent nào với icon riêng
-- **[Script thiết lập workspace](https://docs.superset.sh/setup-teardown-scripts)**: tự động hóa thiết lập env, cài đặt dependency và dev server cho từng workspace
-- **[Preset terminal](https://docs.superset.sh/terminal-presets)**: lưu bố cục agent và shell rồi mở chúng bằng một phím bấm
-- **[Slack & Linear](https://docs.superset.sh/use-with-linear)**: tạo workspace từ tin nhắn Slack hoặc issue Linear
-- **[Mở trong IDE của bạn](https://docs.superset.sh/use-with-ide)**: bàn giao một cú nhấp sang Cursor, VS Code hoặc bất kỳ editor nào
-- **[Theme tùy chỉnh](https://docs.superset.sh/custom-themes)**: tạo, chỉnh sửa và nhập file theme
-- **[Phím tắt](https://docs.superset.sh/keyboard-shortcuts)**: mọi hành động đều gán lại được qua **Cài đặt → Phím tắt** (⌘/)
-- **[Mang provider của riêng bạn](https://docs.superset.sh/providers)**: kết nối OpenRouter, Bedrock, Vertex hoặc Vercel AI Gateway
-- **Và còn nhiều nữa**: chúng tôi ship hàng ngày, nên danh sách này luôn bị tụt hậu. [Changelog](https://superset.sh/changelog) mới là danh sách tính năng thật sự.
+- **[Skill tích hợp](https://docs.paradev.com/skills)**: agent được nạp sẵn các skill `superset:*` (điều phối agent song song, lên lịch tự động hóa, gửi phản hồi, chẩn đoán sự cố), được cung cấp tự động khi khởi chạy
+- **[Bộ chọn model & agent tùy chỉnh](https://docs.paradev.com/agent-integration)**: chọn model và mức độ suy luận khi khởi chạy, và thêm bất kỳ terminal agent nào với icon riêng
+- **[Script thiết lập workspace](https://docs.paradev.com/setup-teardown-scripts)**: tự động hóa thiết lập env, cài đặt dependency và dev server cho từng workspace
+- **[Preset terminal](https://docs.paradev.com/terminal-presets)**: lưu bố cục agent và shell rồi mở chúng bằng một phím bấm
+- **[Slack & Linear](https://docs.paradev.com/use-with-linear)**: tạo workspace từ tin nhắn Slack hoặc issue Linear
+- **[Mở trong IDE của bạn](https://docs.paradev.com/use-with-ide)**: bàn giao một cú nhấp sang Cursor, VS Code hoặc bất kỳ editor nào
+- **[Theme tùy chỉnh](https://docs.paradev.com/custom-themes)**: tạo, chỉnh sửa và nhập file theme
+- **[Phím tắt](https://docs.paradev.com/keyboard-shortcuts)**: mọi hành động đều gán lại được qua **Cài đặt → Phím tắt** (⌘/)
+- **[Mang provider của riêng bạn](https://docs.paradev.com/providers)**: kết nối OpenRouter, Bedrock, Vertex hoặc Vercel AI Gateway
+- **Và còn nhiều nữa**: chúng tôi ship hàng ngày, nên danh sách này luôn bị tụt hậu. [Changelog](https://paradev.com/changelog) mới là danh sách tính năng thật sự.
 
 ## Các agent được hỗ trợ
 
@@ -237,14 +237,14 @@ Mọi bề mặt đều nói chuyện với cùng những workspace, nên bạn 
 | Bề mặt | Bạn nhận được gì |
 |:--------|:-------------|
 | [**Ứng dụng desktop**](https://github.com/paradevai/paradev/releases/latest) | IDE đầy đủ: terminal, trình xem diff, trình duyệt trong ứng dụng, tự động hóa |
-| [**CLI**](https://docs.superset.sh/cli/getting-started) | Một binary `superset` duy nhất để quản lý workspace, agent, terminal và host từ bất kỳ shell nào |
-| [**TypeScript SDK**](https://docs.superset.sh/sdk/getting-started) | Điều khiển Paradev bằng lập trình với [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk) từ Node, Bun hoặc Deno |
-| [**MCP Server**](https://docs.superset.sh/mcp) | Để Claude Code, Codex, Cursor và các agent khác tự tạo và quản lý workspace |
+| [**CLI**](https://docs.paradev.com/cli/getting-started) | Một binary `superset` duy nhất để quản lý workspace, agent, terminal và host từ bất kỳ shell nào |
+| [**TypeScript SDK**](https://docs.paradev.com/sdk/getting-started) | Điều khiển Paradev bằng lập trình với [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk) từ Node, Bun hoặc Deno |
+| [**MCP Server**](https://docs.paradev.com/mcp) | Để Claude Code, Codex, Cursor và các agent khác tự tạo và quản lý workspace |
 
 CLI được đóng gói kèm ứng dụng desktop, hoặc cài riêng:
 
 ```bash
-curl -fsSL https://superset.sh/cli/install.sh | sh
+curl -fsSL https://paradev.com/cli/install.sh | sh
 # or
 brew install paradevai/tap/superset
 ```
@@ -292,7 +292,7 @@ Xem [**DEVELOPMENT.md**](../DEVELOPMENT.md) để có hướng dẫn đầy đ�
 
 ## Cấu hình
 
-Cấu hình các script setup, teardown và run của workspace trong `.superset/config.json`. Xem [tài liệu đầy đủ](https://docs.superset.sh/setup-teardown-scripts).
+Cấu hình các script setup, teardown và run của workspace trong `.superset/config.json`. Xem [tài liệu đầy đủ](https://docs.paradev.com/setup-teardown-scripts).
 
 ```json
 {
@@ -302,7 +302,7 @@ Cấu hình các script setup, teardown và run của workspace trong `.superset
 }
 ```
 
-Phím tắt có thể tùy chỉnh qua **Cài đặt → Phím tắt** (⌘/); xem [danh sách phím tắt đầy đủ](https://docs.superset.sh/keyboard-shortcuts).
+Phím tắt có thể tùy chỉnh qua **Cài đặt → Phím tắt** (⌘/); xem [danh sách phím tắt đầy đủ](https://docs.paradev.com/keyboard-shortcuts).
 
 ## Công nghệ sử dụng
 
@@ -337,7 +337,7 @@ Chúng tôi hoan nghênh mọi đóng góp! Xem [CONTRIBUTING.md](../CONTRIBUTIN
 Tham gia cộng đồng Paradev để được trợ giúp, chia sẻ phản hồi và kết nối với những người dùng khác:
 
 - **[Discord](https://discord.gg/cZeD9WYcV7)**: trò chuyện với đội ngũ và cộng đồng
-- **[Twitter](https://x.com/superset_sh)**: theo dõi để nhận cập nhật và thông báo
+- **[Twitter](https://x.com/paradevai)**: theo dõi để nhận cập nhật và thông báo
 - **[GitHub Issues](https://github.com/paradevai/paradev/issues)**: báo bug và yêu cầu tính năng
 - **[GitHub Discussions](https://github.com/paradevai/paradev/discussions)**: đặt câu hỏi và chia sẻ ý tưởng
 

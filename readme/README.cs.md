@@ -17,7 +17,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/stargazers)
 [![GitHub release](https://img.shields.io/github/v/release/paradevai/paradev?style=flat&logo=github)](https://github.com/paradevai/paradev/releases)
 [![License](https://img.shields.io/badge/license-Elastic%20License%202.0-blue?style=flat)](../LICENSE.md)
-[![Twitter](https://img.shields.io/badge/@superset__sh-555?logo=x)](https://x.com/superset_sh)
+[![Twitter](https://img.shields.io/badge/@paradevai-555?logo=x)](https://x.com/paradevai)
 [![Discord](https://img.shields.io/badge/Discord-555?logo=discord)](https://discord.gg/cZeD9WYcV7)
 
 <br />
@@ -27,7 +27,7 @@ Trávte čas dodáváním, ne čekáním.
 
 <br />
 
-[**Stáhnout pro macOS**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [Dokumentace](https://docs.superset.sh) &nbsp;&bull;&nbsp; [Changelog](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
+[**Stáhnout pro macOS**](https://github.com/paradevai/paradev/releases/latest) &nbsp;&bull;&nbsp; [Dokumentace](https://docs.paradev.com) &nbsp;&bull;&nbsp; [Changelog](https://github.com/paradevai/paradev/releases) &nbsp;&bull;&nbsp; [Discord](https://discord.gg/cZeD9WYcV7)
 
 <br />
 
@@ -57,11 +57,11 @@ Méně čekání, více dodávání.
 
 Spusťte 100+ kódovacích agentů najednou, každého ve vlastním git worktree s vlastní větví, terminálem a prostředím. Porovnejte výsledky a slučte vítěze.
 
-[Dokumentace →](https://docs.superset.sh/workspaces)
+[Dokumentace →](https://docs.paradev.com/workspaces)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="Claude streamuje migraci billingu, zatímco další agenti běží v paralelních pracovních prostorech" width="100%" /></a>
+  <a href="https://docs.paradev.com/workspaces"><img src="../apps/marketing/public/images/readme/agents-working.gif" alt="Claude streamuje migraci billingu, zatímco další agenti běží v paralelních pracovních prostorech" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -71,11 +71,11 @@ Spusťte 100+ kódovacích agentů najednou, každého ve vlastním git worktree
 
 Sledujte každého agenta z postranního panelu — indikátory práce, zvuky dokončení a odznaky v docku, když někdo potřebuje vaši pozornost.
 
-[Dokumentace →](https://docs.superset.sh/agent-integration)
+[Dokumentace →](https://docs.paradev.com/agent-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="Agent dokončuje svůj úkol a stav v postranním panelu se přepíná z práce na hotovo" width="100%" /></a>
+  <a href="https://docs.paradev.com/agent-integration"><img src="../apps/marketing/public/images/readme/agent-monitoring.gif" alt="Agent dokončuje svůj úkol a stav v postranním panelu se přepíná z práce na hotovo" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -85,11 +85,11 @@ Sledujte každého agenta z postranního panelu — indikátory práce, zvuky do
 
 Karty, neomezené rozdělení, předvolby a perzistentní relace, které přežijí restart. Stiskněte ⌘I pro bohatý editor promptů s víceřádkovými úpravami a @-zmínkami souborů.
 
-[Dokumentace →](https://docs.superset.sh/terminal-integration)
+[Dokumentace →](https://docs.paradev.com/terminal-integration)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="Psaní navazujícího dotazu s @-zmínkou souboru v bohatém editoru promptů vedle rozděleného terminálu" width="100%" /></a>
+  <a href="https://docs.paradev.com/terminal-integration"><img src="../apps/marketing/public/images/readme/terminal.gif" alt="Psaní navazujícího dotazu s @-zmínkou souboru v bohatém editoru promptů vedle rozděleného terminálu" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -99,11 +99,11 @@ Karty, neomezené rozdělení, předvolby a perzistentní relace, které přeži
 
 Prohlížejte, komentujte a upravujte změny agentů bez opuštění aplikace, a až budou hotové, commitněte a pushněte je.
 
-[Dokumentace →](https://docs.superset.sh/diff-viewer)
+[Dokumentace →](https://docs.paradev.com/diff-viewer)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="Kontrola změn agenta v diff prohlížeči" width="100%" /></a>
+  <a href="https://docs.paradev.com/diff-viewer"><img src="../apps/marketing/public/images/readme/diff-viewer.png" alt="Kontrola změn agenta v diff prohlížeči" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -113,11 +113,11 @@ Prohlížejte, komentujte a upravujte změny agentů bez opuštění aplikace, a
 
 Prohlížejte běžící dev servery v panelu prohlížeče. Porty se detekují pro každý pracovní prostor zvlášť, takže každý worktree má vlastní náhled.
 
-[Dokumentace →](https://docs.superset.sh/browser)
+[Dokumentace →](https://docs.paradev.com/browser)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="Vestavěný prohlížeč s náhledem dev serveru a detekovanými porty" width="100%" /></a>
+  <a href="https://docs.paradev.com/browser"><img src="../apps/marketing/public/images/readme/browser-ports.png" alt="Vestavěný prohlížeč s náhledem dev serveru a detekovanými porty" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -127,11 +127,11 @@ Prohlížejte běžící dev servery v panelu prohlížeče. Porty se detekují 
 
 Spouštějte relace agentů podle plánu: přes noc roztřiďte issues, připravte týdenní changelog, udržujte závislosti aktuální.
 
-[Dokumentace →](https://docs.superset.sh/automations)
+[Dokumentace →](https://docs.paradev.com/automations)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="Naplánované automatizace agentů" width="100%" /></a>
+  <a href="https://docs.paradev.com/automations"><img src="../apps/marketing/public/images/readme/automations.png" alt="Naplánované automatizace agentů" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -141,11 +141,11 @@ Spouštějte relace agentů podle plánu: přes noc roztřiďte issues, připrav
 
 Připojte další počítač a dostaňte se k jeho pracovním prostorům odkudkoli: z desktopové aplikace, CLI nebo telefonu. Probuďte offline hostitele vlastním příkazem.
 
-[Dokumentace →](https://docs.superset.sh/remote-access)
+[Dokumentace →](https://docs.paradev.com/remote-access)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="Hostitelé a členové v nastavení organizace" width="100%" /></a>
+  <a href="https://docs.paradev.com/remote-access"><img src="../apps/docs/public/images/remote-workspaces-hosts-members.png" alt="Hostitelé a členové v nastavení organizace" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -155,11 +155,11 @@ Připojte další počítač a dostaňte se k jeho pracovním prostorům odkudko
 
 Skriptujte z libovolného shellu: vytvářejte pracovní prostory, spouštějte agenty, čtěte jejich terminály a spravujte automatizace jedinou binárkou. Pokud agent umí spustit příkaz, umí řídit Paradev.
 
-[Dokumentace →](https://docs.superset.sh/cli/getting-started)
+[Dokumentace →](https://docs.paradev.com/cli/getting-started)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Vytvoření pracovního prostoru a spuštění agenta ze Paradev CLI" width="100%" /></a>
+  <a href="https://docs.paradev.com/cli/getting-started"><img src="../apps/marketing/public/images/readme/cli-demo.gif" alt="Vytvoření pracovního prostoru a spuštění agenta ze Paradev CLI" width="100%" /></a>
 </td>
 </tr>
 <tr>
@@ -169,27 +169,27 @@ Skriptujte z libovolného shellu: vytvářejte pracovní prostory, spouštějte 
 
 Přejděte na libovolný pracovní prostor, akci nebo nastavení z jednoho vyhledávacího pole.
 
-[Dokumentace →](https://docs.superset.sh/keyboard-shortcuts)
+[Dokumentace →](https://docs.paradev.com/keyboard-shortcuts)
 
 </td>
 <td width="50%">
-  <a href="https://docs.superset.sh/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="Psaní v paletě příkazů a živé filtrování akcí pracovního prostoru" width="100%" /></a>
+  <a href="https://docs.paradev.com/keyboard-shortcuts"><img src="../apps/marketing/public/images/readme/command-palette.gif" alt="Psaní v paletě příkazů a živé filtrování akcí pracovního prostoru" width="100%" /></a>
 </td>
 </tr>
 </table>
 
 **Také v balení:**
 
-- **[Vestavěné skills](https://docs.superset.sh/skills)**: agenti přicházejí s přednahranými skills `superset:*` (orchestrace paralelních agentů, plánování automatizací, odesílání zpětné vazby, diagnostika problémů), automaticky poskytnutými při spuštění
-- **[Výběr modelu a vlastní agenti](https://docs.superset.sh/agent-integration)**: při spuštění zvolte model a úroveň uvažování a přidejte libovolného terminálového agenta s vlastní ikonou
-- **[Skripty pro nastavení pracovního prostoru](https://docs.superset.sh/setup-teardown-scripts)**: automatizujte nastavení prostředí, instalaci závislostí a dev servery pro každý pracovní prostor
-- **[Předvolby terminálu](https://docs.superset.sh/terminal-presets)**: uložte si rozložení agentů a shellů a otevřete je jedním stiskem klávesy
-- **[Slack a Linear](https://docs.superset.sh/use-with-linear)**: vytvářejte pracovní prostory ze zpráv na Slacku nebo issues v Linearu
-- **[Otevření ve vašem IDE](https://docs.superset.sh/use-with-ide)**: předání jedním kliknutím do Cursoru, VS Code nebo jakéhokoli editoru
-- **[Vlastní motivy](https://docs.superset.sh/custom-themes)**: vytvářejte, upravujte a importujte soubory motivů
-- **[Klávesové zkratky](https://docs.superset.sh/keyboard-shortcuts)**: každou akci lze přemapovat přes **Nastavení → Klávesové zkratky** (⌘/)
-- **[Přineste si vlastní poskytovatele](https://docs.superset.sh/providers)**: připojte OpenRouter, Bedrock, Vertex nebo Vercel AI Gateway
-- **A mnoho dalšího**: dodáváme denně, takže tento seznam je věčně pozadu. Skutečný seznam funkcí je [changelog](https://superset.sh/changelog).
+- **[Vestavěné skills](https://docs.paradev.com/skills)**: agenti přicházejí s přednahranými skills `superset:*` (orchestrace paralelních agentů, plánování automatizací, odesílání zpětné vazby, diagnostika problémů), automaticky poskytnutými při spuštění
+- **[Výběr modelu a vlastní agenti](https://docs.paradev.com/agent-integration)**: při spuštění zvolte model a úroveň uvažování a přidejte libovolného terminálového agenta s vlastní ikonou
+- **[Skripty pro nastavení pracovního prostoru](https://docs.paradev.com/setup-teardown-scripts)**: automatizujte nastavení prostředí, instalaci závislostí a dev servery pro každý pracovní prostor
+- **[Předvolby terminálu](https://docs.paradev.com/terminal-presets)**: uložte si rozložení agentů a shellů a otevřete je jedním stiskem klávesy
+- **[Slack a Linear](https://docs.paradev.com/use-with-linear)**: vytvářejte pracovní prostory ze zpráv na Slacku nebo issues v Linearu
+- **[Otevření ve vašem IDE](https://docs.paradev.com/use-with-ide)**: předání jedním kliknutím do Cursoru, VS Code nebo jakéhokoli editoru
+- **[Vlastní motivy](https://docs.paradev.com/custom-themes)**: vytvářejte, upravujte a importujte soubory motivů
+- **[Klávesové zkratky](https://docs.paradev.com/keyboard-shortcuts)**: každou akci lze přemapovat přes **Nastavení → Klávesové zkratky** (⌘/)
+- **[Přineste si vlastní poskytovatele](https://docs.paradev.com/providers)**: připojte OpenRouter, Bedrock, Vertex nebo Vercel AI Gateway
+- **A mnoho dalšího**: dodáváme denně, takže tento seznam je věčně pozadu. Skutečný seznam funkcí je [changelog](https://paradev.com/changelog).
 
 ## Podporovaní agenti
 
@@ -237,14 +237,14 @@ Každé rozhraní komunikuje se stejnými pracovními prostory, takže můžete 
 | Rozhraní | Co dostanete |
 |:--------|:-------------|
 | [**Desktopová aplikace**](https://github.com/paradevai/paradev/releases/latest) | Plnohodnotné IDE: terminály, diff prohlížeč, vestavěný prohlížeč, automatizace |
-| [**CLI**](https://docs.superset.sh/cli/getting-started) | Jediná binárka `superset` pro správu pracovních prostorů, agentů, terminálů a hostitelů z libovolného shellu |
-| [**TypeScript SDK**](https://docs.superset.sh/sdk/getting-started) | Řiďte Paradev programově pomocí [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk) z Node, Bunu nebo Dena |
-| [**MCP server**](https://docs.superset.sh/mcp) | Nechte Claude Code, Codex, Cursor a další agenty vytvářet a spravovat pracovní prostory samostatně |
+| [**CLI**](https://docs.paradev.com/cli/getting-started) | Jediná binárka `superset` pro správu pracovních prostorů, agentů, terminálů a hostitelů z libovolného shellu |
+| [**TypeScript SDK**](https://docs.paradev.com/sdk/getting-started) | Řiďte Paradev programově pomocí [`@superset_sh/sdk`](https://www.npmjs.com/package/@superset_sh/sdk) z Node, Bunu nebo Dena |
+| [**MCP server**](https://docs.paradev.com/mcp) | Nechte Claude Code, Codex, Cursor a další agenty vytvářet a spravovat pracovní prostory samostatně |
 
 CLI je přibalené k desktopové aplikaci, nebo ho nainstalujte samostatně:
 
 ```bash
-curl -fsSL https://superset.sh/cli/install.sh | sh
+curl -fsSL https://paradev.com/cli/install.sh | sh
 # or
 brew install paradevai/tap/superset
 ```
@@ -292,7 +292,7 @@ Kompletního průvodce najdete v [**DEVELOPMENT.md**](../DEVELOPMENT.md): co dě
 
 ## Konfigurace
 
-Nakonfigurujte skripty setup, teardown a run pracovního prostoru v `.superset/config.json`. Viz [úplná dokumentace](https://docs.superset.sh/setup-teardown-scripts).
+Nakonfigurujte skripty setup, teardown a run pracovního prostoru v `.superset/config.json`. Viz [úplná dokumentace](https://docs.paradev.com/setup-teardown-scripts).
 
 ```json
 {
@@ -302,7 +302,7 @@ Nakonfigurujte skripty setup, teardown a run pracovního prostoru v `.superset/c
 }
 ```
 
-Klávesové zkratky si můžete přizpůsobit přes **Nastavení → Klávesové zkratky** (⌘/); viz [úplný seznam zkratek](https://docs.superset.sh/keyboard-shortcuts).
+Klávesové zkratky si můžete přizpůsobit přes **Nastavení → Klávesové zkratky** (⌘/); viz [úplný seznam zkratek](https://docs.paradev.com/keyboard-shortcuts).
 
 ## Technologie
 
@@ -337,7 +337,7 @@ Příspěvky vítáme! V [CONTRIBUTING.md](../CONTRIBUTING.md) najdete, jak se n
 Připojte se ke komunitě Paradevu — získáte pomoc, můžete sdílet zpětnou vazbu a poznat další uživatele:
 
 - **[Discord](https://discord.gg/cZeD9WYcV7)**: chatujte s týmem a komunitou
-- **[Twitter](https://x.com/superset_sh)**: sledujte novinky a oznámení
+- **[Twitter](https://x.com/paradevai)**: sledujte novinky a oznámení
 - **[GitHub Issues](https://github.com/paradevai/paradev/issues)**: hlaste chyby a žádejte o funkce
 - **[GitHub Discussions](https://github.com/paradevai/paradev/discussions)**: ptejte se a sdílejte nápady
 
