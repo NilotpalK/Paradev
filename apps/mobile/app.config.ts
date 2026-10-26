@@ -2,7 +2,6 @@ import path from "node:path";
 import { SUPPORTED_LOCALES } from "@superset/i18n/locales";
 import { IOS_APP } from "@superset/shared/app-identity";
 import { BRAND } from "@superset/shared/brand";
-import { withOwnDomainTwins } from "@superset/shared/own-domains";
 import { config } from "dotenv";
 import type { ConfigContext } from "expo/config";
 import { withIosAccentColor } from "./config-plugins/withIosAccentColor";
@@ -23,9 +22,7 @@ const webUrl = new URL(
 	process.env.EXPO_PUBLIC_WEB_URL || "https://app.superset.sh",
 );
 const associatedDomains =
-	webUrl.protocol === "https:"
-		? withOwnDomainTwins([webUrl.hostname]).map((host) => `applinks:${host}`)
-		: undefined;
+	webUrl.protocol === "https:" ? [`applinks:${webUrl.hostname}`] : undefined;
 
 const SIGNED_BUILD_PROFILES = ["preview", "production"];
 const signedUpdates = process.env.MOBILE_SIGNED_UPDATES === "1";
