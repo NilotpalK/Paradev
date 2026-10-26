@@ -128,7 +128,9 @@ const config: Configuration = {
 			"build/entitlements.mac.inherit.plist",
 		),
 		extendInfo: {
-			CFBundleName: displayName,
+			// Electron finds "<CFBundleName> Helper.app" by this name and aborts at
+			// launch when it is not productName.
+			CFBundleName: productName,
 			CFBundleDisplayName: displayName,
 			// Required for macOS microphone permission prompt
 			NSMicrophoneUsageDescription: `${displayName} needs microphone access for dictation in the chat composer and for voice-enabled tools like Codex transcription.`,

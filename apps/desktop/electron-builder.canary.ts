@@ -37,7 +37,7 @@ const config: Configuration = {
 		artifactName: `Superset-Canary-\${version}-\${arch}.\${ext}`,
 		extendInfo: {
 			...baseConfig.mac?.extendInfo,
-			CFBundleName: displayName,
+			CFBundleName: productName,
 			CFBundleDisplayName: displayName,
 		},
 	},
