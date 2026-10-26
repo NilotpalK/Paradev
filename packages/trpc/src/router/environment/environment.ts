@@ -15,6 +15,7 @@ import { assertCloudAccess, assertMember } from "../../lib/cloud-guards";
 import {
 	buildSandboxClaim,
 	deleteSandbox,
+	hasPersonalRepository,
 	loadRepositories,
 	primaryRepository,
 	promoteSandboxToEnvironment,
@@ -126,7 +127,7 @@ async function setEnvironmentRepositories(args: {
 	userId: string;
 	repositoryIds: readonly string[];
 	primaryRepositoryId: string;
-}): Promise<void> {
+}): Promise<{ forcedPersonal: boolean }> {
 	let repositories: Awaited<ReturnType<typeof loadRepositories>>;
 	try {
 		repositories = await loadRepositories({
@@ -145,6 +146,10 @@ async function setEnvironmentRepositories(args: {
 	if (!repositories.some((repo) => repo.id === args.primaryRepositoryId)) {
 		throw primaryNotIncluded();
 	}
+	const forcedPersonal = await hasPersonalRepository({
+		organizationId: args.organizationId,
+		repositoryIds: args.repositoryIds,
+	});
 	await db
 		.delete(environmentRepositories)
 		.where(eq(environmentRepositories.environmentId, args.environmentId));
@@ -158,8 +163,14 @@ async function setEnvironmentRepositories(args: {
 	}
 	await db
 		.update(environments)
-		.set({ primaryRepositoryId: args.primaryRepositoryId })
+		.set({
+			primaryRepositoryId: args.primaryRepositoryId,
+			...(forcedPersonal
+				? { scope: "personal" as const, createdByUserId: args.userId }
+				: {}),
+		})
 		.where(eq(environments.id, args.environmentId));
+	return { forcedPersonal };
 }
 
 function primaryNotIncluded() {
@@ -283,19 +294,25 @@ export const environmentRouter = {
 					i18nKey: "serverError.environment.couldNotRecord",
 				});
 			}
+			let forcedPersonal = false;
 			try {
-				await setEnvironmentRepositories({
+				const result = await setEnvironmentRepositories({
 					environmentId: row.id,
 					organizationId: input.organizationId,
 					userId: ctx.userId,
 					repositoryIds: input.repositoryIds,
 					primaryRepositoryId: input.primaryRepositoryId,
 				});
+				forcedPersonal = result.forcedPersonal;
 			} catch (error) {
 				await db.delete(environments).where(eq(environments.id, row.id));
 				throw error;
 			}
-			return { ...row, primaryRepositoryId: input.primaryRepositoryId };
+			return {
+				...row,
+				primaryRepositoryId: input.primaryRepositoryId,
+				scope: forcedPersonal ? ("personal" as const) : row.scope,
+			};
 		}),
 
 	/** What promoting this workspace would make, before its golden is built. */
@@ -306,6 +323,10 @@ export const environmentRouter = {
 				ctx,
 				input.cloudWorkspaceId,
 			);
+			const forcedPersonal = await hasPersonalRepository({
+				organizationId: workspace.organizationId,
+				repositoryIds: checkouts.map((entry) => entry.repository.id),
+			});
 			return {
 				name: workspace.name,
 				repositories: checkouts.map((entry, index) => ({
@@ -314,7 +335,7 @@ export const environmentRouter = {
 					primary: index === 0,
 				})),
 				region: source?.region ?? null,
-				scope: source?.scope ?? "organization",
+				scope: forcedPersonal ? "personal" : (source?.scope ?? "organization"),
 			};
 		}),
 
@@ -354,8 +375,13 @@ export const environmentRouter = {
 					});
 				}
 			}
+			const forcedPersonal = await hasPersonalRepository({
+				organizationId: workspace.organizationId,
+				repositoryIds: checkouts.map((entry) => entry.repository.id),
+			});
+			const effectiveScope = forcedPersonal ? "personal" : input.scope;
 			const targetOwner =
-				target && input.scope === "personal"
+				target && effectiveScope === "personal"
 					? personalOwner(target, ctx.userId)
 					: null;
 
@@ -410,7 +436,7 @@ export const environmentRouter = {
 								.update(environments)
 								.set({
 									...fromGolden,
-									...(input.scope ? { scope: input.scope } : {}),
+									...(effectiveScope ? { scope: effectiveScope } : {}),
 									...(targetOwner ? { createdByUserId: targetOwner } : {}),
 								})
 								.where(
@@ -432,7 +458,7 @@ export const environmentRouter = {
 									organizationId: workspace.organizationId,
 									name: input.name as string,
 									...fromGolden,
-									scope: input.scope ?? source?.scope ?? "organization",
+									scope: effectiveScope ?? source?.scope ?? "organization",
 									createdByUserId: ctx.userId,
 								})
 								.returning();
@@ -529,17 +555,19 @@ export const environmentRouter = {
 					i18nKey: "serverError.environment.repositoriesFrozen",
 				});
 			}
+			let forcedPersonal = false;
 			if (input.repositoryIds) {
 				const primaryRepositoryId =
 					input.primaryRepositoryId ?? current.primaryRepositoryId;
 				if (!primaryRepositoryId) throw primaryNotIncluded();
-				await setEnvironmentRepositories({
+				const result = await setEnvironmentRepositories({
 					environmentId: input.id,
 					organizationId: current.organizationId,
 					userId: ctx.userId,
 					repositoryIds: input.repositoryIds,
 					primaryRepositoryId,
 				});
+				forcedPersonal = result.forcedPersonal;
 			} else if (input.primaryRepositoryId !== undefined) {
 				const included = await db.query.environmentRepositories.findFirst({
 					where: and(
@@ -553,10 +581,21 @@ export const environmentRouter = {
 					.set({ primaryRepositoryId: input.primaryRepositoryId })
 					.where(eq(environments.id, input.id));
 			}
+			if (!input.repositoryIds && input.scope === "organization") {
+				const existingLinks = await db
+					.select({ repositoryId: environmentRepositories.repositoryId })
+					.from(environmentRepositories)
+					.where(eq(environmentRepositories.environmentId, input.id));
+				forcedPersonal = await hasPersonalRepository({
+					organizationId: current.organizationId,
+					repositoryIds: existingLinks.map((row) => row.repositoryId),
+				});
+			}
+			const effectiveScope = forcedPersonal ? "personal" : input.scope;
 			const patch = {
 				...(input.name ? { name: input.name } : {}),
-				...(input.scope ? { scope: input.scope } : {}),
-				...(input.scope === "personal"
+				...(effectiveScope ? { scope: effectiveScope } : {}),
+				...(effectiveScope === "personal"
 					? { createdByUserId: personalOwner(current, ctx.userId) }
 					: {}),
 			};

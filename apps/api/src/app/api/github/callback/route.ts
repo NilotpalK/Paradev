@@ -2,6 +2,7 @@ import { db } from "@superset/db/client";
 import { githubInstallations, githubRepositories } from "@superset/db/schema";
 import { members } from "@superset/db/schema/auth";
 import {
+	doesGithubAccountBelongToUser,
 	readGithubAppInstallState,
 	syncInstallationRepositories,
 } from "@superset/trpc/lib/github-user";
@@ -83,6 +84,13 @@ export async function GET(request: Request) {
 				403,
 			);
 		}
+		if (!(await organizationSyncsNow(desktopState.organizationId))) {
+			return desktopPage(
+				"GitHub was not connected",
+				"GitHub sync requires the Pro plan.",
+				403,
+			);
+		}
 		organizationId = desktopState.organizationId;
 		userId = desktopState.userId;
 		installationId = installationParam;
@@ -135,6 +143,7 @@ export async function GET(request: Request) {
 			account && "login" in account ? account.login : (account?.name ?? "");
 		const accountType =
 			account && "type" in account ? account.type : "Organization";
+		const accountId = account && "id" in account ? String(account.id) : null;
 		const permissions = installation.permissions as Record<string, string>;
 
 		const existingByInstallationId =
@@ -145,6 +154,22 @@ export async function GET(request: Request) {
 		let savedInstallation: typeof githubInstallations.$inferSelect | undefined;
 
 		if (accountType === "User") {
+			if (fromDesktop) {
+				const verifiedOwner =
+					accountId !== null &&
+					(await doesGithubAccountBelongToUser({
+						userId,
+						githubAccountId: accountId,
+					}));
+				if (!verifiedOwner) {
+					return desktopPage(
+						"GitHub was not connected",
+						"Connect your GitHub account in Settings → Connections first so Superset can verify this account is yours.",
+						403,
+					);
+				}
+			}
+
 			if (
 				existingByInstallationId &&
 				existingByInstallationId.connectedByUserId !== userId
@@ -162,10 +187,31 @@ export async function GET(request: Request) {
 				}));
 
 			if (existingUserInstallation) {
+				let shouldRehome = false;
+				if (existingUserInstallation.organizationId !== organizationId) {
+					const oldOrgMembers = await db
+						.select({ id: members.id })
+						.from(members)
+						.where(
+							eq(
+								members.organizationId,
+								existingUserInstallation.organizationId,
+							),
+						)
+						.limit(2);
+					shouldRehome =
+						oldOrgMembers.length <= 1 &&
+						!(await organizationSyncsNow(
+							existingUserInstallation.organizationId,
+						));
+				}
+				const targetOrgId = shouldRehome
+					? organizationId
+					: existingUserInstallation.organizationId;
 				const [updated] = await db
 					.update(githubInstallations)
 					.set({
-						organizationId,
+						organizationId: targetOrgId,
 						connectedByUserId: userId,
 						installationId: String(installation.id),
 						accountLogin,
@@ -178,10 +224,10 @@ export async function GET(request: Request) {
 					.where(eq(githubInstallations.id, existingUserInstallation.id))
 					.returning();
 				savedInstallation = updated;
-				if (existingUserInstallation.organizationId !== organizationId) {
+				if (shouldRehome) {
 					await db
 						.update(githubRepositories)
-						.set({ organizationId })
+						.set({ organizationId: targetOrgId })
 						.where(
 							eq(
 								githubRepositories.installationId,
@@ -200,10 +246,32 @@ export async function GET(request: Request) {
 						accountType: "User",
 						permissions,
 					})
+					.onConflictDoUpdate({
+						target: [githubInstallations.installationId],
+						set: {
+							accountLogin,
+							permissions,
+							suspended: false,
+							suspendedAt: null,
+							updatedAt: new Date(),
+						},
+					})
 					.returning();
 				savedInstallation = inserted;
 			}
 		} else {
+			if (
+				fromDesktop &&
+				(!existingByInstallationId ||
+					existingByInstallationId.organizationId !== organizationId)
+			) {
+				return desktopPage(
+					"GitHub was not connected",
+					"Organization installations must be connected from Settings → Integrations.",
+					403,
+				);
+			}
+
 			if (
 				existingByInstallationId &&
 				existingByInstallationId.organizationId !== organizationId
@@ -224,7 +292,7 @@ export async function GET(request: Request) {
 				const [updated] = await db
 					.update(githubInstallations)
 					.set({
-						connectedByUserId: userId,
+						...(fromDesktop ? {} : { connectedByUserId: userId }),
 						installationId: String(installation.id),
 						accountLogin,
 						accountType,
@@ -247,6 +315,16 @@ export async function GET(request: Request) {
 						accountType,
 						permissions,
 					})
+					.onConflictDoUpdate({
+						target: [githubInstallations.installationId],
+						set: {
+							accountLogin,
+							permissions,
+							suspended: false,
+							suspendedAt: null,
+							updatedAt: new Date(),
+						},
+					})
 					.returning();
 				savedInstallation = inserted;
 			}
@@ -260,17 +338,18 @@ export async function GET(request: Request) {
 		// localhost, so the job endpoint is called directly, as triggerSync does.
 		// A free organization gets no backfill and no webhook sync after it
 		// either; the subscription hook queues this job when it upgrades.
+		const syncOrganizationId = savedInstallation.organizationId;
 		const syncUrl = `${env.NEXT_PUBLIC_API_URL}/api/github/jobs/initial-sync`;
 		const syncBody = {
 			installationDbId: savedInstallation.id,
-			organizationId,
+			organizationId: syncOrganizationId,
 		};
-		if (await organizationSyncsNow(organizationId)) {
+		if (await organizationSyncsNow(syncOrganizationId)) {
 			if (fromDesktop) {
 				await syncInstallationRepositories({
 					installationDbId: savedInstallation.id,
 					githubInstallationId: savedInstallation.installationId,
-					organizationId,
+					organizationId: syncOrganizationId,
 				}).catch((error) => {
 					console.error(
 						"[github/callback] Immediate repository sync failed:",

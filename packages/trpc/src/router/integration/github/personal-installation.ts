@@ -4,8 +4,11 @@ import {
 	githubInstallations,
 	githubRepositories,
 	githubUserConnections,
+	userIdentities,
 } from "@superset/db/schema";
-import { and, eq, notInArray, or } from "drizzle-orm";
+import { accounts, members } from "@superset/db/schema/auth";
+import { Client } from "@upstash/qstash";
+import { and, asc, eq, or } from "drizzle-orm";
 import { z } from "zod";
 import { env } from "../../../env";
 import { installationOctokit } from "../../../lib/sandbox/clone-token";
@@ -14,6 +17,9 @@ import { organizationSyncsNow } from "../../../lib/sync-policy/syncPolicy";
 
 const INSTALL_STATE_AAD = "github-app-install";
 const INSTALL_STATE_TTL_MS = 10 * 60_000;
+const DISCOVERY_COOLDOWN_MS = 5 * 60_000;
+
+const discoveryLastAttemptByKey = new Map<string, number>();
 
 const installStateSchema = z.object({
 	organizationId: z.string().uuid(),
@@ -21,20 +27,29 @@ const installStateSchema = z.object({
 	expiresAt: z.number(),
 });
 
+export function sealGithubAppInstallState(args: {
+	organizationId: string;
+	userId: string;
+	expiresAt?: number;
+}): string {
+	const sealed = seal(
+		JSON.stringify({
+			organizationId: args.organizationId,
+			userId: args.userId,
+			expiresAt: args.expiresAt ?? Date.now() + INSTALL_STATE_TTL_MS,
+		}),
+		INSTALL_STATE_AAD,
+	);
+	return Buffer.from(sealed, "base64").toString("base64url");
+}
+
 export function githubAppInstallUrl(args: {
 	organizationId: string;
 	userId: string;
 }): string | null {
 	if (!env.GH_APP_SLUG) return null;
 	try {
-		const state = seal(
-			JSON.stringify({
-				organizationId: args.organizationId,
-				userId: args.userId,
-				expiresAt: Date.now() + INSTALL_STATE_TTL_MS,
-			}),
-			INSTALL_STATE_AAD,
-		);
+		const state = sealGithubAppInstallState(args);
 		const url = new URL(
 			`https://github.com/apps/${env.GH_APP_SLUG}/installations/new`,
 		);
@@ -49,8 +64,9 @@ export function readGithubAppInstallState(
 	state: string,
 ): { organizationId: string; userId: string } | null {
 	try {
+		const base64 = Buffer.from(state, "base64url").toString("base64");
 		const parsed = installStateSchema.parse(
-			JSON.parse(open(state, INSTALL_STATE_AAD)),
+			JSON.parse(open(base64, INSTALL_STATE_AAD)),
 		);
 		if (parsed.expiresAt < Date.now()) return null;
 		return {
@@ -63,11 +79,54 @@ export function readGithubAppInstallState(
 }
 
 function githubAppClient(): App | null {
-	if (!env.GH_APP_ID || !env.GH_APP_PRIVATE_KEY) return null;
+	if (
+		!env.GH_APP_ID ||
+		!env.GH_APP_PRIVATE_KEY ||
+		!env.GH_APP_PRIVATE_KEY.includes("-----BEGIN")
+	) {
+		return null;
+	}
 	return new App({
 		appId: env.GH_APP_ID,
 		privateKey: env.GH_APP_PRIVATE_KEY,
 	});
+}
+
+/**
+ * Verifies that `githubAccountId` (GitHub's numeric user ID) belongs to
+ * `userId` in Superset via `github_user_connections`, Better Auth `accounts`,
+ * or `user_identities`.
+ */
+export async function doesGithubAccountBelongToUser(args: {
+	userId: string;
+	githubAccountId: string;
+}): Promise<boolean> {
+	const [connection, authAccount, identity] = await Promise.all([
+		db.query.githubUserConnections.findFirst({
+			where: and(
+				eq(githubUserConnections.userId, args.userId),
+				eq(githubUserConnections.githubUserId, args.githubAccountId),
+			),
+			columns: { id: true },
+		}),
+		db.query.accounts.findFirst({
+			where: and(
+				eq(accounts.userId, args.userId),
+				eq(accounts.providerId, "github"),
+				eq(accounts.accountId, args.githubAccountId),
+			),
+			columns: { id: true },
+		}),
+		db.query.userIdentities.findFirst({
+			where: and(
+				eq(userIdentities.userId, args.userId),
+				eq(userIdentities.provider, "github"),
+				eq(userIdentities.externalId, args.githubAccountId),
+			),
+			columns: { id: true },
+		}),
+	]);
+	return Boolean(connection || authAccount || identity);
 }
 
 export async function syncInstallationRepositories(args: {
@@ -85,7 +144,7 @@ export async function syncInstallationRepositories(args: {
 		owner: { login: string };
 	}> = [];
 	const perPage = 100;
-	for (let page = 1; page <= 20; page++) {
+	for (let page = 1; ; page++) {
 		const { data } = await octokit.request("GET /installation/repositories", {
 			per_page: perPage,
 			page,
@@ -94,10 +153,8 @@ export async function syncInstallationRepositories(args: {
 		if (data.repositories.length < perPage) break;
 	}
 
-	const seenRepoIds: string[] = [];
 	for (const repo of repos) {
 		const repoId = String(repo.id);
-		seenRepoIds.push(repoId);
 		await db
 			.insert(githubRepositories)
 			.values({
@@ -125,27 +182,39 @@ export async function syncInstallationRepositories(args: {
 			});
 	}
 
-	if (seenRepoIds.length > 0) {
-		await db
-			.delete(githubRepositories)
-			.where(
-				and(
-					eq(githubRepositories.installationId, args.installationDbId),
-					notInArray(githubRepositories.repoId, seenRepoIds),
-				),
-			);
-	} else {
-		await db
-			.delete(githubRepositories)
-			.where(eq(githubRepositories.installationId, args.installationDbId));
-	}
-
 	await db
 		.update(githubInstallations)
 		.set({ lastSyncedAt: new Date() })
 		.where(eq(githubInstallations.id, args.installationDbId));
 
 	return repos.length;
+}
+
+async function queueInitialSyncJob(args: {
+	installationDbId: string;
+	organizationId: string;
+}): Promise<void> {
+	const syncUrl = `${env.NEXT_PUBLIC_API_URL}/api/github/jobs/initial-sync`;
+	const syncBody = {
+		installationDbId: args.installationDbId,
+		organizationId: args.organizationId,
+	};
+	if (env.NODE_ENV === "development") {
+		fetch(syncUrl, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(syncBody),
+		}).catch(() => {});
+		return;
+	}
+	const qstash = new Client({ token: env.QSTASH_TOKEN });
+	await qstash
+		.publishJSON({
+			url: syncUrl,
+			body: syncBody,
+			retries: 3,
+		})
+		.catch(() => {});
 }
 
 async function liftBotSuspensionIfNeeded(
@@ -183,6 +252,15 @@ async function liftBotSuspensionIfNeeded(
 	return true;
 }
 
+async function isSoloOrganization(organizationId: string): Promise<boolean> {
+	const rows = await db
+		.select({ id: members.id })
+		.from(members)
+		.where(eq(members.organizationId, organizationId))
+		.limit(2);
+	return rows.length <= 1;
+}
+
 /**
  * Ensures a user's personal ("User") GitHub App installation is linked,
  * unsuspended when their active organization syncs, and has its repositories
@@ -200,22 +278,44 @@ export async function syncPersonalGithubInstallation(args: {
 		),
 	});
 
+	if (
+		existing &&
+		existing.lastSyncedAt !== null &&
+		!existing.suspended &&
+		!args.force
+	) {
+		return existing;
+	}
+
+	const cooldownKey = `${args.userId}:${args.organizationId}`;
+	if (!args.force && !existing) {
+		const lastAttempt = discoveryLastAttemptByKey.get(cooldownKey) ?? 0;
+		if (Date.now() - lastAttempt < DISCOVERY_COOLDOWN_MS) {
+			return null;
+		}
+		discoveryLastAttemptByKey.set(cooldownKey, Date.now());
+	}
+
 	const app = githubAppClient();
 	let newlyDiscovered = false;
 
 	if (!existing && app) {
 		const connection = await db.query.githubUserConnections.findFirst({
 			where: eq(githubUserConnections.userId, args.userId),
-			columns: { login: true },
+			columns: { login: true, githubUserId: true },
 		});
-		if (connection?.login) {
+		if (connection?.login && connection.githubUserId) {
 			const remote = await app.octokit
 				.request("GET /users/{username}/installation", {
 					username: connection.login,
 				})
 				.then((res) => res.data)
 				.catch(() => null);
-			if (remote) {
+			const remoteAccountId =
+				remote?.account && "id" in remote.account
+					? String(remote.account.id)
+					: null;
+			if (remote && remoteAccountId === connection.githubUserId) {
 				const account = remote.account;
 				const accountLogin =
 					account && "login" in account ? account.login : connection.login;
@@ -261,7 +361,8 @@ export async function syncPersonalGithubInstallation(args: {
 	if (
 		activeOrgSyncs &&
 		existing.organizationId !== args.organizationId &&
-		!(await organizationSyncsNow(existing.organizationId))
+		!(await organizationSyncsNow(existing.organizationId)) &&
+		(await isSoloOrganization(existing.organizationId))
 	) {
 		targetOrganizationId = args.organizationId;
 		rehomed = true;
@@ -297,16 +398,54 @@ export async function syncPersonalGithubInstallation(args: {
 			githubInstallationId: existing.installationId,
 			organizationId: targetOrganizationId,
 		});
+		if (newlyDiscovered || unsuspended) {
+			await queueInitialSyncJob({
+				installationDbId: existing.id,
+				organizationId: targetOrganizationId,
+			});
+		}
 	}
 
 	return existing;
 }
 
 /**
+ * Filter pure installation rows for `organizationId` and optional `userId`:
+ * - Any non-"User" installation in `organizationId` is shared by the organization.
+ * - If `organizationId` has NO non-"User" installation, its oldest "User"
+ *   installation is treated as the organization's shared legacy installation.
+ * - A caller with `userId` also sees their own personal ("User") installation
+ *   from any organization.
+ */
+export function selectVisibleInstallations<
+	T extends {
+		id: string;
+		organizationId: string;
+		accountType: string;
+		connectedByUserId: string;
+	},
+>(rows: readonly T[], args: { organizationId: string; userId?: string }): T[] {
+	const inOrg = rows.filter(
+		(row) => row.organizationId === args.organizationId,
+	);
+	const orgNonUser = inOrg.filter((row) => row.accountType !== "User");
+	const sharedIds = new Set<string>(
+		(orgNonUser.length > 0 ? orgNonUser : inOrg.slice(0, 1)).map(
+			(row) => row.id,
+		),
+	);
+	return rows.filter(
+		(row) =>
+			sharedIds.has(row.id) ||
+			(Boolean(args.userId) &&
+				row.accountType === "User" &&
+				row.connectedByUserId === args.userId),
+	);
+}
+
+/**
  * Installations whose repositories should be visible to `userId` in
- * `organizationId`: the organization's own installation(s), plus the caller's
- * personal ("User") installation. Another member's personal installation is
- * excluded so private personal repositories stay private to their owner.
+ * `organizationId`.
  */
 export async function visibleGithubInstallations(args: {
 	organizationId: string;
@@ -322,53 +461,52 @@ export async function visibleGithubInstallations(args: {
 					),
 				)
 			: eq(githubInstallations.organizationId, args.organizationId),
+		orderBy: [asc(githubInstallations.createdAt), asc(githubInstallations.id)],
 	});
 
-	if (!args.userId) {
-		const orgRows = rows.filter((row) => row.accountType === "Organization");
-		return orgRows.length > 0 ? orgRows : rows.slice(0, 1);
-	}
-
-	return rows.filter(
-		(row) =>
-			(row.organizationId === args.organizationId &&
-				row.accountType !== "User") ||
-			(row.accountType === "User" && row.connectedByUserId === args.userId),
-	);
+	return selectVisibleInstallations(rows, args);
 }
 
 /**
- * The primary installation for an organization (preferring an "Organization"
- * installation over a personal "User" installation), plus the caller's own
- * personal installation when present.
+ * The primary installation for an organization, plus the caller's own personal
+ * installation when present.
  */
 export async function findOrganizationInstallations(args: {
 	organizationId: string;
-	userId: string;
+	userId?: string;
 }) {
 	const rows = await visibleGithubInstallations(args);
+	const inOrg = rows.filter(
+		(row) => row.organizationId === args.organizationId,
+	);
 	const organizationInstallation =
-		rows.find(
-			(row) =>
-				row.organizationId === args.organizationId &&
-				row.accountType !== "User",
-		) ?? null;
-	const personalInstallation =
-		rows.find(
-			(row) =>
-				row.accountType === "User" && row.connectedByUserId === args.userId,
-		) ?? null;
+		inOrg.find((row) => row.accountType !== "User") ?? inOrg[0] ?? null;
+	const personalInstallation = args.userId
+		? (rows.find(
+				(row) =>
+					row.accountType === "User" && row.connectedByUserId === args.userId,
+			) ?? null)
+		: null;
 	const primary = organizationInstallation ?? personalInstallation;
 	return { primary, organizationInstallation, personalInstallation };
 }
 
 export function isRepositoryVisibleToUser(args: {
 	repository: { organizationId: string };
-	installation: { accountType: string; connectedByUserId: string };
+	installation: {
+		id?: string;
+		accountType: string;
+		connectedByUserId: string;
+	};
 	organizationId: string;
 	userId?: string;
+	/** True when this "User" installation is the organization's sole (legacy) installation. */
+	isLegacySharedUserInstallation?: boolean;
 }): boolean {
-	if (args.installation.accountType !== "User") {
+	if (
+		args.installation.accountType !== "User" ||
+		args.isLegacySharedUserInstallation
+	) {
 		return args.repository.organizationId === args.organizationId;
 	}
 	if (args.userId) {

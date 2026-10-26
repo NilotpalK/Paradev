@@ -78,27 +78,19 @@ export const githubRouter = {
 		.mutation(async ({ ctx, input }) => {
 			await verifyOrgAdmin(ctx.session.user.id, input.organizationId);
 
-			let result = await db
-				.delete(githubInstallations)
-				.where(
-					and(
-						eq(githubInstallations.organizationId, input.organizationId),
-						eq(githubInstallations.accountType, "Organization"),
-					),
-				)
-				.returning({ id: githubInstallations.id });
+			const { organizationInstallation } = await findOrganizationInstallations({
+				organizationId: input.organizationId,
+				userId: ctx.session.user.id,
+			});
 
-			if (result.length === 0) {
-				result = await db
-					.delete(githubInstallations)
-					.where(
-						and(
-							eq(githubInstallations.organizationId, input.organizationId),
-							eq(githubInstallations.connectedByUserId, ctx.session.user.id),
-						),
-					)
-					.returning({ id: githubInstallations.id });
+			if (!organizationInstallation) {
+				return { success: false, error: "No installation found" };
 			}
+
+			const result = await db
+				.delete(githubInstallations)
+				.where(eq(githubInstallations.id, organizationInstallation.id))
+				.returning({ id: githubInstallations.id });
 
 			if (result.length === 0) {
 				return { success: false, error: "No installation found" };
@@ -253,8 +245,26 @@ export const githubRouter = {
 		.query(async ({ ctx, input }) => {
 			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
 
+			const installations = await visibleGithubInstallations({
+				organizationId: input.organizationId,
+				userId: ctx.session.user.id,
+			});
+			if (installations.length === 0) return [];
+
+			const repos = await db.query.githubRepositories.findMany({
+				where: inArray(
+					githubRepositories.installationId,
+					installations.map((row) => row.id),
+				),
+				columns: { id: true },
+			});
+			if (repos.length === 0) return [];
+
 			return db.query.githubPullRequests.findMany({
-				where: eq(githubPullRequests.organizationId, input.organizationId),
+				where: inArray(
+					githubPullRequests.repositoryId,
+					repos.map((row) => row.id),
+				),
 				orderBy: [desc(githubPullRequests.updatedAt)],
 				limit: 100,
 			});
@@ -450,10 +460,11 @@ export const githubRouter = {
 		.query(async ({ ctx, input }) => {
 			await verifyOrgMembership(ctx.session.user.id, input.organizationId);
 
-			const installation = await db.query.githubInstallations.findFirst({
-				where: eq(githubInstallations.organizationId, input.organizationId),
-				columns: { id: true },
-			});
+			const { organizationInstallation: installation } =
+				await findOrganizationInstallations({
+					organizationId: input.organizationId,
+					userId: ctx.session.user.id,
+				});
 
 			if (!installation) {
 				return {

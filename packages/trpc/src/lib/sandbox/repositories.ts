@@ -25,7 +25,10 @@ import {
 } from "@superset/shared/sandbox-contract";
 import { eq, inArray } from "drizzle-orm";
 import { env } from "../../env";
-import { isRepositoryVisibleToUser } from "../../router/integration/github/personal-installation";
+import {
+	findOrganizationInstallations,
+	isRepositoryVisibleToUser,
+} from "../../router/integration/github/personal-installation";
 import { installationOctokit } from "./clone-token";
 
 export type RepositoryRow = typeof githubRepositories.$inferSelect;
@@ -68,26 +71,36 @@ export async function loadRepositories(args: {
 	userId?: string;
 }): Promise<RepositoryRow[]> {
 	if (args.repositoryIds.length === 0) return [];
-	const rows = await db
-		.select({
-			repository: githubRepositories,
-			installation: {
-				accountType: githubInstallations.accountType,
-				connectedByUserId: githubInstallations.connectedByUserId,
-			},
-		})
-		.from(githubRepositories)
-		.innerJoin(
-			githubInstallations,
-			eq(githubRepositories.installationId, githubInstallations.id),
-		)
-		.where(inArray(githubRepositories.id, [...args.repositoryIds]));
+	const [rows, { organizationInstallation }] = await Promise.all([
+		db
+			.select({
+				repository: githubRepositories,
+				installation: {
+					id: githubInstallations.id,
+					accountType: githubInstallations.accountType,
+					connectedByUserId: githubInstallations.connectedByUserId,
+				},
+			})
+			.from(githubRepositories)
+			.innerJoin(
+				githubInstallations,
+				eq(githubRepositories.installationId, githubInstallations.id),
+			)
+			.where(inArray(githubRepositories.id, [...args.repositoryIds])),
+		findOrganizationInstallations({ organizationId: args.organizationId }),
+	]);
+	const legacySharedUserInstallationId =
+		organizationInstallation?.accountType === "User"
+			? organizationInstallation.id
+			: null;
 	const accessible = rows.filter(({ repository, installation }) =>
 		isRepositoryVisibleToUser({
 			repository,
 			installation,
 			organizationId: args.organizationId,
 			userId: args.userId,
+			isLegacySharedUserInstallation:
+				installation.id === legacySharedUserInstallationId,
 		}),
 	);
 	if (accessible.length !== new Set(args.repositoryIds).size) {
@@ -103,6 +116,42 @@ export async function loadRepositories(args: {
 		);
 	}
 	return sortRepositories(repositories);
+}
+
+/**
+ * True when any repository in `repositoryIds` belongs to a personal ("User")
+ * installation rather than the organization's shared installation. Environments
+ * carrying a personal repository are kept personal so private repositories do
+ * not leak to other organization members.
+ */
+export async function hasPersonalRepository(args: {
+	organizationId: string;
+	repositoryIds: readonly string[];
+}): Promise<boolean> {
+	if (args.repositoryIds.length === 0) return false;
+	const [rows, { organizationInstallation }] = await Promise.all([
+		db
+			.select({
+				installationId: githubInstallations.id,
+				accountType: githubInstallations.accountType,
+			})
+			.from(githubRepositories)
+			.innerJoin(
+				githubInstallations,
+				eq(githubRepositories.installationId, githubInstallations.id),
+			)
+			.where(inArray(githubRepositories.id, [...args.repositoryIds])),
+		findOrganizationInstallations({ organizationId: args.organizationId }),
+	]);
+	const legacySharedUserInstallationId =
+		organizationInstallation?.accountType === "User"
+			? organizationInstallation.id
+			: null;
+	return rows.some(
+		(row) =>
+			row.accountType === "User" &&
+			row.installationId !== legacySharedUserInstallationId,
+	);
 }
 
 /** Repositories read the same everywhere: by full name. */

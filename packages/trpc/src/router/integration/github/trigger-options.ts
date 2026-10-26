@@ -1,10 +1,11 @@
 import { db } from "@superset/db/client";
-import { githubInstallations, githubRepositories } from "@superset/db/schema";
+import { githubRepositories } from "@superset/db/schema";
 import { findProviderIdentity } from "@superset/db/utils";
 import { desc, eq, inArray } from "drizzle-orm";
 import { installationOctokit } from "../../../lib/sandbox/clone-token";
 import type { TriggerOptionSource } from "../trigger-options";
 import {
+	findOrganizationInstallations,
 	syncPersonalGithubInstallation,
 	visibleGithubInstallations,
 } from "./personal-installation";
@@ -45,14 +46,9 @@ export async function listGithubRepositories(
  * repoId is GitHub's numeric id, which is what the matcher compares against —
  * a full name would stop matching the moment someone renames the repo.
  */
-const repositories: TriggerOptionSource = async ({
-	organizationId,
-	userId,
-}) => {
-	const list = await listGithubRepositories(organizationId, userId);
+const repositories: TriggerOptionSource = async ({ organizationId }) => {
+	const list = await listGithubRepositories(organizationId);
 	return list.map((repo) => {
-		// Name as the label, owner as the muted hint beside it — every repo in
-		// one installation shares the owner, so repeating it per row is noise.
 		const slash = repo.fullName.indexOf("/");
 		if (slash < 0) return { id: repo.repoId, label: repo.fullName };
 		return {
@@ -90,15 +86,8 @@ function isPermissionError(error: unknown): boolean {
  * repositories, deduplicated.
  */
 const people: TriggerOptionSource = async ({ organizationId }) => {
-	const installation = await db.query.githubInstallations.findFirst({
-		where: eq(githubInstallations.organizationId, organizationId),
-		columns: {
-			id: true,
-			installationId: true,
-			accountLogin: true,
-			accountType: true,
-		},
-	});
+	const { organizationInstallation: installation } =
+		await findOrganizationInstallations({ organizationId });
 	if (!installation) return [];
 
 	const octokit = await installationOctokit(installation.installationId);

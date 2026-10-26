@@ -2,6 +2,8 @@ import { describe, expect, test } from "bun:test";
 import {
 	isRepositoryVisibleToUser,
 	readGithubAppInstallState,
+	sealGithubAppInstallState,
+	selectVisibleInstallations,
 } from "./personal-installation";
 
 const ORG_A = "11111111-1111-4111-8111-111111111111";
@@ -65,10 +67,108 @@ describe("isRepositoryVisibleToUser", () => {
 			}),
 		).toBe(false);
 	});
+
+	test("allows a legacy shared User installation repository to all members of its organization", () => {
+		expect(
+			isRepositoryVisibleToUser({
+				repository: { organizationId: ORG_A },
+				installation: {
+					id: "inst-legacy",
+					accountType: "User",
+					connectedByUserId: USER_ALICE,
+				},
+				organizationId: ORG_A,
+				userId: USER_BOB,
+				isLegacySharedUserInstallation: true,
+			}),
+		).toBe(true);
+	});
 });
 
-describe("readGithubAppInstallState", () => {
-	test("returns null for an invalid state string", () => {
+describe("selectVisibleInstallations", () => {
+	const rows = [
+		{
+			id: "inst-org",
+			organizationId: ORG_A,
+			accountType: "Organization",
+			connectedByUserId: USER_ALICE,
+		},
+		{
+			id: "inst-alice",
+			organizationId: ORG_B,
+			accountType: "User",
+			connectedByUserId: USER_ALICE,
+		},
+		{
+			id: "inst-bob",
+			organizationId: ORG_A,
+			accountType: "User",
+			connectedByUserId: USER_BOB,
+		},
+	];
+
+	test("returns the organization installation and only the caller's personal installation", () => {
+		expect(
+			selectVisibleInstallations(rows, {
+				organizationId: ORG_A,
+				userId: USER_ALICE,
+			}).map((r) => r.id),
+		).toEqual(["inst-org", "inst-alice"]);
+
+		expect(
+			selectVisibleInstallations(rows, {
+				organizationId: ORG_A,
+				userId: USER_BOB,
+			}).map((r) => r.id),
+		).toEqual(["inst-org", "inst-bob"]);
+	});
+
+	test("keeps a legacy User installation shared when the organization has no Organization installation", () => {
+		const legacyRows = [
+			{
+				id: "inst-legacy-user",
+				organizationId: ORG_A,
+				accountType: "User",
+				connectedByUserId: USER_ALICE,
+			},
+		];
+		expect(
+			selectVisibleInstallations(legacyRows, {
+				organizationId: ORG_A,
+				userId: USER_BOB,
+			}).map((r) => r.id),
+		).toEqual(["inst-legacy-user"]);
+	});
+});
+
+describe("sealGithubAppInstallState and readGithubAppInstallState", () => {
+	test("round-trips a base64url-encoded state", () => {
+		const state = sealGithubAppInstallState({
+			organizationId: ORG_A,
+			userId: USER_ALICE,
+		});
+		expect(state).not.toMatch(/[+/=]/);
+		expect(readGithubAppInstallState(state)).toEqual({
+			organizationId: ORG_A,
+			userId: USER_ALICE,
+		});
+	});
+
+	test("rejects an expired state", () => {
+		const expired = sealGithubAppInstallState({
+			organizationId: ORG_A,
+			userId: USER_ALICE,
+			expiresAt: Date.now() - 1_000,
+		});
+		expect(readGithubAppInstallState(expired)).toBeNull();
+	});
+
+	test("returns null for a tampered or invalid state string", () => {
+		const valid = sealGithubAppInstallState({
+			organizationId: ORG_A,
+			userId: USER_ALICE,
+		});
+		expect(readGithubAppInstallState(`${valid}tampered`)).toBeNull();
 		expect(readGithubAppInstallState("invalid-state")).toBeNull();
 	});
 });

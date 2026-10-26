@@ -1,4 +1,5 @@
 export {
+	doesGithubAccountBelongToUser,
 	githubAppInstallUrl,
 	readGithubAppInstallState,
 	syncInstallationRepositories,

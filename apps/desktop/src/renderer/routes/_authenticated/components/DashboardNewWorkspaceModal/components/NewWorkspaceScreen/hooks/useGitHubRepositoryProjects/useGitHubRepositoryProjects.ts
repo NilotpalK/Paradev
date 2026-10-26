@@ -35,12 +35,12 @@ export function useGitHubRepositoryProjects({
 	const repositoriesQuery =
 		cloudTrpc.integration.github.listRepositories.useQuery(
 			{ organizationId: organizationId ?? "" },
-			{ enabled: isEnabled, refetchOnWindowFocus: "always" },
+			{ enabled: isEnabled },
 		);
 	const installationQuery =
 		cloudTrpc.integration.github.getInstallation.useQuery(
 			{ organizationId: organizationId ?? "" },
-			{ enabled: isEnabled, refetchOnWindowFocus: "always" },
+			{ enabled: isEnabled },
 		);
 
 	const repositoriesByFullName = useMemo(
