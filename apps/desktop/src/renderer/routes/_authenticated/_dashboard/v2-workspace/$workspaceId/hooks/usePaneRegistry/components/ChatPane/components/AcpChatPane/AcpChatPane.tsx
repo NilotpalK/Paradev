@@ -222,7 +222,10 @@ export function AcpChatPane({
 	}, [sessionId, harness, agentSessionId, start]);
 
 	const branchWithHandoff = useCallback(
-		(transcript: string): boolean => {
+		(
+			transcript: string,
+			model: { id: string; label: string } | null,
+		): boolean => {
 			if (!mounted.current || !agent || !onOpenAgentChat) return false;
 			const label = agentLabel ?? agent.id;
 			const handoffPrompt = handoffPromptFor(transcript, label);
@@ -231,21 +234,22 @@ export function AcpChatPane({
 				presetId: agent.id,
 				label,
 				model:
-					modelId && modelLabel ? { id: modelId, label: modelLabel } : null,
+					model ??
+					(modelId ? { id: modelId, label: modelLabel ?? modelId } : null),
 				modeId,
 				handoffPrompt,
 			});
 			return true;
 		},
-		[agent, agentLabel, onOpenAgentChat, modelId, modelLabel, modeId],
+		[agent, agentLabel, onOpenAgentChat, modeId, modelId, modelLabel],
 	);
 
 	// The agent copies the session whole — `session/fork` takes no truncation
 	// point — so where it was clicked from makes no difference to the branch.
 	const forkHere = useCallback(
-		(transcript: string) => {
+		(transcript: string, model: { id: string; label: string } | null) => {
 			if (!sessionId) {
-				if (!branchWithHandoff(transcript)) {
+				if (!branchWithHandoff(transcript, model)) {
 					toast.error(t({ message: "Couldn't branch the conversation" }));
 				}
 				return;
@@ -269,7 +273,7 @@ export function AcpChatPane({
 						onOpenForkedChat({ sessionId: forked.sessionId, terminalId });
 						return;
 					}
-					if (branchWithHandoff(transcript)) return;
+					if (branchWithHandoff(transcript, model)) return;
 					toast.error(t({ message: "This agent can't branch a conversation" }));
 				})
 				.catch((error: unknown) => {
@@ -292,9 +296,13 @@ export function AcpChatPane({
 	// the conversation. Both live under one control because the user is
 	// choosing where the work continues, not which mechanism carries it.
 	const fork = useCallback(
-		(target: ChatForkTarget, transcript: string) => {
+		(
+			target: ChatForkTarget,
+			transcript: string,
+			model: { id: string; label: string } | null,
+		) => {
 			if (target === "workspace") {
-				forkHere(transcript);
+				forkHere(transcript, model);
 				return;
 			}
 			if (!agent) return;
