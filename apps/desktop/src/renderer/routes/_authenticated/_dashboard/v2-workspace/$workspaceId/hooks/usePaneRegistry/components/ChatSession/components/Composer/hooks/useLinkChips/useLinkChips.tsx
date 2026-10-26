@@ -40,7 +40,10 @@ export function useLinkChips() {
 		const app = parseSupersetAppLink(link, WEB_URL);
 		if (app?.kind === "chat") {
 			return (
-				<ChatPreviewHoverCard sessionId={app.sessionId}>
+				<ChatPreviewHoverCard
+					sessionId={app.sessionId}
+					workspaceId={app.workspaceId}
+				>
 					<span>{rendered}</span>
 				</ChatPreviewHoverCard>
 			);

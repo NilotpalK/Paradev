@@ -3,6 +3,7 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "@superset/ui/hover-card";
+import { useWorkspaceClient } from "@superset/workspace-client";
 import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useState } from "react";
 import { useChatWiring } from "../../hooks/useSessionClient";
@@ -24,18 +25,21 @@ const FRESH_FOR_MS = 30_000;
 export function ChatPreviewHoverCard({
 	children,
 	sessionId,
+	workspaceId,
 }: {
 	children: ReactNode;
 	sessionId: string;
+	workspaceId: string;
 }) {
 	const { transport } = useChatWiring();
+	const { hostUrl } = useWorkspaceClient();
 	const [open, setOpen] = useState(false);
 	const [wanted, setWanted] = useState(false);
 	const query = useQuery({
-		queryKey: ["chat-reference-preview", sessionId],
+		queryKey: ["chat-reference-preview", hostUrl, workspaceId, sessionId],
 		queryFn: async () => {
 			const { session } = await transport.getSession({ sessionId });
-			if (!session) return null;
+			if (!session || session.scopeId !== workspaceId) return null;
 			const page = await transport.getItems({
 				sessionId,
 				limit: PREVIEW_ITEMS,

@@ -68,6 +68,8 @@ const MAX_CONSOLE_ENTRIES = 500;
 const CAPTURE_DEADLINE_MS = 15_000;
 const CAPTURE_ATTEMPT_TIMEOUT_MS = 1_500;
 const PREVIEW_CAPTURE_WIDTH = 720;
+// The hover card stops waiting after 1.5 s; past that a capture only holds a wake.
+const PREVIEW_CAPTURE_DEADLINE_MS = 1_500;
 const PREVIEW_CAPTURE_RATIO = 1.6;
 const CAPTURE_RETRY_INTERVAL_MS = 100;
 
@@ -787,7 +789,11 @@ class BrowserManager extends EventEmitter {
 	async capturePreview(
 		paneId: string,
 	): Promise<{ dataUrl: string; width: number; height: number }> {
-		const image = await this.capturePageImage(paneId);
+		const image = await this.capturePageImage(
+			paneId,
+			undefined,
+			PREVIEW_CAPTURE_DEADLINE_MS,
+		);
 		const size = image.getSize();
 		const top = image.crop({
 			x: 0,
@@ -816,6 +822,7 @@ class BrowserManager extends EventEmitter {
 	private async capturePageImage(
 		paneId: string,
 		workspaceId?: string,
+		deadlineMs = CAPTURE_DEADLINE_MS,
 	): Promise<Electron.NativeImage> {
 		const wc = this.getWebContents(paneId, workspaceId);
 		if (!wc) throw new Error(`No webContents for pane ${paneId}`);
@@ -823,7 +830,7 @@ class BrowserManager extends EventEmitter {
 		// capture hangs or fails with "UnknownVizError".
 		const releaseWake = this.acquireAgentWake(paneId);
 		try {
-			const deadline = Date.now() + CAPTURE_DEADLINE_MS;
+			const deadline = Date.now() + deadlineMs;
 			let lastError: unknown = null;
 			do {
 				try {

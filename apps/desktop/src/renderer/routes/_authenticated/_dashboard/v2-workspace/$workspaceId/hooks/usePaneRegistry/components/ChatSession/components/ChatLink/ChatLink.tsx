@@ -75,7 +75,7 @@ function withModifier(event: MouseEvent): boolean {
 
 export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 	const { t } = useLingui();
-	const { openPage, openLink } = useChatPaneActions();
+	const { openPage, openLink, workspaceId } = useChatPaneActions();
 	const navigate = useNavigate();
 	const isLocalPath = props.href?.startsWith(LOCAL_PATH_PREFIX) ?? false;
 	const href = isLocalPath
@@ -107,7 +107,7 @@ export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 		<MarkdownLink
 			{...props}
 			title={
-				workItem || websitePreview || appLink?.kind === "chat"
+				workspaceId && (workItem || websitePreview || appLink?.kind === "chat")
 					? undefined
 					: href
 			}
@@ -138,7 +138,10 @@ export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 	}
 	if (appLink?.kind === "chat") {
 		return (
-			<ChatPreviewHoverCard sessionId={appLink.sessionId}>
+			<ChatPreviewHoverCard
+				sessionId={appLink.sessionId}
+				workspaceId={appLink.workspaceId}
+			>
 				{link}
 			</ChatPreviewHoverCard>
 		);

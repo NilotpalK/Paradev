@@ -20,6 +20,15 @@ export type WebsitePreviewLoad =
 	| { status: "ready"; preview: WebsitePreview }
 	| { status: "unavailable" };
 
+function pathOf(url: string): string {
+	try {
+		const { pathname, search } = new URL(url);
+		return pathname === "/" && !search ? "" : `${pathname}${search}`;
+	} catch {
+		return "";
+	}
+}
+
 /** Wider than this reads as a banner; anything squarer is a thumbnail. */
 const BANNER_MIN_RATIO = 1.2;
 
@@ -78,8 +87,9 @@ export function WebsitePreviewCard({
 								host.charAt(0)
 							)}
 						</span>
-						<span className="min-w-0 truncate font-medium text-foreground/65">
-							{host}
+						<span className="min-w-0 truncate text-foreground/45" title={url}>
+							<span className="font-medium text-foreground/65">{host}</span>
+							{pathOf(url)}
 						</span>
 					</div>
 					{load.status === "loading" ? (
