@@ -59,6 +59,7 @@ export interface AgentSwitchTarget {
 
 export function AcpChatPane({
 	agent,
+	draftId,
 	isActive,
 	onSessionInfo,
 	onPendingPromptsSent,
@@ -83,6 +84,7 @@ export function AcpChatPane({
 }: {
 	workspaceId: string;
 	terminalId: string;
+	draftId?: string;
 	/** `sessionId` is absent until the agent has run a turn to report one. */
 	agent: { id: string; sessionId?: string } | undefined;
 	isActive: boolean;
@@ -456,7 +458,7 @@ export function AcpChatPane({
 		recover();
 	}, [recover]);
 
-	const draftKey = `chat-v3-draft:${terminalId}`;
+	const draftKey = `chat-v3-draft:${draftId ?? terminalId}`;
 
 	const editMessage = useCallback(
 		async (request: ChatEditRequest) => {

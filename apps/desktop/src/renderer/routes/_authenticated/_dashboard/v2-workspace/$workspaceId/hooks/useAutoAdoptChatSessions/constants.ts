@@ -1,0 +1,1 @@
+export const PENDING_CLOUD_CHAT_TIMEOUT_MS = 3 * 60_000;
