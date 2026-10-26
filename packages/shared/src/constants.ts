@@ -1,6 +1,7 @@
 import { ROOT_DOMAIN } from "./app-identity";
 import type { TriggerConfigInput } from "./automation-triggers";
 import { BRAND } from "./brand";
+import { OWN_ROOT_DOMAINS } from "./own-domains";
 
 export { CANONICAL_URLS, IOS_APP } from "./app-identity";
 
@@ -57,7 +58,10 @@ export const COMPANY = {
 
 // Staff keep their @superset.sh accounts after the root domain changes.
 export const STAFF_EMAIL_DOMAINS = [
-	...new Set([COMPANY.EMAIL_DOMAIN, "@superset.sh"]),
+	...new Set([
+		COMPANY.EMAIL_DOMAIN,
+		...OWN_ROOT_DOMAINS.map((domain) => `@${domain}`),
+	]),
 ];
 
 export function isStaffEmail(email: string): boolean {

@@ -81,7 +81,7 @@ export default defineConfig({
 			),
 			"process.env.NEXT_PUBLIC_WEB_URL": defineEnv(
 				process.env.NEXT_PUBLIC_WEB_URL,
-				`https://app.${rootDomain}`,
+				"https://app.superset.sh",
 			),
 			"process.env.NEXT_PUBLIC_MARKETING_URL": defineEnv(
 				process.env.NEXT_PUBLIC_MARKETING_URL,
@@ -208,7 +208,7 @@ export default defineConfig({
 			),
 			"process.env.NEXT_PUBLIC_WEB_URL": defineEnv(
 				process.env.NEXT_PUBLIC_WEB_URL,
-				`https://app.${rootDomain}`,
+				"https://app.superset.sh",
 			),
 			"process.env.NEXT_PUBLIC_MARKETING_URL": defineEnv(
 				process.env.NEXT_PUBLIC_MARKETING_URL,

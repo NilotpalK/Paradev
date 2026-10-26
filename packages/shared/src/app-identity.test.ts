@@ -61,7 +61,7 @@ describe("root-domain constants", () => {
 				[key]: "example.org",
 			});
 			expect(CANONICAL_URLS.API).toBe("https://api.superset.sh");
-			expect(CANONICAL_URLS.APP).toBe("https://app.example.org");
+			expect(CANONICAL_URLS.APP).toBe("https://app.superset.sh");
 			expect(CANONICAL_URLS.MARKETING).toBe("https://example.org");
 			expect(COMPANY.MAIL_TO).toBe("mailto:support@example.org");
 		}

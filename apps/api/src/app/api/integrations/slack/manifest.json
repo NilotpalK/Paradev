@@ -15,7 +15,7 @@
 			"display_name": "Paradev",
 			"always_online": true
 		},
-		"unfurl_domains": ["app.superset.sh"],
+		"unfurl_domains": ["app.superset.sh", "app.paradev.com"],
 		"assistant_view": {
 			"assistant_description": "Paradev's AI Coding Agent - spin up sandboxes, plan out work, run agents and more",
 			"suggested_prompts": [
