@@ -223,6 +223,14 @@ Archiving the box from inside it
 about a minute later: put the box's own id last when archiving several, and
 unarchive from a signed-in client.
 
+**pdev signs in to its router with the box's credential.** On a laptop pdev
+gets a token from `superset auth mcp-headers`, which a box refuses because it
+holds no token. The firewall adds the same `x-superset-sandbox-credential` to
+requests for `router.superset.sh`, and the router passes it to `user.me` and
+`user.myOrganization`, so pdev runs as the workspace's creator in the box's
+organization. The box sets `PDEV_TOKEN` to the placeholder only so pdev skips
+the CLI; the router ignores a key without the `pdev_` prefix.
+
 The same credential also names the box itself, which is what host-service's
 own calls about its workspace need: an automation's workspace has no creator,
 and a box keeps working after its creator leaves the organization. Those calls
@@ -270,6 +278,19 @@ boot, host-service holds them in memory (`sandbox-managed-env`) and
 terminals and agent launches inherit the pushed set; open terminals keep the
 one they started with; nothing is written to disk. A host-service restart
 comes up with an empty set until the next push, which every wake performs.
+
+**Cloud agent registration cannot depend on the first launch.** The creation picker knows which
+CLIs the image installs, but the chat picker reads the sandbox's persisted agent configurations.
+Flag-gated pdev was excluded from default configurations and only added when it was the initial
+launch agent, so Claude-created and idle boxes hid it. The cloud launch gate also allowed only
+Claude to chat, sending pdev to a terminal even when ACP chat was enabled. **Fixed:** every boot
+ensures configurations for all installed cloud agents and seeds pdev folder trust, including on
+existing boxes. Both new-workspace and pinned-automation dispatch allow pdev chat through the
+existing `acp-chat` flag; clients still apply `pdev-agent` visibility. Registration and trust repair
+require a published host-service/sandbox bundle, an updated environment bundle pin, and a box
+restart. Trust repair is best-effort: a failed pdev trust write must not prevent host-service from
+starting. This does not remove unrelated
+default agent configurations or make their CLIs available in the image.
 
 **Agent CLIs are pre-configured in the image.** A first run otherwise opens a
 theme picker, an API-key approval and a workspace trust dialog — three
@@ -483,6 +504,12 @@ directory instead of replacing it so a shell already sitting in it keeps a
 live cwd. An interrupted clone (a wake that ends the session mid-fetch)
 leaves a repository that can fetch nothing; the runner reclones rather than
 failing every boot.
+
+**GitHub names are case-insensitive; the release database lookup was not.** After the repository
+rename, production stored `ParadevAI/Paradev` while the release requested `paradevai/paradev`.
+An exact SQL comparison reported an installed repository as disconnected and stopped the release
+before environment pins advanced. **Fixed:** the release compares normalized names while retaining
+the organization constraint. No repository reconnection or production data rewrite is needed.
 
 **A freshly pushed image is not usable for a few minutes.** VCR reports the
 tag `Preparing` while it optimises a `linux/amd64` build (a gigabyte takes

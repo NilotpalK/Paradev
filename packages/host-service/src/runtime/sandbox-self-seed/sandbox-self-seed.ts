@@ -25,7 +25,7 @@ import {
 } from "../../trpc/router/agents/agents";
 import { importCloudAttachments } from "../../trpc/router/attachments/attachments";
 import { createChatSessionInWorkspace } from "../../trpc/router/sessions/session-service";
-import { seedDefaultsIfEmpty } from "../../trpc/router/settings/agent-configs";
+import { ensurePresetRow } from "../../trpc/router/settings/agent-configs";
 import type { HostServiceContext } from "../../types";
 import {
 	getManagedEnv,
@@ -45,6 +45,7 @@ import {
 	withPendingLaunchReport,
 } from "./launchMarker";
 import { buildStartHookEnv } from "./utils/buildStartHookEnv";
+import { seedSandboxAgents } from "./utils/seedSandboxAgents";
 
 /**
  * Makes a sandbox describe its own workspace, instead of being described from
@@ -349,9 +350,7 @@ export async function launchSandboxAgentOnce(
 		`${agent} ${new Date().toISOString()}\n`,
 	);
 	try {
-		// Nothing has listed this host's agents yet, so the built-in presets are
-		// not in its table; the launch resolves the agent through that table.
-		seedDefaultsIfEmpty(ctx.db);
+		ensurePresetRow(ctx.db, agent);
 		if (agent === "claude") approveClaudeApiKey();
 		// Images the composer sent with the prompt: the bytes live in cloud
 		// storage because this box did not exist when they were uploaded.
@@ -506,7 +505,9 @@ export function sandboxRepositoryWorkspaceId(
 export function runSandboxSelfSeed(
 	db: HostDb,
 	identity: SandboxIdentity,
+	agentDir?: string,
 ): void {
+	seedSandboxAgents(db, identity.workspaceRoot, agentDir);
 	const root = identity.workspaceRoot;
 	const now = Date.now();
 	identity.repositories.forEach((repo, index) => {
