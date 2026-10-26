@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { HiMiniArrowRight } from "react-icons/hi2";
+import { HiMiniArrowDownTray } from "react-icons/hi2";
 import type { BundledLanguage } from "shiki";
 import { Investors } from "@/app/[lang]/components/Investors";
 import { LogoMarquee } from "@/app/[lang]/components/LogoMarquee";
@@ -136,7 +136,10 @@ export const mdxComponents = {
 				className="group flex items-center gap-2 bg-foreground px-6 py-3 text-base text-background transition-colors hover:bg-brand hover:text-white"
 			>
 				{children}
-				<HiMiniArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+				<span className="relative size-4 overflow-hidden">
+					<HiMiniArrowDownTray className="size-4 transition-transform duration-300 ease-out group-hover:translate-y-full" />
+					<HiMiniArrowDownTray className="absolute inset-0 size-4 -translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
+				</span>
 			</a>
 		</div>
 	),
