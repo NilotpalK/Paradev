@@ -4,7 +4,6 @@ import { getI18nInstance } from "@superset/i18n/server";
 import { BRAND } from "@superset/shared/brand";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { localeUrl, localizedAlternates } from "@/app/[lang]/metadata";
 import { initServerI18n } from "@/app/i18n-server";
@@ -14,6 +13,7 @@ import { CompanyFacts } from "../components/CompanyFacts";
 import { CTASection } from "../components/CTASection";
 import { Investors } from "../components/Investors";
 import { PhotoFan } from "../components/PhotoFan";
+import { StoryPhoto } from "../components/StoryPhoto";
 import { FounderRow } from "./components/FounderRow";
 import { ProofLinks } from "./components/ProofLinks";
 import { Timeline } from "./components/Timeline";
@@ -126,20 +126,11 @@ export default async function TeamPage() {
 							</div>
 						</div>
 						{storyPhoto && (
-							<figure className="m-0 md:sticky md:top-24">
-								<div className="relative aspect-[8/5] rounded-lg overflow-hidden bg-muted border border-border">
-									<Image
-										src={storyPhoto.src}
-										alt={storyPhoto.alt}
-										fill
-										className="object-cover"
-										sizes="(max-width: 768px) 100vw, 480px"
-									/>
-								</div>
-								<figcaption className="mt-3 text-xs text-muted-foreground">
-									{storyPhoto.caption}
-								</figcaption>
-							</figure>
+							<StoryPhoto
+								photo={storyPhoto}
+								sizes="(max-width: 768px) 100vw, 480px"
+								className="md:sticky md:top-24"
+							/>
 						)}
 					</div>
 				</section>

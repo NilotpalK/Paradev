@@ -1,6 +1,7 @@
 import type { BundledLanguage } from "shiki";
 import { Investors } from "@/app/[lang]/components/Investors";
 import { StoreBadges } from "@/app/[lang]/components/StoreBadges";
+import { StoryPhoto } from "@/app/[lang]/components/StoryPhoto";
 import { getAbout } from "@/lib/about";
 import { slugify } from "@/lib/blog-utils";
 import { getPublicImageSize } from "@/lib/public-image-size";
@@ -120,6 +121,17 @@ export const mdxComponents = {
 			<div className="not-prose my-10">
 				<Investors investors={investors} moreInvestors={moreInvestors} />
 			</div>
+		);
+	},
+	StoryPhoto: () => {
+		const photo = getAbout().photos.find((candidate) => candidate.story);
+		if (!photo) return null;
+		return (
+			<StoryPhoto
+				photo={photo}
+				sizes="(max-width: 768px) 100vw, 768px"
+				className="not-prose my-8"
+			/>
 		);
 	},
 	StoreBadges: (props: React.ComponentProps<typeof StoreBadges>) => (
