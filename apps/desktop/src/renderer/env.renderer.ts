@@ -9,6 +9,7 @@
  *
  * For main process env vars, use src/main/env.main.ts instead.
  */
+import { BRAND } from "@superset/shared/brand";
 import { CANONICAL_URLS } from "@superset/shared/constants";
 import { z } from "zod/v4";
 
@@ -24,7 +25,7 @@ const envSchema = z.object({
 	SENTRY_DSN_DESKTOP: z.string().optional(),
 	RELAY_URL: z.url().default("https://relay.superset.sh"),
 	REALTIME_URL: z.url().default("https://realtime.superset.sh"),
-	DESKTOP_DISPLAY_NAME: z.string().default("Superset"),
+	DESKTOP_DISPLAY_NAME: z.string().default(BRAND.NAME),
 });
 
 /**
