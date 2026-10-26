@@ -1,5 +1,6 @@
 import type { BundledLanguage } from "shiki";
 import { Investors } from "@/app/[lang]/components/Investors";
+import { PhotoFan } from "@/app/[lang]/components/PhotoFan";
 import { StoreBadges } from "@/app/[lang]/components/StoreBadges";
 import { StoryPhoto } from "@/app/[lang]/components/StoryPhoto";
 import { getAbout } from "@/lib/about";
@@ -8,6 +9,8 @@ import { getPublicImageSize } from "@/lib/public-image-size";
 import { BlogCodeBlock } from "./BlogCodeBlock";
 import { Testimonial } from "./Testimonial";
 import { TestimonialGrid } from "./TestimonialGrid";
+
+const BLOG_PHOTO_FAN_SPACING_PX = 60;
 
 function extractCodeFromChildren(children: React.ReactNode): {
 	code: string;
@@ -120,6 +123,14 @@ export const mdxComponents = {
 		return (
 			<div className="not-prose my-10">
 				<Investors investors={investors} moreInvestors={moreInvestors} />
+			</div>
+		);
+	},
+	TeamPhotos: () => {
+		const photos = getAbout().photos.filter((photo) => !photo.story);
+		return (
+			<div className="not-prose my-10">
+				<PhotoFan photos={photos} cardSpacingPx={BLOG_PHOTO_FAN_SPACING_PX} />
 			</div>
 		);
 	},
