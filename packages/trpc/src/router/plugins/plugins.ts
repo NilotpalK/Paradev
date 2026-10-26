@@ -14,7 +14,6 @@ import { z } from "zod";
 import { userError } from "../../i18n-error";
 import { AmbiguousConnectionError } from "../../lib/connectors/lookup";
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
-import { callPluginTool } from "../page/tools/call-plugin-tool";
 import { requireActiveOrgMembership } from "../utils/active-org";
 import {
 	AmbiguousPluginError,
@@ -29,6 +28,7 @@ import {
 	supersetExtension,
 } from "./manifest";
 import { forgetUpstreamTools, resolveTarget } from "./proxy";
+import { slack } from "./servers/slack/tools";
 import { loadSlackLinkPreview } from "./slack-link-preview";
 
 const FIRST_PARTY = "superset";
@@ -308,7 +308,7 @@ export const pluginsRouter = createTRPCRouter({
 		.input(z.object({ url: z.string().max(2048) }))
 		.query(async ({ ctx, input }) =>
 			loadSlackLinkPreview(
-				{ resolveTarget, callTool: callPluginTool },
+				{ resolveTarget, slackApi: slack },
 				{
 					href: input.url,
 					userId: ctx.session.user.id,

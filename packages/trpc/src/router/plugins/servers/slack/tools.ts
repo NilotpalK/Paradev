@@ -9,7 +9,7 @@ interface SlackResponse {
 	[key: string]: unknown;
 }
 
-async function slack(
+export async function slack(
 	accessToken: string,
 	method: string,
 	params: Record<string, unknown> = {},
@@ -55,7 +55,7 @@ function text(value: string): ToolResult {
 	return { content: [{ type: "text", text: value }] };
 }
 
-interface SlackMessage {
+export interface SlackMessage {
 	ts?: string;
 	user?: string;
 	username?: string;
@@ -85,7 +85,7 @@ interface SlackChannel {
 	purpose?: { value?: string };
 }
 
-interface SlackUser {
+export interface SlackUser {
 	id: string;
 	name?: string;
 	real_name?: string;
@@ -124,39 +124,6 @@ export function describeMessage(message: SlackMessage): string {
 		line += " ↪️ in thread";
 	}
 	return line;
-}
-
-export type DescribedMessage = { ts: string; sender: string; text: string };
-
-const DESCRIBED_MESSAGE = /^\[(\d+\.\d+)\] (.+?): (.*)$/;
-const THREAD_NOTE = / (💬 \d+ repl(y|ies)|↪️ in thread)$/u;
-
-/** The messages in a tool's output, read back from `describeMessage` lines. */
-export function readDescribedMessages(output: string): DescribedMessage[] {
-	const messages: DescribedMessage[] = [];
-	for (const line of output.split("\n")) {
-		const match = DESCRIBED_MESSAGE.exec(line);
-		if (match) {
-			const [, ts = "", sender = "", text = ""] = match;
-			messages.push({ ts, sender, text });
-			continue;
-		}
-		const last = messages.at(-1);
-		if (last && line) last.text += `\n${line}`;
-	}
-	for (const message of messages) {
-		message.text = message.text.replace(THREAD_NOTE, "").trim();
-	}
-	return messages;
-}
-
-/** Name and title from `get_user` output. */
-export function readDescribedUser(
-	output: string,
-): { name: string; title: string | null } | null {
-	const name = /^User: <@[^>]+> - (.+)$/m.exec(output)?.[1]?.trim();
-	if (!name) return null;
-	return { name, title: /^Title: (.+)$/m.exec(output)?.[1]?.trim() ?? null };
 }
 
 function cursorNote(payload: SlackResponse): string {
