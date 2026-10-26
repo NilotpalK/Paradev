@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+import { HiMiniArrowRight } from "react-icons/hi2";
 import type { BundledLanguage } from "shiki";
 import { Investors } from "@/app/[lang]/components/Investors";
 import { LogoMarquee } from "@/app/[lang]/components/LogoMarquee";
@@ -127,6 +129,17 @@ export const mdxComponents = {
 			</div>
 		);
 	},
+	CTAButton: ({ href, children }: { href: string; children: ReactNode }) => (
+		<div className="not-prose my-10 flex">
+			<a
+				href={href}
+				className="group flex items-center gap-2 bg-foreground px-6 py-3 text-base text-background transition-colors hover:bg-brand hover:text-white"
+			>
+				{children}
+				<HiMiniArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+			</a>
+		</div>
+	),
 	LogoMarquee: () => (
 		<div className="not-prose my-8">
 			<LogoMarquee />
