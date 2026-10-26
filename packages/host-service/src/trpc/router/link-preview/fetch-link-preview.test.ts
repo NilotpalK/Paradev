@@ -274,4 +274,21 @@ describe("link preview fetch", () => {
 		expect((await load(PAGE)).title).toBe("Guide");
 		expect(pulls).toBeLessThan(3);
 	});
+
+	it("keeps only the 20 most recent previews with images", async () => {
+		const routes: Record<string, Route> = {};
+		for (let i = 0; i <= 20; i++) {
+			routes[`https://docs.example.com/p${i}`] = html(
+				`<title>Page ${i}</title>`,
+			);
+		}
+		const { load, requested } = loaderFor(routes);
+		for (let i = 0; i <= 20; i++)
+			await load(`https://docs.example.com/p${i}`, true);
+		await load("https://docs.example.com/p20", true);
+		await load("https://docs.example.com/p0", true);
+		const fetches = (url: string) => requested.filter((r) => r === url).length;
+		expect(fetches("https://docs.example.com/p20")).toBe(1);
+		expect(fetches("https://docs.example.com/p0")).toBe(2);
+	});
 });

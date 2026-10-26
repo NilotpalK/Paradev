@@ -52,6 +52,8 @@ const PREVIEW_IMAGE_TYPES = new Set([
 ]);
 const MAX_LINKED_ICONS = 2;
 const MAX_CACHED_PREVIEWS = 200;
+// Each can hold a 1 MB image and an icon as base64, so far fewer are kept.
+const MAX_CACHED_IMAGE_PREVIEWS = 20;
 const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 const HTML_MEDIA_TYPES = new Set(["text/html", "application/xhtml+xml"]);
 const USER_AGENT = "Mozilla/5.0 (compatible; Superset-LinkPreview/1.0)";
@@ -293,21 +295,21 @@ export function createLinkPreviewLoader(
 		timeoutMs: REQUEST_TIMEOUT_MS,
 		...overrides,
 	};
-	const cache = new Map<string, Promise<LinkPreview>>();
+	const pages = new Map<string, Promise<LinkPreview>>();
+	const withImages = new Map<string, Promise<LinkPreview>>();
 	return ({ url, image }) => {
-		const trimmed = url.trim();
-		const key = `${image ? "image" : "page"} ${trimmed}`;
+		const key = url.trim();
+		const cache = image ? withImages : pages;
 		const cached = cache.get(key);
 		if (cached) return cached;
-		const pending = loadLinkPreview({ url: trimmed, image }, deps);
+		const pending = loadLinkPreview({ url: key, image }, deps);
 		cache.set(key, pending);
 		pending.catch(() => {
 			if (cache.get(key) === pending) cache.delete(key);
 		});
 		const oldest = cache.keys().next().value;
-		if (cache.size > MAX_CACHED_PREVIEWS && oldest !== undefined) {
-			cache.delete(oldest);
-		}
+		const cap = image ? MAX_CACHED_IMAGE_PREVIEWS : MAX_CACHED_PREVIEWS;
+		if (cache.size > cap && oldest !== undefined) cache.delete(oldest);
 		return pending;
 	};
 }
