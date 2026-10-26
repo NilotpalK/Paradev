@@ -43,7 +43,7 @@ const COMMUNITY_LINKS = [
 	},
 	{
 		name: "YOUTUBE",
-		href: "https://www.youtube.com/@superset-sh",
+		href: "https://www.youtube.com/@paradevai",
 		cta: msg({
 			message: "SUBSCRIBE",
 		}),
