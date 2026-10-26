@@ -51,7 +51,7 @@ const siteDescription =
 export const metadata: Metadata = {
 	metadataBase: new URL(COMPANY.MARKETING_URL),
 	title: {
-		default: `${BRAND.INTRO_NAME} - Orchestrate any coding agent`,
+		default: `${BRAND.INTRO_NAME} - Run an army of coding agents`,
 		template: `%s | ${BRAND.NAME}`,
 	},
 	description: siteDescription,
@@ -73,20 +73,20 @@ export const metadata: Metadata = {
 		locale: "en_US",
 		url: COMPANY.MARKETING_URL,
 		siteName: BRAND.NAME,
-		title: `${BRAND.INTRO_NAME} - Orchestrate any coding agent`,
+		title: `${BRAND.INTRO_NAME} - Run an army of coding agents`,
 		description: siteDescription,
 		images: [
 			{
 				url: "/og-image.png",
 				width: 2400,
 				height: 1260,
-				alt: `${BRAND.INTRO_NAME} - Orchestrate any coding agent`,
+				alt: `${BRAND.INTRO_NAME} - Run an army of coding agents`,
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: `${BRAND.INTRO_NAME} - Orchestrate any coding agent`,
+		title: `${BRAND.INTRO_NAME} - Run an army of coding agents`,
 		description: siteDescription,
 		images: ["/og-image.png"],
 		creator: "@superset_sh",

@@ -14996,11 +14996,11 @@ msgstr "Spouštějte agenty vedle sebe"
 msgid "Run an Army of"
 msgstr "Spusťte armádu"
 
+msgid "Run an army of coding agents"
+msgstr "Řiďte armádu kódovacích agentů"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "Spusťte simulátor iOS v panelu pracovního prostoru, abyste vy i vaši agenti mohli testovat mobilní aplikace."
-
-msgid "Run any coding agent"
-msgstr "Spouštějte libovolného kódovacího agenta"
 
 msgid "Run automations on data source and comment activity."
 msgstr "Spouštějte automatizace při aktivitě ve zdrojích dat a komentářích."
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp vypíše endpoint jen pro daný panel. Namiřte na něj Playwright nebo browser-use."
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev je nyní Paradev a získali jsme seedové kolo ve výši 11,5 mil. $"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset je nyní Paradev. A také jsme získali seedové kolo ve výši 11,5 mil. $"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile přichází na iPhone"

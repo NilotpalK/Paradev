@@ -14996,11 +14996,11 @@ msgstr "并排运行智能体"
 msgid "Run an Army of"
 msgstr "调动一支"
 
+msgid "Run an army of coding agents"
+msgstr "调动一支编程智能体大军"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "在工作区窗格中运行 iOS 模拟器，让你和你的智能体测试移动应用。"
-
-msgid "Run any coding agent"
-msgstr "运行任意编码智能体"
 
 msgid "Run automations on data source and comment activity."
 msgstr "在数据源和评论活动上运行自动化。"
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp 只会输出该窗格专属的端点。让 Playwright 或 browser-use 连接它即可。"
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev 现已更名为 Paradev，并完成 1150 万美元种子轮融资"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset 现已更名为 Paradev。另外，我们完成了 1150 万美元种子轮融资"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile 登陆 iPhone"

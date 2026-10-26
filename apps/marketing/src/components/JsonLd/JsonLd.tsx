@@ -228,7 +228,7 @@ export function HomeWebPageJsonLd() {
 		"@type": "WebPage",
 		"@id": COMPANY.MARKETING_URL,
 		url: COMPANY.MARKETING_URL,
-		name: `${BRAND.INTRO_NAME}: Orchestrate any coding agent`,
+		name: `${BRAND.INTRO_NAME}: Run an army of coding agents`,
 		isPartOf: {
 			"@type": "WebSite",
 			name: BRAND.INTRO_NAME,

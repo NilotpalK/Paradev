@@ -79,7 +79,7 @@ export function HeroSection() {
 							/>
 							<span>
 								<Trans>
-									Superset is now Paradev, and we raised an $11.5M seed
+									Superset is now Paradev. Also, we raised an $11.5M seed
 								</Trans>
 							</span>
 							<span

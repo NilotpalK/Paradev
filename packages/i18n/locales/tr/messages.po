@@ -14996,11 +14996,11 @@ msgstr "Ajanları yan yana çalıştırın"
 msgid "Run an Army of"
 msgstr "Kodlama ajanlarından"
 
+msgid "Run an army of coding agents"
+msgstr "Bir kodlama ajanı ordusu yönetin"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "Siz ve ajanlarınız mobil uygulamaları test edebilsin diye bir çalışma alanı bölmesinde iOS simülatörü çalıştırın."
-
-msgid "Run any coding agent"
-msgstr "Herhangi bir kodlama ajanını çalıştırın"
 
 msgid "Run automations on data source and comment activity."
 msgstr "Veri kaynağı ve yorum etkinliğinde otomasyon çalıştırın."
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp yalnızca o bölme için bir uç nokta yazdırır. Playwright'ı veya browser-use'u ona yönlendirin."
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev artık Paradev ve 11,5 milyon dolarlık tohum yatırımı aldık"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset artık Paradev. Bir de 11,5 milyon dolarlık tohum yatırımı aldık"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile iPhone'da yayında"

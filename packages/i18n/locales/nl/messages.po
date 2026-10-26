@@ -14996,11 +14996,11 @@ msgstr "Draai agents naast elkaar"
 msgid "Run an Army of"
 msgstr "Draai een leger"
 
+msgid "Run an army of coding agents"
+msgstr "Zet een leger aan codeeragents in"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "Draai een iOS-simulator in een deelvenster van de werkruimte, zodat jij en je agents mobiele apps kunnen testen."
-
-msgid "Run any coding agent"
-msgstr "Draai elke codeeragent"
 
 msgid "Run automations on data source and comment activity."
 msgstr "Voer automatiseringen uit bij activiteit op databronnen en opmerkingen."
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp toont een endpoint voor alleen dat paneel. Richt Playwright of browser-use erop."
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev heet nu Paradev, en we hebben een seedronde van $11,5M opgehaald"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset heet nu Paradev. En we hebben ook een seedronde van $11,5M opgehaald"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile verschijnt op iPhone"

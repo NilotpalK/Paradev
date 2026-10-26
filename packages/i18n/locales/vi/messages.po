@@ -14996,11 +14996,11 @@ msgstr "Chạy các agent cạnh nhau"
 msgid "Run an Army of"
 msgstr "Chạy cả một đội quân"
 
+msgid "Run an army of coding agents"
+msgstr "Vận hành cả một đội quân agent lập trình"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "Chạy trình mô phỏng iOS trong một ngăn của workspace để bạn và các agent có thể kiểm thử ứng dụng di động."
-
-msgid "Run any coding agent"
-msgstr "Chạy bất kỳ agent lập trình nào"
 
 msgid "Run automations on data source and comment activity."
 msgstr "Chạy tự động hóa theo hoạt động của nguồn dữ liệu và bình luận."
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp in ra endpoint chỉ cho ngăn đó. Trỏ Playwright hoặc browser-use vào đó."
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev giờ đã là Paradev, và chúng tôi đã gọi được vòng hạt giống 11,5 triệu USD"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset giờ đã là Paradev. À, chúng tôi cũng đã gọi được vòng hạt giống 11,5 triệu USD"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile ra mắt trên iPhone"

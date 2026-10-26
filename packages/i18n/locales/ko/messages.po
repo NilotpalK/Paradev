@@ -14996,11 +14996,11 @@ msgstr "에이전트를 나란히 실행"
 msgid "Run an Army of"
 msgstr "코딩 에이전트 군단을"
 
+msgid "Run an army of coding agents"
+msgstr "코딩 에이전트 군단을 운영하세요"
+
 msgid "Run an iOS simulator in a workspace pane so you and your agents can test mobile apps."
 msgstr "워크스페이스 패널에서 iOS 시뮬레이터를 실행해 나와 에이전트가 모바일 앱을 테스트할 수 있습니다."
-
-msgid "Run any coding agent"
-msgstr "어떤 코딩 에이전트든 실행"
 
 msgid "Run automations on data source and comment activity."
 msgstr "데이터 소스와 댓글 활동에 따라 자동화를 실행합니다."
@@ -16991,8 +16991,8 @@ msgstr "superset"
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp는 해당 패널 전용 엔드포인트만 출력합니다. Playwright나 browser-use를 여기에 연결하세요."
 
-msgid "Superset is now Paradev, and we raised an $11.5M seed"
-msgstr "Paradev가 Paradev가 되었고, 1,150만 달러 규모의 시드 투자를 유치했습니다"
+msgid "Superset is now Paradev. Also, we raised an $11.5M seed"
+msgstr "Superset이 Paradev가 되었습니다. 그리고 1,150만 달러 규모의 시드 투자도 유치했습니다"
 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile, iPhone 출시"
