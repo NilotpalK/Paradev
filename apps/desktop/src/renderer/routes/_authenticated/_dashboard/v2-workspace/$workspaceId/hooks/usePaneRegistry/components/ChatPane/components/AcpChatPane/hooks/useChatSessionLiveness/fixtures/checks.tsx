@@ -1,5 +1,6 @@
 import { afterAll, afterEach, expect, jest, mock, test } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import { Trans } from "@lingui/react/macro";
 import type { ChatTransport } from "@superset/chat/client";
 import type { HostConnectionStatus } from "@superset/workspace-client";
 import type { QueryClient as QueryClientType } from "@tanstack/react-query";
@@ -69,6 +70,9 @@ if (!registered) {
 	mock.module("@lingui/core/macro", () => ({
 		msg: ({ message }: { message: string }) => ({ id: message, message }),
 	}));
+	mock.module("@lingui/react/macro", () => ({
+		Trans: ({ children }: { children?: unknown }) => children,
+	}));
 }
 const { act, cleanup, render, waitFor } = await import(
 	"@testing-library/react"
@@ -94,7 +98,9 @@ function Probe() {
 	});
 	renderedChecks.push(current.checking);
 	return current.checking ? (
-		<ConnectionNotice>Resuming the conversation…</ConnectionNotice>
+		<ConnectionNotice>
+			<Trans>Resuming the conversation…</Trans>
+		</ConnectionNotice>
 	) : null;
 }
 function tree(client: QueryClientType) {
