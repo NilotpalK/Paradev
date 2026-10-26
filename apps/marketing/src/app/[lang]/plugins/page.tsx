@@ -2,7 +2,7 @@ import { msg } from "@lingui/core/macro";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { getI18nInstance } from "@superset/i18n/server";
 import { BRAND } from "@superset/shared/brand";
-import { COMPANY } from "@superset/shared/constants";
+import { COMPANY, SOCIAL } from "@superset/shared/constants";
 import type { Metadata } from "next";
 import { CTASection } from "@/app/[lang]/components/CTASection";
 import { ProductHeroActions } from "@/app/[lang]/components/ProductHeroActions";
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			title,
 			description,
 			images: [image.url],
-			creator: "@superset_sh",
+			creator: SOCIAL.X.handle,
 		},
 	};
 }

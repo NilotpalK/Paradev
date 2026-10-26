@@ -10,7 +10,7 @@ import {
 	slugify,
 	type TocItem,
 } from "@/lib/blog-utils";
-
+import { renderFaqAnswer } from "../../utils/faqSocialLinks";
 import { BlogAuthor } from "./components/BlogAuthor";
 
 interface BlogPostLayoutProps {
@@ -77,7 +77,8 @@ export function BlogPostLayout({
 					<FAQSection
 						items={post.faq.map((item) => ({
 							id: slugify(item.question),
-							...item,
+							question: item.question,
+							answer: renderFaqAnswer(item.answer),
 						}))}
 					/>
 				</div>

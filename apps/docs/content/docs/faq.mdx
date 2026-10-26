@@ -3,6 +3,8 @@ title: FAQ
 description: Frequently asked questions
 ---
 
+import { COMPANY, SOCIAL } from "@superset/shared/constants";
+
 ## Platforms
 
 **What platforms are supported?**
@@ -104,7 +106,7 @@ The CLI works against the v2 local-first model only. If you're on the legacy v1 
 ## Getting Help
 
 - [Troubleshooting](/troubleshooting) for symptom-by-symptom fixes
-- [Discord](https://discord.gg/cZeD9WYcV7) for the fastest answers
-- Report issues: [github.com/paradevai/paradev/issues](https://github.com/paradevai/paradev/issues)
-- Email: [support@superset.sh](mailto:support@superset.sh)
+- <a href={COMPANY.DISCORD_URL}>Discord</a> for the fastest answers
+- Report issues: <a href={`${COMPANY.GITHUB_URL}/issues`}>{`${SOCIAL.GITHUB.handle}/issues`}</a>
+- Email: <a href={COMPANY.MAIL_TO}>{COMPANY.SUPPORT_EMAIL}</a>
 - All channels: [Community & Support](/community)

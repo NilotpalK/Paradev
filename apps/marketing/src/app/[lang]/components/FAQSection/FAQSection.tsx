@@ -2,13 +2,14 @@
 
 import { Trans, useLingui } from "@lingui/react/macro";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { FAQDisclosure } from "../FAQDisclosure";
 import { FAQ_ITEMS } from "./constants";
 
 export interface FAQSectionItem {
 	id: string;
 	question: string;
-	answer: string;
+	answer: ReactNode;
 	link?: { href: string; label: string };
 }
 

@@ -43,7 +43,7 @@ const COMMUNITY_LINKS = [
 	},
 	{
 		name: "YOUTUBE",
-		href: "https://www.youtube.com/@paradevai",
+		href: COMPANY.YOUTUBE_URL,
 		cta: msg({
 			message: "SUBSCRIBE",
 		}),
@@ -56,7 +56,7 @@ const COMMUNITY_LINKS = [
 	},
 	{
 		name: "LINKEDIN",
-		href: "https://www.linkedin.com/company/paradevai",
+		href: COMPANY.LINKEDIN_URL,
 		cta: msg({
 			message: "FOLLOW US",
 		}),

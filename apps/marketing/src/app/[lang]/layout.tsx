@@ -1,6 +1,6 @@
 import { DEFAULT_LOCALE, getLocaleMessages } from "@superset/i18n";
 import { BRAND } from "@superset/shared/brand";
-import { COMPANY } from "@superset/shared/constants";
+import { COMPANY, SOCIAL } from "@superset/shared/constants";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
 		title: `${BRAND.INTRO_NAME} - Run an army of coding agents`,
 		description: siteDescription,
 		images: ["/og-image.png"],
-		creator: "@superset_sh",
+		creator: SOCIAL.X.handle,
 	},
 	robots: {
 		index: true,

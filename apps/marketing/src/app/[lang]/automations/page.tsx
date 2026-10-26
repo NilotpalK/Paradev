@@ -1,7 +1,7 @@
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { getI18nInstance } from "@superset/i18n/server";
-import { COMPANY } from "@superset/shared/constants";
+import { COMPANY, SOCIAL } from "@superset/shared/constants";
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import { CTASection } from "@/app/[lang]/components/CTASection";
@@ -48,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			title,
 			description,
 			images: [image.url],
-			creator: "@superset_sh",
+			creator: SOCIAL.X.handle,
 		},
 	};
 }
