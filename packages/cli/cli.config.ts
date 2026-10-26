@@ -35,7 +35,7 @@ export default defineConfig({
 	sandbox: () => Boolean(process.env.SUPERSET_SANDBOX_WORKSPACE_ID),
 	help: {
 		tagline: "Command your fleet of coding agents from any shell.",
-		docsUrl: `${CANONICAL_URLS.DOCS}/cli`,
+		docsUrl: `${CANONICAL_URLS.DOCS}/cli/getting-started`,
 		tip: "`paradev` is an alias for `superset`. Agents in Paradev terminals already have both on PATH — tell them to use it.",
 		sections: [
 			{
