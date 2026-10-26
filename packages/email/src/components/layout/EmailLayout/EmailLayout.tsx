@@ -119,9 +119,9 @@ export function EmailLayout({
 									textDecoration: "none",
 								}}
 							>
-								Paradev
+								{COMPANY.LEGAL_NAME}
 							</Link>
-							, Inc., San Francisco, CA
+							, San Francisco, CA
 						</Text>
 						{recipientEmail || unsubscribeUrl ? (
 							<Text style={footerText}>

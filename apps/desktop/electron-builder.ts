@@ -14,7 +14,6 @@ import {
 import { localizeMacDisplayName } from "./scripts/localize-display-name";
 
 const currentYear = new Date().getFullYear();
-const author = pkg.author?.name ?? pkg.author;
 const productName = pkg.productName;
 // productName names the bundle, userData, logs and the keychain entry, so it
 // never changes; the menu bar, Dock and launchers show displayName.
@@ -31,7 +30,7 @@ const config: Configuration = {
 	appId: "com.superset.desktop",
 	productName,
 	afterPack: localizeMacDisplayName(displayName),
-	copyright: `Copyright © ${currentYear} — ${author}`,
+	copyright: `Copyright © ${currentYear} Superset Inc.`,
 	electronVersion: pkg.devDependencies.electron.replace(/^\^/, ""),
 
 	// Generate update manifests for all channels (latest.yml, canary.yml, etc.)

@@ -44,7 +44,7 @@ module.exports = {
 	configVersion: 0,
 	apple: {
 		version: "1.2.1",
-		copyright: "2026 Superset",
+		copyright: "2026 Superset Inc.",
 		categories: ["DEVELOPER_TOOLS", "PRODUCTIVITY"],
 		info: {
 			"en-US": {

@@ -42,6 +42,7 @@ export function OrganizationJsonLd() {
 		"@type": "Organization",
 		"@id": `${COMPANY.MARKETING_URL}/#organization`,
 		name: BRAND.INTRO_NAME,
+		legalName: COMPANY.LEGAL_NAME,
 		url: COMPANY.MARKETING_URL,
 		logo: `${COMPANY.MARKETING_URL}/apple-touch-icon.png`,
 		description: "One workspace for orchestrating any coding agent",
