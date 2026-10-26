@@ -36,7 +36,7 @@ export default defineConfig({
 	help: {
 		tagline: "Command your fleet of coding agents from any shell.",
 		docsUrl: `${CANONICAL_URLS.DOCS}/cli`,
-		tip: "Agents in Paradev terminals already have `superset` on PATH — tell them to use it.",
+		tip: "`paradev` is an alias for `superset`. Agents in Paradev terminals already have both on PATH — tell them to use it.",
 		sections: [
 			{
 				title: "Workspaces & agents",

@@ -143,6 +143,8 @@ main() {
             error "Expected executable file not found: $path"
         fi
     done
+    # `paradev` is an alias. Releases before the rename ship without the link.
+    [ -e "$INSTALL_DIR/bin/paradev" ] || ln -s superset "$INSTALL_DIR/bin/paradev"
 
     update_path
 
@@ -152,7 +154,7 @@ main() {
         return
     fi
     printf "Run ${BOLD}exec \$SHELL${RESET} (or open a new terminal) to load the updated PATH.\n"
-    printf "Then run ${BOLD}superset auth login${RESET} to get started.\n"
+    printf "Then run ${BOLD}superset auth login${RESET} to get started. ${BOLD}paradev${RESET} works as an alias for ${BOLD}superset${RESET}.\n"
 }
 
 main "$@"

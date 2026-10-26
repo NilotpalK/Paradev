@@ -1,6 +1,6 @@
 ---
 name: contribute
-description: Set up a Superset open-source contribution, from forking and cloning paradevai/paradev through local dev setup and the repo's rules to a merge-ready PR. Use when the user wants to contribute to Superset, fix a Superset bug themselves, add a feature to Superset, or prepare a PR against paradevai/paradev.
+description: Set up a Paradev (formerly Superset) open-source contribution, from forking and cloning paradevai/paradev through local dev setup and the repo's rules to a merge-ready PR. Use when the user wants to contribute to Superset, fix a Superset bug themselves, add a feature to Superset, or prepare a PR against paradevai/paradev.
 argument-hint: what they want to contribute
 allowed-tools: Bash(gh:*) Bash(bun:*) Bash(git:*)
 ---

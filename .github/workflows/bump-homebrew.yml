@@ -117,10 +117,12 @@ jobs:
               libexec.install Dir["*"]
               bin.install_symlink libexec/"bin/superset"
               bin.install_symlink libexec/"bin/superset-host"
+              bin.install_symlink libexec/"bin/superset" => "paradev"
             end
 
             test do
               assert_match "superset", shell_output("#{{bin}}/superset --version")
+              assert_match "superset", shell_output("#{{bin}}/paradev --version")
             end
           end
           '''

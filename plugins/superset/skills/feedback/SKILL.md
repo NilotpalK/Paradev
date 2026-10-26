@@ -1,11 +1,13 @@
 ---
 name: feedback
-description: Collect and submit feedback about Superset (bug reports, feature requests, or general feedback) privately to the Superset team or as a public GitHub issue. Use when the user wants to report a Superset bug, request a feature, or send feedback about Superset.
+description: Collect and submit feedback about Paradev (formerly Superset) (bug reports, feature requests, or general feedback) privately to the Superset team or as a public GitHub issue. Use when the user wants to report a Superset bug, request a feature, or send feedback about Superset.
 argument-hint: describe the bug, request, or feedback
-allowed-tools: Bash(superset:*) Bash(gh:*) Bash(uname:*) WebFetch WebSearch
+allowed-tools: Bash(superset:*) Bash(paradev:*) Bash(gh:*) Bash(uname:*) WebFetch WebSearch
 ---
 
 # Superset Feedback
+
+`paradev` is an alias for the `superset` CLI: every `superset` command here also runs as `paradev`.
 
 Check Superset's documentation for an existing answer first. When feedback still needs reporting, turn it into a short, scannable report and submit it where the user chooses. Treat whatever they wrote after the command as the seed.
 

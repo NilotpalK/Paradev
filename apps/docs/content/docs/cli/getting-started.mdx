@@ -10,6 +10,8 @@ The CLI is currently in Beta. Commands and flags are still evolving. Make sure y
 The Paradev CLI (`superset`) is a single static binary that drives the same
 backend as the desktop app. Use it to manage workspaces, tasks, automations,
 and the local host server from your terminal or from CI.
+`paradev` is an alias for `superset`: every install below puts both on `PATH`,
+and either name runs the same binary.
 
 <YouTubeVideo id="8g-l5kYEGBc" title="Paradev CLI + Skills Demo" thumbnail="/images/cli-skills-demo.jpg" />
 
@@ -18,8 +20,8 @@ and the local host server from your terminal or from CI.
 ### Desktop app
 
 The desktop app includes the Paradev CLI. When the app launches, it writes
-an app-managed shim at `~/.superset/bin/superset`, and Paradev terminals
-prepend `~/.superset/bin` to `PATH` automatically.
+app-managed shims at `~/.superset/bin/superset` and `~/.superset/bin/paradev`,
+and Paradev terminals prepend `~/.superset/bin` to `PATH` automatically.
 
 To use the bundled CLI from a normal shell, add the directory to your shell
 profile:
