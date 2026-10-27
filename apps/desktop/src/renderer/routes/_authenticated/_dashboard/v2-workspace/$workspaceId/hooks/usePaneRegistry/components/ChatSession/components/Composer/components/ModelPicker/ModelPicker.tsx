@@ -24,6 +24,7 @@ import {
 	PILL_TRIGGER_CLASS,
 } from "../../constants";
 import { useOptimisticSelections } from "../../hooks/useOptimisticSelections";
+import { fastOption } from "../../utils/toggleOption";
 import { EffortSliderCard } from "./components/EffortSliderCard";
 import { ModelPanel } from "./components/ModelPanel";
 import type { AgentSwitcher } from "./types";
@@ -42,14 +43,6 @@ const TRAIT_ROW_CLASS = cn(
 	MENU_ROW_CLASS,
 	"[&>svg:last-child]:size-3 [&>svg:last-child]:text-muted-foreground/70",
 );
-
-function isToggle(option: SessionConfigOption) {
-	return (
-		option.options.length === 2 &&
-		option.options.some((entry) => entry.id === "on") &&
-		option.options.some((entry) => entry.id === "off")
-	);
-}
 
 function currentLabel(option: SessionConfigOption | undefined) {
 	return option?.options.find((entry) => entry.id === option.currentValue)
@@ -101,9 +94,7 @@ export function ModelPicker({
 			option.category !== "mode" &&
 			option.options.length > 0,
 	);
-	const fast = settings.find(
-		(option) => option.id === "fast" && isToggle(option),
-	);
+	const fast = fastOption(settings);
 	const effort = settings.find((option) => option.category === "thought_level");
 	const effortLabel = currentLabel(effort);
 	// The slider card owns effort and the fast toggle; the rest stay as rows.

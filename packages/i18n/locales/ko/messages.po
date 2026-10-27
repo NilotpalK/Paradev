@@ -92,6 +92,9 @@ msgstr "(출력 없음)"
 msgid "(you)"
 msgstr "(나)"
 
+msgid "[prompt]"
+msgstr "[프롬프트]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {활성 포트 #개 — 세부 정보 숨기기} other {활성 포트 #개 — 세부 정보 숨기기}}"
@@ -1350,6 +1353,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* 전액 API 요금으로 청구될 경우"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name}은(는) 인수를 받지 않습니다"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name}은(는) 첨부 파일을 받지 않습니다"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1887,6 +1896,9 @@ msgstr "첨부 추가"
 msgid "Add Attachment"
 msgstr "첨부 파일 추가"
 
+msgid "Add back"
+msgstr "다시 추가"
+
 msgid "Add command"
 msgstr "명령 추가"
 
@@ -1989,6 +2001,9 @@ msgstr "테스트가 없는 가장 위험한 코드에 테스트 추가…"
 
 msgid "Add tests where they're missing"
 msgstr "빠진 테스트 추가하기"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "/automation 프롬프트를 메시지에 다시 추가할까요?"
 
 msgid "Add them"
 msgstr "추가"
@@ -4003,6 +4018,9 @@ msgstr "터미널에서 Cmd+클릭할 때 파일 경로를 여는 방식을 선�
 msgid "Choose MCP servers for this message"
 msgstr "이 메시지에 사용할 MCP 서버 선택"
 
+msgid "Choose the model"
+msgstr "모델 선택"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "인앱 브라우저에서 삭제할 항목을 선택하세요."
 
@@ -5803,6 +5821,9 @@ msgstr "다시 생성"
 
 msgid "Create an account"
 msgstr "계정 만들기"
+
+msgid "Create an automation from this prompt"
+msgstr "이 프롬프트로 자동화 만들기"
 
 msgid "Create environment"
 msgstr "환경 만들기"
@@ -7975,6 +7996,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "빠름"
 
+msgid "Fast mode off"
+msgstr "빠른 모드 꺼짐"
+
+msgid "Fast mode on"
+msgstr "빠른 모드 켜짐"
+
 msgid "Fatal"
 msgstr "치명적"
 
@@ -8169,6 +8196,9 @@ msgstr "페이지에서 찾기"
 
 msgid "Find in Terminal"
 msgstr "터미널에서 찾기"
+
+msgid "Find in this chat"
+msgstr "이 채팅에서 찾기"
 
 msgid "Find people"
 msgstr "사람 찾기"
@@ -10086,6 +10116,9 @@ msgstr "조직에서 나갈까요?"
 
 msgid "Leave organization..."
 msgstr "조직 나가기..."
+
+msgid "Leave plan mode"
+msgstr "계획 모드 종료"
 
 msgid "Leave team"
 msgstr "팀 나가기"
@@ -19219,6 +19252,9 @@ msgstr "터널 연결됨"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "반복 작업을 일정에 따라 또는 이벤트가 발생할 때 실행되는 에이전트로 바꾸세요. 이슈 분류, 변경 로그 초안, 의존성 업데이트 등. 에이전트가 알아서 실행하고 검토할 PR을 엽니다."
 
+msgid "Turn Fast mode on or off"
+msgstr "빠른 모드 켜기 또는 끄기"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "“릴레이를 통해 이 기기에 원격 액세스 허용” 켜기"
 
@@ -19681,6 +19717,9 @@ msgstr "사용량 섹션"
 
 msgid "Usage unavailable."
 msgstr "사용량을 볼 수 없습니다."
+
+msgid "Usage: /{name} {hint}"
+msgstr "사용법: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

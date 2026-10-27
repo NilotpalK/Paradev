@@ -92,6 +92,9 @@ msgstr "(không có đầu ra)"
 msgid "(you)"
 msgstr "(bạn)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# cổng đang hoạt động — ẩn chi tiết} other {# cổng đang hoạt động — ẩn chi tiết}}"
@@ -1350,6 +1353,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* nếu tính theo giá API đầy đủ"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} không nhận đối số"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} không nhận tệp đính kèm"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1887,6 +1896,9 @@ msgstr "Thêm tệp đính kèm"
 msgid "Add Attachment"
 msgstr "Thêm tệp đính kèm"
 
+msgid "Add back"
+msgstr "Thêm lại"
+
 msgid "Add command"
 msgstr "Thêm lệnh"
 
@@ -1989,6 +2001,9 @@ msgstr "Thêm test cho phần code rủi ro nhất chưa được test…"
 
 msgid "Add tests where they're missing"
 msgstr "Thêm test ở những chỗ còn thiếu"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Thêm lại prompt /automation vào tin nhắn của bạn?"
 
 msgid "Add them"
 msgstr "Thêm họ"
@@ -4003,6 +4018,9 @@ msgstr "Chọn cách mở đường dẫn tệp khi Cmd+nhấp trong terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Chọn server MCP cho tin nhắn này"
 
+msgid "Choose the model"
+msgstr "Chọn mô hình"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Chọn thứ cần xóa khỏi trình duyệt trong ứng dụng."
 
@@ -5803,6 +5821,9 @@ msgstr "Tạo lại"
 
 msgid "Create an account"
 msgstr "Tạo tài khoản"
+
+msgid "Create an automation from this prompt"
+msgstr "Tạo tự động hóa từ prompt này"
 
 msgid "Create environment"
 msgstr "Tạo môi trường"
@@ -7975,6 +7996,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Nhanh"
 
+msgid "Fast mode off"
+msgstr "Đã tắt chế độ nhanh"
+
+msgid "Fast mode on"
+msgstr "Đã bật chế độ nhanh"
+
 msgid "Fatal"
 msgstr "Nghiêm trọng"
 
@@ -8169,6 +8196,9 @@ msgstr "Tìm trong trang"
 
 msgid "Find in Terminal"
 msgstr "Tìm trong terminal"
+
+msgid "Find in this chat"
+msgstr "Tìm trong cuộc trò chuyện này"
 
 msgid "Find people"
 msgstr "Tìm người"
@@ -10086,6 +10116,9 @@ msgstr "Rời tổ chức?"
 
 msgid "Leave organization..."
 msgstr "Rời tổ chức..."
+
+msgid "Leave plan mode"
+msgstr "Thoát chế độ lập kế hoạch"
 
 msgid "Leave team"
 msgstr "Rời nhóm"
@@ -19219,6 +19252,9 @@ msgstr "Đã thiết lập tunnel"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Biến việc lặt vặt thành agent chạy theo lịch hoặc khi có sự kiện: phân loại issue, soạn nháp changelog, cập nhật dependency. Chúng tự chạy và mở PR để bạn review."
 
+msgid "Turn Fast mode on or off"
+msgstr "Bật hoặc tắt chế độ nhanh"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Bật “Cho phép truy cập từ xa vào thiết bị này qua relay”"
 
@@ -19681,6 +19717,9 @@ msgstr "Các mục mức sử dụng"
 
 msgid "Usage unavailable."
 msgstr "Không có dữ liệu sử dụng."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Cách dùng: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"
