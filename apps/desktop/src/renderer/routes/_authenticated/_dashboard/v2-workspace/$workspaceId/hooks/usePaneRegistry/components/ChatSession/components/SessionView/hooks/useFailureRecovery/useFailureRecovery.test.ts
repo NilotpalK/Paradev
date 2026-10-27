@@ -20,10 +20,12 @@ function setup() {
 	const sendPrompt = mock((_content: UserContent[]) => {});
 	const openModelPicker = mock(() => {});
 	let finishSet = () => {};
+	let refuseSet = () => {};
 	const setConfigOption = mock(
-		() =>
-			new Promise<void>((resolve) => {
+		(_configId: string, _value: string, _options?: { confirm?: boolean }) =>
+			new Promise<void>((resolve, reject) => {
 				finishSet = resolve;
+				refuseSet = () => reject(new Error("refused"));
 			}),
 	);
 	const hook = renderHook(() =>
@@ -35,7 +37,14 @@ function setup() {
 			setConfigOption,
 		}),
 	);
-	return { hook, sendPrompt, openModelPicker, finish: () => finishSet() };
+	return {
+		hook,
+		sendPrompt,
+		openModelPicker,
+		setConfigOption,
+		finish: () => finishSet(),
+		refuse: () => refuseSet(),
+	};
 }
 
 test("Continue sends the continue prompt", () => {
@@ -59,4 +68,17 @@ test("a model picked after Change model continues once the agent has it", async 
 	await act(async () => finish());
 	expect(openModelPicker).toHaveBeenCalledTimes(2);
 	expect(sendPrompt.mock.calls).toEqual([[CONTINUE]]);
+});
+
+test("a model the agent refuses does not continue the task", async () => {
+	const { hook, sendPrompt, setConfigOption, refuse } = setup();
+
+	hook.result.current.failureActions.changeModel?.();
+	hook.result.current.onSetConfigOption("model", "opus");
+	await act(async () => refuse());
+
+	expect(setConfigOption.mock.calls).toEqual([
+		["model", "opus", { confirm: true }],
+	]);
+	expect(sendPrompt).not.toHaveBeenCalled();
 });

@@ -660,10 +660,10 @@ export class AcpAdapter implements HarnessAdapter {
 		}
 	}
 
-	setConfigOption(configId: string, value: string): void {
+	setConfigOption(configId: string, value: string): Promise<boolean> {
 		const client = this.client;
 		const sessionId = this.sessionId;
-		if (!client || !sessionId) return;
+		if (!client || !sessionId) return Promise.resolve(false);
 		const previous = this.configOptions;
 		const previousModeId =
 			configId === this.modeConfigId ? this.modeId : undefined;
@@ -699,6 +699,10 @@ export class AcpAdapter implements HarnessAdapter {
 				});
 				this.emitNotice("error", error.message);
 			});
+		return request.then(
+			() => true,
+			(error) => error instanceof AcpTimeoutError,
+		);
 	}
 
 	async stopBackgroundTask(taskId: string): Promise<boolean> {

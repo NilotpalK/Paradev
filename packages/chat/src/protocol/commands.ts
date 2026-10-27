@@ -106,6 +106,8 @@ export const setConfigOptionInputSchema = z.object({
 	...commandBaseFields,
 	configId: z.string().min(1),
 	value: z.string().min(1),
+	/** Resolve once the agent has taken the change, and fail if it refused it. */
+	confirm: z.boolean().optional(),
 });
 export type SetConfigOptionInput = z.infer<typeof setConfigOptionInputSchema>;
 

@@ -2828,6 +2828,31 @@ describe("AcpAdapter on protocol v2", () => {
 		await adapter.dispose();
 	});
 
+	it("tells the caller whether the agent took a setting", async () => {
+		const agent = new FakeAcpAgent();
+		agent.newSessionConfigOptions = [
+			{
+				configId: "model",
+				name: "Model",
+				type: "select",
+				category: "model",
+				currentValue: "sonnet",
+				options: [
+					{ value: "sonnet", name: "Sonnet" },
+					{ value: "opus", name: "Opus" },
+				],
+			},
+		];
+		const { adapter } = startAdapter(agent);
+		await flush();
+
+		expect(await adapter.setConfigOption("model", "opus")).toBe(true);
+		agent.rejectSelections = true;
+		expect(await adapter.setConfigOption("model", "sonnet")).toBe(false);
+
+		await adapter.dispose();
+	});
+
 	it("holds a prompt for a change made while it waits", async () => {
 		const agent = new FakeAcpAgent();
 		agent.holdSelections = true;

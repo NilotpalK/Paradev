@@ -68,16 +68,31 @@ export type TranscriptRow =
 			item: AgentMessage;
 	  };
 
-/** The agent reports a failure both as an error notice and on the turn; the turn's row says it once. */
-function repeatsTurnFailure(item: Item, turn: Turn | null): boolean {
-	if (turn?.status !== "failed" || item.kind !== "notice") return false;
+/**
+ * The agent reports a failure both as an error notice and on the turn; the
+ * turn's row says it once. What the notice adds past the turn's message is the
+ * stderr an older host kept only there, so the row keeps it.
+ */
+function repeatedTurnFailure(
+	item: Item,
+	turn: Turn | null,
+): { extra: string } | null {
+	if (turn?.status !== "failed" || item.kind !== "notice") return null;
 	const notice = item as Notice;
-	if (notice.noticeKind !== "error") return false;
+	if (notice.noticeKind !== "error") return null;
 	const text = notice.text ?? "";
 	const message = turn.error?.message ?? "";
-	return (
-		text === message || (message !== "" && text.startsWith(`${message}\n`))
-	);
+	if (text === message) return { extra: "" };
+	if (message === "" || !text.startsWith(`${message}\n`)) return null;
+	return { extra: text.slice(message.length).trim() };
+}
+
+function withNoticeDetail(
+	error: TurnError | undefined,
+	noticeDetail: string,
+): TurnError | undefined {
+	if (!error || error.detail || !noticeDetail) return error;
+	return { ...error, detail: noticeDetail };
 }
 
 export function transcriptRows(
@@ -116,6 +131,7 @@ export function transcriptRows(
 		const lastPrompt = group.entries.findLastIndex(
 			(entry) => entry.kind === "item" && entry.item.kind === "user_message",
 		);
+		let noticeDetail = "";
 		let run = null as Extract<TranscriptRow, { kind: "tool_run" }> | null;
 		let runAt = -1;
 		const unwrapLoneCall = () => {
@@ -195,7 +211,11 @@ export function transcriptRows(
 						: null;
 			if (entry.kind === "item" && !tools) {
 				if (hiddenToolIds.has(entry.item.id)) continue;
-				if (repeatsTurnFailure(entry.item, turn)) continue;
+				const repeated = repeatedTurnFailure(entry.item, turn);
+				if (repeated) {
+					noticeDetail ||= repeated.extra;
+					continue;
+				}
 				if (run && entry.item.kind === "reasoning") {
 					run.steps.push(entry.item);
 					continue;
@@ -233,7 +253,7 @@ export function transcriptRows(
 				groupStart,
 				turnId: group.turnId,
 				status: turn.status,
-				error: turn.error,
+				error: withNoticeDetail(turn.error, noticeDetail),
 				latest: group === groups.at(-1),
 			});
 		}

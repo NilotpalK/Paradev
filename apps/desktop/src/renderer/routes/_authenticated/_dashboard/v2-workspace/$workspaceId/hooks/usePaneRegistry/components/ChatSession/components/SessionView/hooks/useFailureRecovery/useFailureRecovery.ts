@@ -20,7 +20,11 @@ export function useFailureRecovery({
 	onStartNewChat?: (() => Promise<boolean>) | undefined;
 	openModelPicker: () => void;
 	sendPrompt: (content: UserContent[]) => unknown;
-	setConfigOption: (configId: string, value: string) => Promise<void>;
+	setConfigOption: (
+		configId: string,
+		value: string,
+		options?: { confirm?: boolean },
+	) => Promise<void>;
 }) {
 	const continueAfterModelPick = useRef(false);
 	const [dismissed, setDismissedSet] = useState<ReadonlySet<string>>(
@@ -32,13 +36,18 @@ export function useFailureRecovery({
 
 	const onSetConfigOption = useCallback(
 		(configId: string, value: string) => {
-			const set = setConfigOption(configId, value);
 			const isModel =
 				configOptions?.find((option) => option.id === configId)?.category ===
 				"model";
-			if (!isModel || !continueAfterModelPick.current) return void set;
+			if (!isModel || !continueAfterModelPick.current) {
+				void setConfigOption(configId, value);
+				return;
+			}
 			continueAfterModelPick.current = false;
-			void set.then(continueTask, () => undefined);
+			void setConfigOption(configId, value, { confirm: true }).then(
+				continueTask,
+				() => undefined,
+			);
 		},
 		[setConfigOption, configOptions, continueTask],
 	);

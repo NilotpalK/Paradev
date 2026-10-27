@@ -377,7 +377,7 @@ test("a subagent's task call leaves its tool run", () => {
 	).toEqual([["r1", "r2"], "task-1", "r3"]);
 });
 
-test("a failed turn says its failure once, on the turn's own row", () => {
+test("a failed turn says its failure once, on the turn's own row, keeping what only the notice said", () => {
 	const notice = (id: string, text: string): Item => ({
 		id,
 		kind: "notice",
@@ -407,7 +407,7 @@ test("a failed turn says its failure once, on the turn's own row", () => {
 	expect(rows.at(-1)).toMatchObject({
 		kind: "turn_status",
 		turnId: "t1",
-		error: { kind: "crashed" },
+		error: { kind: "crashed", detail: "Segmentation fault" },
 		latest: true,
 	});
 });

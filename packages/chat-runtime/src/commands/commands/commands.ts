@@ -212,7 +212,7 @@ export type ChatCommands = {
 	backgroundSubagent(input: BackgroundSubagentInput): Promise<boolean>;
 	respondToApproval(input: RespondToApprovalInput): void;
 	setMode(input: SetModeInput): void;
-	setConfigOption(input: SetConfigOptionInput): void;
+	setConfigOption(input: SetConfigOptionInput): void | Promise<void>;
 	closeSession(input: CloseSessionInput): Promise<void>;
 	closeScope(scopeId: string): Promise<void>;
 	forkSession(
@@ -538,10 +538,16 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 		setConfigOption(input) {
 			const parsed: SetConfigOptionInput =
 				setConfigOptionInputSchema.parse(input);
-			options.dedupe.run(`setConfigOption:${parsed.commandId}`, () => {
-				options.live
+			return options.dedupe.run(`setConfigOption:${parsed.commandId}`, () => {
+				const taken = options.live
 					.require(parsed.sessionId)
 					.setConfigOption(parsed.configId, parsed.value);
+				if (!parsed.confirm) return;
+				return taken.then((accepted) => {
+					if (accepted === false) {
+						throw new Error("the agent did not take that setting");
+					}
+				});
 			});
 		},
 

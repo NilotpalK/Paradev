@@ -369,11 +369,11 @@ export class LiveSession {
 		this.options.adapter.setMode(modeId);
 	}
 
-	setConfigOption(configId: string, value: string): void {
+	setConfigOption(configId: string, value: string): Promise<boolean> {
 		if (!this.options.adapter.setConfigOption) {
 			throw new Error("this agent has no settings to change");
 		}
-		this.options.adapter.setConfigOption(configId, value);
+		return this.options.adapter.setConfigOption(configId, value);
 	}
 
 	stopBackgroundTask(taskId: string): Promise<boolean> {
