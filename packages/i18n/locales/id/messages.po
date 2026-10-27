@@ -11004,9 +11004,6 @@ msgstr "Aplikasi mobile"
 msgid "Mobile App"
 msgstr "Aplikasi Mobile"
 
-msgid "Mode"
-msgstr "Mode"
-
 msgid "model"
 msgstr "model"
 

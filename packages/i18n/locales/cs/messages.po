@@ -11004,9 +11004,6 @@ msgstr "Mobilní aplikace"
 msgid "Mobile App"
 msgstr "Mobilní aplikace"
 
-msgid "Mode"
-msgstr "Režim"
-
 msgid "model"
 msgstr "model"
 
