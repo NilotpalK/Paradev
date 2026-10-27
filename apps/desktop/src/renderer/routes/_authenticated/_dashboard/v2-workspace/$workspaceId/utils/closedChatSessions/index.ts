@@ -6,5 +6,6 @@ export {
 	markChatTerminalClosed,
 	markCloudChatLaunchClosed,
 	reopenChatSession,
+	reopenChatTerminal,
 	reopenCloudChatLaunch,
 } from "./closedChatSessions";

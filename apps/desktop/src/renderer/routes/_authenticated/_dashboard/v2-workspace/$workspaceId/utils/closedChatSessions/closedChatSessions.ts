@@ -42,9 +42,11 @@ const closedTerminals = new Set<string>();
 
 export function markChatTerminalClosed(terminalId: string): () => void {
 	closedTerminals.add(terminalId);
-	return () => {
-		closedTerminals.delete(terminalId);
-	};
+	return () => reopenChatTerminal(terminalId);
+}
+
+export function reopenChatTerminal(terminalId: string): void {
+	closedTerminals.delete(terminalId);
 }
 
 export function isChatTerminalClosed(terminalId: string): boolean {

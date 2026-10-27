@@ -9,6 +9,7 @@ import {
 	isChatSessionClosed,
 	markChatSessionClosed,
 	markChatTerminalClosed,
+	reopenChatTerminal,
 } from "../../../../utils/closedChatSessions";
 import {
 	addPendingChatStop,
@@ -64,7 +65,10 @@ export function useUndoableChatClose({
 					console.warn("[acp-chat] could not list chats to stop", error);
 					return [];
 				});
-			const kept = new Set<string>(closedSessionId ? [closedSessionId] : []);
+			const kept = new Set<string>([
+				...readPendingChatStops(workspaceId),
+				...(closedSessionId ? [closedSessionId] : []),
+			]);
 			for (const paneStore of [store, ...(linkedStores ?? [])]) {
 				for (const tab of paneStore.getState().tabs) {
 					for (const pane of Object.values(tab.panes)) {
@@ -97,12 +101,13 @@ export function useUndoableChatClose({
 	);
 
 	const [batches] = useState(() => {
-		const stopSession = (sessionId: string) => {
+		const stopSession = (sessionId: string, terminalId?: string) => {
 			if (!isChatSessionClosed(sessionId)) return;
 			void latest.current
 				.stopChat(sessionId)
 				.then((stopped) => {
 					if (!stopped) {
+						if (terminalId) reopenChatTerminal(terminalId);
 						toast.error(
 							latest.current.t({ message: "Couldn't stop the chat" }),
 						);
@@ -149,10 +154,9 @@ export function useUndoableChatClose({
 				else state.addTab({ panes: [chat.pane] });
 			},
 			stop: (chat) => {
-				stopSession(chat.sessionId);
-				useChatSubagentStore
-					.getState()
-					.forget((chat.pane.data as ChatPaneData).terminalId);
+				const { terminalId } = chat.pane.data as ChatPaneData;
+				stopSession(chat.sessionId, terminalId);
+				useChatSubagentStore.getState().forget(terminalId);
 			},
 		});
 		return { closed, stopSession };
