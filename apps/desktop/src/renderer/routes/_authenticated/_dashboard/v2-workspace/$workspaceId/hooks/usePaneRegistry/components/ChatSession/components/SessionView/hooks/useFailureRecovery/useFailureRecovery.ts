@@ -5,11 +5,6 @@ import type { TurnFailureActions } from "../../../../providers/TurnFailureAction
 
 const CONTINUE: UserContent[] = [{ type: "text", text: CONTINUE_PROMPT }];
 
-/**
- * What a failed turn's card can do in this chat. Picking a model after
- * "Change model" continues the task once the agent has the new model; closing
- * the picker without one does nothing.
- */
 export function useFailureRecovery({
 	blocked,
 	configOptions,

@@ -32,11 +32,6 @@ type ActionButton = {
 const PRIMARY_CLASS =
 	"border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive dark:border-destructive/50";
 
-/**
- * How a failed turn ended, on the turn itself. Built from the stored turn, so
- * it reads the same when the chat is opened again; only the chat's last turn
- * offers to recover.
- */
 export function TurnFailureCard({
 	error,
 	latest,
