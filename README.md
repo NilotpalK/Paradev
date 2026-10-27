@@ -20,7 +20,7 @@ The docs are available as [a Markdown index](https://docs.paradev.com/llms.txt) 
 
 ## Install
 
-Download the desktop app:
+Download the Paradev desktop app:
 
 - **macOS**: [Apple Silicon (.dmg)](https://github.com/paradevai/paradev/releases/latest/download/Superset-arm64.dmg) · [Intel (.dmg)](https://github.com/paradevai/paradev/releases/latest/download/Superset-x64.dmg)
 - **Linux**: [x64 AppImage](https://github.com/paradevai/paradev/releases/latest/download/Superset-x86_64.AppImage) (experimental; macOS is the primary target)
