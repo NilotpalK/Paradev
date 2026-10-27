@@ -4,7 +4,7 @@ const SYSTEM_REMINDER = /<system-reminder>[\s\S]*?<\/system-reminder>/g;
 const SUMMARY_HEADER = /^[ \t]*Summary:[ \t]*\r?\n/m;
 const TRAILERS = [
 	/\n+If you need specific details from before compaction[\s\S]*$/,
-	/\n+(?:Please )?[Cc]ontinue the conversation from where it left (?:it )?off[\s\S]*$/,
+	/\n+(?:Please )?[Cc]ontinue the conversation from where (?:it|we) left (?:it )?off[\s\S]*$/,
 ];
 
 /**

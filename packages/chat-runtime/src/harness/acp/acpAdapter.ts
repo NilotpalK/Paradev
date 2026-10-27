@@ -177,6 +177,7 @@ type Compaction = {
 	startedAtMs: number;
 	streamedSummary: string;
 	usageAtStart: SessionUsage | undefined;
+	completedAtMs?: number;
 	notice: NoticeCompaction;
 };
 
@@ -466,6 +467,11 @@ export class AcpAdapter implements HarnessAdapter {
 	private sessionUsage: SessionUsage | undefined;
 	private readonly compactions = new Map<string, Compaction>();
 	private compactionAwaitingUsage: Compaction | null = null;
+	private replaySummary: {
+		messageId: string | null;
+		compaction: Compaction;
+		text: string;
+	} | null = null;
 	private readonly backgroundTaskTurns = new Map<string, string | undefined>();
 	private awaitingBackground = false;
 	/** The v2 config option that stands in for v1's session mode, once seen. */
@@ -1241,6 +1247,8 @@ export class AcpAdapter implements HarnessAdapter {
 		const update = acpSessionUpdateSchema.safeParse(outer.data.update);
 		if (!update.success) return;
 		const variant = update.data.sessionUpdate;
+		if (variant !== "user_message_chunk" && variant !== "user_message")
+			this.replaySummary = null;
 
 		// Live, a user message echoes a prompt the runtime already recorded. In a
 		// session/load replay it does not: those turns were typed at the CLI and
@@ -1266,6 +1274,7 @@ export class AcpAdapter implements HarnessAdapter {
 				return;
 			}
 			if (isHiddenUserMessage(outer.data.update)) return;
+			if (this.appendReplaySummary(outer.data.update)) return;
 			if (this.main.openKind() !== "user_message") {
 				this.main.flush();
 				// emitTurn leaves the history turn as `currentTurn`, which
@@ -2429,6 +2438,7 @@ export class AcpAdapter implements HarnessAdapter {
 	}
 
 	private emitTurn(turn: Turn): void {
+		if (turn.status !== "running") this.settleCompactions(turn);
 		if (turn.status !== "running" || turn.id !== this.currentTurn?.id) {
 			this.cycleEnded = false;
 			this.steeredCyclePending = false;
@@ -2461,8 +2471,8 @@ export class AcpAdapter implements HarnessAdapter {
 		};
 		if (this.currentTurn) this.emitTurn(this.currentTurn);
 		const compaction = this.compactionAwaitingUsage;
-		if (compaction) {
-			this.compactionAwaitingUsage = null;
+		this.compactionAwaitingUsage = null;
+		if (compaction && compaction.turnId === this.currentTurn?.id) {
 			compaction.notice = { ...compaction.notice, tokensAfter: contextUsed };
 			this.emitCompaction(compaction);
 		}
@@ -2510,11 +2520,42 @@ export class AcpAdapter implements HarnessAdapter {
 	private replayContinuationSummary(raw: unknown): boolean {
 		const text = firstTextOf(raw);
 		const summary = text === undefined ? undefined : continuationSummary(text);
-		if (!summary) return false;
-		const compaction = this.compaction(messageIdOf(raw) ?? this.mintId());
+		if (text === undefined || !summary) return false;
+		const messageId = messageIdOf(raw);
+		const compaction = this.compaction(messageId ?? this.mintId());
 		compaction.notice = { status: "completed", summary };
+		this.replaySummary = { messageId, compaction, text };
 		this.emitCompaction(compaction);
 		return true;
+	}
+
+	private appendReplaySummary(raw: unknown): boolean {
+		const open = this.replaySummary;
+		const text = firstTextOf(raw);
+		if (!open || text === undefined || messageIdOf(raw) !== open.messageId)
+			return false;
+		open.text += text;
+		const summary = continuationSummary(open.text);
+		if (summary) {
+			open.compaction.notice = { ...open.compaction.notice, summary };
+			this.emitCompaction(open.compaction);
+		}
+		return true;
+	}
+
+	private settleCompactions(turn: Turn): void {
+		for (const compaction of this.compactions.values()) {
+			if (
+				compaction.turnId !== turn.id ||
+				compaction.notice.status !== "running"
+			)
+				continue;
+			compaction.notice = {
+				...compaction.notice,
+				status: turn.status === "failed" ? "failed" : "cancelled",
+			};
+			this.emitCompaction(compaction);
+		}
 	}
 
 	private handleCompactionSummaryChunk(raw: unknown): void {
@@ -2547,6 +2588,7 @@ export class AcpAdapter implements HarnessAdapter {
 
 	private emitCompaction(compaction: Compaction): void {
 		const { notice } = compaction;
+		if (notice.status !== "running") compaction.completedAtMs ??= this.now();
 		this.emitItem(
 			{
 				id: compaction.itemId,
@@ -2554,7 +2596,9 @@ export class AcpAdapter implements HarnessAdapter {
 				noticeKind: "compaction",
 				text: COMPACTION_TEXT[notice.status],
 				startedAtMs: compaction.startedAtMs,
-				...(notice.status === "running" ? {} : { completedAtMs: this.now() }),
+				...(compaction.completedAtMs === undefined
+					? {}
+					: { completedAtMs: compaction.completedAtMs }),
 				compaction: notice,
 			},
 			compaction.turnId,

@@ -21,6 +21,11 @@ describe("continuationSummary", () => {
 		expect(continuationSummary(text)).toBe(
 			"1. Primary Request and Intent:\n   - Read README.md.",
 		);
+		expect(
+			continuationSummary(
+				"This session is being continued from a previous conversation that ran out of context.\nSummary:\nRead the readme.\n\nPlease continue the conversation from where we left it off without asking the user any further questions.",
+			),
+		).toBe("Read the readme.");
 	});
 
 	it("leaves an ordinary user message alone", () => {

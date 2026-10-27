@@ -3507,6 +3507,101 @@ describe("AcpAdapter on protocol v2", () => {
 		await adapter.dispose();
 	});
 
+	it("settles a running compaction when the agent exits", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "/compact" }]);
+		await flush();
+		agent.notify("sess-1", {
+			sessionUpdate: "compaction_update",
+			compactionId: "c1",
+			status: "in_progress",
+		});
+		await flush();
+
+		agent.exit(1);
+		await flush();
+
+		const notices = itemsOf(events).filter((item) => item.kind === "notice");
+		const compactions = notices.filter(
+			(item) => (item as Notice).noticeKind === "compaction",
+		);
+		expect((compactions.at(-1) as Notice).compaction?.status).toBe("failed");
+		await adapter.dispose();
+	});
+
+	it("does not take the next turn's usage as a compaction's size after", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "/compact" }]);
+		await flush();
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 30_818,
+			size: 258_400,
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "compaction_update",
+			compactionId: "c1",
+			status: "in_progress",
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "compaction_update",
+			compactionId: "c1",
+			status: "completed",
+		});
+		agent.releasePrompts("end_turn");
+		await flush();
+
+		adapter.prompt([{ type: "text", text: "next" }]);
+		await flush();
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 41_000,
+			size: 258_400,
+		});
+		await flush();
+
+		const notices = itemsOf(events).filter((item) => item.kind === "notice");
+		expect((notices.at(-1) as Notice).compaction?.tokensAfter).toBeUndefined();
+		await adapter.dispose();
+	});
+
+	it("keeps a replayed summary that arrives in several chunks in one compaction", async () => {
+		const agent = new FakeAcpAgent();
+		agent.replayUpdates = [
+			{
+				sessionUpdate: "user_message_chunk",
+				messageId: "summary-1",
+				content: {
+					type: "text",
+					text: "This session is being continued from a previous conversation that ran out of context.\n\nSummary:\n1. Read the readme.",
+				},
+			},
+			{
+				sessionUpdate: "user_message_chunk",
+				messageId: "summary-1",
+				content: {
+					type: "text",
+					text: "\n2. Nothing changed.\n\nContinue the conversation from where it left off.",
+				},
+			},
+		];
+		const { adapter, events } = startAdapter(agent, "sess-1");
+		await flush(40);
+
+		const items = itemsOf(events);
+		expect(items.some((item) => item.kind === "user_message")).toBe(false);
+		expect((items.at(-1) as Notice).compaction?.summary).toBe(
+			"1. Read the readme.\n2. Nothing changed.",
+		);
+		await adapter.dispose();
+	});
+
 	it("replays Claude's post-compaction summary as a compaction, not a user message", async () => {
 		const agent = new FakeAcpAgent();
 		agent.replayUpdates = [
