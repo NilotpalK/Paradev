@@ -4,7 +4,7 @@ import { deriveTimeline, emptySnapshot, reduceMany } from "@superset/chat/core";
 import { eq } from "drizzle-orm";
 import { chatJournal } from "../../db";
 import type { AdapterEvent, HarnessAdapter } from "../../harness";
-import { FakeHarness } from "../../harness/fake";
+import { FakeHarness, type ScriptedEvent } from "../../harness/fake";
 import type { HarnessRegistry } from "../../sessions";
 import { agentMessage, turn } from "../../testing/fixtures";
 import { createTestRuntime } from "../../testing/testRuntime";
@@ -163,17 +163,22 @@ describe("replacing a chat whose agent died", () => {
 			error: { message: "acp agent exited (code 1)", kind: "crashed" },
 			completedAtMs: 2,
 		});
+		const replayed: ScriptedEvent = {
+			kind: "item",
+			item: {
+				...agentMessage("replayed", "earlier reply"),
+				startedAtMs: Date.now() + 60_000,
+			},
+			turnId: "history",
+		};
+		let agents = 0;
 		const harnesses: HarnessRegistry = new Map([
 			[
 				FAKE_HARNESS,
 				() =>
 					new FakeHarness({
 						start: [
-							{
-								kind: "item",
-								item: agentMessage("replayed", "earlier reply"),
-								turnId: "history",
-							},
+							...(agents++ > 0 ? [replayed] : []),
 							{ kind: "session", delayMs: 2, session: { status: "idle" } },
 						],
 						turns: [

@@ -95,6 +95,8 @@ export class LiveSession {
 	private heldPaused: UserContent[][] = [];
 	private onHeldReleased: (() => void) | null = null;
 	private carriedFailure: Turn | null = null;
+	/** Replays stamp items ahead of the clock to keep their order. */
+	private latestStartMs = 0;
 	/** Turns a user prompt started, and those of them that have shown anything yet. */
 	private readonly promptedTurns = new Set<string>();
 	private readonly turnsWithOutput = new Set<string>();
@@ -465,7 +467,7 @@ export class LiveSession {
 		const turn = this.carriedFailure;
 		if (!turn || this.sessionState.status === "starting") return;
 		this.carriedFailure = null;
-		const at = this.now();
+		const at = Math.max(this.now(), this.latestStartMs + 1);
 		this.appendDurable({
 			type: "turn",
 			turn: { ...turn, startedAtMs: at, completedAtMs: at },
@@ -705,6 +707,13 @@ export class LiveSession {
 	}
 
 	private appendDurable(event: DurableEvent): void {
+		const startedAtMs =
+			event.type === "item"
+				? event.item.startedAtMs
+				: event.type === "turn"
+					? event.turn.startedAtMs
+					: 0;
+		this.latestStartMs = Math.max(this.latestStartMs, startedAtMs);
 		this.options.publish(
 			this.options.journal.appendEnvelope(this.options.sessionId, event),
 		);
