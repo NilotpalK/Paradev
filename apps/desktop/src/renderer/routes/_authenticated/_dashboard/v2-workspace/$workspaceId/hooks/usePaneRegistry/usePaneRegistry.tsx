@@ -889,6 +889,7 @@ export function usePaneRegistry({
 						icon: <LuPencil />,
 						disabled: (ctx) => !(ctx.pane.data as ChatPaneData).sessionId,
 						onSelect: (ctx) => runChatPaneAction(ctx.pane.id, "rename"),
+						runAfterMenuClose: true,
 					},
 					{
 						key: "export-chat",
