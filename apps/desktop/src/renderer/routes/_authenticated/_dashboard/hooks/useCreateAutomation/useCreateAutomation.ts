@@ -32,7 +32,8 @@ export type AutomationDraft = {
  * through the paywall.
  */
 export function useCreateAutomation(): {
-	create: (draft: AutomationDraft) => void;
+	/** Resolves true when the automation was created. */
+	create: (draft: AutomationDraft) => Promise<boolean>;
 	isPending: boolean;
 } {
 	const { t } = useLingui();
@@ -40,9 +41,9 @@ export function useCreateAutomation(): {
 	const utils = cloudTrpc.useUtils();
 	const { machineId, activeHostUrl } = useLocalHostService();
 	const { agents: agentChoices } = useV2AgentChoices(activeHostUrl);
-	const { gateFeature } = usePaywall();
+	const { runGatedFeature } = usePaywall();
 
-	const { mutate, isPending } = useMutation({
+	const { mutateAsync, isPending } = useMutation({
 		mutationFn: (draft: AutomationDraft) => {
 			const stored = window.localStorage.getItem(AGENT_STORAGE_KEY);
 			const choice =
@@ -87,11 +88,18 @@ export function useCreateAutomation(): {
 	});
 
 	const create = useCallback(
-		(draft: AutomationDraft) => {
-			if (isPending) return;
-			gateFeature(GATED_FEATURES.AUTOMATIONS, () => mutate(draft));
+		async (draft: AutomationDraft) => {
+			if (isPending) return false;
+			let created = false;
+			await runGatedFeature(GATED_FEATURES.AUTOMATIONS, async () => {
+				created = await mutateAsync(draft).then(
+					() => true,
+					() => false,
+				);
+			});
+			return created;
 		},
-		[gateFeature, isPending, mutate],
+		[isPending, mutateAsync, runGatedFeature],
 	);
 
 	return { create, isPending };

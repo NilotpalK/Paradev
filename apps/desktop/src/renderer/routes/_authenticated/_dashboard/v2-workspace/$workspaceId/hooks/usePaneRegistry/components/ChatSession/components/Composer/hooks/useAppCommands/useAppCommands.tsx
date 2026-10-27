@@ -95,7 +95,12 @@ export function useAppCommands({
 				inputRef.current?.blur();
 				action();
 			});
-		const mcp = openMcp ? { openMcp } : {};
+		const mcp = openMcp
+			? {
+					openMcp: (composer: ComposerActionContext) =>
+						queueMicrotask(() => openMcp(composer)),
+				}
+			: {};
 		if (toSubagent) return mcp;
 		const fast = fastOption(configOptions ?? []);
 		const plan = planControl({
@@ -150,12 +155,16 @@ export function useAppCommands({
 				: {}),
 			...(onOpenHistory ? { openHistory: leaveComposer(onOpenHistory) } : {}),
 			...(onOpenFind ? { openFind: leaveComposer(onOpenFind) } : {}),
-			createAutomation: (prompt: string) =>
-				createAutomation({
+			createAutomation: (prompt: string) => {
+				void createAutomation({
 					prompt,
 					...(presetId ? { agent: presetId } : {}),
 					projectId,
-				}),
+				}).then((created) => {
+					if (!created)
+						inputRef.current?.appendText(`/automation ${prompt}`.trim());
+				});
+			},
 		};
 	}, [
 		canForkToWorktree,
