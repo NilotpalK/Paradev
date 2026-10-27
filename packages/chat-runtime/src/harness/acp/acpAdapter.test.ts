@@ -3293,6 +3293,36 @@ describe("AcpAdapter on protocol v2", () => {
 		await adapter.dispose();
 	});
 
+	it("keeps a cost the agent reported before any context usage", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			cost: { amount: 0.2, currency: "USD" },
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 9_000,
+			size: 200_000,
+		});
+		await flush();
+
+		const turns = events.flatMap((event) =>
+			event.kind === "turn" ? [event.turn] : [],
+		);
+		expect(turns.at(-1)?.sessionUsage).toEqual({
+			contextUsed: 9_000,
+			contextSize: 200_000,
+			costUsd: 0.2,
+		});
+		await adapter.dispose();
+	});
+
 	it("sends usage again only when it changed", async () => {
 		const agent = new FakeAcpAgent();
 		agent.holdPrompts = true;

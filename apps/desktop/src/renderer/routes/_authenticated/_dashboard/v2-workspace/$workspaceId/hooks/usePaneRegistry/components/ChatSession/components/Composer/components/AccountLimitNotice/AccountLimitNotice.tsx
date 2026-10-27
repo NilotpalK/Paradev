@@ -2,6 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 import { formatPercent } from "@superset/i18n/format";
 import { cn } from "@superset/ui/utils";
 import { Gauge, X } from "lucide-react";
+import { useEffect } from "react";
 import { formatResetLabel } from "renderer/utils/usage/formatResetIn";
 import { useAccountUsage } from "../../../../../../hooks/useAccountUsage";
 import { useDismissedLimitWarnings } from "./stores/dismissedLimitWarnings";
@@ -25,17 +26,20 @@ export function AccountLimitNotice({
 	);
 	const dismissed = useDismissedLimitWarnings((store) => store.keys);
 	const dismiss = useDismissedLimitWarnings((store) => store.dismiss);
-	if (
-		state !== "ready" ||
-		!tightest ||
-		tightest.usedPercent < APPROACHING_LIMIT_PERCENT
-	)
-		return null;
+	const release = useDismissedLimitWarnings((store) => store.release);
+	const accountKey = account?.accountKey;
+	const belowLimit =
+		state === "ready" &&
+		(tightest?.usedPercent ?? 0) < APPROACHING_LIMIT_PERCENT;
+	useEffect(() => {
+		if (belowLimit) release(`${accountKey}:`);
+	}, [belowLimit, accountKey, release]);
+	if (state !== "ready" || !tightest || belowLimit) return null;
 	const band =
 		tightest.usedPercent >= NEAR_LIMIT_PERCENT
 			? NEAR_LIMIT_PERCENT
 			: APPROACHING_LIMIT_PERCENT;
-	const key = `${account?.accountKey}:${tightest.id}:${tightest.resetsAt}:${band}`;
+	const key = `${accountKey}:${tightest.id}:${tightest.resetsAt}:${band}`;
 	if (dismissed.has(key)) return null;
 	const windowLabel = tightest.label;
 	const percent = formatPercent(tightest.usedPercent / 100, {
