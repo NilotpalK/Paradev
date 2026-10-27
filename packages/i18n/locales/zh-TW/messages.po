@@ -1878,6 +1878,9 @@ msgstr "新增附件"
 msgid "Add Attachment"
 msgstr "新增附件"
 
+msgid "Add back"
+msgstr "加回"
+
 msgid "Add command"
 msgstr "新增命令"
 
@@ -1980,6 +1983,9 @@ msgstr "給風險最高又沒測試的程式碼補上測試…"
 
 msgid "Add tests where they're missing"
 msgstr "給缺測試的地方補測試"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "要把 /automation 提示詞加回你的訊息嗎？"
 
 msgid "Add them"
 msgstr "加入"

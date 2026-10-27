@@ -24,6 +24,7 @@ import {
 import { splitInvocation } from "../../utils/commandArgs";
 import { resolveCollisions } from "../../utils/commandCollisions";
 import { PLAN_ID, type PlanSwitch, planControl } from "../../utils/planControl";
+import { restoreCommand } from "../../utils/restoreCommand";
 import { fastOption } from "../../utils/toggleOption";
 
 export type TypedCommandOutcome = "not-app" | "ran" | "kept";
@@ -161,8 +162,18 @@ export function useAppCommands({
 					...(presetId ? { agent: presetId } : {}),
 					projectId,
 				}).then((created) => {
-					if (!created)
-						inputRef.current?.appendText(`/automation ${prompt}`.trim());
+					if (created) return;
+					restoreCommand(inputRef, `/automation ${prompt}`.trim(), (restore) =>
+						toast(
+							t({
+								message: "Add the /automation prompt back to your message?",
+							}),
+							{
+								action: { label: t({ message: "Add back" }), onClick: restore },
+								duration: 15_000,
+							},
+						),
+					);
 				});
 			},
 		};

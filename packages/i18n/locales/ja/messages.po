@@ -1878,6 +1878,9 @@ msgstr "添付ファイルを追加"
 msgid "Add Attachment"
 msgstr "添付ファイルを追加"
 
+msgid "Add back"
+msgstr "戻す"
+
 msgid "Add command"
 msgstr "コマンドを追加"
 
@@ -1980,6 +1983,9 @@ msgstr "テストのない危険なコードにテストを追加…"
 
 msgid "Add tests where they're missing"
 msgstr "テストが不足している箇所に追加"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "/automation のプロンプトをメッセージに戻しますか？"
 
 msgid "Add them"
 msgstr "追加する"

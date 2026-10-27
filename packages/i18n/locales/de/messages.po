@@ -1878,6 +1878,9 @@ msgstr "Anhang hinzufügen"
 msgid "Add Attachment"
 msgstr "Anhang hinzufügen"
 
+msgid "Add back"
+msgstr "Wieder hinzufügen"
+
 msgid "Add command"
 msgstr "Befehl hinzufügen"
 
@@ -1980,6 +1983,9 @@ msgstr "Tests für den riskantesten ungetesteten Code schreiben…"
 
 msgid "Add tests where they're missing"
 msgstr "Tests ergänzen, wo sie fehlen"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Den /automation-Prompt wieder zu deiner Nachricht hinzufügen?"
 
 msgid "Add them"
 msgstr "Hinzufügen"

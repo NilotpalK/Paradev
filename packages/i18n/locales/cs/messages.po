@@ -1878,6 +1878,9 @@ msgstr "Přidat přílohu"
 msgid "Add Attachment"
 msgstr "Přidat přílohu"
 
+msgid "Add back"
+msgstr "Přidat zpět"
+
 msgid "Add command"
 msgstr "Přidat příkaz"
 
@@ -1980,6 +1983,9 @@ msgstr "Doplň testy pro nejrizikovější netestovaný kód…"
 
 msgid "Add tests where they're missing"
 msgstr "Doplnit testy tam, kde chybí"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Přidat prompt /automation zpět do vaší zprávy?"
 
 msgid "Add them"
 msgstr "Přidat je"

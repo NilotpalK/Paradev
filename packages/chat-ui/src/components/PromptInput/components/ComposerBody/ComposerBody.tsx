@@ -259,6 +259,15 @@ export function ComposerBody({
 				});
 				editor.focus();
 			},
+			isEmpty() {
+				return (
+					editor
+						.getEditorState()
+						.read(() => $getRoot().getTextContent().trim() === "") &&
+					cardsRef.current.length === 0 &&
+					stateRef.current.attachments.length === 0
+				);
+			},
 			addFiles(files: File[]) {
 				addFilesRef.current(files);
 				focusAtEnd();
@@ -284,7 +293,7 @@ export function ComposerBody({
 				editor.blur();
 			},
 		}),
-		[draftText, editor, focusAtEnd, pasted.restore, splitPastes],
+		[cardsRef, draftText, editor, focusAtEnd, pasted.restore, splitPastes],
 	);
 	const [attachments, setAttachments] = useState<PromptInputAttachment[]>([]);
 	const [isEmpty, setIsEmpty] = useState(true);

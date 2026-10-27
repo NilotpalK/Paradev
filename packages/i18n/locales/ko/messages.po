@@ -1878,6 +1878,9 @@ msgstr "첨부 추가"
 msgid "Add Attachment"
 msgstr "첨부 파일 추가"
 
+msgid "Add back"
+msgstr "다시 추가"
+
 msgid "Add command"
 msgstr "명령 추가"
 
@@ -1980,6 +1983,9 @@ msgstr "테스트가 없는 가장 위험한 코드에 테스트 추가…"
 
 msgid "Add tests where they're missing"
 msgstr "빠진 테스트 추가하기"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "/automation 프롬프트를 메시지에 다시 추가할까요?"
 
 msgid "Add them"
 msgstr "추가"

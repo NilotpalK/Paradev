@@ -1878,6 +1878,9 @@ msgstr "Thêm tệp đính kèm"
 msgid "Add Attachment"
 msgstr "Thêm tệp đính kèm"
 
+msgid "Add back"
+msgstr "Thêm lại"
+
 msgid "Add command"
 msgstr "Thêm lệnh"
 
@@ -1980,6 +1983,9 @@ msgstr "Thêm test cho phần code rủi ro nhất chưa được test…"
 
 msgid "Add tests where they're missing"
 msgstr "Thêm test ở những chỗ còn thiếu"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Thêm lại prompt /automation vào tin nhắn của bạn?"
 
 msgid "Add them"
 msgstr "Thêm họ"

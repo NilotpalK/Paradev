@@ -128,6 +128,7 @@ export type PromptInputDictation = {
 
 export type PromptInputHandle = {
 	appendText(text: string): void;
+	isEmpty(): boolean;
 	addFiles(files: File[]): void;
 	insertChip(chip: ComposerChip): void;
 	openFileDialog(): void;

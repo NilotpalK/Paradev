@@ -1878,6 +1878,9 @@ msgstr "Добавить вложение"
 msgid "Add Attachment"
 msgstr "Добавить вложение"
 
+msgid "Add back"
+msgstr "Вернуть"
+
 msgid "Add command"
 msgstr "Добавить команду"
 
@@ -1980,6 +1983,9 @@ msgstr "Добавь тесты для самого рискованного н�
 
 msgid "Add tests where they're missing"
 msgstr "Добавить тесты там, где их нет"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Вернуть промпт /automation в ваше сообщение?"
 
 msgid "Add them"
 msgstr "Добавить их"

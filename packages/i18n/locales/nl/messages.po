@@ -1878,6 +1878,9 @@ msgstr "Bijlage toevoegen"
 msgid "Add Attachment"
 msgstr "Bijlage toevoegen"
 
+msgid "Add back"
+msgstr "Weer toevoegen"
+
 msgid "Add command"
 msgstr "Commando toevoegen"
 
@@ -1980,6 +1983,9 @@ msgstr "Voeg tests toe voor de riskantste ongeteste code…"
 
 msgid "Add tests where they're missing"
 msgstr "Tests toevoegen waar ze ontbreken"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "De /automation-prompt weer aan je bericht toevoegen?"
 
 msgid "Add them"
 msgstr "Toevoegen"

@@ -1878,6 +1878,9 @@ msgstr "Tambah lampiran"
 msgid "Add Attachment"
 msgstr "Tambah Lampiran"
 
+msgid "Add back"
+msgstr "Tambahkan lagi"
+
 msgid "Add command"
 msgstr "Tambah perintah"
 
@@ -1980,6 +1983,9 @@ msgstr "Tambahkan tes untuk kode paling berisiko yang belum diuji…"
 
 msgid "Add tests where they're missing"
 msgstr "Tambahkan tes yang belum ada"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Tambahkan lagi prompt /automation ke pesan Anda?"
 
 msgid "Add them"
 msgstr "Tambahkan mereka"

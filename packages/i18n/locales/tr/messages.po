@@ -1878,6 +1878,9 @@ msgstr "Ek ekle"
 msgid "Add Attachment"
 msgstr "Ek ekle"
 
+msgid "Add back"
+msgstr "Geri ekle"
+
 msgid "Add command"
 msgstr "Komut ekle"
 
@@ -1980,6 +1983,9 @@ msgstr "Test edilmemiş en riskli kod için test ekle…"
 
 msgid "Add tests where they're missing"
 msgstr "Eksik olan yerlere test ekle"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "/automation istemi mesajınıza geri eklensin mi?"
 
 msgid "Add them"
 msgstr "Ekle"
