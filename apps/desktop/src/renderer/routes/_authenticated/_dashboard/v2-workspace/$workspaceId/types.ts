@@ -138,6 +138,7 @@ export interface ReviewPaneData {
 
 export interface PagesListPaneData {
 	kind: "pages-list";
+	page?: PagePaneData;
 }
 
 /**
