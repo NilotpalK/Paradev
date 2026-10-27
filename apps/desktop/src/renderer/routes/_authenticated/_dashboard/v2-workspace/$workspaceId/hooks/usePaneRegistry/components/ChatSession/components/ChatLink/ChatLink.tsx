@@ -4,11 +4,11 @@ import { cn } from "@superset/ui/utils";
 import { type UseNavigateResult, useNavigate } from "@tanstack/react-router";
 import type { ComponentProps, MouseEvent } from "react";
 import { env } from "renderer/env.renderer";
-import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
 import {
 	parseSupersetAppLink,
 	type SupersetAppLink,
 } from "renderer/lib/supersetAppLink";
+import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
 import { ChatLinkProvider } from "../../providers/ChatLinkProvider";
 import { useChatPaneActions } from "../../providers/ChatPaneActionsProvider";
 import { parseGithubWorkItemUrl } from "../../utils/githubWorkItem";

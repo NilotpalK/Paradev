@@ -1,8 +1,8 @@
 import type { ComposerChip } from "@superset/chat-ui/PromptInput";
 import { getPluginIconUrl } from "renderer/components/PluginIcon";
+import { parseSupersetAppLink } from "renderer/lib/supersetAppLink";
 import { parseGithubWorkItemUrl } from "../githubWorkItem";
 import { unfurlLink } from "../linkUnfurl";
-import { parseSupersetAppLink } from "../supersetAppLink";
 
 export type LinkChipData = { link: string };
 
