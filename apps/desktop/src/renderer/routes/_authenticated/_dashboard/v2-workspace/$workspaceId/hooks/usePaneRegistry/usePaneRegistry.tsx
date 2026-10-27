@@ -840,6 +840,7 @@ export function usePaneRegistry({
 					};
 				},
 				onAfterClose: closeChatWithUndo,
+				insetsAside: true,
 				renderTitle: (ctx: RendererContext<PaneViewerData>) => {
 					const data = ctx.pane.data as ChatPaneData;
 					return (

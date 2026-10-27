@@ -35,7 +35,10 @@ import { V2NotificationStatusIndicator } from "./components/V2NotificationStatus
 import { V2PresetsBar } from "./components/V2PresetsBar";
 import { V2WorkspaceOpenInButton } from "./components/V2WorkspaceOpenInButton";
 import { V2WorkspaceRunButton } from "./components/V2WorkspaceRunButton";
-import { WorkspaceActivityMenu } from "./components/WorkspaceActivityMenu";
+import {
+	ActivityPanelAside,
+	WorkspaceActivityMenu,
+} from "./components/WorkspaceActivityMenu";
 import { WorkspaceEmptyState } from "./components/WorkspaceEmptyState";
 import { WorkspaceMissingWorktreeState } from "./components/WorkspaceMissingWorktreeState";
 import { WorkspaceSidebar } from "./components/WorkspaceSidebar";
@@ -717,6 +720,9 @@ function V2WorkspaceContent() {
 											showPresetsBar={showPresetsBar}
 											onToggleShowPresetsBar={setShowPresetsBar}
 										/>
+									)}
+									renderPaneAside={() => (
+										<ActivityPanelAside workspaceId={workspaceId} />
 									)}
 									renderTabBarLeading={() => <WindowChrome />}
 									renderTabBarTrailing={() => (

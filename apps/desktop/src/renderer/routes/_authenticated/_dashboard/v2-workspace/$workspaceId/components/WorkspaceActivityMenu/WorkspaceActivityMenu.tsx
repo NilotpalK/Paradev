@@ -1,6 +1,5 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { WorkspaceStore } from "@superset/panes";
-import { Popover, PopoverContent, PopoverTrigger } from "@superset/ui/popover";
 import { toast } from "@superset/ui/sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
 import { cn } from "@superset/ui/utils";
@@ -16,6 +15,7 @@ import {
 	useState,
 	useSyncExternalStore,
 } from "react";
+import { createPortal } from "react-dom";
 import { env } from "renderer/env.renderer";
 import { useWorkspaceEvent } from "renderer/hooks/host-service/useWorkspaceEvent";
 import { useDebouncedValue } from "renderer/hooks/useDebouncedValue";
@@ -53,18 +53,26 @@ import {
 	ActivityMenuHeader,
 	type ShipView,
 } from "./components/ActivityMenuHeader";
+import { AgentWorkRow } from "./components/AgentWorkRow";
 import { BackgroundWorkRow } from "./components/BackgroundWorkRow";
 import { ChangesMenuRow } from "./components/ChangesMenuRow";
+import { FinishedSubagentRow } from "./components/FinishedSubagentRow";
 import { MenuGroup } from "./components/MenuGroup";
 import { PagesMenuRow } from "./components/PagesMenuRow";
+import { PANEL_MAX_HEIGHT_PX } from "./constants";
+import { useAgentWork } from "./hooks/useAgentWork";
+import { useAgentWorkActions } from "./hooks/useAgentWorkActions";
+import { useActivityPanelStore } from "./stores/activityPanelStore";
 import {
 	usePagesMenuSeenAt,
 	usePagesMenuSeenStore,
 } from "./stores/pagesMenuSeenStore";
+import type { AgentWork } from "./utils/collectAgentWork";
 import {
 	type BackgroundWork,
 	collectBackgroundWork,
 } from "./utils/collectBackgroundWork";
+import { paneSourceTitle } from "./utils/paneSourceTitle";
 import { type MenuPage, selectMenuPages } from "./utils/selectMenuPages";
 
 const MENU_PAGE_LIMIT = 200;
@@ -103,7 +111,14 @@ export function WorkspaceActivityMenu({
 		changes && changesStats && changesStats.fileCount > 0 ? changesStats : null;
 	const { workspace: currentWorkspace } = useWorkspace();
 	const [shipView, setShipView] = useState<ShipView | null>(null);
-	const [open, setOpen] = useState(false);
+	const panelPinned = useActivityPanelStore(
+		(state) => state.pinned[workspaceId] === true,
+	);
+	const togglePinned = useActivityPanelStore((state) => state.togglePinned);
+	const asideNode = useActivityPanelStore(
+		(state) => state.asideNodes[workspaceId],
+	);
+	const open = panelPinned && asideNode !== undefined;
 	const newPageStatusId = useId();
 	const {
 		flowState,
@@ -136,6 +151,9 @@ export function WorkspaceActivityMenu({
 	const [composing, setComposing] = useState(false);
 	const [now, setNow] = useState(() => Date.now());
 	const [stopping, setStopping] = useState<ReadonlySet<string>>(new Set());
+	const [pendingWork, setPendingWork] = useState<ReadonlySet<string>>(
+		new Set(),
+	);
 
 	const terminalUtils = workspaceTrpc.useUtils();
 	const killTerminal = workspaceTrpc.terminal.killSession.useMutation();
@@ -194,14 +212,26 @@ export function WorkspaceActivityMenu({
 		() => collectBackgroundWork(detachedTerminals),
 		[detachedTerminals],
 	);
-	const runningCount = processes.length;
+	const agentWork = useAgentWork(workspaceId);
+	const paneStores = useMemo(
+		() => [store, ...linkedStores],
+		[store, linkedStores],
+	);
+	const agentActions = useAgentWorkActions(paneStores);
+	const runningCount =
+		processes.length + agentWork.subagents.length + agentWork.shells.length;
+	const sourceOf = (terminalId: string) =>
+		paneSourceTitle(
+			paneStores.map((paneStore) => paneStore.getState()),
+			terminalId,
+		);
 
 	useEffect(() => {
-		if (!open || processes.length === 0) return;
+		if (!open || runningCount === 0) return;
 		setNow(Date.now());
 		const timer = setInterval(() => setNow(Date.now()), CLOCK_TICK_MS);
 		return () => clearInterval(timer);
-	}, [open, processes.length]);
+	}, [open, runningCount]);
 
 	// This menu orders by publish time, not creation time, so it takes one
 	// large batch rather than the grid's scroll-sized one. Built once because
@@ -253,19 +283,18 @@ export function WorkspaceActivityMenu({
 		],
 	);
 
-	const handleOpenChange = (next: boolean) => {
-		setOpen(next);
-		if (next) {
+	const togglePanel = () => {
+		togglePinned(workspaceId);
+		markSeen(workspaceId, workspace[0]?.publishedAtMs ?? 0);
+		if (!panelPinned) {
 			void utils.page.listPaginated.invalidate(workspaceListInput);
 			return;
 		}
 		setComposing(false);
 		setShipView(null);
-		markSeen(workspaceId, workspace[0]?.publishedAtMs ?? 0);
 	};
 
 	const handleOpenPage = (page: MenuPage, event: MouseEvent) => {
-		handleOpenChange(false);
 		const action = pagePolicy.getAction(event) ?? "pane";
 		if (action === "external") {
 			const url = new URL(
@@ -291,7 +320,6 @@ export function WorkspaceActivityMenu({
 	};
 
 	const handleOpenWork = (work: BackgroundWork) => {
-		handleOpenChange(false);
 		clearTerminalBackgroundMarker(workspaceId, work.terminalId);
 		focusOrAddTerminalPane(store, work.terminalId);
 		void terminalUtils.terminal.list.invalidate({ workspaceId });
@@ -330,6 +358,38 @@ export function WorkspaceActivityMenu({
 			/>
 		));
 
+	const runPending = (
+		work: AgentWork,
+		run: (work: AgentWork) => Promise<void>,
+	) => {
+		setPendingWork((current) => new Set(current).add(work.key));
+		void run(work).finally(() =>
+			setPendingWork((current) => {
+				const next = new Set(current);
+				next.delete(work.key);
+				return next;
+			}),
+		);
+	};
+
+	const agentRows = (items: AgentWork[]) =>
+		items.map((work) => (
+			<AgentWorkRow
+				key={work.key}
+				work={work}
+				source={sourceOf(work.terminalId)}
+				now={now}
+				onOpen={(target) =>
+					agentActions.open(target, { subagent: target.kind === "subagent" })
+				}
+				pending={pendingWork.has(work.key)}
+				onStop={(target) => runPending(target, agentActions.stop)}
+				onMoveToBackground={(target) =>
+					runPending(target, agentActions.moveToBackground)
+				}
+			/>
+		));
+
 	const emptyRow = (message: ReactNode) => (
 		<div className="px-2 py-1.5 text-xs text-muted-foreground/70">
 			{message}
@@ -337,203 +397,245 @@ export function WorkspaceActivityMenu({
 	);
 
 	return (
-		<Popover open={open} onOpenChange={handleOpenChange}>
+		<>
 			<Tooltip disableHoverableContent>
 				<TooltipTrigger asChild>
-					<PopoverTrigger asChild>
-						<button
-							type="button"
-							aria-label={t({ message: "Workspace activity" })}
-							aria-describedby={hasNew ? newPageStatusId : undefined}
-							className={cn(
-								"no-drag relative flex h-7 shrink-0 items-center gap-1.5 rounded-md border border-border/60 bg-muted/30 px-2 text-xs font-medium text-muted-foreground/80 transition-colors",
-								"hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-								open && "bg-muted/60 text-foreground",
-							)}
-						>
-							<ListTree className="size-3.5 shrink-0" />
-							{runningCount > 0 ? (
-								<>
-									<span className="size-1.5 shrink-0 animate-pulse rounded-full bg-emerald-500" />
-									<span className="tabular-nums">{runningCount}</span>
-								</>
-							) : (
-								!paneAreaStyle &&
-								workspace.length > 0 && (
-									<span className="tabular-nums">{workspace.length}</span>
-								)
-							)}
-							{triggerChangesStats && (
-								<>
-									<span className="h-3.5 w-px shrink-0 bg-border" />
-									<GitCompareArrows className="size-3.5 shrink-0" />
-									<span className="flex items-center gap-1">
-										<ChangesStats stats={triggerChangesStats} />
-									</span>
-								</>
-							)}
-							{hasNew && (
-								<>
-									<span
-										aria-hidden="true"
-										className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-blue-500"
-									/>
-									<span id={newPageStatusId} className="sr-only">
-										<Trans context="badge on a page published since the menu was last opened">
-											New
-										</Trans>
-									</span>
-								</>
-							)}
-						</button>
-					</PopoverTrigger>
+					<button
+						type="button"
+						onClick={togglePanel}
+						aria-label={t({ message: "Workspace activity" })}
+						aria-pressed={panelPinned}
+						aria-controls={
+							open ? `workspace-activity-${workspaceId}` : undefined
+						}
+						aria-describedby={hasNew ? newPageStatusId : undefined}
+						className={cn(
+							"no-drag relative flex h-7 shrink-0 items-center gap-1.5 rounded-md border px-2 text-xs font-medium transition-colors",
+							"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+							panelPinned
+								? "border-foreground/30 bg-foreground/15 text-foreground hover:bg-foreground/20"
+								: "border-border/60 bg-muted/30 text-muted-foreground/80 hover:bg-muted/60 hover:text-foreground",
+						)}
+					>
+						<ListTree className="size-3.5 shrink-0" />
+						{runningCount > 0 ? (
+							<>
+								<span className="size-1.5 shrink-0 animate-pulse rounded-full bg-emerald-500" />
+								<span className="tabular-nums">{runningCount}</span>
+							</>
+						) : (
+							!paneAreaStyle &&
+							workspace.length > 0 && (
+								<span className="tabular-nums">{workspace.length}</span>
+							)
+						)}
+						{triggerChangesStats && (
+							<>
+								<span className="h-3.5 w-px shrink-0 bg-border" />
+								<GitCompareArrows className="size-3.5 shrink-0" />
+								<span className="flex items-center gap-1">
+									<ChangesStats stats={triggerChangesStats} />
+								</span>
+							</>
+						)}
+						{hasNew && (
+							<>
+								<span
+									aria-hidden="true"
+									className="absolute -right-0.5 -top-0.5 size-2 rounded-full bg-blue-500"
+								/>
+								<span id={newPageStatusId} className="sr-only">
+									<Trans context="badge on a page published since the menu was last opened">
+										New
+									</Trans>
+								</span>
+							</>
+						)}
+					</button>
 				</TooltipTrigger>
 				<TooltipContent side="bottom">
-					<Trans>Workspace activity</Trans>
+					{panelPinned ? (
+						<Trans>Hide workspace activity</Trans>
+					) : (
+						<Trans>Show workspace activity</Trans>
+					)}
 				</TooltipContent>
 			</Tooltip>
-			<PopoverContent
-				align="end"
-				sideOffset={6}
-				className="w-80 p-1"
-				onKeyDown={(event) => {
-					if (composing || shipView) return;
-					if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-					const items = [
-						...event.currentTarget.querySelectorAll<HTMLElement>(
-							"button:not([disabled])",
-						),
-					];
-					if (items.length === 0) return;
-					event.preventDefault();
-					const index = items.indexOf(document.activeElement as HTMLElement);
-					const step = event.key === "ArrowDown" ? 1 : -1;
-					items[(index + step + items.length) % items.length]?.focus();
-				}}
-				onEscapeKeyDown={(event) => {
-					if (shipView) {
-						event.preventDefault();
-						setShipView(null);
-						return;
-					}
-					if (!composing) return;
-					event.preventDefault();
-					setComposing(false);
-				}}
-			>
-				{composing ? (
-					<>
-						<button
-							type="button"
-							onClick={() => setComposing(false)}
-							className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent"
-						>
-							<ArrowLeft className="size-3.5 shrink-0" />
-							<Trans>New page</Trans>
-						</button>
-						<NewPageComposer
-							workspaceId={workspaceId}
-							onSent={() => handleOpenChange(false)}
-							onCreateNewAgentSession={onCreateNewAgentSession}
-							onFocusAgentTerminal={onFocusAgentTerminal}
-						/>
-					</>
-				) : shipView ? (
-					<>
-						<button
-							type="button"
-							onClick={() => setShipView(null)}
-							className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent"
-						>
-							<ArrowLeft className="size-3.5 shrink-0" />
-							{shipView === "commit" ? (
-								<Trans>Commit</Trans>
-							) : (
-								<Trans>Create PR</Trans>
-							)}
-						</button>
-						<div className="p-1">
-							{shipView === "commit" ? (
-								<CommitForm actions={shipActions} />
-							) : (
-								<CreatePrForm actions={shipActions} />
-							)}
-						</div>
-					</>
-				) : (
-					<div className="divide-y divide-border">
-						{changes && (
-							<section className="py-1">
-								<ActivityMenuHeader
-									title={currentWorkspace.name}
-									canCommit={shipMenu.canCommit}
-									canPush={shipMenu.canPush}
-									canCreatePr={shipMenu.canCreatePr}
-									hasCommitsAhead={shipActions.hasCommitsAhead}
-									isBusy={shipActions.isShipping || shipActions.isCommitting}
-									onOpenView={(view) => {
-										if (view === "pr") shipActions.seedPrTitle();
-										setShipView(view);
-									}}
-									onPush={shipActions.push}
-									onNoCommitsAhead={() =>
-										toast.info(
-											t({ message: "No commits to open a pull request from" }),
-										)
-									}
+			{asideNode &&
+				createPortal(
+					// biome-ignore lint/a11y/noStaticElementInteractions: arrow keys move between the panel's buttons
+					<div
+						className="pointer-events-auto flex flex-col overflow-y-auto rounded-xl border border-border/60 bg-popover p-1 text-popover-foreground shadow-sm"
+						style={{ maxHeight: `min(${PANEL_MAX_HEIGHT_PX}px, 100%)` }}
+						data-activity-panel
+						onKeyDown={(event) => {
+							if (event.key === "Escape") {
+								if (!shipView && !composing) return;
+								event.preventDefault();
+								event.stopPropagation();
+								if (shipView) setShipView(null);
+								else setComposing(false);
+								return;
+							}
+							if (composing || shipView) return;
+							if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+							const items = [
+								...event.currentTarget.querySelectorAll<HTMLElement>(
+									"button:not([disabled])",
+								),
+							];
+							if (items.length === 0) return;
+							event.preventDefault();
+							const index = items.indexOf(
+								document.activeElement as HTMLElement,
+							);
+							const step = event.key === "ArrowDown" ? 1 : -1;
+							items[(index + step + items.length) % items.length]?.focus();
+						}}
+					>
+						{composing ? (
+							<>
+								<button
+									type="button"
+									onClick={() => setComposing(false)}
+									className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent"
+								>
+									<ArrowLeft className="size-3.5 shrink-0" />
+									<Trans>New page</Trans>
+								</button>
+								<NewPageComposer
+									workspaceId={workspaceId}
+									onSent={() => setComposing(false)}
+									onCreateNewAgentSession={onCreateNewAgentSession}
+									onFocusAgentTerminal={onFocusAgentTerminal}
 								/>
-								<ChangesMenuRow
-									stats={changesStats}
-									isOpen={changes.isOpen}
-									onToggle={() => {
-										changes.onToggle();
-										handleOpenChange(false);
-									}}
-								/>
-							</section>
-						)}
-						<MenuGroup title={<Trans>Background processes</Trans>}>
-							<div className="max-h-48 overflow-y-auto">
-								{processes.length > 0
-									? workRows(processes)
-									: terminalSessionsQuery.isLoading
-										? emptyRow(<Trans>Loading…</Trans>)
-										: emptyRow(<Trans>Nothing running</Trans>)}
-							</div>
-						</MenuGroup>
-						<MenuGroup
-							title={<Trans>Pages</Trans>}
-							addLabel={t({ message: "New page" })}
-							onAdd={() => setComposing(true)}
-						>
-							<div className="max-h-64 overflow-y-auto">
-								{workspace.length > 0
-									? workspace.map((page) => (
-											<PagesMenuRow
-												key={page.id}
-												page={page}
-												onOpen={handleOpenPage}
-											/>
-										))
-									: emptyRow(<Trans>No pages yet</Trans>)}
-							</div>
-						</MenuGroup>
-						{pinned.length > 0 && (
-							<MenuGroup title={<Trans>Pinned</Trans>}>
-								<div className="max-h-40 overflow-y-auto">
-									{pinned.map((page) => (
-										<PagesMenuRow
-											key={page.id}
-											page={page}
-											onOpen={handleOpenPage}
-										/>
-									))}
+							</>
+						) : shipView ? (
+							<>
+								<button
+									type="button"
+									onClick={() => setShipView(null)}
+									className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent"
+								>
+									<ArrowLeft className="size-3.5 shrink-0" />
+									{shipView === "commit" ? (
+										<Trans>Commit</Trans>
+									) : (
+										<Trans>Create PR</Trans>
+									)}
+								</button>
+								<div className="p-1">
+									{shipView === "commit" ? (
+										<CommitForm actions={shipActions} />
+									) : (
+										<CreatePrForm actions={shipActions} />
+									)}
 								</div>
-							</MenuGroup>
+							</>
+						) : (
+							<div className="divide-y divide-border">
+								{changes && (
+									<section className="py-1">
+										<ActivityMenuHeader
+											title={currentWorkspace.name}
+											canCommit={shipMenu.canCommit}
+											canPush={shipMenu.canPush}
+											canCreatePr={shipMenu.canCreatePr}
+											hasCommitsAhead={shipActions.hasCommitsAhead}
+											isBusy={
+												shipActions.isShipping || shipActions.isCommitting
+											}
+											onOpenView={(view) => {
+												if (view === "pr") shipActions.seedPrTitle();
+												setShipView(view);
+											}}
+											onPush={shipActions.push}
+											onNoCommitsAhead={() =>
+												toast.info(
+													t({
+														message: "No commits to open a pull request from",
+													}),
+												)
+											}
+										/>
+										<ChangesMenuRow
+											stats={changesStats}
+											isOpen={changes.isOpen}
+											onToggle={() => {
+												changes.onToggle();
+											}}
+										/>
+									</section>
+								)}
+								<MenuGroup
+									title={<Trans>Subagents</Trans>}
+									count={agentWork.subagents.length}
+								>
+									<div>
+										{agentWork.subagents.length + agentWork.finished.length > 0
+											? [
+													...agentRows(agentWork.subagents),
+													...agentWork.finished.map((entry) => (
+														<FinishedSubagentRow
+															key={entry.key}
+															entry={entry}
+															source={sourceOf(entry.terminalId)}
+															onOpen={(target) =>
+																agentActions.open(target, { subagent: true })
+															}
+														/>
+													)),
+												]
+											: emptyRow(<Trans>No subagents yet</Trans>)}
+									</div>
+								</MenuGroup>
+								<MenuGroup
+									title={<Trans>Background processes</Trans>}
+									count={processes.length + agentWork.shells.length}
+								>
+									<div>
+										{processes.length + agentWork.shells.length > 0
+											? [...agentRows(agentWork.shells), ...workRows(processes)]
+											: terminalSessionsQuery.isLoading
+												? emptyRow(<Trans>Loading…</Trans>)
+												: emptyRow(<Trans>Nothing running</Trans>)}
+									</div>
+								</MenuGroup>
+								<MenuGroup
+									title={<Trans>Pages</Trans>}
+									addLabel={t({ message: "New page" })}
+									onAdd={() => setComposing(true)}
+								>
+									<div>
+										{workspace.length > 0
+											? workspace.map((page) => (
+													<PagesMenuRow
+														key={page.id}
+														page={page}
+														onOpen={handleOpenPage}
+													/>
+												))
+											: emptyRow(<Trans>No pages yet</Trans>)}
+									</div>
+								</MenuGroup>
+								{pinned.length > 0 && (
+									<MenuGroup title={<Trans>Pinned</Trans>}>
+										<div>
+											{pinned.map((page) => (
+												<PagesMenuRow
+													key={page.id}
+													page={page}
+													onOpen={handleOpenPage}
+												/>
+											))}
+										</div>
+									</MenuGroup>
+								)}
+							</div>
 						)}
-					</div>
+					</div>,
+					asideNode,
 				)}
-			</PopoverContent>
-		</Popover>
+		</>
 	);
 }

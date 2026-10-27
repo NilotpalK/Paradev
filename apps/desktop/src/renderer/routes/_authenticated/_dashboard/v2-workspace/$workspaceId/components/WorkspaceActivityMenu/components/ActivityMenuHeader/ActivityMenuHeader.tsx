@@ -66,7 +66,7 @@ export function ActivityMenuHeader({
 				<DropdownMenu
 					onOpenChange={(open) => {
 						const trigger = triggerRef.current;
-						const panel = trigger?.closest("[data-slot=popover-content]");
+						const panel = trigger?.closest("[data-activity-panel]");
 						if (!open || !trigger || !panel) return;
 						const panelLeft = panel.getBoundingClientRect().left;
 						setPlacement(
