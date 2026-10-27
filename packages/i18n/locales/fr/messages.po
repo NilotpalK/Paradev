@@ -92,6 +92,9 @@ msgstr "(aucune sortie)"
 msgid "(you)"
 msgstr "(vous)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# port actif — masquer les détails} other {# ports actifs — masquer les détails}}"
@@ -1331,6 +1334,12 @@ msgstr "@superset"
 
 msgid "* if billed at full API rate"
 msgstr "* si facturé au tarif API plein"
+
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} n’accepte pas d’arguments"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} n’accepte pas de pièces jointes"
 
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
@@ -3970,6 +3979,9 @@ msgstr "Choisissez comment ouvrir les chemins de fichiers lors d'un Cmd+clic dan
 msgid "Choose MCP servers for this message"
 msgstr "Choisir des serveurs MCP pour ce message"
 
+msgid "Choose the model"
+msgstr "Choisir le modèle"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Choisissez ce qu'il faut effacer du navigateur intégré."
 
@@ -5752,6 +5764,9 @@ msgstr "Créer à nouveau"
 
 msgid "Create an account"
 msgstr "Créer un compte"
+
+msgid "Create an automation from this prompt"
+msgstr "Créer une automatisation à partir de ce prompt"
 
 msgid "Create environment"
 msgstr "Créer un environnement"
@@ -7917,6 +7932,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Rapide"
 
+msgid "Fast mode off"
+msgstr "Mode rapide désactivé"
+
+msgid "Fast mode on"
+msgstr "Mode rapide activé"
+
 msgid "Fatal"
 msgstr "Fatal"
 
@@ -8108,6 +8129,9 @@ msgstr "Rechercher dans la page"
 
 msgid "Find in Terminal"
 msgstr "Rechercher dans le terminal"
+
+msgid "Find in this chat"
+msgstr "Rechercher dans ce chat"
 
 msgid "Find people"
 msgstr "Rechercher des personnes"
@@ -10019,6 +10043,9 @@ msgstr "Quitter l'organisation ?"
 
 msgid "Leave organization..."
 msgstr "Quitter l'organisation..."
+
+msgid "Leave plan mode"
+msgstr "Quitter le mode planification"
 
 msgid "Leave team"
 msgstr "Quitter l'équipe"
@@ -13608,7 +13635,7 @@ msgid "Plain text"
 msgstr "Texte brut"
 
 msgid "Plan"
-msgstr "Forfait"
+msgstr "Plan"
 
 msgctxt "billing"
 msgid "Plan"
@@ -19091,6 +19118,9 @@ msgstr "Échec du tour"
 msgid "Turn failed: {message}"
 msgstr "Échec du tour : {message}"
 
+msgid "Turn Fast mode on or off"
+msgstr "Activer ou désactiver le mode rapide"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Activez « Autoriser l'accès distant à cet appareil via le relais »"
 
@@ -19547,6 +19577,9 @@ msgstr "Sections d'utilisation"
 
 msgid "Usage unavailable."
 msgstr "Utilisation indisponible."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Utilisation : /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

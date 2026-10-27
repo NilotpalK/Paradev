@@ -92,6 +92,9 @@ msgstr "(không có đầu ra)"
 msgid "(you)"
 msgstr "(bạn)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# cổng đang hoạt động — ẩn chi tiết} other {# cổng đang hoạt động — ẩn chi tiết}}"
@@ -1331,6 +1334,12 @@ msgstr "@superset"
 
 msgid "* if billed at full API rate"
 msgstr "* nếu tính theo giá API đầy đủ"
+
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} không nhận đối số"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} không nhận tệp đính kèm"
 
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
@@ -3970,6 +3979,9 @@ msgstr "Chọn cách mở đường dẫn tệp khi Cmd+nhấp trong terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Chọn server MCP cho tin nhắn này"
 
+msgid "Choose the model"
+msgstr "Chọn mô hình"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Chọn thứ cần xóa khỏi trình duyệt trong ứng dụng."
 
@@ -5752,6 +5764,9 @@ msgstr "Tạo lại"
 
 msgid "Create an account"
 msgstr "Tạo tài khoản"
+
+msgid "Create an automation from this prompt"
+msgstr "Tạo tự động hóa từ prompt này"
 
 msgid "Create environment"
 msgstr "Tạo môi trường"
@@ -7917,6 +7932,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Nhanh"
 
+msgid "Fast mode off"
+msgstr "Đã tắt chế độ nhanh"
+
+msgid "Fast mode on"
+msgstr "Đã bật chế độ nhanh"
+
 msgid "Fatal"
 msgstr "Nghiêm trọng"
 
@@ -8108,6 +8129,9 @@ msgstr "Tìm trong trang"
 
 msgid "Find in Terminal"
 msgstr "Tìm trong terminal"
+
+msgid "Find in this chat"
+msgstr "Tìm trong cuộc trò chuyện này"
 
 msgid "Find people"
 msgstr "Tìm người"
@@ -10019,6 +10043,9 @@ msgstr "Rời tổ chức?"
 
 msgid "Leave organization..."
 msgstr "Rời tổ chức..."
+
+msgid "Leave plan mode"
+msgstr "Thoát chế độ lập kế hoạch"
 
 msgid "Leave team"
 msgstr "Rời nhóm"
@@ -19091,6 +19118,9 @@ msgstr "Lượt xử lý thất bại"
 msgid "Turn failed: {message}"
 msgstr "Lượt xử lý thất bại: {message}"
 
+msgid "Turn Fast mode on or off"
+msgstr "Bật hoặc tắt chế độ nhanh"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Bật “Cho phép truy cập từ xa vào thiết bị này qua relay”"
 
@@ -19547,6 +19577,9 @@ msgstr "Các mục mức sử dụng"
 
 msgid "Usage unavailable."
 msgstr "Không có dữ liệu sử dụng."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Cách dùng: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

@@ -92,6 +92,9 @@ msgstr "（出力なし）"
 msgid "(you)"
 msgstr "（自分）"
 
+msgid "[prompt]"
+msgstr "[プロンプト]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {#個のアクティブなポート — 詳細を隠す} other {#個のアクティブなポート — 詳細を隠す}}"
@@ -1331,6 +1334,12 @@ msgstr "@superset"
 
 msgid "* if billed at full API rate"
 msgstr "* API定価で課金された場合"
+
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} は引数を受け付けません"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} は添付ファイルを受け付けません"
 
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
@@ -3970,6 +3979,9 @@ msgstr "ターミナルでCmd+クリックしたときのファイルパスの�
 msgid "Choose MCP servers for this message"
 msgstr "このメッセージで使うMCPサーバーを選択"
 
+msgid "Choose the model"
+msgstr "モデルを選択"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "アプリ内ブラウザから消去する項目を選択してください。"
 
@@ -5752,6 +5764,9 @@ msgstr "もう一度作成"
 
 msgid "Create an account"
 msgstr "アカウントを作成"
+
+msgid "Create an automation from this prompt"
+msgstr "このプロンプトからオートメーションを作成"
 
 msgid "Create environment"
 msgstr "環境を作成"
@@ -7917,6 +7932,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "高速"
 
+msgid "Fast mode off"
+msgstr "高速モード: オフ"
+
+msgid "Fast mode on"
+msgstr "高速モード: オン"
+
 msgid "Fatal"
 msgstr "致命的"
 
@@ -8108,6 +8129,9 @@ msgstr "ページ内検索"
 
 msgid "Find in Terminal"
 msgstr "ターミナル内を検索"
+
+msgid "Find in this chat"
+msgstr "このチャット内を検索"
 
 msgid "Find people"
 msgstr "メンバーを検索"
@@ -10019,6 +10043,9 @@ msgstr "組織から退出しますか?"
 
 msgid "Leave organization..."
 msgstr "組織から退出..."
+
+msgid "Leave plan mode"
+msgstr "計画モードを終了"
 
 msgid "Leave team"
 msgstr "チームから退出"
@@ -19091,6 +19118,9 @@ msgstr "ターンが失敗しました"
 msgid "Turn failed: {message}"
 msgstr "ターンが失敗しました：{message}"
 
+msgid "Turn Fast mode on or off"
+msgstr "高速モードのオン/オフを切り替え"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "「リレー経由でこのデバイスへのリモートアクセスを許可」をオンにする"
 
@@ -19547,6 +19577,9 @@ msgstr "使用量セクション"
 
 msgid "Usage unavailable."
 msgstr "使用量を取得できません。"
+
+msgid "Usage: /{name} {hint}"
+msgstr "使い方: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

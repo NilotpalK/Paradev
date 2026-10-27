@@ -92,6 +92,9 @@ msgstr "(geen uitvoer)"
 msgid "(you)"
 msgstr "(jij)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# actieve poort — details verbergen} other {# actieve poorten — details verbergen}}"
@@ -1331,6 +1334,12 @@ msgstr "@superset"
 
 msgid "* if billed at full API rate"
 msgstr "* bij facturering tegen het volle API-tarief"
+
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} accepteert geen argumenten"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} accepteert geen bijlagen"
 
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
@@ -3970,6 +3979,9 @@ msgstr "Kies hoe bestandspaden openen bij Cmd+klik in de terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Kies MCP-servers voor dit bericht"
 
+msgid "Choose the model"
+msgstr "Model kiezen"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Kies wat je uit de ingebouwde browser wilt wissen."
 
@@ -5752,6 +5764,9 @@ msgstr "Opnieuw aanmaken"
 
 msgid "Create an account"
 msgstr "Een account aanmaken"
+
+msgid "Create an automation from this prompt"
+msgstr "Automatisering maken van deze prompt"
 
 msgid "Create environment"
 msgstr "Omgeving maken"
@@ -7917,6 +7932,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Snel"
 
+msgid "Fast mode off"
+msgstr "Snelle modus uit"
+
+msgid "Fast mode on"
+msgstr "Snelle modus aan"
+
 msgid "Fatal"
 msgstr "Fatal"
 
@@ -8108,6 +8129,9 @@ msgstr "Zoeken op pagina"
 
 msgid "Find in Terminal"
 msgstr "Zoeken in terminal"
+
+msgid "Find in this chat"
+msgstr "Zoeken in deze chat"
 
 msgid "Find people"
 msgstr "Mensen zoeken"
@@ -10019,6 +10043,9 @@ msgstr "Organisatie verlaten?"
 
 msgid "Leave organization..."
 msgstr "Organisatie verlaten..."
+
+msgid "Leave plan mode"
+msgstr "Planmodus verlaten"
 
 msgid "Leave team"
 msgstr "Team verlaten"
@@ -19091,6 +19118,9 @@ msgstr "Beurt mislukt"
 msgid "Turn failed: {message}"
 msgstr "Beurt mislukt: {message}"
 
+msgid "Turn Fast mode on or off"
+msgstr "Snelle modus in- of uitschakelen"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Zet “Externe toegang tot dit apparaat via de relay toestaan” aan"
 
@@ -19547,6 +19577,9 @@ msgstr "Onderdelen van gebruik"
 
 msgid "Usage unavailable."
 msgstr "Gebruik niet beschikbaar."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Gebruik: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

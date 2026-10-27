@@ -92,6 +92,9 @@ msgstr "(çıktı yok)"
 msgid "(you)"
 msgstr "(siz)"
 
+msgid "[prompt]"
+msgstr "[istem]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# etkin port — ayrıntıları gizle} other {# etkin port — ayrıntıları gizle}}"
@@ -1331,6 +1334,12 @@ msgstr "@superset"
 
 msgid "* if billed at full API rate"
 msgstr "* tam API tarifesiyle faturalandırılsaydı"
+
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} argüman almaz"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} ek almaz"
 
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
@@ -3970,6 +3979,9 @@ msgstr "Terminalde Cmd+tıkladığınızda dosya yollarının nasıl açılacağ
 msgid "Choose MCP servers for this message"
 msgstr "Bu ileti için MCP sunucularını seçin"
 
+msgid "Choose the model"
+msgstr "Modeli seç"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Uygulama içi tarayıcıdan neyin temizleneceğini seçin."
 
@@ -5752,6 +5764,9 @@ msgstr "Yeniden oluştur"
 
 msgid "Create an account"
 msgstr "Hesap oluşturun"
+
+msgid "Create an automation from this prompt"
+msgstr "Bu istemden otomasyon oluştur"
 
 msgid "Create environment"
 msgstr "Ortam oluştur"
@@ -7917,6 +7932,12 @@ msgstr "SSS"
 msgid "Fast"
 msgstr "Hızlı"
 
+msgid "Fast mode off"
+msgstr "Hızlı mod kapalı"
+
+msgid "Fast mode on"
+msgstr "Hızlı mod açık"
+
 msgid "Fatal"
 msgstr "Kritik"
 
@@ -8108,6 +8129,9 @@ msgstr "Sayfada bul"
 
 msgid "Find in Terminal"
 msgstr "Terminalde bul"
+
+msgid "Find in this chat"
+msgstr "Bu sohbette bul"
 
 msgid "Find people"
 msgstr "Kişi bul"
@@ -10019,6 +10043,9 @@ msgstr "Kuruluştan ayrılınsın mı?"
 
 msgid "Leave organization..."
 msgstr "Kuruluştan ayrıl..."
+
+msgid "Leave plan mode"
+msgstr "Plan modundan çık"
 
 msgid "Leave team"
 msgstr "Takımdan ayrıl"
@@ -19091,6 +19118,9 @@ msgstr "Tur başarısız"
 msgid "Turn failed: {message}"
 msgstr "Tur başarısız: {message}"
 
+msgid "Turn Fast mode on or off"
+msgstr "Hızlı modu aç veya kapat"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "“Bu cihaza röle üzerinden uzaktan erişime izin ver” seçeneğini açın"
 
@@ -19547,6 +19577,9 @@ msgstr "Kullanım bölümleri"
 
 msgid "Usage unavailable."
 msgstr "Kullanım bilgisi yok."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Kullanım: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"
