@@ -44,6 +44,7 @@ export function useTurnChanges(
 		},
 		enabled: Boolean(turnChanges && turnId),
 		staleTime: live ? 0 : Number.POSITIVE_INFINITY,
+		refetchOnWindowFocus: false,
 		retry: false,
 	});
 	const { refetch } = query;

@@ -155,7 +155,7 @@ export function DiffPane({
 		ref,
 	});
 	const currentFiles = useMemo(() => {
-		if (!filter) return changesetFiles;
+		if (!filter?.paths) return changesetFiles;
 		const paths = new Set(filter.paths);
 		return changesetFiles.filter(
 			(file) =>

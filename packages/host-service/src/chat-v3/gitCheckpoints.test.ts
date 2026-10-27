@@ -488,4 +488,36 @@ describe("createGitCheckpoints", () => {
 		expect(tasks).toEqual(["checkpoints/capture"]);
 		void settled;
 	});
+
+	test("snapshots the chat's worktree when the host inherited another repository's GIT_DIR", async () => {
+		const other = mkdtempSync(join(tmpdir(), "superset-turn-other-repo-"));
+		execFileSync("git", ["init", "-q", other]);
+		const inherited = process.env.GIT_DIR;
+		process.env.GIT_DIR = join(other, ".git");
+		try {
+			await startTurn("s1", "t1");
+			await writeFile(join(repo, "tracked.txt"), "one\n2\n");
+			await checkpoints.turnSettled({
+				cwd: repo,
+				sessionId: "s1",
+				turnId: "t1",
+			});
+			const changes = await checkpoints.changes({
+				cwd: repo,
+				sessionId: "s1",
+				turnId: "t1",
+				live: false,
+			});
+			expect(changes?.files.map((file) => file.path)).toEqual(["tracked.txt"]);
+			expect(
+				execFileSync("git", ["-C", other, "for-each-ref"], {
+					encoding: "utf8",
+				}),
+			).toBe("");
+		} finally {
+			if (inherited === undefined) delete process.env.GIT_DIR;
+			else process.env.GIT_DIR = inherited;
+			rmSync(other, { recursive: true, force: true });
+		}
+	});
 });

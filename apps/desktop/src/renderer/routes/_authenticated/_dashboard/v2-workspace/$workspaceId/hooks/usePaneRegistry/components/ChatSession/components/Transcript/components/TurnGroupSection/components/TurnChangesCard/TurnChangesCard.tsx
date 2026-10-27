@@ -161,7 +161,7 @@ export function TurnChangesCard({
 	};
 
 	return (
-		<div className="mt-1 mb-2 overflow-hidden rounded-lg border border-border/60 text-[13px]">
+		<div className="@container/turn-card mt-1 mb-2 overflow-hidden rounded-lg border border-border/60 text-[13px]">
 			<div className="flex min-w-0 items-center gap-2 border-border/50 border-b bg-foreground/[0.03] py-1 pr-1.5 pl-3">
 				<FileDiff className="size-3.5 shrink-0 text-muted-foreground" />
 				<Tooltip>
@@ -207,7 +207,7 @@ export function TurnChangesCard({
 					</TooltipContent>
 				</Tooltip>
 				<span
-					className="min-w-0 shrink-[100] truncate whitespace-nowrap font-mono text-xs tabular-nums"
+					className="min-w-0 shrink-[100] truncate whitespace-nowrap font-mono text-xs tabular-nums @max-[20rem]/turn-card:hidden"
 					data-find-skip
 				>
 					<DiffStatText
@@ -215,29 +215,32 @@ export function TurnChangesCard({
 						deletions={totals.deletions}
 					/>
 				</span>
-				<span className="flex-1" />
-				{canUndo && (
-					<Button
-						className="h-6 shrink-0 gap-1 px-2 text-muted-foreground text-xs"
-						disabled={undoing}
-						onClick={() => setConfirmingUndo(true)}
-						size="xs"
-						variant="ghost"
-					>
-						<Undo2 className="size-3" />
-						<Trans>Undo</Trans>
-					</Button>
-				)}
-				{review && (
-					<Button
-						className="h-6 shrink-0 px-2 text-xs"
-						onClick={() => review()}
-						size="xs"
-						variant="outline"
-					>
-						<Trans>Review</Trans>
-					</Button>
-				)}
+				<div className="ml-auto flex shrink-0 items-center gap-2">
+					{canUndo && (
+						<Button
+							className="h-6 shrink-0 gap-1 px-2 text-muted-foreground text-xs"
+							disabled={undoing}
+							onClick={() => setConfirmingUndo(true)}
+							size="xs"
+							variant="ghost"
+						>
+							<Undo2 className="size-3" />
+							<span className="@max-[20rem]/turn-card:sr-only">
+								<Trans>Undo</Trans>
+							</span>
+						</Button>
+					)}
+					{review && (
+						<Button
+							className="h-6 shrink-0 px-2 text-xs"
+							onClick={() => review()}
+							size="xs"
+							variant="outline"
+						>
+							<Trans>Review</Trans>
+						</Button>
+					)}
+				</div>
 			</div>
 			{outcome && <UndoOutcomeNotice outcome={outcome} />}
 			{shown.map((file) => renderRow(file, filter))}

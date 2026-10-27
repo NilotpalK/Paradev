@@ -36,4 +36,15 @@ describe("filePlace", () => {
 			paths: ["a.ts"],
 		});
 	});
+
+	test("keeps only the turn's range when it changed too many files for the pane to remember", () => {
+		const range = { fromHash: "before", toHash: "after" };
+		const many = Array.from({ length: 500 }, (_, i) =>
+			filePlace(`${ROOT}/src/file-${i}.ts`, ROOT),
+		);
+
+		expect(reviewFilter(many, range)).toEqual({ range });
+		expect(reviewFilter(many)).toBeNull();
+		expect(reviewFilter(many.slice(0, 3), range)?.paths).toHaveLength(3);
+	});
 });

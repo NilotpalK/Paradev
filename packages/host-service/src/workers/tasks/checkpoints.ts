@@ -56,6 +56,22 @@ export function turnRef(
 	return `${turnBase(sessionId, turnId)}/${snapshot}`;
 }
 
+const REPO_LOCATION_VARS = [
+	"GIT_DIR",
+	"GIT_WORK_TREE",
+	"GIT_INDEX_FILE",
+	"GIT_COMMON_DIR",
+	"GIT_OBJECT_DIRECTORY",
+	"GIT_ALTERNATE_OBJECT_DIRECTORIES",
+	"GIT_PREFIX",
+];
+
+function envWithoutRepoLocation(): NodeJS.ProcessEnv {
+	const env = { ...process.env };
+	for (const key of REPO_LOCATION_VARS) delete env[key];
+	return env;
+}
+
 function gitAt(
 	cwd: string,
 	env?: Record<string, string>,
@@ -65,7 +81,7 @@ function gitAt(
 		timeout: { block: GIT_TIMEOUT_MS },
 		...(abort ? { abort } : {}),
 		env: {
-			...process.env,
+			...envWithoutRepoLocation(),
 			GIT_OPTIONAL_LOCKS: "0",
 			GIT_LITERAL_PATHSPECS: "1",
 			...env,

@@ -73,6 +73,9 @@ export function rootPlace(root: string, relativePath: string): FilePlace {
 	};
 }
 
+/** Pane state is persisted, so a turn that changed more files is filtered by its range alone. */
+const MAX_FILTER_PATHS = 200;
+
 /** The diff pane filter for a set of files, or null when none is in the worktree. */
 export function reviewFilter(
 	places: readonly FilePlace[],
@@ -82,5 +85,6 @@ export function reviewFilter(
 		place.relativePath ? [place.relativePath] : [],
 	);
 	if (paths.length === 0) return null;
+	if (paths.length > MAX_FILTER_PATHS) return range ? { range } : null;
 	return { paths, ...(range ? { range } : {}) };
 }
