@@ -935,6 +935,9 @@ msgstr "{formerName} se nyní jmenuje {productName}. Je to stejný produkt od st
 msgid "{founderCount} ex-YC founders"
 msgstr "{founderCount} zakladatelé, kteří prošli YC"
 
+msgid "{from} → {to} tokens"
+msgstr "{from} → {to} tokenů"
+
 msgid "{gate} · {statusLabel}"
 msgstr "{gate} · {statusLabel}"
 
@@ -4566,6 +4569,15 @@ msgstr "Komunita"
 msgid "Compact now"
 msgstr "Zkomprimovat teď"
 
+msgid "Compacting context…"
+msgstr "Komprimuje se kontext…"
+
+msgid "Compaction failed"
+msgstr "Komprimace selhala"
+
+msgid "Compaction stopped"
+msgstr "Komprimace zastavena"
+
 msgid "Company"
 msgstr "Firma"
 
@@ -4904,6 +4916,12 @@ msgstr "Obsahuje tento text..."
 
 msgid "Context"
 msgstr "Kontext"
+
+msgid "Context compacted"
+msgstr "Kontext zkomprimován"
+
+msgid "Context compacted automatically"
+msgstr "Kontext automaticky zkomprimován"
 
 msgid "Context Menu"
 msgstr "Kontextová nabídka"
@@ -16644,6 +16662,9 @@ msgstr "Zobrazovat stav a posílat oznámení pro tohoto agenta."
 
 msgid "Show text"
 msgstr "Zobrazit text"
+
+msgid "Show the summary"
+msgstr "Zobrazit shrnutí"
 
 msgid "Show the triggering payload"
 msgstr "Zobrazit spouštěcí data"
