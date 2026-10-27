@@ -5630,6 +5630,9 @@ msgstr "メッセージを送信できませんでした"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "メッセージを送信できませんでした。ファイルをもう一度添付してください。"
 
+msgid "Couldn't send the reply"
+msgstr "返信を送信できませんでした"
+
 msgid "Couldn't send to agent"
 msgstr "エージェントに送信できませんでした"
 

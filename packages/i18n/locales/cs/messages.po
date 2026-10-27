@@ -5630,6 +5630,9 @@ msgstr "Zprávu se nepodařilo odeslat"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Zprávu se nepodařilo odeslat. Připojte soubory znovu."
 
+msgid "Couldn't send the reply"
+msgstr "Odpověď se nepodařilo odeslat"
+
 msgid "Couldn't send to agent"
 msgstr "Nepodařilo se odeslat agentovi"
 

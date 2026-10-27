@@ -5630,6 +5630,9 @@ msgstr "Tidak dapat mengirim pesan"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Pesan tidak dapat dikirim. Lampirkan file lagi."
 
+msgid "Couldn't send the reply"
+msgstr "Tidak dapat mengirim balasan"
+
 msgid "Couldn't send to agent"
 msgstr "Tidak bisa mengirim ke agen"
 

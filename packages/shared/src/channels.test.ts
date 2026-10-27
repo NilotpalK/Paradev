@@ -54,6 +54,6 @@ describe("notificationTextOf", () => {
 	});
 
 	test("caps long messages", () => {
-		expect(notificationTextOf("x".repeat(5_000))).toHaveLength(1_000);
+		expect(notificationTextOf("x".repeat(5_000))).toHaveLength(2_000);
 	});
 });

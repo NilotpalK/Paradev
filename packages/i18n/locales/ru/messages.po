@@ -5630,6 +5630,9 @@ msgstr "Не удалось отправить сообщение"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Не удалось отправить сообщение. Прикрепите файлы ещё раз."
 
+msgid "Couldn't send the reply"
+msgstr "Не удалось отправить ответ"
+
 msgid "Couldn't send to agent"
 msgstr "Не удалось отправить агенту"
 

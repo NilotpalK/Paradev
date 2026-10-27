@@ -1,9 +1,13 @@
+import { msg } from "@lingui/core/macro";
+import { i18n } from "@superset/i18n";
+import { errorMessage } from "@superset/i18n/errors";
 import {
 	type ChannelRealtimeEvent,
 	parseChannelRealtimeEvent,
 	USER_EVENTS_PATH,
 } from "@superset/shared/channels";
 import { FEATURE_FLAGS } from "@superset/shared/constants";
+import { toast } from "@superset/ui/sonner";
 import { createRelaySocket } from "@superset/workspace-client";
 import { useNavigate } from "@tanstack/react-router";
 import { useFeatureFlagEnabled } from "posthog-js/react";
@@ -29,6 +33,8 @@ import {
 	channelNotificationContent,
 	channelNotificationGroup,
 	channelNotificationPath,
+	parseReplyTarget,
+	replyTargetOf,
 } from "./utils/channelNotification";
 
 const LIST_BACKSTOP_MS = 60_000;
@@ -57,6 +63,30 @@ export function ChannelsRealtime() {
 		onData: (event) => {
 			if (event.type === NOTIFICATION_EVENTS.OPEN_ROUTE && event.data) {
 				void navigate({ href: event.data.path });
+			}
+			if (event.type === NOTIFICATION_EVENTS.NOTIFICATION_REPLY && event.data) {
+				const target = parseReplyTarget(event.data.target);
+				if (!target) return;
+				void utils.client.channelMessage.send
+					.mutate({
+						...target,
+						body: event.data.text,
+						clientId: crypto.randomUUID(),
+						mentionedUserIds: [],
+						fileIds: [],
+					})
+					.then(
+						(message) => applyChannelMessage(utils, message),
+						(error) => {
+							console.warn("[channels] notification reply failed:", error);
+							toast.error(
+								errorMessage(
+									error,
+									i18n._(msg({ message: "Couldn't send the reply" })),
+								),
+							);
+						},
+					);
 			}
 		},
 	});
@@ -127,7 +157,7 @@ export function ChannelsRealtime() {
 					applyChannelRead(utils, organizationId, event.channelId, event);
 					if (!event.hasUnread && event.mentionCount === 0) {
 						void electronTrpcClient.notifications.closeGroup.mutate({
-							group: channelNotificationGroup({
+							groupId: channelNotificationGroup({
 								channelId: event.channelId,
 								threadRootId: null,
 							}),
@@ -137,7 +167,7 @@ export function ChannelsRealtime() {
 				case "channel.thread.read":
 					applyThreadRead(utils, event.rootId, event);
 					void electronTrpcClient.notifications.closeGroup.mutate({
-						group: channelNotificationGroup({
+						groupId: channelNotificationGroup({
 							channelId: event.channelId,
 							threadRootId: event.rootId,
 						}),
@@ -163,7 +193,9 @@ export function ChannelsRealtime() {
 							...channelNotificationContent(event),
 							silent: true,
 							clickPath: channelNotificationPath(event),
-							group,
+							id: event.messageId,
+							groupId: group,
+							replyTarget: replyTargetOf(event),
 						})
 						.catch((error) => {
 							console.warn("[channels] notification failed:", error);

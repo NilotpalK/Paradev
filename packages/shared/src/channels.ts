@@ -2,7 +2,7 @@ export const CHANNEL_NAME_MAX_LENGTH = 80;
 export const CHANNEL_DESCRIPTION_MAX_LENGTH = 250;
 export const CHANNEL_MESSAGE_MAX_LENGTH = 16_000;
 export const CHANNEL_MESSAGES_PAGE_SIZE = 50;
-export const CHANNEL_NOTIFICATION_TEXT_MAX_LENGTH = 1_000;
+export const CHANNEL_NOTIFICATION_TEXT_MAX_LENGTH = 2_000;
 
 /** Lowercase letters, digits, dashes and underscores, as Slack names channels. */
 export const CHANNEL_NAME_PATTERN = /^[a-z0-9][a-z0-9_-]*$/;

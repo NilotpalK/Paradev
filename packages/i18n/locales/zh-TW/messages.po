@@ -5630,6 +5630,9 @@ msgstr "無法傳送訊息"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "無法傳送訊息。請重新附加檔案。"
 
+msgid "Couldn't send the reply"
+msgstr "無法傳送回覆"
+
 msgid "Couldn't send to agent"
 msgstr "無法傳送給代理程式"
 

@@ -5630,6 +5630,9 @@ msgstr "Mesaj gönderilemedi"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Mesaj gönderilemedi. Dosyaları yeniden ekleyin."
 
+msgid "Couldn't send the reply"
+msgstr "Yanıt gönderilemedi"
+
 msgid "Couldn't send to agent"
 msgstr "Ajana gönderilemedi"
 

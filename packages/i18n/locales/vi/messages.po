@@ -5630,6 +5630,9 @@ msgstr "Không thể gửi tin nhắn"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Không gửi được tin nhắn. Hãy đính kèm lại tệp."
 
+msgid "Couldn't send the reply"
+msgstr "Không thể gửi trả lời"
+
 msgid "Couldn't send to agent"
 msgstr "Không thể gửi cho agent"
 

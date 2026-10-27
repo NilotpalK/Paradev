@@ -2,6 +2,8 @@ import { describe, expect, test } from "bun:test";
 import {
 	channelNotificationContent,
 	channelNotificationPath,
+	parseReplyTarget,
+	replyTargetOf,
 } from "./channelNotification";
 
 const event = (
@@ -53,5 +55,18 @@ describe("channelNotificationPath", () => {
 			"/channels/c?thread=r",
 		);
 		expect(channelNotificationPath(event())).toBe("/channels/c?message=m");
+	});
+});
+
+describe("reply target", () => {
+	test("a banner reply goes to its thread, else the channel", () => {
+		expect(
+			parseReplyTarget(replyTargetOf(event({ threadRootId: "r" }))),
+		).toEqual({ channelId: "c", threadRootId: "r" });
+		expect(parseReplyTarget(replyTargetOf(event()))).toEqual({
+			channelId: "c",
+			threadRootId: null,
+		});
+		expect(parseReplyTarget("not json")).toBeNull();
 	});
 });

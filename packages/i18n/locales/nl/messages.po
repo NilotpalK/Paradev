@@ -5630,6 +5630,9 @@ msgstr "Kan het bericht niet verzenden"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Het bericht kon niet worden verzonden. Voeg de bestanden opnieuw toe."
 
+msgid "Couldn't send the reply"
+msgstr "Kan het antwoord niet versturen"
+
 msgid "Couldn't send to agent"
 msgstr "Kan niet naar de agent sturen"
 

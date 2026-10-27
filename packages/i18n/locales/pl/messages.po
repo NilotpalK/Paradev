@@ -5630,6 +5630,9 @@ msgstr "Nie udało się wysłać wiadomości"
 msgid "Couldn't send the message. Attach the files again."
 msgstr "Nie udało się wysłać wiadomości. Dołącz pliki ponownie."
 
+msgid "Couldn't send the reply"
+msgstr "Nie udało się wysłać odpowiedzi"
+
 msgid "Couldn't send to agent"
 msgstr "Nie udało się wysłać do agenta"
 
