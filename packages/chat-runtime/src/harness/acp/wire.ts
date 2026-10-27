@@ -108,6 +108,10 @@ const acpToolCallContentSchema = z.looseObject({
 		.looseObject({ format: z.string().optional(), text: z.string() })
 		.nullable()
 		.optional(),
+	_meta: z
+		.looseObject({ kind: z.string().optional() })
+		.optional()
+		.catch(undefined),
 });
 export type AcpToolCallContent = z.infer<typeof acpToolCallContentSchema>;
 
