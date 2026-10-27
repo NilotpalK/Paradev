@@ -169,10 +169,14 @@ test("a waking box shows the resume notice immediately without a tab switch", as
 	await waitFor(() => expect(current.stored?.live).toBe(false));
 });
 
-test("reopening a chat holds messages until fresh liveness replaces cached live state", async () => {
+test("reopening a chat on the same connection stays usable and rechecks in the background", async () => {
 	const host = makeHost();
 	const pending = deferredSession();
-	host.read = () => pending.promise;
+	let reads = 0;
+	host.read = () => {
+		reads++;
+		return pending.promise;
+	};
 	hosts.set(hostUrl, host);
 	const queryClient = client();
 	queryClient.setQueryData(
@@ -180,13 +184,15 @@ test("reopening a chat holds messages until fresh liveness replaces cached live 
 		live,
 	);
 	render(tree(queryClient));
-	expect(current.checking).toBe(true);
-	expect(current.stored).toBeUndefined();
+	expect(renderedChecks[0]).toBe(false);
+	expect(current.stored?.live).toBe(true);
+	expect(reads).toBe(1);
 	await act(async () => pending.resolve(stopped));
 	await waitFor(() => {
 		expect(current.checking).toBe(false);
 		expect(current.stored?.live).toBe(false);
 	});
+	expect(renderedChecks).not.toContain(true);
 });
 
 test("a reconnect rechecks liveness without a sessions-changed event", async () => {

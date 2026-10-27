@@ -26,6 +26,7 @@ import {
 import { useChatWiring } from "../usePaneRegistry/components/ChatSession/hooks/useSessionClient";
 import { PENDING_CLOUD_CHAT_TIMEOUT_MS } from "./constants";
 import { initialCloudChatPromptHash } from "./utils/initialCloudChatPrompt";
+import { unresolvedPollDelay } from "./utils/unresolvedPollDelay";
 
 type PaneStore = StoreApi<WorkspaceStore<PaneViewerData>>;
 
@@ -66,6 +67,7 @@ export function useAutoAdoptChatSessions({
 	const queryClient = useQueryClient();
 	const tabs = useStore(store, (state) => state.tabs);
 	const waitingSince = useRef(new Map<string, number>());
+	const promptHashCache = useRef(new Map<string, string | null>());
 	const queryKey = useMemo(
 		() => ["chat-v3", hostUrl, "paneSessions", workspaceId],
 		[hostUrl, workspaceId],
@@ -74,6 +76,12 @@ export function useAutoAdoptChatSessions({
 		queryKey,
 		queryFn: async () => {
 			const sessions = await transport.listSessions({ workspaceId });
+			const listed = new Set(
+				sessions.map((session) => `${hostUrl}\n${session.sessionId}`),
+			);
+			for (const key of promptHashCache.current.keys()) {
+				if (!listed.has(key)) promptHashCache.current.delete(key);
+			}
 			const waiting = pendingPanes([store, ...linkedStores]);
 			const closedHashes = closedCloudChatPromptHashes(workspaceId);
 			const promptHashes: Record<string, string | null> = {};
@@ -88,15 +96,10 @@ export function useAutoAdoptChatSessions({
 							!waiting.some((pane) => pane.data.agentId === agentId))
 					)
 						continue;
-					const key = [
-						"chat-v3",
-						hostUrl,
-						"initial-cloud-prompt",
-						session.sessionId,
-					];
-					let cached = queryClient.getQueryData<{ hash: string | null }>(key);
-					if (!cached) {
-						const hash = await initialCloudChatPromptHash(
+					const key = `${hostUrl}\n${session.sessionId}`;
+					let hash = promptHashCache.current.get(key);
+					if (hash === undefined) {
+						hash = await initialCloudChatPromptHash(
 							transport,
 							session.sessionId,
 						);
@@ -104,22 +107,27 @@ export function useAutoAdoptChatSessions({
 							unresolved.push(session.sessionId);
 							continue;
 						}
-						cached = { hash };
-						queryClient.setQueryData(key, cached);
+						promptHashCache.current.set(key, hash);
 					}
-					promptHashes[session.sessionId] = cached.hash;
+					promptHashes[session.sessionId] = hash;
 				}
 			}
-			return { sessions, promptHashes, unresolved };
+			const previous = queryClient.getQueryData<{
+				unresolvedPolls: number;
+			}>(queryKey);
+			const unresolvedPolls = unresolved.length
+				? (previous?.unresolvedPolls ?? 0) + 1
+				: 0;
+			return { sessions, promptHashes, unresolved, unresolvedPolls };
 		},
 		enabled,
 		structuralSharing: false,
 		refetchOnWindowFocus: false,
-		refetchInterval: (query) =>
-			(query.state.error && pendingPanes([store, ...linkedStores]).length) ||
-			query.state.data?.unresolved.length
-				? 2_000
-				: false,
+		refetchInterval: (query) => {
+			if (query.state.error && pendingPanes([store, ...linkedStores]).length)
+				return 2_000;
+			return unresolvedPollDelay(query.state.data?.unresolvedPolls ?? 0);
+		},
 	});
 	const refresh = useWorkspaceConnectionRefresh(workspaceId, queryKey, enabled);
 	useWorkspaceEvent("chat:sessions-changed", workspaceId, refresh, enabled);

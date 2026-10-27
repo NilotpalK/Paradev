@@ -45,6 +45,7 @@ const hostUrl = "https://sandbox";
 let sessions: Session[] = [];
 const outlines = new Map<string, Item[]>();
 let reads = 0;
+let outlineReads = 0;
 let creates = 0;
 const changes = new Set<() => void>();
 const connectionListeners = new Set<() => void>();
@@ -55,16 +56,19 @@ const transport = {
 		reads++;
 		return sessions;
 	},
-	getOutline: async ({ sessionId }: { sessionId: string }) => ({
-		ok: true,
-		outline: {
-			...outlineSnapshot(emptySnapshot()),
-			items: (outlines.get(sessionId) ?? []).map((item) => ({
-				item,
-				turnId: "turn",
-			})),
-		},
-	}),
+	getOutline: async ({ sessionId }: { sessionId: string }) => {
+		outlineReads++;
+		return {
+			ok: true,
+			outline: {
+				...outlineSnapshot(emptySnapshot()),
+				items: (outlines.get(sessionId) ?? []).map((item) => ({
+					item,
+					turnId: "turn",
+				})),
+			},
+		};
+	},
 	getItems: async () => {
 		throw new Error("outline should be available");
 	},
@@ -220,6 +224,7 @@ afterEach(() => {
 	sessions = [];
 	outlines.clear();
 	reads = 0;
+	outlineReads = 0;
 	creates = 0;
 	chatAvailability = "enabled";
 });
@@ -349,4 +354,28 @@ test("turning agent chat off removes the waiting pane instead of leaving it stuc
 	show(pending.store, "disabled-workspace");
 	await waitFor(() => expect(pending.store.getState().tabs).toHaveLength(0));
 	expect(reads).toBe(0);
+});
+
+test("a chat with no message yet backs off, and each first prompt is read once", async () => {
+	const pending = await waitingPane();
+	sessions = [session("empty")];
+	show(pending.store, "unresolved-workspace");
+	const polls = () =>
+		clients[0]?.getQueryData<{ unresolvedPolls: number }>([
+			"chat-v3",
+			hostUrl,
+			"paneSessions",
+			"unresolved-workspace",
+		])?.unresolvedPolls;
+	await waitFor(() => expect(polls()).toBe(1));
+	await changed();
+	await waitFor(() => expect(polls()).toBe(2));
+	outlines.set("empty", [message("desktop-client", "hello")]);
+	await changed();
+	await waitFor(() => expect(polls()).toBe(0));
+	const readsAfterResolve = outlineReads;
+	await changed();
+	await changed();
+	await waitFor(() => expect(reads).toBeGreaterThanOrEqual(5));
+	expect(outlineReads).toBe(readsAfterResolve);
 });

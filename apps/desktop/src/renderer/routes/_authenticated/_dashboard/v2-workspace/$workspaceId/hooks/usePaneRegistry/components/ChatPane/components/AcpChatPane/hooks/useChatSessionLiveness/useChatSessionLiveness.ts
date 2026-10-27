@@ -32,9 +32,6 @@ export function useChatSessionLiveness({
 	});
 
 	const checking =
-		sessionId !== null &&
-		(connection.state !== "open" ||
-			!query.isFetchedAfterMount ||
-			!query.isSuccess);
+		sessionId !== null && (connection.state !== "open" || !query.isSuccess);
 	return { stored: checking ? undefined : query.data, checking };
 }
