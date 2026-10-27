@@ -20234,6 +20234,10 @@ msgstr "Lebar · sesi paralel"
 msgid "Window"
 msgstr "Jendela"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Ukuran"
+
 msgid "With action"
 msgstr "Dengan aksi"
 

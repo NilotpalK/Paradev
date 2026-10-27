@@ -20234,6 +20234,10 @@ msgstr "Width · parallel sessions"
 msgid "Window"
 msgstr "Window"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Window"
+
 msgid "With action"
 msgstr "With action"
 

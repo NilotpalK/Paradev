@@ -52,7 +52,7 @@ export function SessionStatusDialog({
 			? "cloud"
 			: row?.type === "worktree"
 				? "worktree"
-				: row
+				: row?.type === "local"
 					? "local"
 					: undefined;
 	const { model, effort, fast } = configOptionLabels(details.configOptions);
@@ -83,7 +83,11 @@ export function SessionStatusDialog({
 						status,
 						windows:
 							state === "ready" || state === "stale"
-								? (account?.windows ?? [])
+								? (account?.windows ?? []).filter(
+										(window) =>
+											Number.isFinite(window.usedPercent) &&
+											window.usedPercent >= 0,
+									)
 								: [],
 					}}
 				/>

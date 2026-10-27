@@ -20234,6 +20234,10 @@ msgstr "너비 · 병렬 세션"
 msgid "Window"
 msgstr "창"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "크기"
+
 msgid "With action"
 msgstr "동작 포함"
 

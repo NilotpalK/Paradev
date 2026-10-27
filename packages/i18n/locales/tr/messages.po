@@ -20234,6 +20234,10 @@ msgstr "Genişlik · paralel oturumlar"
 msgid "Window"
 msgstr "Pencere"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Boyut"
+
 msgid "With action"
 msgstr "Eylemli"
 

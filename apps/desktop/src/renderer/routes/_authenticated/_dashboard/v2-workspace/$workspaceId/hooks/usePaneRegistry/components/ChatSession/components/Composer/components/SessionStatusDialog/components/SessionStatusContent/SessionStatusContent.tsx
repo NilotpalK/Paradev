@@ -100,7 +100,7 @@ export function SessionStatusContent({
 						</div>
 						<div>
 							<dt className={LABEL_CLASS}>
-								<Trans>Window</Trans>
+								<Trans context="context window size">Window</Trans>
 							</dt>
 							<dd className={VALUE_CLASS}>{meter.size}</dd>
 						</div>
@@ -123,6 +123,9 @@ export function SessionStatusContent({
 				<h3 className={SECTION_TITLE_CLASS}>
 					<Trans>Rate limits</Trans>
 				</h3>
+				{limits.status && limits.windows.length > 0 && (
+					<p className="mb-2 text-muted-foreground text-xs">{limits.status}</p>
+				)}
 				{limits.windows.length > 0 ? (
 					<ul className="flex flex-col gap-2">
 						{limits.windows.map((quota) => {

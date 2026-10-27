@@ -20234,6 +20234,10 @@ msgstr "幅 · 並列セッション数"
 msgid "Window"
 msgstr "ウィンドウ"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "サイズ"
+
 msgid "With action"
 msgstr "アクションあり"
 

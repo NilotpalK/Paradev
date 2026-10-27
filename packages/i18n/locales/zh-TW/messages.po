@@ -20234,6 +20234,10 @@ msgstr "寬度 · 並行工作階段數"
 msgid "Window"
 msgstr "視窗"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "大小"
+
 msgid "With action"
 msgstr "帶操作"
 

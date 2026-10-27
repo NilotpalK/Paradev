@@ -20234,6 +20234,10 @@ msgstr "Breedte · parallelle sessies"
 msgid "Window"
 msgstr "Venster"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Grootte"
+
 msgid "With action"
 msgstr "Met actie"
 

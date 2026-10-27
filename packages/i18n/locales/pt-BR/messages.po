@@ -20234,6 +20234,10 @@ msgstr "Amplitude · sessões paralelas"
 msgid "Window"
 msgstr "Janela"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Tamanho"
+
 msgid "With action"
 msgstr "Com ação"
 
