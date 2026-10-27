@@ -42,21 +42,29 @@ describe("rankCommands", () => {
 		expect(ids(rankCommands(commands, "mpt"))).toEqual([]);
 	});
 
+	it("searches descriptions only when no name or alias matches", () => {
+		const commands = [
+			command("model", { description: "Choose the model" }),
+			command("effort", { description: "Set the model's effort" }),
+		];
+		expect(ids(rankCommands(commands, "model"))).toEqual(["model"]);
+		expect(ids(rankCommands(commands, "choose"))).toEqual(["model"]);
+	});
+
 	it("leads with the group of the best match, and with the first group on a tie", () => {
 		const commands = [
 			command("app:resume", { title: "/resume", group: "App" }),
-			command("app:plan", {
-				title: "/plan",
-				description: "Read and plan without compacting",
-				group: "App",
-			}),
+			command("app:preview", { title: "/preview", group: "App" }),
 			command("review", { group: "Agent" }),
-			command("compact", { group: "Agent" }),
 		];
-		expect(ids(rankCommands(commands, "re"))).toEqual(["app:resume", "review"]);
-		expect(ids(rankCommands(commands, "compact"))).toEqual([
-			"compact",
-			"app:plan",
+		expect(ids(rankCommands(commands, "re"))).toEqual([
+			"app:resume",
+			"app:preview",
+			"review",
+		]);
+		expect(ids(rankCommands(commands, "rev"))).toEqual([
+			"review",
+			"app:preview",
 		]);
 	});
 

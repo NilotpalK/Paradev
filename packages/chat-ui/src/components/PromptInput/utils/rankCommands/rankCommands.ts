@@ -52,18 +52,18 @@ function descriptionScore(description: string, query: string): number {
 	return lowered.includes(query) ? DESCRIPTION_SUBSTRING : 0;
 }
 
-function commandScore(command: PromptInputCommand, query: string): number {
+function namedScore(command: PromptInputCommand, query: string): number {
 	return Math.max(
 		nameScore(commandName(command), query),
 		...(command.searchAliases ?? []).map((alias) => aliasScore(alias, query)),
-		descriptionScore(command.description ?? "", query),
 	);
 }
 
 /**
- * Groups stay together, led by the group holding the best match; a tie goes
- * to the group listed first. Whitespace means arguments are being typed, so
- * nothing is offered.
+ * Descriptions are searched only when no name or alias matches. Groups stay
+ * together, led by the group holding the best match; a tie goes to the group
+ * listed first. Whitespace means arguments are being typed, so nothing is
+ * offered.
  */
 export function rankCommands(
 	commands: PromptInputCommand[],
@@ -77,12 +77,16 @@ export function rankCommands(
 		const group = command.group ?? null;
 		if (!groupOrder.has(group)) groupOrder.set(group, groupOrder.size);
 	}
+	const byName = commands.map((command) => namedScore(command, normalized));
+	const searchDescriptions = byName.every((score) => score === 0);
 	const scored = commands
 		.map((command, index) => ({
 			command,
 			index,
 			group: command.group ?? null,
-			score: commandScore(command, normalized),
+			score: searchDescriptions
+				? descriptionScore(command.description ?? "", normalized)
+				: (byName[index] ?? 0),
 		}))
 		.filter((entry) => entry.score > 0);
 	const groupBest = new Map<string | null, number>();
