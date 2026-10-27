@@ -298,8 +298,13 @@ export const Composer = memo(function Composer({
 	const isDark = useIsDarkTheme();
 	const searchChats = useCallback(
 		async (query: string) => {
-			const sessions = await transport.listSessions({ workspaceId, limit: 50 });
 			const needle = query.trim().toLowerCase();
+			// A host older than `query` ignores it; the filter below still applies.
+			const sessions = await transport.listSessions({
+				workspaceId,
+				limit: 50,
+				...(needle ? { query: needle } : {}),
+			});
 			return sessions
 				.filter((session) => session.sessionId !== sessionId)
 				.map((session) => ({
