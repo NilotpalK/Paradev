@@ -26,6 +26,7 @@ export type LiveSessionOptions = {
 	journal: ChatJournal;
 	publish: (envelope: Envelope) => void;
 	adapter: HarnessAdapter;
+	userTitle?: string;
 	mintId?: () => string;
 	now?: () => number;
 };
@@ -88,6 +89,8 @@ export class LiveSession {
 	private steerTarget: string | null = null;
 	private queuePaused = false;
 	private sessionState: SessionState;
+	private agentTitle: string | undefined;
+	private userTitle: string | undefined;
 	private currentTurn: Turn | null = null;
 	private pump: Promise<void> | null = null;
 	private stopped = false;
@@ -99,7 +102,12 @@ export class LiveSession {
 	private readonly turnsWithOutput = new Set<string>();
 
 	constructor(private readonly options: LiveSessionOptions) {
-		this.sessionState = { status: "starting", harness: options.harness };
+		this.userTitle = options.userTitle;
+		this.sessionState = {
+			status: "starting",
+			harness: options.harness,
+			...this.titleFields(),
+		};
 	}
 
 	get sessionId(): string {
@@ -662,8 +670,24 @@ export class LiveSession {
 		this.emitSession({ queuePaused: false });
 	}
 
+	setUserTitle(title: string): void {
+		this.userTitle = title;
+		this.emitSession({});
+	}
+
+	private titleFields(): Pick<SessionState, "title" | "userTitle"> {
+		if (this.userTitle)
+			return { title: this.userTitle, userTitle: this.userTitle };
+		return this.agentTitle ? { title: this.agentTitle } : {};
+	}
+
 	private emitSession(partial: Partial<SessionState>): void {
-		const merged: SessionState = { ...this.sessionState, ...partial };
+		if (partial.title !== undefined) this.agentTitle = partial.title;
+		const merged: SessionState = {
+			...this.sessionState,
+			...partial,
+			...this.titleFields(),
+		};
 		const status = this.hasPendingWork() ? "running" : merged.status;
 		this.sessionState = sessionStateSchema.parse({ ...merged, status });
 		this.appendDurable({ type: "session", session: this.sessionState });
