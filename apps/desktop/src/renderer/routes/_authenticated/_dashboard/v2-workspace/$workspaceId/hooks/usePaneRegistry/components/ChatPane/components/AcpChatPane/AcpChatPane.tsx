@@ -277,9 +277,12 @@ export function AcpChatPane({
 		[forkHere, forkToWorktree, agent, agentLabel],
 	);
 
+	const presetLabel =
+		agentLabel ??
+		agentConfigs?.find((config) => config.presetId === agent?.id)?.label;
 	const newChat = useMemo(
-		() => (onNewChat ? () => onNewChat(agentLabel) : undefined),
-		[onNewChat, agentLabel],
+		() => (onNewChat ? () => onNewChat(presetLabel) : undefined),
+		[onNewChat, presetLabel],
 	);
 
 	const startFresh = useCallback(() => {
