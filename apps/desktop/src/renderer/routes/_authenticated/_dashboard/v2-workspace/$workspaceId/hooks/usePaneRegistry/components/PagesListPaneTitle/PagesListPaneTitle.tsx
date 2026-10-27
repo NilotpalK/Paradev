@@ -1,5 +1,6 @@
-import { useLingui } from "@lingui/react/macro";
-import { ChevronLeft } from "lucide-react";
+import { Trans, useLingui } from "@lingui/react/macro";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
+import { LuArrowLeft } from "react-icons/lu";
 import type { PagePaneData } from "../../../../types";
 import { PagePaneTitle } from "../PagePaneTitle";
 
@@ -16,19 +17,22 @@ export function PagesListPaneTitle({
 }: PagesListPaneTitleProps) {
 	const { t } = useLingui();
 	return (
-		<span className="flex min-w-0 items-center gap-0.5">
-			<button
-				type="button"
-				aria-label={t({ message: "Back to pages" })}
-				title={t({ message: "Back to pages" })}
-				onClick={(event) => {
-					event.stopPropagation();
-					onBack();
-				}}
-				className="flex size-5 shrink-0 items-center justify-center rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent"
-			>
-				<ChevronLeft className="size-3.5" />
-			</button>
+		<span className="flex min-w-0 items-center gap-1">
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<button
+						type="button"
+						aria-label={t({ message: "Back to pages" })}
+						onClick={onBack}
+						className="shrink-0 rounded p-1 text-muted-foreground/60 transition-colors hover:text-muted-foreground"
+					>
+						<LuArrowLeft className="size-3.5" />
+					</button>
+				</TooltipTrigger>
+				<TooltipContent side="bottom">
+					<Trans>Back to pages</Trans>
+				</TooltipContent>
+			</Tooltip>
 			<PagePaneTitle data={page} paneId={pageUiId} onClose={onBack} />
 		</span>
 	);
