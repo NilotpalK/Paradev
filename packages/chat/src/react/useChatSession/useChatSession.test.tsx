@@ -786,7 +786,7 @@ describe("useChatSession", () => {
 		await stack.runtime.dispose();
 	});
 
-	test("shows a prefetched transcript at once on a session it never mounted", async () => {
+	test("seeds from a prefetched transcript without fetching it again, and streams what follows", async () => {
 		const stack = await startStack();
 		const writer = stack.makeClient();
 		const writerView = render(<Probe client={writer} />);
@@ -809,11 +809,21 @@ describe("useChatSession", () => {
 		const host = heldUntilReleased(stack.transport);
 		const client = stack.makeClient({ transport: host.transport });
 		const view = render(<Probe client={client} />);
-		expect(session().status).toBe("loading");
-		expect([...session().snapshot.items.keys()]).toEqual(shown);
-
-		host.release();
 		await domWaitFor(() => expect(session().status).toBe("ready"));
+		expect([...session().snapshot.items.keys()]).toEqual(shown);
+		expect(host.requested).toEqual([]);
+
+		await domWaitFor(() => expect(session().connection).toBe("open"));
+		act(() => {
+			session().sendPrompt([{ type: "text", text: "again" }]);
+		});
+		await domWaitFor(() =>
+			expect(session().snapshot.items.size).toBeGreaterThan(shown.length),
+		);
+		await domWaitFor(() =>
+			expect(session().snapshot.session?.status).toBe("idle"),
+		);
+		expect(host.requested).toEqual([]);
 		view.unmount();
 		client.close();
 		await stack.runtime.dispose();
