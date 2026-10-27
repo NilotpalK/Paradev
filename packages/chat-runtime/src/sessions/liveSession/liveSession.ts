@@ -417,8 +417,14 @@ export class LiveSession {
 				});
 				return;
 			case "turn": {
+				const previous = this.currentTurn;
 				this.currentTurn = event.turn;
 				this.appendDurable({ type: "turn", turn: event.turn });
+				if (
+					previous?.id === event.turn.id &&
+					previous.status === event.turn.status
+				)
+					return;
 				if (event.turn.status === "running") {
 					this.attributeAwaitingPrompt(event.turn.id);
 					const steered = this.steerTarget;
