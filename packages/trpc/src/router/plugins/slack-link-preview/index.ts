@@ -1,4 +1,5 @@
 export {
+	createSlackLinkPreviewLoader,
 	loadSlackLinkPreview,
 	type SlackLinkPreview,
 	type SlackLinkPreviewDeps,

@@ -1,7 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import type { PluginTarget } from "../proxy";
 import { FIRST_PARTY_SERVERS } from "../servers";
-import { loadSlackLinkPreview } from "./slack-link-preview";
+import {
+	createSlackLinkPreviewLoader,
+	loadSlackLinkPreview,
+} from "./slack-link-preview";
 
 const READY = {
 	kind: "first-party",
@@ -147,5 +150,22 @@ describe("loadSlackLinkPreview", () => {
 			),
 		).toEqual({ status: "unavailable" });
 		expect(calls).toEqual([]);
+	});
+
+	test("the cached loader reads a link once per user until it expires", async () => {
+		const { deps: d, calls } = deps({
+			"users.info": { user: { id: "U2", real_name: "Grace Hopper" } },
+		});
+		let clock = 0;
+		const load = createSlackLinkPreviewLoader(d, () => clock);
+		const profile = "https://acme.slack.com/team/U2";
+		await load(request(profile));
+		await load(request(profile));
+		expect(calls).toHaveLength(1);
+		await load({ ...request(profile), userId: "u2" });
+		expect(calls).toHaveLength(2);
+		clock += 5 * 60_000 + 1;
+		await load(request(profile));
+		expect(calls).toHaveLength(3);
 	});
 });

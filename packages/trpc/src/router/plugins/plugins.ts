@@ -29,7 +29,7 @@ import {
 } from "./manifest";
 import { forgetUpstreamTools, resolveTarget } from "./proxy";
 import { slack } from "./servers/slack/tools";
-import { loadSlackLinkPreview } from "./slack-link-preview";
+import { createSlackLinkPreviewLoader } from "./slack-link-preview";
 
 const FIRST_PARTY = "superset";
 
@@ -302,19 +302,21 @@ const connectionsRouter = {
 		}),
 } satisfies TRPCRouterRecord;
 
+const loadSlackPreview = createSlackLinkPreviewLoader({
+	resolveTarget,
+	slackApi: slack,
+});
+
 export const pluginsRouter = createTRPCRouter({
 	/** A Slack message or profile link, read with the caller's own Slack. */
 	slackLinkPreview: protectedProcedure
 		.input(z.object({ url: z.string().max(2048) }))
 		.query(async ({ ctx, input }) =>
-			loadSlackLinkPreview(
-				{ resolveTarget, slackApi: slack },
-				{
-					href: input.url,
-					userId: ctx.session.user.id,
-					organizationId: await requireActiveOrgMembership(ctx),
-				},
-			),
+			loadSlackPreview({
+				href: input.url,
+				userId: ctx.session.user.id,
+				organizationId: await requireActiveOrgMembership(ctx),
+			}),
 		),
 
 	list: protectedProcedure.query(async ({ ctx }) => {

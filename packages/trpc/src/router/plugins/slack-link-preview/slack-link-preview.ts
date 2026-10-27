@@ -118,3 +118,38 @@ export async function loadSlackLinkPreview(
 		description: messageText(message) || null,
 	};
 }
+
+type SlackPreviewRequest = Parameters<typeof loadSlackLinkPreview>[1];
+
+const READY_FOR_MS = 5 * 60_000;
+const UNAVAILABLE_FOR_MS = 30_000;
+const MAX_CACHED = 500;
+
+/**
+ * The preview loader with a per-user cache: hover cards share Slack's rate
+ * limit with the agents' Slack tools, so the same link is read once a while.
+ */
+export function createSlackLinkPreviewLoader(
+	deps: SlackLinkPreviewDeps,
+	now: () => number = Date.now,
+): (request: SlackPreviewRequest) => Promise<SlackLinkPreview> {
+	const cache = new Map<
+		string,
+		{ expiresAt: number; value: SlackLinkPreview }
+	>();
+	return async (request) => {
+		const key = `${request.userId}\n${request.href}`;
+		const cached = cache.get(key);
+		if (cached && cached.expiresAt > now()) return cached.value;
+		const value = await loadSlackLinkPreview(deps, request);
+		cache.delete(key);
+		cache.set(key, {
+			value,
+			expiresAt:
+				now() + (value.status === "ready" ? READY_FOR_MS : UNAVAILABLE_FOR_MS),
+		});
+		const oldest = cache.keys().next().value;
+		if (cache.size > MAX_CACHED && oldest !== undefined) cache.delete(oldest);
+		return value;
+	};
+}
