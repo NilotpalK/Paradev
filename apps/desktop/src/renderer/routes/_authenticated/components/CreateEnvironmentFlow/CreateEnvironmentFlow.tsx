@@ -168,6 +168,10 @@ export function CreateEnvironmentFlow({
 							onOpenChange(false);
 							void navigate({ to: "/settings/environments" });
 						}}
+						onUpgrade={() => {
+							onOpenChange(false);
+							void navigate({ to: "/settings/billing/plans" });
+						}}
 						onCancel={() => onOpenChange(false)}
 						onConnectOrg={openGitHubIntegration}
 						onContinue={(repositories) => {

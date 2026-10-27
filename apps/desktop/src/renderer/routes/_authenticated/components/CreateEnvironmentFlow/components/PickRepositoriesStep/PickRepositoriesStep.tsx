@@ -33,6 +33,7 @@ interface PickRepositoriesStepProps {
 	/** Set when the organization is at its environment limit. */
 	reachedLimit?: number | null;
 	onManageEnvironments: () => void;
+	onUpgrade: () => void;
 	/** Picked earlier, when coming back from choosing the primary. */
 	initialSelectedIds?: readonly string[];
 	onContinue: (
@@ -49,6 +50,7 @@ export function PickRepositoriesStep({
 	isStarting,
 	reachedLimit = null,
 	onManageEnvironments,
+	onUpgrade,
 	initialSelectedIds = [],
 	onContinue,
 	onConnectOrg,
@@ -200,14 +202,24 @@ export function PickRepositoriesStep({
 			{reachedLimit !== null && (
 				<div className="flex items-center gap-3 border-t border-border/70 px-5 py-3 text-xs text-muted-foreground">
 					<span className="flex-1">
-						<Trans>
-							Your organization has reached its limit of {reachedLimit}{" "}
-							environments. Archive one to make room.
-						</Trans>
+						{reachedLimit === 0 ? (
+							<Trans>Your plan does not include cloud environments.</Trans>
+						) : (
+							<Trans>
+								Your organization has reached its limit of {reachedLimit}{" "}
+								environments. Archive one to make room.
+							</Trans>
+						)}
 					</span>
-					<Button onClick={onManageEnvironments} size="sm" variant="outline">
-						<Trans>Manage environments</Trans>
-					</Button>
+					{reachedLimit === 0 ? (
+						<Button onClick={onUpgrade} size="sm" variant="outline">
+							<Trans>Upgrade</Trans>
+						</Button>
+					) : (
+						<Button onClick={onManageEnvironments} size="sm" variant="outline">
+							<Trans>Manage environments</Trans>
+						</Button>
+					)}
 				</div>
 			)}
 			<DialogFooter className="items-center border-t border-border/70 bg-muted/20 px-5 py-3">
