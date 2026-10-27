@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} tidak ada di {installedAccountLogin}, tempat GitHub
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} belum dibagikan ke GitHub App Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Perubahan pada # file dibatalkan.} other {Perubahan pada # file dibatalkan.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} dtk"
 
@@ -3614,6 +3617,15 @@ msgstr "Tidak bisa membuka path workspace jarak jauh di Finder"
 msgid "Can't reach the host"
 msgstr "Tidak dapat menjangkau host"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Tidak bisa dibatalkan selagi chat di workspace ini bekerja."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Tidak bisa dibatalkan: HEAD berpindah sejak giliran ini, karena commit, pull, atau checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Tidak bisa dibatalkan: snapshot giliran ini hilang."
+
 msgid "Cancel"
 msgstr "Batal"
 
@@ -5702,6 +5714,9 @@ msgstr "Tidak dapat menghentikan obrolan"
 msgid "Couldn't take a screenshot"
 msgstr "Gagal mengambil tangkapan layar"
 
+msgid "Couldn't undo the file changes."
+msgstr "Perubahan file tidak bisa dibatalkan."
+
 msgid "Couldn't unstage changes"
 msgstr "Tidak bisa meng-unstage perubahan"
 
@@ -7246,6 +7261,9 @@ msgstr "Setiap hari"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Setiap hari pukul <0>09.00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Semua file berubah lagi sejak giliran ini, jadi tidak ada yang dibatalkan."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Tiap Jumat jam 4 sore, susun draf catatan rilis dari PR yang di-merge minggu ini."
 
@@ -8004,6 +8022,9 @@ msgstr "Buat dan perbarui issue"
 
 msgid "File changed on disk"
 msgstr "File di disk telah berubah"
+
+msgid "File changes undone"
+msgstr "Perubahan file dibatalkan"
 
 msgid "File is too large to preview"
 msgstr "File terlalu besar untuk dipratinjau"
@@ -10071,6 +10092,9 @@ msgstr "Keluar dari organisasi..."
 
 msgid "Leaving..."
 msgstr "Keluar..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Dibiarkan, berubah sejak giliran ini: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Sudah keluar dari organisasi"
@@ -18088,6 +18112,9 @@ msgstr "Tombolnya kini menonjol. Saya sudah memeriksanya di panel Anda."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Perubahan berlaku sekarang. Anda hanya membayar selisih untuk sisa periode ini."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Chat tetap seperti adanya. File yang diedit sejak giliran ini, oleh siapa pun, dibiarkan dan dicantumkan."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Workspace cloud seharusnya sudah berjalan, tetapi tidak merespons tepat waktu. Run berikutnya akan mencoba lagi."
 
@@ -18832,6 +18859,9 @@ msgstr "Workspace ini mungkin sudah dihapus, atau Anda sudah tidak punya akses k
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Catatan workspace ini masih ada, tapi folder worktree-nya sudah tidak ada di host ini. Terminal dan aksi file tidak tersedia."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Host workspace ini belum bisa membatalkan perubahan file."
+
 msgid "This workspace's host is offline"
 msgstr "Host workspace ini sedang offline"
 
@@ -19314,6 +19344,12 @@ msgstr "Sedang berjalan"
 
 msgid "Undo"
 msgstr "Undo"
+
+msgid "Undo changes"
+msgstr "Batalkan perubahan"
+
+msgid "Undo the file changes in this card?"
+msgstr "Batalkan perubahan file di kartu ini?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Batalkan workspace terakhir yang diarsipkan atau chat yang ditutup"

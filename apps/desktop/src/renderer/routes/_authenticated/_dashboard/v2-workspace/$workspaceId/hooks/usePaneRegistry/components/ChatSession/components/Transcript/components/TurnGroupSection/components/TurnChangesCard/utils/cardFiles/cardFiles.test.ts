@@ -22,6 +22,8 @@ function snapshot(shared: boolean): TurnChanges {
 		after: "a1",
 		live: false,
 		shared,
+		undone: false,
+		committed: [],
 		files: [
 			{ path: "NOTES.md", status: "added", additions: 1, deletions: 0 },
 			{ path: "src/a.ts", status: "added", additions: 4, deletions: 0 },
@@ -63,6 +65,28 @@ describe("cardFiles", () => {
 			"NOTES.md",
 			"logo.png",
 		]);
+	});
+
+	test("drops files committed since the turn, and has nothing left once all are", () => {
+		const some = cardFiles(
+			toolFiles,
+			{ ...snapshot(false), committed: ["src/a.ts", "NOTES.md"] },
+			ROOT,
+		);
+		const all = cardFiles(
+			toolFiles,
+			{
+				...snapshot(false),
+				committed: ["NOTES.md", "src/a.ts", "src/b.ts", "logo.png"],
+			},
+			ROOT,
+		);
+
+		expect(some.files.map((row) => row.place.relativePath)).toEqual([
+			"src/b.ts",
+			"logo.png",
+		]);
+		expect(all.files).toEqual([]);
 	});
 
 	test("falls back to the tool calls without snapshots", () => {

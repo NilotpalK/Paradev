@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} nie należy do {installedAccountLogin}, gdzie zains
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} nie jest jeszcze udostępnione dla GitHub App Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Cofnięto zmiany w # pliku.} few {Cofnięto zmiany w # plikach.} many {Cofnięto zmiany w # plikach.} other {Cofnięto zmiany w # pliku.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} s"
 
@@ -3614,6 +3617,15 @@ msgstr "Nie można otwierać ścieżek zdalnego obszaru roboczego w Finderze"
 msgid "Can't reach the host"
 msgstr "Nie można połączyć się z hostem"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Nie można cofnąć, gdy czat w tym obszarze roboczym pracuje."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Nie można cofnąć: HEAD przesunął się od tej tury przez commit, pull lub checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Nie można cofnąć: brakuje migawek tej tury."
+
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -5702,6 +5714,9 @@ msgstr "Nie udało się zatrzymać czatu"
 msgid "Couldn't take a screenshot"
 msgstr "Nie udało się zrobić zrzutu ekranu"
 
+msgid "Couldn't undo the file changes."
+msgstr "Nie udało się cofnąć zmian w plikach."
+
 msgid "Couldn't unstage changes"
 msgstr "Nie udało się usunąć zmian z indeksu"
 
@@ -7246,6 +7261,9 @@ msgstr "Codziennie"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Codziennie o <0>9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Każdy plik zmienił się ponownie od tej tury, więc nic nie zostało cofnięte."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "W każdy piątek o 16:00 przygotuj notatki wydania z PR-ów scalonych w tym tygodniu."
 
@@ -8004,6 +8022,9 @@ msgstr "Zgłaszaj i aktualizuj zgłoszenia"
 
 msgid "File changed on disk"
 msgstr "Plik na dysku został zmieniony"
+
+msgid "File changes undone"
+msgstr "Cofnięto zmiany w plikach"
 
 msgid "File is too large to preview"
 msgstr "Plik jest za duży, aby go podejrzeć"
@@ -10071,6 +10092,9 @@ msgstr "Opuszczanie organizacji..."
 
 msgid "Leaving..."
 msgstr "Opuszczanie..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Pozostawione bez zmian, zmienione od tej tury: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Opuszczono organizację"
@@ -18088,6 +18112,9 @@ msgstr "Przycisk teraz się wyróżnia. Sprawdziłem to w Twoim panelu."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Zmiana działa od razu. Płacisz tylko różnicę za resztę okresu."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Czat zostaje bez zmian. Pliki edytowane od tej tury przez kogokolwiek pozostają nietknięte i są wymienione."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Obszar roboczy w chmurze powinien był się uruchomić, ale nie odpowiedział na czas. Następne uruchomienie spróbuje ponownie."
 
@@ -18832,6 +18859,9 @@ msgstr "Ten obszar roboczy mógł zostać usunięty albo nie masz już do niego 
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Wpis tego obszaru roboczego wciąż istnieje, ale jego folderu worktree nie ma już na tym hoście. Terminale i operacje na plikach są niedostępne."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Host tego obszaru roboczego nie potrafi jeszcze cofać zmian w plikach."
+
 msgid "This workspace's host is offline"
 msgstr "Host tego obszaru roboczego jest offline"
 
@@ -19314,6 +19344,12 @@ msgstr "W toku"
 
 msgid "Undo"
 msgstr "Cofnij"
+
+msgid "Undo changes"
+msgstr "Cofnij zmiany"
+
+msgid "Undo the file changes in this card?"
+msgstr "Cofnąć zmiany w plikach z tej karty?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Cofnij ostatnią archiwizację obszaru roboczego lub zamknięcie czatów"

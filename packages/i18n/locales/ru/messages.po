@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} не находится в {installedAccountLogin},
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} ещё не открыт для GitHub App Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Изменения в # файле отменены.} few {Изменения в # файлах отменены.} many {Изменения в # файлах отменены.} other {Изменения в # файла отменены.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} с"
 
@@ -3614,6 +3617,15 @@ msgstr "Пути удалённых рабочих областей нельзя
 msgid "Can't reach the host"
 msgstr "Не удаётся связаться с хостом"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Нельзя отменить, пока чат в этой рабочей области работает."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Нельзя отменить: HEAD сдвинулся после этого хода из-за коммита, pull или checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Нельзя отменить: снимки этого хода отсутствуют."
+
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -5702,6 +5714,9 @@ msgstr "Не удалось остановить чат"
 msgid "Couldn't take a screenshot"
 msgstr "Не удалось сделать снимок экрана"
 
+msgid "Couldn't undo the file changes."
+msgstr "Не удалось отменить изменения файлов."
+
 msgid "Couldn't unstage changes"
 msgstr "Не удалось снять индексацию"
 
@@ -7246,6 +7261,9 @@ msgstr "Каждый день"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Каждый день в <0>9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Все файлы изменились снова после этого хода, поэтому ничего не отменено."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Каждую пятницу в 16:00 готовь черновик release notes по объединённым за неделю PR."
 
@@ -8004,6 +8022,9 @@ msgstr "Создание и обновление задач"
 
 msgid "File changed on disk"
 msgstr "Файл на диске изменён"
+
+msgid "File changes undone"
+msgstr "Изменения файлов отменены"
 
 msgid "File is too large to preview"
 msgstr "Файл слишком большой для предпросмотра"
@@ -10071,6 +10092,9 @@ msgstr "Выход из организации..."
 
 msgid "Leaving..."
 msgstr "Выход..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Не тронуты, изменены после этого хода: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Организация покинута"
@@ -18088,6 +18112,9 @@ msgstr "Теперь кнопка выделяется. Я проверил эт
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Изменение вступает в силу сразу. Вы платите только разницу за остаток периода."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Чат остаётся как есть. Файлы, которые кто-либо изменил после этого хода, не трогаются и перечисляются."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Облачная рабочая область должна была запуститься, но не ответила вовремя. Следующий запуск попробует снова."
 
@@ -18832,6 +18859,9 @@ msgstr "Возможно, эта рабочая область удалена и
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Запись об этой рабочей области ещё существует, но её папки worktree больше нет на этом хосте. Терминалы и действия с файлами недоступны."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Хост этой рабочей области пока не умеет отменять изменения файлов."
+
 msgid "This workspace's host is offline"
 msgstr "Хост этой рабочей области офлайн"
 
@@ -19314,6 +19344,12 @@ msgstr "Идёт"
 
 msgid "Undo"
 msgstr "Отменить"
+
+msgid "Undo changes"
+msgstr "Отменить изменения"
+
+msgid "Undo the file changes in this card?"
+msgstr "Отменить изменения файлов в этой карточке?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Отменить последнюю архивацию рабочей области или закрытие чатов"

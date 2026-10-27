@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} staat niet op {installedAccountLogin}, waar de GitH
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} is nog niet gedeeld met de Paradev GitHub App."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Wijzigingen in # bestand ongedaan gemaakt.} other {Wijzigingen in # bestanden ongedaan gemaakt.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} s"
 
@@ -3614,6 +3617,15 @@ msgstr "Paden van externe werkruimtes kunnen niet in Finder worden geopend"
 msgid "Can't reach the host"
 msgstr "Host niet bereikbaar"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Ongedaan maken kan niet terwijl een chat in deze werkruimte bezig is."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Ongedaan maken kan niet: HEAD is sinds deze beurt verplaatst, door een commit, pull of checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Ongedaan maken kan niet: de snapshots van deze beurt ontbreken."
+
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -5702,6 +5714,9 @@ msgstr "Kon de chat niet stoppen"
 msgid "Couldn't take a screenshot"
 msgstr "Screenshot maken mislukt"
 
+msgid "Couldn't undo the file changes."
+msgstr "De bestandswijzigingen konden niet ongedaan worden gemaakt."
+
 msgid "Couldn't unstage changes"
 msgstr "Kan wijzigingen niet unstagen"
 
@@ -7246,6 +7261,9 @@ msgstr "Elke dag"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Elke dag om <0>9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Elk bestand is sinds deze beurt opnieuw gewijzigd, dus er is niets ongedaan gemaakt."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Elke vrijdag om 16.00 uur: stel release notes op uit de gemergede PR's van deze week."
 
@@ -8004,6 +8022,9 @@ msgstr "Issues aanmaken en bijwerken"
 
 msgid "File changed on disk"
 msgstr "Bestand op schijf is gewijzigd"
+
+msgid "File changes undone"
+msgstr "Bestandswijzigingen ongedaan gemaakt"
 
 msgid "File is too large to preview"
 msgstr "Bestand is te groot voor een voorbeeld"
@@ -10071,6 +10092,9 @@ msgstr "Organisatie verlaten..."
 
 msgid "Leaving..."
 msgstr "Verlaten..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Met rust gelaten, sinds deze beurt gewijzigd: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Organisatie verlaten"
@@ -18088,6 +18112,9 @@ msgstr "De knop valt nu op. Ik heb het gecontroleerd in je paneel."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "De wijziging gaat nu in. Je betaalt alleen het verschil voor de rest van deze periode."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "De chat blijft zoals hij is. Bestanden die sinds deze beurt door wie dan ook zijn bewerkt, blijven ongemoeid en worden vermeld."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "De cloudwerkruimte had gestart moeten zijn, maar reageerde niet op tijd. De volgende run probeert het opnieuw."
 
@@ -18832,6 +18859,9 @@ msgstr "Deze werkruimte is mogelijk verwijderd, of je hebt er geen toegang meer 
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Dit werkruimterecord bestaat nog, maar de worktree-map staat niet meer op deze host. Terminals en bestandsacties zijn niet beschikbaar."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "De host van deze werkruimte kan bestandswijzigingen nog niet ongedaan maken."
+
 msgid "This workspace's host is offline"
 msgstr "De host van deze werkruimte is offline"
 
@@ -19314,6 +19344,12 @@ msgstr "Gaande"
 
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "Undo changes"
+msgstr "Wijzigingen ongedaan maken"
+
+msgid "Undo the file changes in this card?"
+msgstr "De bestandswijzigingen in deze kaart ongedaan maken?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Laatst gearchiveerde werkruimte of gesloten chats ongedaan maken"

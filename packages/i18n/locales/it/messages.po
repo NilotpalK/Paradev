@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} non è su {installedAccountLogin}, dove è installa
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} non è ancora condiviso con la GitHub App di Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Annullate le modifiche a # file.} other {Annullate le modifiche a # file.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} s"
 
@@ -3614,6 +3617,15 @@ msgstr "Impossibile aprire i percorsi di un workspace remoto nel Finder"
 msgid "Can't reach the host"
 msgstr "Impossibile raggiungere l'host"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Impossibile annullare mentre una chat in questo workspace sta lavorando."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Impossibile annullare: HEAD si è spostato da questo turno, per un commit, un pull o un checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Impossibile annullare: mancano gli snapshot di questo turno."
+
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -5702,6 +5714,9 @@ msgstr "Non è stato possibile arrestare la chat"
 msgid "Couldn't take a screenshot"
 msgstr "Impossibile acquisire lo screenshot"
 
+msgid "Couldn't undo the file changes."
+msgstr "Impossibile annullare le modifiche ai file."
+
 msgid "Couldn't unstage changes"
 msgstr "Impossibile togliere le modifiche dallo stage"
 
@@ -7246,6 +7261,9 @@ msgstr "Ogni giorno"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Ogni giorno alle <0>9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Ogni file è cambiato di nuovo da questo turno, quindi non è stato annullato nulla."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Ogni venerdì alle 16, prepara le note di rilascio dalle PR unite questa settimana."
 
@@ -8004,6 +8022,9 @@ msgstr "Crea e aggiorna issue"
 
 msgid "File changed on disk"
 msgstr "Il file è cambiato su disco"
+
+msgid "File changes undone"
+msgstr "Modifiche ai file annullate"
 
 msgid "File is too large to preview"
 msgstr "Il file è troppo grande per l'anteprima"
@@ -10071,6 +10092,9 @@ msgstr "Uscita dall'organizzazione..."
 
 msgid "Leaving..."
 msgstr "Uscita..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Lasciati com'erano, modificati da questo turno: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Uscito dall'organizzazione"
@@ -18088,6 +18112,9 @@ msgstr "Ora il pulsante risalta. L'ho verificato nel tuo riquadro."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Il cambio inizia subito. Paghi solo la differenza per il resto del periodo."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "La chat resta com'è. I file modificati da questo turno, da chiunque, non vengono toccati e sono elencati."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Il workspace cloud avrebbe dovuto avviarsi, ma non ha risposto in tempo. La prossima esecuzione riproverà."
 
@@ -18832,6 +18859,9 @@ msgstr "Questo workspace potrebbe essere stato rimosso oppure non hai più acces
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Il record di questo workspace esiste ancora, ma la sua cartella worktree non è più su questo host. I terminali e le azioni sui file non sono disponibili."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "L'host di questo workspace non può ancora annullare le modifiche ai file."
+
 msgid "This workspace's host is offline"
 msgstr "L'host di questo workspace è offline"
 
@@ -19314,6 +19344,12 @@ msgstr "In corso"
 
 msgid "Undo"
 msgstr "Annulla"
+
+msgid "Undo changes"
+msgstr "Annulla modifiche"
+
+msgid "Undo the file changes in this card?"
+msgstr "Annullare le modifiche ai file in questa scheda?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Annulla l'ultima archiviazione del workspace o la chiusura delle chat"

@@ -271,8 +271,20 @@ export function SessionView({
 	const turnChanges = useMemo<TurnChangesSource>(
 		() => ({
 			sessionId: client.sessionId,
-			load: (turnId, live) =>
-				client.getTurnChanges({ workspaceId, turnId, live }),
+			load: (turnId, live, anchorItemIds) =>
+				client.getTurnChanges({
+					workspaceId,
+					turnId,
+					live,
+					...(anchorItemIds?.length ? { anchorItemIds } : {}),
+				}),
+			undo: (turnId, paths, anchorItemIds) =>
+				client.undoTurnFiles({
+					workspaceId,
+					turnId,
+					paths,
+					...(anchorItemIds?.length ? { anchorItemIds } : {}),
+				}),
 		}),
 		[client, workspaceId],
 	);

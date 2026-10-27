@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName}, bu organizasyonun GitHub App'inin kurulu olduğu {
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} henüz Paradev GitHub App ile paylaşılmadı."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {# dosyadaki değişiklikler geri alındı.} other {# dosyadaki değişiklikler geri alındı.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} sn"
 
@@ -3614,6 +3617,15 @@ msgstr "Uzak çalışma alanı yolları Finder'da açılamaz"
 msgid "Can't reach the host"
 msgstr "Host'a ulaşılamıyor"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Bu çalışma alanında bir sohbet çalışırken geri alınamaz."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Geri alınamıyor: HEAD bu turdan sonra bir commit, pull veya checkout ile taşındı."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Geri alınamıyor: bu turun anlık görüntüleri eksik."
+
 msgid "Cancel"
 msgstr "İptal"
 
@@ -5702,6 +5714,9 @@ msgstr "Sohbet durdurulamadı"
 msgid "Couldn't take a screenshot"
 msgstr "Ekran görüntüsü alınamadı"
 
+msgid "Couldn't undo the file changes."
+msgstr "Dosya değişiklikleri geri alınamadı."
+
 msgid "Couldn't unstage changes"
 msgstr "Değişiklikler hazırlıktan çıkarılamadı"
 
@@ -7246,6 +7261,9 @@ msgstr "Her gün"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Her gün <0>09:00</0>'da"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Her dosya bu turdan sonra yeniden değişti, bu yüzden hiçbir şey geri alınmadı."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Her cuma 16.00'da bu haftanın birleştirilen PR'larından sürüm notları taslağı hazırla."
 
@@ -8004,6 +8022,9 @@ msgstr "Issue açın ve güncelleyin"
 
 msgid "File changed on disk"
 msgstr "Diskteki dosya değişti"
+
+msgid "File changes undone"
+msgstr "Dosya değişiklikleri geri alındı"
 
 msgid "File is too large to preview"
 msgstr "Dosya önizlenemeyecek kadar büyük"
@@ -10071,6 +10092,9 @@ msgstr "Kuruluştan ayrılınıyor..."
 
 msgid "Leaving..."
 msgstr "Ayrılınıyor..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Dokunulmadı, bu turdan sonra değişti: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Kuruluştan ayrılındı"
@@ -18088,6 +18112,9 @@ msgstr "Düğme artık öne çıkıyor. Bölmenizde kontrol ettim."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Değişiklik hemen başlar. Dönemin kalanı için yalnızca farkı ödersiniz."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Sohbet olduğu gibi kalır. Bu turdan sonra herhangi biri tarafından düzenlenen dosyalara dokunulmaz ve listelenir."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Bulut çalışma alanının başlamış olması gerekiyordu ancak zamanında yanıt vermedi. Bir sonraki çalıştırma yeniden deneyecek."
 
@@ -18832,6 +18859,9 @@ msgstr "Bu çalışma alanı kaldırılmış olabilir ya da artık erişiminiz o
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Bu çalışma alanı kaydı hâlâ var, ancak worktree klasörü artık bu host'ta değil. Terminaller ve dosya eylemleri kullanılamıyor."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Bu çalışma alanının ana makinesi henüz dosya değişikliklerini geri alamıyor."
+
 msgid "This workspace's host is offline"
 msgstr "Bu çalışma alanının host'u çevrimdışı"
 
@@ -19314,6 +19344,12 @@ msgstr "Sürüyor"
 
 msgid "Undo"
 msgstr "Geri al"
+
+msgid "Undo changes"
+msgstr "Değişiklikleri geri al"
+
+msgid "Undo the file changes in this card?"
+msgstr "Bu karttaki dosya değişiklikleri geri alınsın mı?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Son arşivlenen çalışma alanını veya kapatılan sohbetleri geri al"

@@ -23,7 +23,7 @@ export function LiveChangesPill({
 }) {
 	const { t } = useLingui();
 	const { openDiff } = useChatPaneActions();
-	const changes = useTurnChanges(turnId, { live: true, refreshKey });
+	const { changes } = useTurnChanges(turnId, { live: true, refreshKey });
 	const changedCount = changes?.files.length ?? 0;
 	if (!changes || changedCount === 0) return null;
 

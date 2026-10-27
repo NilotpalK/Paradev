@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} není v účtu {installedAccountLogin}, kde je nain
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} zatím není sdílený s GitHub App Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Změny v # souboru byly vráceny.} few {Změny v # souborech byly vráceny.} many {Změny v # souboru byly vráceny.} other {Změny v # souborech byly vráceny.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} s"
 
@@ -3614,6 +3617,15 @@ msgstr "Cesty vzdáleného pracovního prostoru nejde otevřít ve Finderu"
 msgid "Can't reach the host"
 msgstr "Host není dostupný"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Nelze vrátit, dokud v tomto pracovním prostoru pracuje chat."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Nelze vrátit: HEAD se od tohoto tahu posunul kvůli commitu, pullu nebo checkoutu."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Nelze vrátit: chybí snímky tohoto tahu."
+
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -5702,6 +5714,9 @@ msgstr "Chat se nepodařilo zastavit"
 msgid "Couldn't take a screenshot"
 msgstr "Snímek obrazovky se nepodařilo pořídit"
 
+msgid "Couldn't undo the file changes."
+msgstr "Změny souborů se nepodařilo vrátit."
+
 msgid "Couldn't unstage changes"
 msgstr "Nepodařilo se zrušit přípravu změn"
 
@@ -7246,6 +7261,9 @@ msgstr "Každý den"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Každý den v <0>9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Každý soubor se od tohoto tahu znovu změnil, takže nic nebylo vráceno."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Každý pátek v 16:00 sepiš poznámky k vydání ze sloučených PR za tento týden."
 
@@ -8004,6 +8022,9 @@ msgstr "Zakládání a úprava issues"
 
 msgid "File changed on disk"
 msgstr "Soubor na disku byl změněn"
+
+msgid "File changes undone"
+msgstr "Změny souborů vráceny"
 
 msgid "File is too large to preview"
 msgstr "Soubor je pro náhled příliš velký"
@@ -10071,6 +10092,9 @@ msgstr "Opouštím organizaci..."
 
 msgid "Leaving..."
 msgstr "Odcházím..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Ponecháno beze změny, změněno od tohoto tahu: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Organizace opuštěna"
@@ -18088,6 +18112,9 @@ msgstr "Tlačítko je teď výrazné. Zkontroloval jsem to ve vašem panelu."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Změna platí hned. Platíte jen rozdíl za zbytek období."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Chat zůstane, jak je. Soubory, které kdokoli upravil od tohoto tahu, zůstanou beze změny a budou vypsány."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Cloudový pracovní prostor se měl spustit, ale neodpověděl včas. Další běh to zkusí znovu."
 
@@ -18832,6 +18859,9 @@ msgstr "Tento pracovní prostor mohl být odstraněn, nebo k němu už nemáte p
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Záznam tohoto pracovního prostoru pořád existuje, ale jeho složka worktree už na tomto hostu není. Terminály a operace se soubory nejsou k dispozici."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Hostitel tohoto pracovního prostoru zatím neumí vracet změny souborů."
+
 msgid "This workspace's host is offline"
 msgstr "Host tohoto pracovního prostoru je offline"
 
@@ -19314,6 +19344,12 @@ msgstr "Probíhá"
 
 msgid "Undo"
 msgstr "Zpět"
+
+msgid "Undo changes"
+msgstr "Vrátit změny"
+
+msgid "Undo the file changes in this card?"
+msgstr "Vrátit změny souborů v této kartě?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Vrátit poslední archivaci pracovního prostoru nebo zavření chatů"

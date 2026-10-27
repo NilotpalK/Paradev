@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} は、この組織の GitHub App がインストー
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} はまだ Paradev の GitHub App と共有されていません。"
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {#件のファイルの変更を取り消しました。} other {#件のファイルの変更を取り消しました。}}"
+
 msgid "{seconds}s"
 msgstr "{seconds}秒"
 
@@ -3614,6 +3617,15 @@ msgstr "リモートワークスペースのパスはFinderで開けません"
 msgid "Can't reach the host"
 msgstr "ホストに接続できません"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "このワークスペースでチャットが作業中のため取り消せません。"
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "取り消せません: このターンの後に、コミット、プル、チェックアウトでHEADが移動しました。"
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "取り消せません: このターンのスナップショットが見つかりません。"
+
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -5702,6 +5714,9 @@ msgstr "チャットを停止できませんでした"
 msgid "Couldn't take a screenshot"
 msgstr "スクリーンショットを撮れませんでした"
 
+msgid "Couldn't undo the file changes."
+msgstr "ファイルの変更を取り消せませんでした。"
+
 msgid "Couldn't unstage changes"
 msgstr "変更をステージ解除できませんでした"
 
@@ -7246,6 +7261,9 @@ msgstr "毎日"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "毎日 <0>午前9:00</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "このターンの後にすべてのファイルが再び変更されたため、何も取り消していません。"
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "毎週金曜午後4時に、今週マージされたPRからリリースノートの下書きを作成する。"
 
@@ -8004,6 +8022,9 @@ msgstr "Issueの作成と更新"
 
 msgid "File changed on disk"
 msgstr "ディスク上のファイルが変更されました"
+
+msgid "File changes undone"
+msgstr "ファイルの変更を取り消しました"
 
 msgid "File is too large to preview"
 msgstr "ファイルが大きすぎてプレビューできません"
@@ -10071,6 +10092,9 @@ msgstr "組織から退出中..."
 
 msgid "Leaving..."
 msgstr "退出中..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "このターンの後に変更されたため、そのままにしました: {skippedNames}"
 
 msgid "Left organization"
 msgstr "組織から退出しました"
@@ -18088,6 +18112,9 @@ msgstr "ボタンが目立つようになりました。ペインで確認済み
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "変更はすぐに適用されます。期間の残りについて差額のみをお支払いいただきます。"
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "チャットはそのまま残ります。このターンの後に誰かが編集したファイルはそのままにし、一覧に表示します。"
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "クラウドワークスペースは起動しているはずですが、時間内に応答がありませんでした。次回の実行で再試行します。"
 
@@ -18832,6 +18859,9 @@ msgstr "このワークスペースは削除されたか、アクセス権がな
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "このワークスペースの記録は残っていますが、ワークツリーフォルダはこのホスト上にありません。ターミナルとファイル操作は利用できません。"
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "このワークスペースのホストはまだファイルの変更を取り消せません。"
+
 msgid "This workspace's host is offline"
 msgstr "このワークスペースのホストはオフラインです"
 
@@ -19314,6 +19344,12 @@ msgstr "進行中"
 
 msgid "Undo"
 msgstr "取り消す"
+
+msgid "Undo changes"
+msgstr "変更を取り消す"
+
+msgid "Undo the file changes in this card?"
+msgstr "このカードのファイル変更を取り消しますか？"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "直前のワークスペースのアーカイブまたはチャットのクローズを元に戻す"

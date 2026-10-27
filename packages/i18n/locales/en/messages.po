@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} isn't on {installedAccountLogin}, where this organi
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds}s"
 
@@ -3614,6 +3617,15 @@ msgstr "Can't open remote workspace paths in Finder"
 msgid "Can't reach the host"
 msgstr "Can't reach the host"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Can't undo while a chat in this workspace is working."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Can't undo: this turn's snapshots are missing."
+
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -5702,6 +5714,9 @@ msgstr "Couldn't stop the chat"
 msgid "Couldn't take a screenshot"
 msgstr "Couldn't take a screenshot"
 
+msgid "Couldn't undo the file changes."
+msgstr "Couldn't undo the file changes."
+
 msgid "Couldn't unstage changes"
 msgstr "Couldn't unstage changes"
 
@@ -7246,6 +7261,9 @@ msgstr "Every day"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Every day at <0>9:00 AM</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Every file changed again since this turn, so nothing was undone."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Every Friday at 4pm, draft release notes from this week's merged PRs."
 
@@ -8004,6 +8022,9 @@ msgstr "File and update issues"
 
 msgid "File changed on disk"
 msgstr "File changed on disk"
+
+msgid "File changes undone"
+msgstr "File changes undone"
 
 msgid "File is too large to preview"
 msgstr "File is too large to preview"
@@ -10071,6 +10092,9 @@ msgstr "Leaving organization..."
 
 msgid "Leaving..."
 msgstr "Leaving..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Left alone, changed since this turn: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Left organization"
@@ -18088,6 +18112,9 @@ msgstr "The button now stands out. I checked it in your pane."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "The change starts now. You pay only the difference for the rest of this period."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "The cloud workspace should have started but didn't answer in time. The next run tries again."
 
@@ -18832,6 +18859,9 @@ msgstr "This workspace may have been removed, or you no longer have access to it
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "This workspace's host can't undo file changes yet."
+
 msgid "This workspace's host is offline"
 msgstr "This workspace's host is offline"
 
@@ -19314,6 +19344,12 @@ msgstr "Underway"
 
 msgid "Undo"
 msgstr "Undo"
+
+msgid "Undo changes"
+msgstr "Undo changes"
+
+msgid "Undo the file changes in this card?"
+msgstr "Undo the file changes in this card?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Undo the last archived workspace or closed chats"

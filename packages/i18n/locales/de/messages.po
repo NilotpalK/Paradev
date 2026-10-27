@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} liegt nicht bei {installedAccountLogin}, wo die Git
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} ist noch nicht für die Paradev GitHub App freigegeben."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Änderungen an # Datei rückgängig gemacht.} other {Änderungen an # Dateien rückgängig gemacht.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} Sek."
 
@@ -3614,6 +3617,15 @@ msgstr "Pfade aus Remote-Arbeitsbereichen lassen sich nicht im Finder öffnen"
 msgid "Can't reach the host"
 msgstr "Host nicht erreichbar"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Rückgängig machen geht nicht, während ein Chat in diesem Arbeitsbereich arbeitet."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Rückgängig machen geht nicht: HEAD hat sich seit diesem Durchlauf bewegt, durch einen Commit, Pull oder Checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Rückgängig machen geht nicht: Die Snapshots dieses Durchlaufs fehlen."
+
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -5702,6 +5714,9 @@ msgstr "Chat konnte nicht gestoppt werden"
 msgid "Couldn't take a screenshot"
 msgstr "Screenshot konnte nicht erstellt werden"
 
+msgid "Couldn't undo the file changes."
+msgstr "Die Dateiänderungen konnten nicht rückgängig gemacht werden."
+
 msgid "Couldn't unstage changes"
 msgstr "Stagen konnte nicht aufgehoben werden"
 
@@ -7246,6 +7261,9 @@ msgstr "Jeden Tag"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Jeden Tag um <0>9:00 Uhr</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Jede Datei wurde seit diesem Durchlauf erneut geändert, daher wurde nichts rückgängig gemacht."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Jeden Freitag um 16 Uhr Release Notes aus den diese Woche gemergten PRs entwerfen."
 
@@ -8004,6 +8022,9 @@ msgstr "Issues anlegen und aktualisieren"
 
 msgid "File changed on disk"
 msgstr "Datei auf dem Datenträger wurde geändert"
+
+msgid "File changes undone"
+msgstr "Dateiänderungen rückgängig gemacht"
 
 msgid "File is too large to preview"
 msgstr "Die Datei ist zu groß für eine Vorschau"
@@ -10071,6 +10092,9 @@ msgstr "Organisation wird verlassen..."
 
 msgid "Leaving..."
 msgstr "Wird verlassen..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Unverändert gelassen, seit diesem Durchlauf geändert: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Organisation verlassen"
@@ -18088,6 +18112,9 @@ msgstr "Der Button hebt sich jetzt ab. Ich habe es in deinem Bereich geprüft."
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Die Änderung gilt sofort. Sie zahlen nur die Differenz für den Rest dieses Zeitraums."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Der Chat bleibt, wie er ist. Dateien, die seit diesem Durchlauf jemand bearbeitet hat, bleiben unverändert und werden aufgelistet."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Der Cloud-Arbeitsbereich hätte starten sollen, hat aber nicht rechtzeitig geantwortet. Der nächste Lauf versucht es erneut."
 
@@ -18832,6 +18859,9 @@ msgstr "Dieser Arbeitsbereich wurde möglicherweise entfernt, oder du hast keine
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Dieser Arbeitsbereich-Eintrag existiert noch, aber sein Worktree-Ordner liegt nicht mehr auf diesem Host. Terminals und Dateiaktionen sind nicht verfügbar."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Der Host dieses Arbeitsbereichs kann Dateiänderungen noch nicht rückgängig machen."
+
 msgid "This workspace's host is offline"
 msgstr "Der Host dieses Arbeitsbereichs ist offline"
 
@@ -19314,6 +19344,12 @@ msgstr "Läuft"
 
 msgid "Undo"
 msgstr "Rückgängig"
+
+msgid "Undo changes"
+msgstr "Änderungen rückgängig machen"
+
+msgid "Undo the file changes in this card?"
+msgstr "Die Dateiänderungen in dieser Karte rückgängig machen?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Letzte Archivierung eines Arbeitsbereichs oder geschlossene Chats rückgängig machen"

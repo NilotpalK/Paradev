@@ -80,6 +80,10 @@ export type TranscriptRow =
 			files: TurnFileChange[];
 			/** The calls behind the files, so a reopened chat can load their bodies. */
 			calls: ToolCall[];
+			/** Every tool call of the turn; their ids find its snapshots after a resume. */
+			toolCallIds: string[];
+			/** The chat's latest card while no turn runs: the only one that offers Undo. */
+			newest?: boolean;
 	  };
 
 /**
@@ -108,6 +112,8 @@ function withNoticeDetail(
 	if (!error || error.kind || error.detail || !noticeDetail) return error;
 	return { ...error, detail: noticeDetail };
 }
+
+const MAX_ANCHOR_IDS = 100;
 
 /** A shell command or a subagent can change files no diff shows; only a snapshot sees them. */
 function editsUnseen(call: ToolCall): boolean {
@@ -279,6 +285,7 @@ export function transcriptRows(
 				turnId: group.turnId,
 				files,
 				calls: calls.filter(changesFiles),
+				toolCallIds: calls.slice(0, MAX_ANCHOR_IDS).map((call) => call.id),
 			};
 			if (lastReplyAt === -1) push(card);
 			else rows.splice(lastReplyAt + 1, 0, card);
@@ -294,6 +301,14 @@ export function transcriptRows(
 				latest: group === groups.at(-1),
 			});
 		}
+	}
+
+	const newestCard = rows.findLast((row) => row.kind === "changed_files");
+	if (
+		newestCard?.kind === "changed_files" &&
+		groups.at(-1)?.turn?.status !== "running"
+	) {
+		newestCard.newest = true;
 	}
 
 	for (const entry of outbox) {

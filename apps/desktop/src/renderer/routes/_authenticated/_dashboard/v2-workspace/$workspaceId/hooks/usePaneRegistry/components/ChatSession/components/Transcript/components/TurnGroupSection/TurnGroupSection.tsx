@@ -183,7 +183,14 @@ export function TurnGroupSection({
 				/>
 			);
 		case "changed_files":
-			return <TurnChangesCard files={row.files} turnId={row.turnId} />;
+			return (
+				<TurnChangesCard
+					files={row.files}
+					newest={row.newest}
+					toolCallIds={row.toolCallIds}
+					turnId={row.turnId}
+				/>
+			);
 		case "reply_footer":
 			return (
 				<ReplyFooter

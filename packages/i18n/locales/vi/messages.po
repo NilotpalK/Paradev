@@ -1221,6 +1221,9 @@ msgstr "{repositoryFullName} không nằm trong {installedAccountLogin}, nơi Gi
 msgid "{repositoryFullName} isn't shared with the Paradev GitHub App yet."
 msgstr "{repositoryFullName} chưa được chia sẻ với GitHub App của Paradev."
 
+msgid "{restoredCount, plural, one {Undid the changes to # file.} other {Undid the changes to # files.}}"
+msgstr "{restoredCount, plural, one {Đã hoàn tác thay đổi ở # tệp.} other {Đã hoàn tác thay đổi ở # tệp.}}"
+
 msgid "{seconds}s"
 msgstr "{seconds} giây"
 
@@ -3614,6 +3617,15 @@ msgstr "Không thể mở đường dẫn workspace từ xa trong Finder"
 msgid "Can't reach the host"
 msgstr "Không thể kết nối với host"
 
+msgid "Can't undo while a chat in this workspace is working."
+msgstr "Không thể hoàn tác khi một chat trong workspace này đang làm việc."
+
+msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
+msgstr "Không thể hoàn tác: HEAD đã di chuyển kể từ lượt này, do commit, pull hoặc checkout."
+
+msgid "Can't undo: this turn's snapshots are missing."
+msgstr "Không thể hoàn tác: thiếu ảnh chụp của lượt này."
+
 msgid "Cancel"
 msgstr "Hủy"
 
@@ -5702,6 +5714,9 @@ msgstr "Không thể dừng trò chuyện"
 msgid "Couldn't take a screenshot"
 msgstr "Không chụp được màn hình"
 
+msgid "Couldn't undo the file changes."
+msgstr "Không thể hoàn tác thay đổi tệp."
+
 msgid "Couldn't unstage changes"
 msgstr "Không thể bỏ stage các thay đổi"
 
@@ -7246,6 +7261,9 @@ msgstr "Hằng ngày"
 msgid "Every day at <0>9:00 AM</0>"
 msgstr "Mỗi ngày lúc <0>9:00 sáng</0>"
 
+msgid "Every file changed again since this turn, so nothing was undone."
+msgstr "Mọi tệp đều đã thay đổi lại kể từ lượt này, nên không có gì được hoàn tác."
+
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Mỗi thứ Sáu lúc 4h chiều, soạn ghi chú phát hành từ các PR đã merge trong tuần."
 
@@ -8004,6 +8022,9 @@ msgstr "Tạo và cập nhật issue"
 
 msgid "File changed on disk"
 msgstr "Tệp trên đĩa đã thay đổi"
+
+msgid "File changes undone"
+msgstr "Đã hoàn tác thay đổi tệp"
 
 msgid "File is too large to preview"
 msgstr "Tệp quá lớn để xem trước"
@@ -10071,6 +10092,9 @@ msgstr "Đang rời tổ chức..."
 
 msgid "Leaving..."
 msgstr "Đang rời..."
+
+msgid "Left alone, changed since this turn: {skippedNames}"
+msgstr "Giữ nguyên, đã thay đổi kể từ lượt này: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Đã rời tổ chức"
@@ -18088,6 +18112,9 @@ msgstr "Nút giờ đã nổi bật. Tôi đã kiểm tra trong ngăn của bạ
 msgid "The change starts now. You pay only the difference for the rest of this period."
 msgstr "Thay đổi có hiệu lực ngay. Bạn chỉ trả phần chênh lệch cho thời gian còn lại của kỳ này."
 
+msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
+msgstr "Chat vẫn giữ nguyên. Các tệp đã được bất kỳ ai sửa kể từ lượt này sẽ được giữ nguyên và liệt kê."
+
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Workspace cloud lẽ ra đã khởi động nhưng không phản hồi kịp. Lần chạy tiếp theo sẽ thử lại."
 
@@ -18832,6 +18859,9 @@ msgstr "Workspace này có thể đã bị gỡ, hoặc bạn không còn quyề
 msgid "This workspace record still exists, but its worktree folder is no longer on this host. Terminals and file actions are unavailable."
 msgstr "Bản ghi workspace này vẫn còn, nhưng thư mục worktree của nó không còn trên host này. Terminal và các thao tác với tệp không dùng được."
 
+msgid "This workspace's host can't undo file changes yet."
+msgstr "Máy chủ của workspace này chưa thể hoàn tác thay đổi tệp."
+
 msgid "This workspace's host is offline"
 msgstr "Host của workspace này đang ngoại tuyến"
 
@@ -19314,6 +19344,12 @@ msgstr "Đang diễn ra"
 
 msgid "Undo"
 msgstr "Hoàn tác"
+
+msgid "Undo changes"
+msgstr "Hoàn tác thay đổi"
+
+msgid "Undo the file changes in this card?"
+msgstr "Hoàn tác các thay đổi tệp trong thẻ này?"
 
 msgid "Undo the last archived workspace or closed chats"
 msgstr "Hoàn tác lần lưu trữ workspace hoặc đóng cuộc trò chuyện gần nhất"

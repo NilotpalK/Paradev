@@ -4,8 +4,9 @@ import { Button } from "@superset/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@superset/ui/tooltip";
 import { cn } from "@superset/ui/utils";
 import { workspaceTrpc } from "@superset/workspace-client";
-import { ChevronDown, FileDiff } from "lucide-react";
+import { ChevronDown, FileDiff, Undo2 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { DiscardConfirmDialog } from "renderer/routes/_authenticated/_dashboard/components/DiscardConfirmDialog";
 import { DiffStatText } from "../../../../../../../../../../components/DiffStatText";
 import type { DiffPaneFilter } from "../../../../../../../../../../types";
 import { useTurnChanges } from "../../../../../../hooks/useTurnChanges";
@@ -13,6 +14,10 @@ import { useChatPaneActions } from "../../../../../../providers/ChatPaneActionsP
 import { reviewFilter } from "../../../../../../utils/filePlace";
 import type { TurnFileChange } from "../../../../utils/turnChangedFiles";
 import { ChangedFileRow } from "./components/ChangedFileRow";
+import {
+	type UndoOutcome,
+	UndoOutcomeNotice,
+} from "./components/UndoOutcomeNotice";
 import { FOLDED_FILE_COUNT, MAX_UNFOLDED_FILES } from "./constants";
 import { type CardFile, cardFiles } from "./utils/cardFiles";
 
@@ -30,25 +35,34 @@ function statWidthFor(files: readonly CardFile[]): string {
  * What a settled turn changed, under its answer: a one-line count and total,
  * Review for the turn's files in the diff pane, and a row per file. Worktree
  * snapshots make it exact when the host keeps them; the turn's tool calls
- * stand in when it does not.
+ * stand in when it does not. The newest card can undo its files.
  */
 export function TurnChangesCard({
 	files: toolFiles,
+	newest = false,
+	toolCallIds,
 	turnId,
 }: {
 	files: readonly TurnFileChange[];
+	newest?: boolean;
+	toolCallIds: string[];
 	turnId: string;
 }) {
 	const { t } = useLingui();
-	const { openDiff, openFile, workspaceId } = useChatPaneActions();
+	const { openDiff, openFile, turnChanges, workspaceId } = useChatPaneActions();
 	const workspaceQuery = workspaceTrpc.workspace.get.useQuery(
 		{ id: workspaceId ?? "" },
 		{ enabled: Boolean(workspaceId) },
 	);
 	const worktreePath = workspaceQuery.data?.worktreePath;
-	const changes = useTurnChanges(turnId);
+	const { changes, reload } = useTurnChanges(turnId, {
+		anchorItemIds: toolCallIds,
+	});
 	const [expanded, setExpanded] = useState(false);
 	const [othersOpen, setOthersOpen] = useState(false);
+	const [confirmingUndo, setConfirmingUndo] = useState(false);
+	const [undoing, setUndoing] = useState(false);
+	const [outcome, setOutcome] = useState<UndoOutcome | null>(null);
 
 	const { files, others } = useMemo(
 		() => cardFiles(toolFiles, changes, worktreePath),
@@ -65,6 +79,17 @@ export function TurnChangesCard({
 		others.map((file) => file.place),
 		range,
 	);
+	if (changes?.undone) {
+		return (
+			<div className="mt-1 mb-2 overflow-hidden rounded-lg border border-border/60 text-[13px]">
+				<div className="flex items-center gap-2 px-3 py-1.5 text-muted-foreground">
+					<Undo2 className="size-3.5 shrink-0" />
+					<Trans>File changes undone</Trans>
+				</div>
+				{outcome && <UndoOutcomeNotice outcome={outcome} />}
+			</div>
+		);
+	}
 	if (files.length === 0) return null;
 
 	const totals = files.reduce(
@@ -82,6 +107,28 @@ export function TurnChangesCard({
 	const othersCount = others.length;
 	const review =
 		filter && openDiff ? (path?: string) => openDiff(filter, path) : undefined;
+	const canUndo = Boolean(newest && turnChanges && changes && !changes.live);
+	const undo = () => {
+		setConfirmingUndo(false);
+		if (!turnChanges) return;
+		setUndoing(true);
+		turnChanges
+			.undo(
+				turnId,
+				files.flatMap((file) =>
+					file.place.relativePath ? [file.place.relativePath] : [],
+				),
+				toolCallIds,
+			)
+			.then(setOutcome, (error: unknown) => {
+				console.error("[chat] undo failed", error);
+				setOutcome("failed");
+			})
+			.finally(() => {
+				setUndoing(false);
+				reload();
+			});
+	};
 
 	const renderRow = (file: CardFile, rowFilter: DiffPaneFilter | null) => {
 		const { relativePath } = file.place;
@@ -155,6 +202,18 @@ export function TurnChangesCard({
 					/>
 				</span>
 				<span className="flex-1" />
+				{canUndo && (
+					<Button
+						className="h-6 shrink-0 gap-1 px-2 text-muted-foreground text-xs"
+						disabled={undoing}
+						onClick={() => setConfirmingUndo(true)}
+						size="xs"
+						variant="ghost"
+					>
+						<Undo2 className="size-3" />
+						<Trans>Undo</Trans>
+					</Button>
+				)}
 				{review && (
 					<Button
 						className="h-6 shrink-0 px-2 text-xs"
@@ -166,6 +225,7 @@ export function TurnChangesCard({
 					</Button>
 				)}
 			</div>
+			{outcome && <UndoOutcomeNotice outcome={outcome} />}
 			{shown.map((file) => renderRow(file, filter))}
 			{fileCount > MAX_UNFOLDED_FILES && (
 				<button
@@ -214,6 +274,17 @@ export function TurnChangesCard({
 					)}
 				</>
 			)}
+			<DiscardConfirmDialog
+				confirmLabel={t({ message: "Undo changes" })}
+				description={t({
+					message:
+						"The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed.",
+				})}
+				onConfirm={undo}
+				onOpenChange={setConfirmingUndo}
+				open={confirmingUndo}
+				title={t({ message: "Undo the file changes in this card?" })}
+			/>
 		</div>
 	);
 }

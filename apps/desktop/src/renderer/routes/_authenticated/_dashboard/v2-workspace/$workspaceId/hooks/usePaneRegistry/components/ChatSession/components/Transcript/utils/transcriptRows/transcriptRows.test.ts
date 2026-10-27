@@ -466,6 +466,25 @@ describe("the changed-files card", () => {
 		);
 	});
 
+	test("only the newest card offers Undo, and none while a turn runs", () => {
+		const second = { ...turnGroup("completed", [edit]), turnId: "t2" };
+		const newest = (groups: TurnGroup[]) =>
+			transcriptRows(groups, [], new Set(), find).flatMap((row) =>
+				row.kind === "changed_files" ? [[row.turnId, row.newest === true]] : [],
+			);
+
+		expect(newest([turnGroup("completed", [edit]), second])).toEqual([
+			["t1", false],
+			["t2", true],
+		]);
+		expect(
+			newest([
+				turnGroup("completed", [edit]),
+				{ ...turnGroup("running", [edit]), turnId: "t3" },
+			]),
+		).toEqual([["t1", false]]);
+	});
+
 	test("waits for the turn to settle, and for an edit or a command that may have made one", () => {
 		const readOnly = (status: "completed" | "running"): TurnGroup => ({
 			turnId: "t2",

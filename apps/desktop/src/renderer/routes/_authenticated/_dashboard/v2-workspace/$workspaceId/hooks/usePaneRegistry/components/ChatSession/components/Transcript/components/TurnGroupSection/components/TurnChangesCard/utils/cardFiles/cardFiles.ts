@@ -47,7 +47,8 @@ function snapshotFile(
  * The rows of a turn's card. Snapshots, when the turn has them, are exact
  * and include shell edits; the tool calls still say which files this chat
  * touched, in what order, and where each change starts. A turn that ran
- * beside another chat's lists only its own files, and the rest apart.
+ * beside another chat's lists only its own files, and the rest apart. Files
+ * committed since the turn are done with and drop off.
  */
 export function cardFiles(
 	toolFiles: readonly TurnFileChange[],
@@ -78,9 +79,10 @@ export function cardFiles(
 			(touchOrder.get(left.path) ?? Number.POSITIVE_INFINITY) -
 			(touchOrder.get(right.path) ?? Number.POSITIVE_INFINITY),
 	);
-	const rows = ordered.map((file) =>
-		snapshotFile(changes.root, file, lineByPath.get(file.path)),
-	);
+	const committed = new Set(changes.committed);
+	const rows = ordered
+		.filter((file) => !committed.has(file.path))
+		.map((file) => snapshotFile(changes.root, file, lineByPath.get(file.path)));
 	if (!changes.shared) return { files: rows, others: [] };
 	return {
 		files: rows.filter((row) => touchOrder.has(row.place.relativePath ?? "")),
