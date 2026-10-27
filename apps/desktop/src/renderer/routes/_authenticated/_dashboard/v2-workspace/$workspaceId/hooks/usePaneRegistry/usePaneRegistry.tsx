@@ -29,9 +29,11 @@ import {
 	LuBot,
 	LuClipboard,
 	LuClipboardCopy,
+	LuDownload,
 	LuEraser,
 	LuExternalLink,
 	LuLink,
+	LuPencil,
 	LuPower,
 } from "react-icons/lu";
 import { useWorkspaceHostTarget } from "renderer/hooks/host-service/useWorkspaceHostUrl";
@@ -86,6 +88,7 @@ import { BrowserPane, BrowserPaneToolbar } from "./components/BrowserPane";
 import { ChangesListPane } from "./components/ChangesListPane";
 import { ChatPane } from "./components/ChatPane";
 import { ChatHistoryPicker } from "./components/ChatPane/components/ChatHistoryPicker";
+import { runChatPaneAction } from "./components/ChatPane/utils/chatPaneActions";
 import { ChatPaneTitle } from "./components/ChatPaneTitle";
 import { CommentPane } from "./components/CommentPane";
 import { CommentPaneHeaderExtras } from "./components/CommentPane/components/CommentPaneHeaderExtras";
@@ -875,8 +878,23 @@ export function usePaneRegistry({
 				contextMenuActions: (
 					_ctx: RendererContext<PaneViewerData>,
 					defaults: ContextMenuActionConfig<PaneViewerData>[],
-				) =>
-					defaults.map((d) =>
+				) => [
+					{
+						key: "rename-chat",
+						label: t({ message: "Rename chat…" }),
+						icon: <LuPencil />,
+						disabled: (ctx) => !(ctx.pane.data as ChatPaneData).sessionId,
+						onSelect: (ctx) => runChatPaneAction(ctx.pane.id, "rename"),
+					},
+					{
+						key: "export-chat",
+						label: t({ message: "Export chat…" }),
+						icon: <LuDownload />,
+						disabled: (ctx) => !(ctx.pane.data as ChatPaneData).sessionId,
+						onSelect: (ctx) => runChatPaneAction(ctx.pane.id, "export"),
+					},
+					{ key: "sep-chat", type: "separator" },
+					...defaults.map((d) =>
 						d.key === "close-pane"
 							? {
 									...d,
@@ -886,6 +904,7 @@ export function usePaneRegistry({
 								}
 							: d,
 					),
+				],
 			},
 			comment: {
 				getIcon: (ctx: RendererContext<PaneViewerData>) => {

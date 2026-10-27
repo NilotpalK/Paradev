@@ -47,8 +47,10 @@ import {
 	useComposerDraft,
 } from "./hooks/useComposerDraft";
 import { useDrawerEntry } from "./hooks/useDrawerEntry";
+import { EXPORT_COMMAND, useExportCommand } from "./hooks/useExportCommand";
 import { useFooterTier } from "./hooks/useFooterTier";
 import { useMcpServerPicker } from "./hooks/useMcpServerPicker";
+import { RENAME_COMMAND, useRenameCommand } from "./hooks/useRenameCommand";
 import { useUploadAttachments } from "./hooks/useUploadAttachments";
 
 export type ComposerTarget = {
@@ -80,6 +82,9 @@ export type ComposerProps = {
 	onSend: (content: UserContent[], options: { steer: boolean }) => unknown;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
+	/** `null` asks the host to regenerate the title. */
+	onRenameChat?: (title: string | null) => void;
+	onExportChat?: () => void;
 	history?: string[];
 	isActive?: boolean;
 	placeholder?: string;
@@ -138,6 +143,8 @@ export const Composer = memo(function Composer({
 	onEnterDrawer,
 	onSend,
 	onOpenHistory,
+	onRenameChat,
+	onExportChat,
 	placeholder,
 	target,
 	workspaceId,
@@ -313,6 +320,9 @@ export const Composer = memo(function Composer({
 	);
 
 	const mcpCommand = mcpPicker.command;
+	const blurInput = useCallback(() => promptInputRef.current?.blur(), []);
+	const renameCommand = useRenameCommand(onRenameChat);
+	const exportCommand = useExportCommand(onExportChat, blurInput);
 	const resumeCommand = useMemo<PromptInputCommand | null>(
 		() =>
 			onOpenHistory
@@ -336,12 +346,16 @@ export const Composer = memo(function Composer({
 		const local: PromptInputCommand[] = [
 			...(mcpCommand ? [mcpCommand] : []),
 			...(resumeCommand ? [resumeCommand] : []),
+			...(renameCommand.command ? [renameCommand.command] : []),
+			...(exportCommand.command ? [exportCommand.command] : []),
 		];
 		const agentCommands = toMenuCommands(
 			availableCommands.filter(
 				(command) =>
 					!(mcpCommand && command.name === "mcp") &&
 					!(resumeCommand && command.name === "resume") &&
+					!(renameCommand.command && command.name === RENAME_COMMAND) &&
+					!(exportCommand.command && command.name === EXPORT_COMMAND) &&
 					!HIDDEN_AGENT_COMMANDS.has(command.name),
 			),
 			{
@@ -350,7 +364,14 @@ export const Composer = memo(function Composer({
 			},
 		);
 		return [...local, ...agentCommands];
-	}, [availableCommands, mcpCommand, resumeCommand, t]);
+	}, [
+		availableCommands,
+		mcpCommand,
+		resumeCommand,
+		renameCommand.command,
+		exportCommand.command,
+		t,
+	]);
 
 	const send = useCallback(
 		async (
@@ -430,6 +451,12 @@ export const Composer = memo(function Composer({
 				return;
 			}
 			if (
+				files.length === 0 &&
+				pastedTexts.length === 0 &&
+				(renameCommand.submit(text) || exportCommand.submit(text))
+			)
+				return;
+			if (
 				name &&
 				!target &&
 				availableCommands.length > 0 &&
@@ -440,7 +467,17 @@ export const Composer = memo(function Composer({
 			}
 			return send(text, files, mentions, pastedTexts, steer);
 		},
-		[availableCommands, blocked, send, t, target, mcpPicker, onOpenHistory],
+		[
+			availableCommands,
+			blocked,
+			send,
+			t,
+			target,
+			mcpPicker,
+			onOpenHistory,
+			renameCommand.submit,
+			exportCommand.submit,
+		],
 	);
 
 	return (

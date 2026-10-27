@@ -100,6 +100,8 @@ export function SessionView({
 	openPage,
 	openLink,
 	onOpenHistory,
+	onRenameChat,
+	onExportChat,
 	workspaceId,
 }: {
 	client: SessionClient;
@@ -149,6 +151,8 @@ export function SessionView({
 	openLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
+	onRenameChat?: (title: string | null) => void;
+	onExportChat?: () => void;
 }) {
 	const { t } = useLingui();
 	const session = useChatSession({ client, sendEnabled: held === undefined });
@@ -600,6 +604,8 @@ export function SessionView({
 					target={subagent.target}
 					canQueue={composerQueue !== undefined}
 					onOpenHistory={onOpenHistory}
+					onRenameChat={onRenameChat}
+					onExportChat={onExportChat}
 					workspaceId={workspaceId}
 				/>
 			</ComposerDropZone>
