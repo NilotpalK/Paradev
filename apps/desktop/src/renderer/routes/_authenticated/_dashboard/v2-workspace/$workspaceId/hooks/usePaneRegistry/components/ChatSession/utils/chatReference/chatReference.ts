@@ -57,6 +57,8 @@ function titleForAgent(title: string): string {
 export function chatContextLine(
 	chips: readonly ComposerChip[],
 	webUrl: string,
+	/** The host of a chat's workspace when it is not the agent's own machine. */
+	otherHostOf: (workspaceId: string) => string | null = () => null,
 ): string | null {
 	const lines = new Map<string, string>();
 	for (const chip of chips) {
@@ -69,7 +71,8 @@ export function chatContextLine(
 		) {
 			continue;
 		}
-		const command = `superset sessions read --workspace ${target.workspaceId} --session ${target.sessionId}`;
+		const host = otherHostOf(target.workspaceId);
+		const command = `superset sessions read --workspace ${target.workspaceId} --session ${target.sessionId}${host && isPlainId(host) ? ` --host ${host}` : ""}`;
 		lines.set(
 			command,
 			`- ${JSON.stringify(titleForAgent(chip.label))}: \`${command}\``,

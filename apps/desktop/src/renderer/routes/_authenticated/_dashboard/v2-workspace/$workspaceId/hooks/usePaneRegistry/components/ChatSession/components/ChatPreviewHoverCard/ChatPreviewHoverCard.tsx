@@ -7,10 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useMemo, useState } from "react";
 import { useWorkspaceHostTarget } from "renderer/hooks/host-service/useWorkspaceHostUrl";
 import { chatTransportFor } from "../../hooks/useSessionClient";
-import {
-	ChatPreviewCard,
-	type ChatPreviewLoad,
-} from "./components/ChatPreviewCard";
+import { ChatPreviewCard } from "./components/ChatPreviewCard";
+import { chatPreviewLoad } from "./utils/chatPreviewLoad";
 import { previewMessages } from "./utils/previewMessages";
 
 const OPEN_DELAY_MS = 400;
@@ -58,11 +56,7 @@ export function ChatPreviewHoverCard({
 		staleTime: FRESH_FOR_MS,
 		retry: false,
 	});
-	const load: ChatPreviewLoad = query.data
-		? { status: "ready", ...query.data }
-		: host.status === "not-found" || query.isError || query.data === null
-			? { status: "unavailable" }
-			: { status: "loading" };
+	const load = chatPreviewLoad(host, query);
 	return (
 		<HoverCard
 			closeDelay={CLOSE_DELAY_MS}

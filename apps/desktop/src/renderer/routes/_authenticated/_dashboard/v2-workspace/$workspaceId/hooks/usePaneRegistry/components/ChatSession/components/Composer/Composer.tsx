@@ -36,6 +36,7 @@ import { useHotkey } from "renderer/hotkeys";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import { pagesListInput } from "renderer/routes/_authenticated/_dashboard/utils/pagesListInput";
 import { AgentComposer } from "renderer/routes/_authenticated/components/AgentComposer";
+import { useHostWorkspaces } from "renderer/routes/_authenticated/providers/HostWorkspacesProvider";
 import { useChatComposerStore } from "../../../../stores/chatComposerStore";
 import { CHAT_COLUMN_CLASSNAME, CHAT_GUTTER_CLASSNAME } from "../../constants";
 import { useChatWiring } from "../../hooks/useSessionClient";
@@ -295,6 +296,16 @@ export const Composer = memo(function Composer({
 	);
 
 	const { transport } = useChatWiring();
+	const { workspaces: hostWorkspaces } = useHostWorkspaces();
+	const otherHostOf = useCallback(
+		(chatWorkspaceId: string) => {
+			const hostOf = (id: string) =>
+				hostWorkspaces.find((workspace) => workspace.id === id)?.hostId;
+			const chatHost = hostOf(chatWorkspaceId);
+			return chatHost && chatHost !== hostOf(workspaceId) ? chatHost : null;
+		},
+		[hostWorkspaces, workspaceId],
+	);
 	const isDark = useIsDarkTheme();
 	const searchChats = useCallback(
 		async (query: string) => {
@@ -427,7 +438,11 @@ export const Composer = memo(function Composer({
 			const mcpContext = mcpContextLine(
 				mentions.flatMap((chip) => mcpPicker.serverNameOf(chip) ?? []),
 			);
-			const chatContext = chatContextLine(mentions, env.NEXT_PUBLIC_WEB_URL);
+			const chatContext = chatContextLine(
+				mentions,
+				env.NEXT_PUBLIC_WEB_URL,
+				otherHostOf,
+			);
 			onSend(
 				[
 					{
@@ -448,7 +463,13 @@ export const Composer = memo(function Composer({
 			);
 			clearDraft();
 		},
-		[onSend, uploadAttachments, clearDraft, mcpPicker.serverNameOf],
+		[
+			onSend,
+			uploadAttachments,
+			clearDraft,
+			mcpPicker.serverNameOf,
+			otherHostOf,
+		],
 	);
 
 	const handleSubmit = useCallback(

@@ -74,3 +74,20 @@ test("a chat title reaches the agent without backticks or line breaks, and short
 	expect(line).not.toContain("`rm");
 	expect(line).toContain(`"${"x".repeat(79)}…"`);
 });
+
+test("a chat on another machine is read through that machine's host", () => {
+	const chip = chatReferenceChip(
+		{ workspaceId: "ws2", sessionId: "s9", title: "Elsewhere" },
+		options,
+	);
+	expect(
+		chatContextLine([chip], options.webUrl, (id) =>
+			id === "ws2" ? "host-b" : null,
+		),
+	).toContain(
+		"superset sessions read --workspace ws2 --session s9 --host host-b`",
+	);
+	expect(
+		chatContextLine([chip], options.webUrl, () => "host b; rm -rf /"),
+	).toContain("--session s9`");
+});
