@@ -7,9 +7,11 @@ import { useState } from "react";
 import { env } from "renderer/env.renderer";
 import { useCreateAgentSession } from "renderer/hooks/useCreateAgentSession";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
+import environmentSkill from "../../../../../../../../plugins/superset/skills/environment/SKILL.md?raw";
 import { ChoosePrimaryStep } from "./components/ChoosePrimaryStep";
 import { ConnectGitHubStep } from "./components/ConnectGitHubStep";
 import { PickRepositoriesStep } from "./components/PickRepositoriesStep";
+import { setupPrompt } from "./utils/setupPrompt";
 
 interface CreateEnvironmentFlowProps {
 	organizationId: string;
@@ -111,7 +113,12 @@ export function CreateEnvironmentFlow({
 			onOpenChange(false);
 			onStarted?.();
 			await createSession(
-				`Use the superset:environment skill to set up cloud environment ${environment.name} (${environment.id}): ${url}`,
+				setupPrompt({
+					environmentName: environment.name,
+					environmentId: environment.id,
+					url,
+					skill: environmentSkill,
+				}),
 				{
 					preset: "claude",
 					preferChat: true,
