@@ -72,6 +72,20 @@ function unavailable(message: string, cause?: unknown): never {
 	throw new LinkPreviewUnavailableError(message, { cause });
 }
 
+/** A `</head` outside any `<script>`, so a script's string can't end the head. */
+function headEnded(html: string): boolean {
+	let from = 0;
+	for (;;) {
+		const end = html.indexOf(HEAD_END, from);
+		if (end === -1) return false;
+		const before = html.slice(0, end);
+		const opened = before.split("<script").length - 1;
+		const closed = before.split("</script").length - 1;
+		if (opened <= closed) return true;
+		from = end + HEAD_END.length;
+	}
+}
+
 function untilAborted<T>(work: Promise<T>, signal: AbortSignal): Promise<T> {
 	return new Promise<T>((resolve, reject) => {
 		const abort = () =>
@@ -94,7 +108,7 @@ async function readBody(
 	if (!reader) return new Uint8Array();
 	const chunks: Uint8Array[] = [];
 	let size = 0;
-	let tail = "";
+	let seen = "";
 	try {
 		for (;;) {
 			const { done, value } = await untilAborted(
@@ -114,9 +128,8 @@ async function readBody(
 			chunks.push(value);
 			size += value.byteLength;
 			if (request.stopAtHeadEnd) {
-				const text = tail + Buffer.from(value).toString("latin1").toLowerCase();
-				if (text.includes(HEAD_END)) break;
-				tail = text.slice(-HEAD_END.length);
+				seen += Buffer.from(value).toString("latin1").toLowerCase();
+				if (headEnded(seen)) break;
 			}
 		}
 	} finally {

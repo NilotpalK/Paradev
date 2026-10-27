@@ -291,4 +291,13 @@ describe("link preview fetch", () => {
 		expect(fetches("https://docs.example.com/p20")).toBe(1);
 		expect(fetches("https://docs.example.com/p0")).toBe(2);
 	});
+
+	it("does not stop at a </head inside a script", async () => {
+		const { load } = loaderFor({
+			[PAGE]: html(
+				'<head><script>var s = "</head>";</script><meta property="og:title" content="Real title"></head>',
+			),
+		});
+		expect((await load(PAGE)).title).toBe("Real title");
+	});
 });
