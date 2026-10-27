@@ -125,10 +125,7 @@ export function ContextWindowRing({
 							{compactDisabled ? (
 								<Trans>Available when the agent is idle.</Trans>
 							) : (
-								<Trans>
-									The agent summarizes the conversation so far, which frees
-									context and uses some of your usage.
-								</Trans>
+								<Trans>Summarizes the chat to free up context.</Trans>
 							)}
 						</p>
 					</div>

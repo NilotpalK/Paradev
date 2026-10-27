@@ -17501,6 +17501,9 @@ msgstr "Paradev와 모니터링 중인 터미널 프로세스 트리가 사용�
 msgid "Summarize the changes in this workspace"
 msgstr "이 워크스페이스의 변경 사항을 요약해 줘"
 
+msgid "Summarizes the chat to free up context."
+msgstr "채팅을 요약해 컨텍스트를 확보합니다."
+
 msgid "Summary"
 msgstr "요약"
 
@@ -18022,9 +18025,6 @@ msgstr "에이전트가 티켓부터 차이까지 작업을 맡습니다. 사람
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "대화를 재개하는 중에 에이전트가 중지되었습니다."
-
-msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
-msgstr "에이전트가 지금까지의 대화를 요약합니다. 컨텍스트가 확보되며 사용량 일부가 소모됩니다."
 
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "이 자동화가 실행하도록 설정된 에이전트가 해당 호스트에 더 이상 존재하지 않습니다. 호스트의 에이전트가 초기화되었거나 제거되었을 수 있습니다. 자동화 설정에서 에이전트를 다시 선택하세요."

@@ -17501,6 +17501,9 @@ msgstr "Paradev与受监控的终端进程树占用的CPU总和。超过100%表�
 msgid "Summarize the changes in this workspace"
 msgstr "总结此工作区中的更改"
 
+msgid "Summarizes the chat to free up context."
+msgstr "总结对话以腾出上下文空间。"
+
 msgid "Summary"
 msgstr "摘要"
 
@@ -18022,9 +18025,6 @@ msgstr "智能体从工单一路负责到差异。人类审查结果，而不是
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "恢复对话时代理已停止。"
-
-msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
-msgstr "智能体会总结到目前为止的对话，以腾出上下文空间，并消耗部分用量。"
 
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "这个自动化原本要运行的智能体在它的主机上已不存在，该主机的智能体可能被重置或删除了。请在自动化的设置中重新选择一个智能体。"

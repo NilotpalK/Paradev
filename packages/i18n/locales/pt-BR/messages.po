@@ -17501,6 +17501,9 @@ msgstr "Soma da CPU usada pelo Paradev e pelas árvores de processos de terminal
 msgid "Summarize the changes in this workspace"
 msgstr "Resuma as alterações desta área de trabalho"
 
+msgid "Summarizes the chat to free up context."
+msgstr "Resume o chat para liberar contexto."
+
 msgid "Summary"
 msgstr "Resumo"
 
@@ -18022,9 +18025,6 @@ msgstr "O agente é dono da tarefa, do ticket ao diff. A pessoa revisa o resulta
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "O agente parou ao retomar a conversa."
-
-msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
-msgstr "O agente resume a conversa até aqui, o que libera contexto e consome parte do seu uso."
 
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "O agente que esta automação usava não existe mais no host — os agentes do host podem ter sido redefinidos ou removidos. Selecione outro agente nas configurações da automação."

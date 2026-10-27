@@ -17501,6 +17501,9 @@ msgstr "Tổng CPU mà Paradev và các cây tiến trình terminal được the
 msgid "Summarize the changes in this workspace"
 msgstr "Tóm tắt các thay đổi trong workspace này"
 
+msgid "Summarizes the chat to free up context."
+msgstr "Tóm tắt cuộc trò chuyện để giải phóng ngữ cảnh."
+
 msgid "Summary"
 msgstr "Tóm tắt"
 
@@ -18022,9 +18025,6 @@ msgstr "Agent làm chủ một tác vụ từ ticket đến diff. Con người r
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Tác tử đã dừng khi đang tiếp tục cuộc trò chuyện."
-
-msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
-msgstr "Agent tóm tắt cuộc trò chuyện đến hiện tại, giúp giải phóng ngữ cảnh và tiêu tốn một phần mức sử dụng của bạn."
 
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "Agent mà tự động hóa này được đặt để chạy không còn tồn tại trên host của nó — agent của host có thể đã bị đặt lại hoặc gỡ bỏ. Hãy chọn lại agent trong cài đặt của tự động hóa."

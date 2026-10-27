@@ -17501,6 +17501,9 @@ msgstr "Som van het CPU-gebruik van Paradev en de gemonitorde terminalprocesbome
 msgid "Summarize the changes in this workspace"
 msgstr "Vat de wijzigingen in deze werkruimte samen"
 
+msgid "Summarizes the chat to free up context."
+msgstr "Vat de chat samen om context vrij te maken."
+
 msgid "Summary"
 msgstr "Samenvatting"
 
@@ -18022,9 +18025,6 @@ msgstr "De agent bezit een taak van ticket tot diff. De mens reviewt het resulta
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "De agent stopte tijdens het hervatten van het gesprek."
-
-msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
-msgstr "De agent vat het gesprek tot nu toe samen. Dat maakt context vrij en verbruikt een deel van je gebruik."
 
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "De agent waarmee deze automatisering zou draaien bestaat niet meer op de host — de agents van die host zijn mogelijk gereset of verwijderd. Kies opnieuw een agent in de instellingen van de automatisering."
