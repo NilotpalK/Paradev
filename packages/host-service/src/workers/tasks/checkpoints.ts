@@ -576,7 +576,8 @@ async function unstageTurnResult(
 	const stagedByTurn = paths.filter((path) => {
 		const left = result.get(path);
 		const index = staged.get(path);
-		if (left) return index?.oid === left.oid && inHead.get(path)?.oid !== left.oid;
+		if (left)
+			return index?.oid === left.oid && inHead.get(path)?.oid !== left.oid;
 		return !index && original.has(path) && inHead.has(path);
 	});
 	for (const batch of batches(stagedByTurn)) {
@@ -693,20 +694,16 @@ export const checkpointUndoTask = defineWorkerTask<
 				current.oid === left.oid
 			);
 		};
-		const restored: string[] = [];
 		const candidates = changed.filter(unchangedSince);
 
+		const removals: string[] = [];
 		for (const path of candidates.filter((each) => !original.has(each))) {
-			const absolute = join(repo.root, path);
 			if (
-				!(await plainFolders(repo.root, path)) ||
-				(await kindAt(absolute)) !== "file"
+				(await plainFolders(repo.root, path)) &&
+				(await kindAt(join(repo.root, path))) === "file"
 			) {
-				continue;
+				removals.push(path);
 			}
-			await rm(absolute);
-			await removeEmptyFolders(repo.root, path);
-			restored.push(path);
 		}
 
 		const recreate: string[] = [];
@@ -719,6 +716,13 @@ export const checkpointUndoTask = defineWorkerTask<
 				recreate.push(path);
 			}
 		}
+		const restored = [...removals, ...recreate];
+		await unstageTurnResult(git, restored, original, result, head);
+
+		for (const path of removals) {
+			await rm(join(repo.root, path));
+			await removeEmptyFolders(repo.root, path);
+		}
 		if (recreate.length > 0) {
 			await withScratchIndex(repo, async (scratch) => {
 				await scratch.raw(["read-tree", `${before}^{tree}`]);
@@ -726,11 +730,8 @@ export const checkpointUndoTask = defineWorkerTask<
 					await scratch.raw(["checkout-index", "-f", "--", ...batch]);
 				}
 			});
-			restored.push(...recreate);
 		}
-
-		await unstageTurnResult(git, restored, original, result, head);
-		await markUndone(git, base, before, anchors);
+		if (restored.length > 0) await markUndone(git, base, before, anchors);
 		const done = new Set(restored);
 		return {
 			status: "undone",

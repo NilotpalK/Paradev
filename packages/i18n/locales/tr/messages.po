@@ -8467,11 +8467,11 @@ msgstr "ana ajandan"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı, bu yüzden kabuk komutlarıyla yapılan değişiklikler de sayılır."
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden yalnızca onun dokunduğu dosyalar ayrı listelenir."
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden bu değişikliklerin bir kısmı ona ait olabilir."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden bu liste yalnızca bu sohbetin dosya araçlarıyla düzenlediği dosyaları içerir. Diğer değişiklikler ayrı listelenir."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter gizli — düzenlemek için Markdown'a geçin"

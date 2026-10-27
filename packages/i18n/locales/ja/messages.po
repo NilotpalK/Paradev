@@ -8467,11 +8467,11 @@ msgstr "メインエージェントから"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "このターンの前後のワークツリーのスナップショットから集計しているため、シェルコマンドによる編集も含まれます。"
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、そのチャットだけが変更したファイルは別に表示されます。"
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、これらの変更の一部はそのチャットによるものかもしれません。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、この一覧にはこのチャットがファイルツールで編集したファイルだけを表示します。その他の変更は別に表示されます。"
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "フロントマターは非表示です — 編集するにはMarkdownに切り替えてください"

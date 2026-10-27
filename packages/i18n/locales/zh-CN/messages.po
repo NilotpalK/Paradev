@@ -8467,11 +8467,11 @@ msgstr "来自主智能体"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "根据本轮前后的 worktree 快照统计，因此 shell 命令所做的编辑也会计入。"
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此只有它修改过的文件会单独列出。"
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此其中部分更改可能来自它。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此此列表只包含本聊天用文件工具编辑过的文件，其他更改单独列出。"
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "已隐藏front matter，切换到Markdown可编辑"
@@ -10103,7 +10103,7 @@ msgid "Leaving..."
 msgstr "正在退出..."
 
 msgid "Left alone, changed since this turn: {skippedNames}"
-msgstr "未改动，自本轮以来已更改：{skippedNames}"
+msgstr "本轮之后又有更改，因此未撤销：{skippedNames}"
 
 msgid "Left organization"
 msgstr "已退出组织"

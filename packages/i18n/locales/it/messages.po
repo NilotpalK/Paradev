@@ -3627,7 +3627,7 @@ msgid "Can't undo: another chat worked in this workspace during this turn."
 msgstr "Impossibile annullare: un'altra chat ha lavorato in questo workspace durante questo turno."
 
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
-msgstr "Impossibile annullare: HEAD si è spostato da questo turno, per un commit, un pull o un checkout."
+msgstr "Impossibile annullare: HEAD si è spostato dopo questo turno, per un commit, un pull o un checkout."
 
 msgid "Can't undo: this turn's snapshots are missing."
 msgstr "Impossibile annullare: mancano gli snapshot di questo turno."
@@ -7268,7 +7268,7 @@ msgid "Every day at <0>9:00 AM</0>"
 msgstr "Ogni giorno alle <0>9:00</0>"
 
 msgid "Every file changed again since this turn, so nothing was undone."
-msgstr "Ogni file è cambiato di nuovo da questo turno, quindi non è stato annullato nulla."
+msgstr "Ogni file è cambiato di nuovo dopo questo turno, quindi non è stato annullato nulla."
 
 msgid "Every Friday at 4pm, draft release notes from this week's merged PRs."
 msgstr "Ogni venerdì alle 16, prepara le note di rilascio dalle PR unite questa settimana."
@@ -8467,11 +8467,11 @@ msgstr "dall'agente principale"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "Da snapshot del worktree prima e dopo questo turno, quindi contano anche le modifiche fatte con comandi shell."
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "Da snapshot del worktree prima e dopo questo turno. Un'altra chat ha lavorato qui nello stesso momento, quindi i file toccati solo da quella sono elencati a parte."
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "Da snapshot del worktree prima e dopo questo turno. Un'altra chat ha lavorato qui nello stesso momento, quindi alcune di queste modifiche potrebbero essere sue."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "Da snapshot del worktree prima e dopo questo turno. Un'altra chat ha lavorato qui nello stesso momento, quindi questo elenco contiene solo i file che questa chat ha modificato con i suoi strumenti per i file. Le altre modifiche sono elencate a parte."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter nascosto — passa a Markdown per modificarlo"
@@ -10103,7 +10103,7 @@ msgid "Leaving..."
 msgstr "Uscita..."
 
 msgid "Left alone, changed since this turn: {skippedNames}"
-msgstr "Lasciati com'erano, modificati da questo turno: {skippedNames}"
+msgstr "Lasciati com'erano, modificati dopo questo turno: {skippedNames}"
 
 msgid "Left organization"
 msgstr "Uscito dall'organizzazione"
@@ -18122,7 +18122,7 @@ msgid "The change starts now. You pay only the difference for the rest of this p
 msgstr "Il cambio inizia subito. Paghi solo la differenza per il resto del periodo."
 
 msgid "The chat stays as it is. Files edited since this turn, by anyone, are left alone and listed."
-msgstr "La chat resta com'è. I file modificati da questo turno, da chiunque, non vengono toccati e sono elencati."
+msgstr "La chat resta com'è. I file modificati dopo questo turno, da chiunque, non vengono toccati e sono elencati."
 
 msgid "The cloud workspace should have started but didn't answer in time. The next run tries again."
 msgstr "Il workspace cloud avrebbe dovuto avviarsi, ma non ha risposto in tempo. La prossima esecuzione riproverà."

@@ -77,11 +77,13 @@ export type SessionClient = {
 		workspaceId: string;
 		turnId: string;
 		live?: boolean;
+		anchorItemIds?: string[];
 	}): Promise<ChatRouterOutputs["getTurnChanges"] | "unsupported">;
 	undoTurnFiles(input: {
 		workspaceId: string;
 		turnId: string;
 		paths: string[];
+		anchorItemIds?: string[];
 	}): Promise<ChatRouterOutputs["undoTurnFiles"] | "unsupported">;
 	prompt(options: PromptOptions): Promise<ChatRouterOutputs["prompt"]>;
 	removeQueuedPrompt(itemId: string): Promise<void>;

@@ -8467,11 +8467,11 @@ msgstr "от основного агента"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "По снимкам worktree до и после этого хода, поэтому учитываются и правки через команды оболочки."
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому файлы, которые менял только он, показаны отдельно."
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому часть этих изменений может принадлежать ему."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому в этом списке только файлы, которые этот чат изменил своими инструментами для файлов. Остальные изменения показаны отдельно."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter скрыт — переключитесь на Markdown, чтобы его изменить"

@@ -194,8 +194,9 @@ export function TurnChangesCard({
 						) : changes.shared ? (
 							<Trans>
 								From snapshots of the worktree before and after this turn.
-								Another chat worked here at the same time, so files only it
-								touched are listed apart.
+								Another chat worked here at the same time, so this list has only
+								the files this chat edited with its file tools. Other changes
+								are listed apart.
 							</Trans>
 						) : (
 							<Trans>

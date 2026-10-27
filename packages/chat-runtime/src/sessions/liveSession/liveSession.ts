@@ -804,7 +804,7 @@ export class LiveSession {
 	}
 
 	private deliverNextQueued(): void {
-		if (this.queuePaused) return;
+		if (this.queuePaused || this.inFlight()) return;
 		const next = this.queue.shift();
 		if (!next) return;
 		this.deliver(next);

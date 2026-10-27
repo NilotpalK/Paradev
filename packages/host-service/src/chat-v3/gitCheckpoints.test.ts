@@ -94,7 +94,11 @@ describe("createGitCheckpoints", () => {
 				join(
 					repo,
 					(
-						await git.raw(["rev-parse", "--git-path", "superset-checkpoint-index"])
+						await git.raw([
+							"rev-parse",
+							"--git-path",
+							"superset-checkpoint-index",
+						])
 					).trim(),
 				),
 			),
@@ -219,6 +223,44 @@ describe("createGitCheckpoints", () => {
 
 		await checkpoints.undo({ ...t1, cwd: repo, paths: allPaths });
 
+		expect(await git.raw(["status", "--porcelain"])).toBe("");
+	});
+
+	test("keeps a turn undoable when everything it changed was changed again", async () => {
+		await editedTurn();
+		await writeFile(join(repo, "tracked.txt"), "edited by the user\n");
+
+		const result = await checkpoints.undo({
+			...t1,
+			cwd: repo,
+			paths: ["tracked.txt"],
+		});
+
+		expect(result).toEqual({
+			status: "undone",
+			restored: [],
+			skipped: ["tracked.txt"],
+		});
+		expect(
+			(await checkpoints.changes({ ...t1, cwd: repo, live: false }))?.undone,
+		).toBe(false);
+	});
+
+	test("touches no file when the index is locked, so trying again undoes the turn", async () => {
+		await startTurn("s1", "t1");
+		await writeFile(join(repo, "tracked.txt"), "agent\n");
+		await git.raw(["add", "tracked.txt"]);
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+		const lock = join(repo, ".git", "index.lock");
+		await writeFile(lock, "");
+
+		const undo = () =>
+			checkpoints.undo({ ...t1, cwd: repo, paths: ["tracked.txt"] });
+		await expect(undo()).rejects.toThrow();
+		expect(await readFile(join(repo, "tracked.txt"), "utf8")).toBe("agent\n");
+
+		await rm(lock);
+		await undo();
 		expect(await git.raw(["status", "--porcelain"])).toBe("");
 	});
 

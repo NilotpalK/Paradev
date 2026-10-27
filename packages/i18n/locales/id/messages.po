@@ -8467,11 +8467,11 @@ msgstr "dari agen utama"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini, jadi edit lewat perintah shell juga terhitung."
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi file yang hanya disentuh chat itu dicantumkan terpisah."
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi sebagian perubahan ini mungkin milik chat itu."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi daftar ini hanya berisi file yang diedit chat ini dengan alat filenya. Perubahan lain dicantumkan terpisah."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter disembunyikan — beralih ke Markdown untuk mengeditnya"

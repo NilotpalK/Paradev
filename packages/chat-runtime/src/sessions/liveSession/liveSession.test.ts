@@ -527,6 +527,53 @@ describe("LiveSession", () => {
 		await runtime.dispose();
 	});
 
+	test("a prompt queued behind one being snapshotted waits for it when the agent ends a turn of its own", async () => {
+		const answer = (id: string): FakeHarnessScript["turns"][number] => [
+			{ kind: "turn", turn: turn(id) },
+			{
+				kind: "turn",
+				turn: turn(id, { status: "completed", completedAtMs: 2 }),
+			},
+			{ kind: "session", session: { status: "idle" } },
+		];
+		const { harnesses, adapters } = fakeHarnessRegistry({
+			start: [
+				{ kind: "session", session: { status: "idle" } },
+				{ kind: "turn", turn: turn("agent-turn"), delayMs: 20 },
+				{
+					kind: "turn",
+					turn: turn("agent-turn", { status: "completed", completedAtMs: 2 }),
+				},
+			],
+			turns: [answer("t1"), answer("t2")],
+		});
+		const { release, checkpoints } = gatedCheckpoints();
+		const runtime = createTestRuntime({ harnesses, checkpoints });
+		const { sessionId } = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+		sendPrompt(runtime, sessionId, "first");
+		sendPrompt(runtime, sessionId, "second");
+		await waitFor(() => {
+			const current = runtime.live.require(sessionId).turn;
+			return current?.id === "agent-turn" && current.status === "completed";
+		});
+
+		release();
+		await waitFor(() => runtime.live.require(sessionId).turn?.id === "t2");
+		await waitFor(() => runtime.sessions.get(sessionId)?.status === "idle");
+
+		expect(
+			adapters[0]?.prompted.map((content) =>
+				content[0]?.type === "text" ? content[0].text : null,
+			),
+		).toEqual(["first", "second"]);
+		await runtime.dispose();
+	});
+
 	test("closing a chat mid-turn still settles the turn's snapshot", async () => {
 		const { harnesses } = fakeHarnessRegistry(HELD_THEN_QUICK);
 		const { calls, release, checkpoints } = gatedCheckpoints();

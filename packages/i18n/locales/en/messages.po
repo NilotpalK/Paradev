@@ -8467,11 +8467,11 @@ msgstr "from main agent"
 msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 msgstr "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
 
-msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-msgstr "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
-
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
 msgstr "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
+msgstr "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so this list has only the files this chat edited with its file tools. Other changes are listed apart."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter hidden — switch to Markdown to edit it"
