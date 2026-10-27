@@ -430,6 +430,7 @@ export class AcpAdapter implements HarnessAdapter {
 	private cycleEnded = false;
 	private steeredCyclePending = false;
 	private sessionUsage: SessionUsage | undefined;
+	private reportedCostUsd: number | undefined;
 	private readonly backgroundTaskTurns = new Map<string, string | undefined>();
 	private awaitingBackground = false;
 	/** The v2 config option that stands in for v1's session mode, once seen. */
@@ -2393,12 +2394,13 @@ export class AcpAdapter implements HarnessAdapter {
 	}
 
 	private recordSessionUsage({ used, size, cost }: AcpUsageUpdate): void {
+		this.reportedCostUsd =
+			acpUsdCostSchema.safeParse(cost).data?.amount ?? this.reportedCostUsd;
 		const previous = this.sessionUsage;
 		const contextUsed = used ?? previous?.contextUsed;
 		const contextSize = size ?? previous?.contextSize;
 		if (contextUsed === undefined || contextSize === undefined) return;
-		const costUsd =
-			acpUsdCostSchema.safeParse(cost).data?.amount ?? previous?.costUsd;
+		const costUsd = this.reportedCostUsd;
 		if (
 			previous?.contextUsed === contextUsed &&
 			previous.contextSize === contextSize &&
