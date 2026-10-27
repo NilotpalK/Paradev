@@ -96,9 +96,13 @@ export function EnvironmentPickerPill({
 						]}
 					>
 						{selectedEnvironment?.name ??
-							(needsSetup
-								? t({ message: "Create environment" })
-								: t({ message: "Select environment" }))}
+							(isLoading ? (
+								<span className="inline-block h-2.5 w-14 rounded-sm bg-muted-foreground/15 align-middle animate-pulse" />
+							) : needsSetup ? (
+								t({ message: "Create environment" })
+							) : (
+								t({ message: "Select environment" })
+							))}
 					</ReservedLabel>
 				</FormPickerTrigger>
 			</PopoverTrigger>

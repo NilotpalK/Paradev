@@ -116,7 +116,7 @@ export function PickRepositoriesStep({
 					{accountLogin ? (
 						<Trans>Connected to GitHub as {accountLogin}</Trans>
 					) : (
-						<Trans>Pull requests open as the Superset GitHub App</Trans>
+						<Trans>Pull requests open as the Paradev GitHub App</Trans>
 					)}
 				</p>
 			</DialogHeader>

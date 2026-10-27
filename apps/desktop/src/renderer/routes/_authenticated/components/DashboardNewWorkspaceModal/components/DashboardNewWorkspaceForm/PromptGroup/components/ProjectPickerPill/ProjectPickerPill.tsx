@@ -52,6 +52,8 @@ interface ProjectPickerPillProps {
 	 */
 	githubRepositories?: GitHubRepositoryOption[];
 	githubConnection?: GitHubConnectionAction;
+	/** Projects are still loading: show a placeholder, not "Select project". */
+	isLoading?: boolean;
 }
 
 export function ProjectPickerPill({
@@ -61,6 +63,7 @@ export function ProjectPickerPill({
 	onSelectProject,
 	githubRepositories = [],
 	githubConnection = null,
+	isLoading = false,
 }: ProjectPickerPillProps) {
 	const { t } = useLingui();
 	const [open, setOpen] = useState(false);
@@ -152,13 +155,13 @@ export function ProjectPickerPill({
 						]}
 					>
 						{selectedProject?.name ??
-							(isSessionSelected
-								? t({
-										message: "No project",
-									})
-								: t({
-										message: "Select project",
-									}))}
+							(isSessionSelected ? (
+								t({ message: "No project" })
+							) : isLoading ? (
+								<span className="inline-block h-2.5 w-14 rounded-sm bg-muted-foreground/15 align-middle animate-pulse" />
+							) : (
+								t({ message: "Select project" })
+							))}
 					</ReservedLabel>
 				</FormPickerTrigger>
 			</PopoverTrigger>

@@ -1167,6 +1167,9 @@ export function NewWorkspaceScreen({
 								isSessionSelected={draft.isSession}
 								githubRepositories={isCloudHost ? github.repositories : []}
 								githubConnection={isCloudHost ? github.connection : null}
+								isLoading={
+									!areProjectsReady || (isCloudHost && github.isLoading)
+								}
 								onSelectProject={(selectedProjectId) => {
 									const target = isCloudHost ? "cloud" : "device";
 									if (selectedProjectId === null) {

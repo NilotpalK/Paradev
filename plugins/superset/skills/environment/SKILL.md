@@ -1,13 +1,13 @@
 ---
 name: environment
-description: Set up a Superset cloud environment end to end from this machine - work out what the repositories need, set the environment's variables, boot a cloud box on it, get the project running there, and save checkpoints until new cloud workspaces start ready. Use when the user asks to set up, onboard, or finish a cloud environment, or when a setup session hands you an environment ID.
+description: Set up a Paradev (formerly Superset) cloud environment end to end from this machine - work out what the repositories need, set the environment's variables, boot a cloud box on it, get the project running there, and save checkpoints until new cloud workspaces start ready. Use when the user asks to set up, onboard, or finish a cloud environment, or when a setup session hands you an environment ID.
 argument-hint: environment ID, or the repositories to set up
 allowed-tools: Bash(superset:*)
 ---
 
 # Cloud environment setup
 
-Goal: a cloud environment that new cloud workspaces boot straight into, with dependencies installed, variables set, and services starting on boot. You run on the user's machine with their Superset login. You build the environment by driving a cloud box from here.
+Goal: a cloud environment that new cloud workspaces boot straight into, with dependencies installed, variables set, and services starting on boot. You run on the user's machine with their Paradev login. You build the environment by driving a cloud box from here.
 
 Terms you will use with the user:
 
@@ -23,7 +23,7 @@ If you were given an environment ID, run `superset environments list --json` and
 superset environments create --name <name> --repo <owner/name> [--repo ...] --scope personal
 ```
 
-Share the URL the command prints (`…/environments/<id>`). In a Superset chat it shows as a card that opens a live view of the environment.
+Share the URL the command prints (`…/environments/<id>`). In a Paradev chat it shows as a card that opens a live view of the environment.
 
 ## 1. Intake
 

@@ -76,7 +76,7 @@ export function ConnectGitHubStep({
 									</Trans>
 								)
 							}
-							title={<Trans>Superset GitHub App</Trans>}
+							title={<Trans>Paradev GitHub App</Trans>}
 						/>
 						{accountAvailable && (
 							<ConnectionRow
