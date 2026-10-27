@@ -20111,7 +20111,7 @@ msgstr "Benvenuto nel nuovo Paradev"
 
 #. placeholder {0}: BRAND.INTRO_NAME
 msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Cos'è {0}, chi lo costruisce e a chi è destinato. Un team di San Francisco guidato da tre ex CTO YC che costruisce il workspace per gli agenti di coding paralleli."
+msgstr "Cos'è {0}, chi lo costruisce e a chi è destinato. Un team di San Francisco guidato da tre ex CTO YC che costruisce lo spazio di lavoro per gli agenti di coding paralleli."
 
 msgid "What are the benefits?"
 msgstr "Quali sono i benefit?"
