@@ -96,6 +96,7 @@ export class LiveSession {
 	private onHeldReleased: (() => void) | null = null;
 	private carriedFailure: Turn | null = null;
 	private carriedAtMs: number | null = null;
+	private readonly turnStarts = new Map<string, number>();
 	/** Replays stamp items ahead of the clock to keep their order. */
 	private latestStartMs = 0;
 	/** Turns a user prompt started, and those of them that have shown anything yet. */
@@ -488,12 +489,19 @@ export class LiveSession {
 		});
 	}
 
-	/** The agent's own clock can give the next turn the carried failure's start, and a tie sorts at random. */
+	/**
+	 * After a long replay the agent's clock gives new turns starts at or before
+	 * the carried failure's, and a tie sorts at random. Each new turn starts
+	 * after everything written so far, decided once so its later events agree.
+	 */
 	private afterCarriedFailure(turn: Turn): Turn {
-		const at = this.carriedAtMs;
-		return at !== null && turn.startedAtMs <= at
-			? { ...turn, startedAtMs: at + 1 }
-			: turn;
+		if (this.carriedAtMs === null) return turn;
+		let startedAtMs = this.turnStarts.get(turn.id);
+		if (startedAtMs === undefined) {
+			startedAtMs = Math.max(turn.startedAtMs, this.latestStartMs + 1);
+			this.turnStarts.set(turn.id, startedAtMs);
+		}
+		return startedAtMs === turn.startedAtMs ? turn : { ...turn, startedAtMs };
 	}
 
 	private releaseHeldPrompts(): void {

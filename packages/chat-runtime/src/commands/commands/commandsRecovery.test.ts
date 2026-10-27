@@ -172,7 +172,8 @@ describe("replacing a chat whose agent died", () => {
 			},
 			turnId: "history",
 		};
-		const continued = turn("t2", { startedAtMs: replayStart });
+		const continued = turn("turn-b", { startedAtMs: replayStart });
+		const after = turn("turn-a", { startedAtMs: replayStart });
 		let agents = 0;
 		const harnesses: HarnessRegistry = new Map([
 			[
@@ -184,20 +185,20 @@ describe("replacing a chat whose agent died", () => {
 							...(replacing ? [replayed] : []),
 							{ kind: "session", delayMs: 2, session: { status: "idle" } },
 						],
-						turns: [
-							replacing
-								? [
-										{ kind: "turn", turn: continued },
-										{
-											kind: "turn",
-											turn: { ...continued, status: "completed" },
-										},
-									]
-								: [
+						turns: replacing
+							? [continued, after].map((next) => [
+									{ kind: "turn" as const, turn: next },
+									{
+										kind: "turn" as const,
+										turn: { ...next, status: "completed" as const },
+									},
+								])
+							: [
+									[
 										{ kind: "turn", turn: turn("t1") },
 										{ kind: "turn", turn: crashed },
 									],
-						],
+								],
 					});
 				},
 			],
@@ -262,10 +263,24 @@ describe("replacing a chat whose agent died", () => {
 			() =>
 				runtime.live.get(replacement.sessionId)?.turn?.status === "completed",
 		);
+		runtime.commands.prompt({
+			commandId: randomUUID(),
+			sessionId: replacement.sessionId,
+			clientId: "client-3",
+			content: [{ type: "text", text: "and the tests" }],
+		});
+		await waitFor(
+			() => runtime.live.get(replacement.sessionId)?.turn?.id === "turn-a",
+		);
+		await waitFor(
+			() =>
+				runtime.live.get(replacement.sessionId)?.turn?.status === "completed",
+		);
 		expect(timeline().map((group) => group.turnId)).toEqual([
 			"history",
 			"t1",
-			"t2",
+			"turn-b",
+			"turn-a",
 		]);
 
 		await runtime.dispose();

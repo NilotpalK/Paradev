@@ -445,7 +445,9 @@ export function AcpChatPane({
 			.then(() => start(harness, agentSessionId, true));
 	}, [harness, agentSessionId, sessionId, start, wiring.transport]);
 	const continueAfterRestart = useRef<string | null>(null);
-	if (continuedInTerminal) continueAfterRestart.current = null;
+	useEffect(() => {
+		if (continuedInTerminal) continueAfterRestart.current = null;
+	}, [continuedInTerminal]);
 	const restartAndContinue = useCallback(
 		async (prompt: string) => {
 			if (!sessionId) return false;
