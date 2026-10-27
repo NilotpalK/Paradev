@@ -1,6 +1,7 @@
 export * from "./bookkeeping/readBookkeeping";
 export * from "./coalesce";
 export * from "./config/launchConfigSelections";
+export * from "./continuePrompt/continuePrompt";
 export * from "./harness/harness";
 export * from "./markdown/fenceState";
 export * from "./markdown/splitBlocks";
