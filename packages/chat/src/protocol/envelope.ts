@@ -82,10 +82,35 @@ export const sessionStateSchema = z.looseObject({
 });
 export type SessionState = z.infer<typeof sessionStateSchema>;
 
+export const TURN_FAILURE_KINDS = [
+	"crashed",
+	"timeout",
+	"auth",
+	"network",
+	"model_unavailable",
+	"context_too_long",
+	"refused",
+	"session_lost",
+	"unknown",
+] as const;
+export const turnFailureKindSchema = z.enum(TURN_FAILURE_KINDS);
+export type TurnFailureKind = z.infer<typeof turnFailureKindSchema>;
+
+export const turnErrorSchema = z.looseObject({
+	/** The agent's own words for the failure. */
+	message: z.string(),
+	kind: turnFailureKindSchema.optional().catch(undefined),
+	/** What the agent printed to stderr while the turn ran. */
+	detail: z.string().optional(),
+	/** The terminal command that signs this agent in again, for an `auth` failure. */
+	loginCommand: z.string().optional(),
+});
+export type TurnError = z.infer<typeof turnErrorSchema>;
+
 export const turnSchema = z.looseObject({
 	id: z.string().min(1),
 	status: z.enum(["running", "completed", "failed", "interrupted"]),
-	error: z.looseObject({ message: z.string() }).optional(),
+	error: turnErrorSchema.optional(),
 	usage: z
 		.looseObject({
 			inputTokens: z.number().nonnegative(),

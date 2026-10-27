@@ -3716,6 +3716,9 @@ msgstr "Đổi biểu tượng"
 msgid "Change location"
 msgstr "Đổi vị trí"
 
+msgid "Change model"
+msgstr "Đổi mô hình"
+
 msgid "Change or add labels…"
 msgstr "Đổi hoặc thêm nhãn…"
 
@@ -4958,6 +4961,9 @@ msgstr "Để tiếp tục phiên agent, cần ghim một workspace"
 msgid "continuing the last session"
 msgstr "tiếp tục phiên gần nhất"
 
+msgid "Continuing…"
+msgstr "Đang tiếp tục…"
+
 msgid "Contributions"
 msgstr "Đóng góp"
 
@@ -5042,6 +5048,9 @@ msgstr "Sao chép bình luận"
 
 msgid "Copy comments"
 msgstr "Sao chép bình luận"
+
+msgid "Copy error"
+msgstr "Sao chép lỗi"
 
 msgid "Copy error details"
 msgstr "Sao chép chi tiết lỗi"
@@ -5593,6 +5602,9 @@ msgstr "Không thể đăng trả lời"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Không kết nối được tới cloud cho {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Không kết nối được với nhà cung cấp mô hình"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Không kết nối được với không gian làm việc đám mây này. Có thể nó vẫn đang được đánh thức — hãy thử lại."
 
@@ -5671,6 +5683,9 @@ msgstr "Không thể stage tệp"
 
 msgid "Couldn't start a new agent session"
 msgstr "Không thể bắt đầu phiên agent mới"
+
+msgid "Couldn't start a new chat."
+msgstr "Không bắt đầu được trò chuyện mới."
 
 msgid "Couldn't start agent session"
 msgstr "Không thể bắt đầu phiên agent"
@@ -9451,9 +9466,6 @@ msgstr "Mất kết nối Internet"
 
 msgid "Interrupt"
 msgstr "Ngắt lời"
-
-msgid "Interrupted"
-msgstr "Bị gián đoạn"
 
 msgid "Intro call"
 msgstr "Cuộc gọi giới thiệu"
@@ -15172,6 +15184,9 @@ msgstr "Đang khởi động lại các agent trên {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Đang khởi động lại dịch vụ host…"
 
+msgid "Restarting the agent…"
+msgstr "Đang khởi động lại agent…"
+
 msgid "Restarting…"
 msgstr "Đang khởi động lại…"
 
@@ -15537,6 +15552,9 @@ msgstr "Chạy agent trong terminal Workspace Setup sau khi setup xong thay vì 
 
 msgid "Run this command?"
 msgstr "Chạy lệnh này?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Hãy chạy lệnh này trong terminal rồi tiếp tục:"
 
 msgid "Run workspace command"
 msgstr "Chạy lệnh của workspace"
@@ -16707,11 +16725,17 @@ msgstr "Đăng nhập một lần. Paradev giữ kết nối."
 msgid "Sign in to {0}"
 msgstr "Đăng nhập vào {0}"
 
+msgid "Sign in to continue"
+msgstr "Đăng nhập để tiếp tục"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Đăng nhập để tiếp tục vào Paradev"
 
 msgid "Sign in to get started"
 msgstr "Đăng nhập để bắt đầu"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Hãy đăng nhập vào agent trong terminal rồi tiếp tục."
 
 msgid "Sign in to view this page"
 msgstr "Đăng nhập để xem trang này"
@@ -17296,6 +17320,9 @@ msgstr "Đang khởi động"
 msgid "Starting {agentLabel}"
 msgstr "Đang khởi động {agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "Đang bắt đầu trò chuyện mới…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Đang khởi động workspace cho pull request này"
 
@@ -17762,6 +17789,9 @@ msgstr "Tác vụ"
 msgid "Task ID copied"
 msgstr "Đã sao chép ID tác vụ"
 
+msgid "Task interrupted"
+msgstr "Tác vụ bị gián đoạn"
+
 msgid "Task key"
 msgstr "Khóa nhiệm vụ"
 
@@ -18020,8 +18050,17 @@ msgstr "Agent nhấp và gõ trong cùng một ngăn để kiểm tra thay đổ
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Tác nhân sao chép hội thoại; nhánh mở trong một thẻ mới"
 
+msgid "The agent crashed"
+msgstr "Agent đã gặp sự cố"
+
+msgid "The agent lost this conversation"
+msgstr "Agent đã mất cuộc trò chuyện này"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent làm chủ một tác vụ từ ticket đến diff. Con người review kết quả, không phải từng thao tác gõ. Sự chú ý dịch từ viết code sang đặc tả công việc và đánh giá nó. Một kỹ sư chạy nhiều agent cùng lúc trong các workspace tách biệt."
+
+msgid "The agent stopped responding"
+msgstr "Agent đã ngừng phản hồi"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Tác tử đã dừng khi đang tiếp tục cuộc trò chuyện."
@@ -18219,6 +18258,9 @@ msgstr "Dịch vụ host cục bộ vừa khởi động. Đang kết nối lạ
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Phần lớn PR của agent được merge chỉ cần review, không có chỉnh sửa của con người."
+
+msgid "The model declined to continue"
+msgstr "Mô hình đã từ chối tiếp tục"
 
 msgid "The name of your organization or team"
 msgstr "Tên tổ chức hoặc nhóm của bạn"
@@ -18478,6 +18520,9 @@ msgstr "Không thể khởi động workspace cloud này"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Không gian làm việc đám mây này đang được đánh thức, có thể mất tới 30 giây sau một thời gian không hoạt động."
 
+msgid "This conversation is too long for the model"
+msgstr "Cuộc trò chuyện này quá dài đối với mô hình"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Thao tác này xóa phần scrollback đã lưu dùng để khôi phục sau khi khởi động lại hoặc crash."
 
@@ -18579,6 +18624,9 @@ msgstr "Tenant Microsoft này đã được {detail} kết nối. Hãy nhờ h�
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Tenant Microsoft này đã được một tổ chức Paradev khác kết nối."
+
+msgid "This model isn't available"
+msgstr "Mô hình này không khả dụng"
 
 msgid "This month"
 msgstr "Tháng này"
@@ -19132,12 +19180,6 @@ msgstr "Đã thiết lập tunnel"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Biến việc lặt vặt thành agent chạy theo lịch hoặc khi có sự kiện: phân loại issue, soạn nháp changelog, cập nhật dependency. Chúng tự chạy và mở PR để bạn review."
-
-msgid "Turn failed"
-msgstr "Lượt xử lý thất bại"
-
-msgid "Turn failed: {message}"
-msgstr "Lượt xử lý thất bại: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Bật “Cho phép truy cập từ xa vào thiết bị này qua relay”"
