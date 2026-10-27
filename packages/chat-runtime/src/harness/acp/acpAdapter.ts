@@ -38,6 +38,7 @@ import {
 	isSubagentControlCall,
 	isTerminalAirState,
 } from "./air";
+import { continuationSummary } from "./continuationSummary";
 import { type AcpImageSource, imageSourceOf } from "./imageBlocks";
 import { imageDimensions } from "./imageDimensions";
 import type {
@@ -175,6 +176,7 @@ type Compaction = {
 	turnId: string;
 	startedAtMs: number;
 	streamedSummary: string;
+	usageAtStart: SessionUsage | undefined;
 	notice: NoticeCompaction;
 };
 
@@ -1272,6 +1274,7 @@ export class AcpAdapter implements HarnessAdapter {
 				this.currentTurn = null;
 				this.historyTurnId = null;
 			}
+			if (this.replayContinuationSummary(outer.data.update)) return;
 			this.main.handleUpdate(variant, outer.data.update, this.resolveTurnId());
 			return;
 		}
@@ -2469,7 +2472,14 @@ export class AcpAdapter implements HarnessAdapter {
 				? facts.trigger
 				: compaction.notice.trigger;
 		const tokensBefore = facts?.preTokens ?? compaction.notice.tokensBefore;
-		const tokensAfter = facts?.postTokens ?? compaction.notice.tokensAfter;
+		const usageSinceStart =
+			this.sessionUsage === compaction.usageAtStart
+				? undefined
+				: this.sessionUsage;
+		const tokensAfter =
+			facts?.postTokens ??
+			compaction.notice.tokensAfter ??
+			(status === "completed" ? usageSinceStart?.contextUsed : undefined);
 		const summary =
 			parsed.data.summary
 				?.flatMap((block) => (block.text ? [block.text] : []))
@@ -2490,6 +2500,16 @@ export class AcpAdapter implements HarnessAdapter {
 		this.emitCompaction(compaction);
 	}
 
+	private replayContinuationSummary(raw: unknown): boolean {
+		const text = firstTextOf(raw);
+		const summary = text === undefined ? undefined : continuationSummary(text);
+		if (!summary) return false;
+		const compaction = this.compaction(messageIdOf(raw) ?? this.mintId());
+		compaction.notice = { status: "completed", summary };
+		this.emitCompaction(compaction);
+		return true;
+	}
+
 	private handleCompactionSummaryChunk(raw: unknown): void {
 		const parsed = acpCompactionSummaryChunkSchema.safeParse(raw).data;
 		const compaction = parsed && this.compactions.get(parsed.compactionId);
@@ -2506,6 +2526,7 @@ export class AcpAdapter implements HarnessAdapter {
 			turnId: this.resolveTurnId(),
 			startedAtMs: this.nextStartMs(),
 			streamedSummary: "",
+			usageAtStart: this.sessionUsage,
 			notice: {
 				status: "running",
 				...(this.sessionUsage
@@ -2668,16 +2689,17 @@ export function createAcpAdapter(options: AcpAdapterOptions): HarnessAdapter {
 	return new AcpAdapter(options);
 }
 
-function isHiddenUserMessage(raw: unknown): boolean {
+function firstTextOf(raw: unknown): string | undefined {
 	const content = (raw as { content?: unknown } | null)?.content;
 	const block = acpContentBlockSchema.safeParse(
 		Array.isArray(content) ? content[0] : content,
 	);
-	return (
-		block.success &&
-		block.data.text !== undefined &&
-		isHiddenText(block.data.text)
-	);
+	return block.success ? block.data.text : undefined;
+}
+
+function isHiddenUserMessage(raw: unknown): boolean {
+	const text = firstTextOf(raw);
+	return text !== undefined && isHiddenText(text);
 }
 
 function listedSessions(response: unknown): DiscoverSessionsResult {

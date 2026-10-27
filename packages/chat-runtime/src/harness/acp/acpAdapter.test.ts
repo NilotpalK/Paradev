@@ -3410,6 +3410,74 @@ describe("AcpAdapter on protocol v2", () => {
 		await adapter.dispose();
 	});
 
+	it("takes a compaction's size after from usage the agent reported while it ran", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "/compact" }]);
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 20_722,
+			size: 258_400,
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "compaction_update",
+			compactionId: "c1",
+			status: "in_progress",
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 13_910,
+			size: 258_400,
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "compaction_update",
+			compactionId: "c1",
+			status: "completed",
+		});
+		await flush();
+
+		const notices = itemsOf(events).filter((item) => item.kind === "notice");
+		expect((notices.at(-1) as Notice).compaction).toEqual({
+			status: "completed",
+			tokensBefore: 20_722,
+			tokensAfter: 13_910,
+		});
+		await adapter.dispose();
+	});
+
+	it("replays Claude's post-compaction summary as a compaction, not a user message", async () => {
+		const agent = new FakeAcpAgent();
+		agent.replayUpdates = [
+			{
+				sessionUpdate: "user_message_chunk",
+				messageId: "summary-1",
+				content: {
+					type: "text",
+					text: "This session is being continued from a previous conversation that ran out of context.\n\nSummary:\n1. Read the readme.\n\nContinue the conversation from where it left off.",
+				},
+			},
+			{
+				sessionUpdate: "agent_message_chunk",
+				messageId: "msg_2",
+				content: { type: "text", text: "Hi again." },
+			},
+		];
+		const { adapter, events } = startAdapter(agent, "sess-1");
+		await flush(40);
+
+		const items = itemsOf(events);
+		expect(items.some((item) => item.kind === "user_message")).toBe(false);
+		expect(items.find((item) => item.kind === "notice")).toMatchObject({
+			noticeKind: "compaction",
+			compaction: { status: "completed", summary: "1. Read the readme." },
+		});
+		await adapter.dispose();
+	});
+
 	it("treats a steered turn as working until the steered reply streams", async () => {
 		const agent = new FakeAcpAgent();
 		agent.protocolVersion = 1;
