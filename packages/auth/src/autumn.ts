@@ -29,7 +29,9 @@ export async function autumnRest<T>(
 		signal: AbortSignal.timeout(timeoutMs),
 	});
 	if (!response.ok) {
-		throw new Error(`Autumn ${path} failed with ${response.status}`);
+		throw new Error(
+			`Autumn ${path} failed with ${response.status}: ${await response.text()}`,
+		);
 	}
 	return (await response.json()) as T;
 }

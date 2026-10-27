@@ -27,13 +27,18 @@ async function fakeFetch(input: string | URL | Request, init?: RequestInit) {
 	}
 	if (url === "https://api.useautumn.com/v1/rewards.update") {
 		autumnWrites++;
-		rewardCodes = (body.coupon.promo_codes as PromoCode[]).filter(
-			(c) => !dropOnWrite.includes(c.code),
-		);
+		const codes = body.coupon.promo_codes as PromoCode[];
+		if (codes.some((c) => !/^[a-zA-Z0-9]+$/.test(c.code))) {
+			return Response.json(
+				{ message: "Promotional code can only contain letters and numbers" },
+				{ status: 400 },
+			);
+		}
+		rewardCodes = codes.filter((c) => !dropOnWrite.includes(c.code));
 		return Response.json({ coupon: { id: REWARD_ID } });
 	}
 	if (url.startsWith("https://api.resend.com/emails")) {
-		emailedCodes.push(String(body.html).match(/YC-[A-Z0-9]{8}/)?.[0] ?? "");
+		emailedCodes.push(String(body.html).match(/\bYC[A-Z0-9]{8}\b/)?.[0] ?? "");
 		return Response.json({ id: "email_1" });
 	}
 	throw new Error(`Unexpected fetch ${url}`);
@@ -80,7 +85,7 @@ const REDEMPTION = {
 };
 
 const EXISTING_CODE: PromoCode = {
-	code: "YC-EXISTING",
+	code: "YCEXISTING",
 	global_max_redemption: 1,
 	first_time_transaction: null,
 };
@@ -103,7 +108,7 @@ describe("YC Bookface webhook", () => {
 		const added = rewardCodes.find((c) => c.code !== EXISTING_CODE.code);
 		expect(rewardCodes[0]).toEqual(EXISTING_CODE);
 		expect(added).toMatchObject({ global_max_redemption: 1 });
-		expect(added?.code).toMatch(/^YC-[A-Z0-9]{8}$/);
+		expect(added?.code).toMatch(/^YC[A-Z0-9]{8}$/);
 		expect(emailedCodes).toEqual([added?.code as string]);
 		expect(insertedRows[0]).toMatchObject({
 			email: "founder@example.com",

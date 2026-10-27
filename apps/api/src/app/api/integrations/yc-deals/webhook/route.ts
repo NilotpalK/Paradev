@@ -48,7 +48,7 @@ function generateCode(): string {
 	for (let i = 0; i < 8; i++) {
 		suffix += CODE_ALPHABET[randomInt(CODE_ALPHABET.length)];
 	}
-	return `YC-${suffix}`;
+	return `YC${suffix}`;
 }
 
 type Outcome = {
