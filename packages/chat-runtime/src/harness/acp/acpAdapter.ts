@@ -9,6 +9,7 @@ import type {
 	ItemAttachment,
 	SessionConfigOption,
 	SessionState,
+	SessionUsage,
 	SubagentStatus,
 	ToolCall,
 	Turn,
@@ -51,7 +52,12 @@ import {
 	spawnAcpTransport,
 } from "./rpcClient";
 import { messageIdOf, SessionStream } from "./sessionStream";
-import type { AcpConfigSelectOption, AcpElicitationProperty } from "./wire";
+import type {
+	AcpConfigSelectOption,
+	AcpElicitationProperty,
+	AcpPromptUsage,
+	AcpUsageUpdate,
+} from "./wire";
 import {
 	ACP_STEERING_METHOD,
 	type AcpContentBlock,
@@ -75,6 +81,7 @@ import {
 	acpSubagentUpdateSchema,
 	acpToolCallUpdateSchema,
 	acpUsageUpdateSchema,
+	acpUsdCostSchema,
 	SUBAGENT_BACKGROUND_METHOD,
 } from "./wire";
 
@@ -422,6 +429,7 @@ export class AcpAdapter implements HarnessAdapter {
 	private supportsSteering = false;
 	private cycleEnded = false;
 	private steeredCyclePending = false;
+	private sessionUsage: SessionUsage | undefined;
 	private readonly backgroundTaskTurns = new Map<string, string | undefined>();
 	private awaitingBackground = false;
 	/** The v2 config option that stands in for v1's session mode, once seen. */
@@ -1095,7 +1103,7 @@ export class AcpAdapter implements HarnessAdapter {
 				return;
 			}
 			if (this.v2Turn?.id === turnId) this.v2Turn = null;
-			this.finishTurn(turnId, parsed?.stopReason);
+			this.finishTurn(turnId, parsed?.stopReason, parsed?.usage);
 		} catch (error) {
 			if (this.v2Turn?.id === turnId) this.v2Turn = null;
 			this.failTurn(turnId, (error as Error).message);
@@ -1145,13 +1153,18 @@ export class AcpAdapter implements HarnessAdapter {
 		else this.finishTurn(turnId, idle.stopReason ?? undefined);
 	}
 
-	private finishTurn(turnId: string, stopReason: string | undefined): void {
+	private finishTurn(
+		turnId: string,
+		stopReason: string | undefined,
+		usage?: AcpPromptUsage,
+	): void {
 		this.main.flush();
 		this.emitTurn({
 			id: turnId,
 			status: stopReason === "cancelled" ? "interrupted" : "completed",
 			startedAtMs: this.currentTurn?.startedAtMs ?? this.now(),
 			completedAtMs: this.now(),
+			...(usage ? { usage: this.turnUsage(usage) } : {}),
 		});
 		if (stopReason === "refusal")
 			this.emitNotice("info", "The agent declined to continue.");
@@ -1271,6 +1284,7 @@ export class AcpAdapter implements HarnessAdapter {
 				this.cycleEnded = true;
 				this.syncAwaitingBackground();
 			}
+			if (usage.success) this.recordSessionUsage(usage.data);
 			return;
 		}
 		if (MAIN_AGENT_ACTIVITY.has(variant)) {
@@ -2370,9 +2384,40 @@ export class AcpAdapter implements HarnessAdapter {
 			this.cycleEnded = false;
 			this.steeredCyclePending = false;
 		}
-		this.currentTurn = turn;
-		this.emit({ kind: "turn", turn });
+		const next = this.sessionUsage
+			? { ...turn, sessionUsage: this.sessionUsage }
+			: turn;
+		this.currentTurn = next;
+		this.emit({ kind: "turn", turn: next });
 		this.syncAwaitingBackground();
+	}
+
+	/** Only a running turn is sent again: a settled one would deliver the queue twice. */
+	private recordSessionUsage({ used, size, cost }: AcpUsageUpdate): void {
+		if (used === undefined || size === undefined) return;
+		const costUsd =
+			acpUsdCostSchema.safeParse(cost).data?.amount ??
+			this.sessionUsage?.costUsd;
+		this.sessionUsage = {
+			contextUsed: used,
+			contextSize: size,
+			...(costUsd === undefined ? {} : { costUsd }),
+		};
+		if (this.currentTurn?.status === "running") this.emitTurn(this.currentTurn);
+	}
+
+	private turnUsage(usage: AcpPromptUsage): NonNullable<Turn["usage"]> {
+		return {
+			inputTokens: usage.inputTokens,
+			cachedInputTokens: usage.cachedReadTokens ?? 0,
+			outputTokens: usage.outputTokens,
+			...(this.sessionUsage
+				? {
+						contextUsed: this.sessionUsage.contextUsed,
+						contextSize: this.sessionUsage.contextSize,
+					}
+				: {}),
+		};
 	}
 
 	private syncAwaitingBackground(): void {
