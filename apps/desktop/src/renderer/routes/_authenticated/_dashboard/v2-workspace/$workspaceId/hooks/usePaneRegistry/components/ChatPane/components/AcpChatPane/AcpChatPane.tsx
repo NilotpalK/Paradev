@@ -34,6 +34,7 @@ import { useForkChat } from "../../hooks/useForkChat";
 import { readSavedChatMode } from "../../utils/savedChatMode";
 import { AcpRecovery } from "./components/AcpRecovery";
 import { DraftChat } from "./components/DraftChat";
+import { useChatSessionLiveness } from "./hooks/useChatSessionLiveness";
 import { useReplacementSession } from "./hooks/useReplacementSession";
 import { createWhenReachable } from "./utils/createWhenReachable";
 import {
@@ -59,6 +60,7 @@ export interface AgentSwitchTarget {
 
 export function AcpChatPane({
 	agent,
+	draftId,
 	isActive,
 	onSessionInfo,
 	onPendingPromptsSent,
@@ -83,6 +85,7 @@ export function AcpChatPane({
 }: {
 	workspaceId: string;
 	terminalId: string;
+	draftId?: string;
 	/** `sessionId` is absent until the agent has run a turn to report one. */
 	agent: { id: string; sessionId?: string } | undefined;
 	isActive: boolean;
@@ -126,16 +129,10 @@ export function AcpChatPane({
 			.catch(() => undefined);
 	});
 
-	// The stored session outlives its process — after a host restart the row
-	// still reads "idle" and only the send fails. Ask who is actually running.
-	const { data: stored } = useQuery({
-		enabled: sessionId !== null,
-		queryKey: ["acp-chat-session", sessionId],
-		queryFn: () =>
-			sessionId
-				? wiring.transport.getSession({ sessionId })
-				: Promise.resolve(null),
-		staleTime: 5_000,
+	const { stored, checking } = useChatSessionLiveness({
+		hostUrl,
+		sessionId,
+		transport: wiring.transport,
 	});
 	const queryClient = useQueryClient();
 	useWorkspaceEvent(
@@ -471,7 +468,7 @@ export function AcpChatPane({
 		recover();
 	}, [recover]);
 
-	const draftKey = `chat-v3-draft:${terminalId}`;
+	const draftKey = `chat-v3-draft:${draftId ?? terminalId}`;
 
 	const editMessage = useCallback(
 		async (request: ChatEditRequest) => {
@@ -600,7 +597,7 @@ export function AcpChatPane({
 			presetId={agent?.id}
 			client={client}
 			draftKey={draftKey}
-			{...(recovering
+			{...(recovering || checking
 				? {
 						held: {
 							notice: <Trans>Resuming the conversation…</Trans>,

@@ -300,3 +300,23 @@ export type HandleOwnerType = z.infer<typeof handleOwnerTypeEnum>;
 /** How a person signed their agent in: a subscription token, or a provider API key. */
 export const agentCredentialKindValues = ["subscription", "api_key"] as const;
 export type AgentCredentialKind = (typeof agentCredentialKindValues)[number];
+
+export const channelVisibilityValues = ["public", "private"] as const;
+export const channelVisibilityEnum = z.enum(channelVisibilityValues);
+export type ChannelVisibility = z.infer<typeof channelVisibilityEnum>;
+
+export const channelMemberRoleValues = ["member", "admin"] as const;
+export const channelMemberRoleEnum = z.enum(channelMemberRoleValues);
+export type ChannelMemberRole = z.infer<typeof channelMemberRoleEnum>;
+
+export const channelNotifyValues = ["all", "mentions", "none"] as const;
+export const channelNotifyEnum = z.enum(channelNotifyValues);
+export type ChannelNotify = z.infer<typeof channelNotifyEnum>;
+
+export const channelBroadcastValues = ["here", "channel", "everyone"] as const;
+export const channelBroadcastEnum = z.enum(channelBroadcastValues);
+export type ChannelBroadcast = z.infer<typeof channelBroadcastEnum>;
+
+export const dockBounceValues = ["off", "once", "until_focused"] as const;
+export const dockBounceEnum = z.enum(dockBounceValues);
+export type DockBounce = z.infer<typeof dockBounceEnum>;

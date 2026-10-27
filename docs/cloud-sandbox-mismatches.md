@@ -138,6 +138,21 @@ reconnects, the lost session is reported gone, and the agent is resumed into
 a fresh terminal with its scrollback (the cold-restore path), about 15–20 s
 after opening.
 
+**A stored chat survives a stop, but its agent process does not.** A cached
+`getSession` result can still say `live: true` when a resumed box has no chat
+process. The transcript socket can reconnect and replay that stored session
+before recovery checks its liveness, so an immediate prompt fails with
+"Couldn't send your message. It's back in the composer." Switching tabs or
+workspaces remounts the chat and used to be what reran a liveness check that
+failed during boot, so the resume notice could appear only after returning.
+The desktop now rechecks liveness on mount, host reconnect and address change,
+and holds prompts in the pane's pending queue until that check finishes and
+recovery resumes the agent. The client's existing outbox stays paused too; if recovery
+replaces the session, never-attempted text returns to the same composer draft
+rather than being sent to the stopped process. Failed liveness checks retry
+even if the connection stays open, and never reuse the cached live flag. This
+is a client change; existing boxes do not need a new host-service bundle.
+
 **Two gates sit between the renderer and a sandbox**, and both fail as a bare
 `TypeError: Failed to fetch`: the renderer's CSP `connect-src` allowlist
 (`https://*.vercel.run`), and the WebSocket, which can't carry a header from a
@@ -279,6 +294,31 @@ terminals and agent launches inherit the pushed set; open terminals keep the
 one they started with; nothing is written to disk. A host-service restart
 comes up with an empty set until the next push, which every wake performs.
 
+**Listening precedes the managed environment push.** Chat launches and boot-time
+agent resumes used to build their environment as soon as the listener opened,
+before the control plane supplied credential placeholders. They now use the
+same bounded 120-second environment wait as the initial sandbox agent launch;
+local hosts do not wait. This part requires a published host-service bundle.
+A slow bundle update can also exceed the control plane's 60-second health wait,
+so that wake never reaches the environment push. The desktop now retries failed
+wakes after 30 seconds with bounded backoff, rather than waiting for the normal
+ten-minute keepalive. Successful wakes keep that normal interval. These are
+code-level startup gaps, not a verified explanation of any particular user's
+delay.
+
+**Cloud agent registration cannot depend on the first launch.** The creation picker knows which
+CLIs the image installs, but the chat picker reads the sandbox's persisted agent configurations.
+Flag-gated pdev was excluded from default configurations and only added when it was the initial
+launch agent, so Claude-created and idle boxes hid it. The cloud launch gate also allowed only
+Claude to chat, sending pdev to a terminal even when ACP chat was enabled. **Fixed:** every boot
+ensures configurations for all installed cloud agents and seeds pdev folder trust, including on
+existing boxes. Both new-workspace and pinned-automation dispatch allow pdev chat through the
+existing `acp-chat` flag; clients still apply `pdev-agent` visibility. Registration and trust repair
+require a published host-service/sandbox bundle, an updated environment bundle pin, and a box
+restart. Trust repair is best-effort: a failed pdev trust write must not prevent host-service from
+starting. This does not remove unrelated
+default agent configurations or make their CLIs available in the image.
+
 **Agent CLIs are pre-configured in the image.** A first run otherwise opens a
 theme picker, an API-key approval and a workspace trust dialog — three
 confirmations no one is there to answer. The bundle carries
@@ -390,6 +430,30 @@ sandbox running (and billing) plus the `cloud_workspaces` row intact — the
 workspace reappeared on the next refetch. **Fixed:** `useDestroyWorkspace`
 sends a cloud workspace to `cloudWorkspace.delete`.
 
+**Archive ran no teardown.** Locally, deleting a workspace runs the repository's
+teardown before the worktree goes. A cloud archive only stopped the box and
+deleted it seven days later, so anything `setup` created outside the box
+leaked: this repository's per-workspace Neon branches piled up until 383 were
+deleted by hand (2026-10-20). **Fixed:** the reap job's 60-second stop stage
+calls `sandbox.runArchiveHook` on the still-running box (direct with the host
+secret, the same 60-second limit as a local archive) before stopping it, which runs `[archive]` from
+`.superset/config.toml` resolved for the cloud. A failing hook never blocks the
+stop, and an undo that lands during the hook re-runs setup (`runStartHook`
+with `force`) instead of stopping the box. A box whose host-service predates
+the procedure answers 404 and is stopped as before, so the fix reaches a box
+only after a sandbox release.
+
+The hook is best effort, not a guarantee. It runs only when the box is still
+running at the stop stage, and boxes stop on their own after four hours idle,
+which is exactly the state an archived workspace is usually in. So a resource
+must not depend on it: this repository's Neon branch is a lease
+(`NEON_BRANCH_LEASE_DAYS=7` in `setup.cloud.sh`), set when the branch is
+created and renewed on every boot, so a box that stops renewing releases its
+branch through Neon's own expiry. **Open:** running `[archive]` at least once,
+in a fresh short-lived box from the environment's image when the original is
+stopped or gone. That works because `[archive]` only releases outside
+resources: it needs the workspace's identity and secrets, not its disk.
+
 **Sidebar affordances are driven by local state, not by the row.** Visibility,
 pinning and ordering live in `v2WorkspaceLocalState`; a section that renders
 straight off an API list will show "Remove from sidebar" doing nothing. Cloud
@@ -467,6 +531,12 @@ directory instead of replacing it so a shell already sitting in it keeps a
 live cwd. An interrupted clone (a wake that ends the session mid-fetch)
 leaves a repository that can fetch nothing; the runner reclones rather than
 failing every boot.
+
+**GitHub names are case-insensitive; the release database lookup was not.** After the repository
+rename, production stored `ParadevAI/Paradev` while the release requested `paradevai/paradev`.
+An exact SQL comparison reported an installed repository as disconnected and stopped the release
+before environment pins advanced. **Fixed:** the release compares normalized names while retaining
+the organization constraint. No repository reconnection or production data rewrite is needed.
 
 **A freshly pushed image is not usable for a few minutes.** VCR reports the
 tag `Preparing` while it optimises a `linux/amd64` build (a gigabyte takes
