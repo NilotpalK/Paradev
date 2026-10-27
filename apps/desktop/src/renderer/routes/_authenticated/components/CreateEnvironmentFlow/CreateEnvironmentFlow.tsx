@@ -7,7 +7,6 @@ import { useState } from "react";
 import { env } from "renderer/env.renderer";
 import { useCreateAgentSession } from "renderer/hooks/useCreateAgentSession";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
-import environmentSkill from "../../../../../../../../plugins/superset/skills/environment/SKILL.md?raw";
 import { ChoosePrimaryStep } from "./components/ChoosePrimaryStep";
 import { ConnectGitHubStep } from "./components/ConnectGitHubStep";
 import { PickRepositoriesStep } from "./components/PickRepositoriesStep";
@@ -114,7 +113,6 @@ export function CreateEnvironmentFlow({
 					environmentName: environment.name,
 					environmentId: environment.id,
 					url,
-					skill: environmentSkill,
 				}),
 				{
 					preset: "claude",
