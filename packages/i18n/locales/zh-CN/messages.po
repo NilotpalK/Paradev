@@ -3719,6 +3719,9 @@ msgstr "更改图标"
 msgid "Change location"
 msgstr "更改位置"
 
+msgid "Change model"
+msgstr "更换模型"
+
 msgid "Change or add labels…"
 msgstr "更改或添加标签…"
 
@@ -4955,6 +4958,9 @@ msgstr "继续智能体会话需要固定的工作区"
 msgid "continuing the last session"
 msgstr "继续上一个会话"
 
+msgid "Continuing…"
+msgstr "正在继续…"
+
 msgid "Contributions"
 msgstr "贡献"
 
@@ -5039,6 +5045,9 @@ msgstr "复制评论"
 
 msgid "Copy comments"
 msgstr "复制评论"
+
+msgid "Copy error"
+msgstr "复制错误"
 
 msgid "Copy error details"
 msgstr "复制错误详情"
@@ -5590,6 +5599,9 @@ msgstr "无法发布回复"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "无法为{0}连接云端：{1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "无法连接到模型提供商"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "无法连接到此云工作区。它可能仍在唤醒中——请重试。"
 
@@ -5668,6 +5680,9 @@ msgstr "无法暂存文件"
 
 msgid "Couldn't start a new agent session"
 msgstr "无法启动新的智能体会话"
+
+msgid "Couldn't start a new chat."
+msgstr "无法开始新的聊天。"
 
 msgid "Couldn't start agent session"
 msgstr "无法启动智能体会话"
@@ -9460,9 +9475,6 @@ msgstr "网络已断开"
 
 msgid "Interrupt"
 msgstr "打断"
-
-msgid "Interrupted"
-msgstr "已中断"
 
 msgid "Intro call"
 msgstr "初步沟通"
@@ -15169,6 +15181,9 @@ msgstr "正在{accountLabel}上重新启动智能体。"
 msgid "Restarting host services…"
 msgstr "正在重启主机服务…"
 
+msgid "Restarting the agent…"
+msgstr "正在重启智能体…"
+
 msgid "Restarting…"
 msgstr "正在重启…"
 
@@ -15534,6 +15549,9 @@ msgstr "设置完成后在“工作区设置”终端中运行智能体，而不
 
 msgid "Run this command?"
 msgstr "运行此命令？"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "在终端中运行以下命令，然后继续："
 
 msgid "Run workspace command"
 msgstr "运行工作区命令"
@@ -16695,11 +16713,17 @@ msgstr "登录一次，Paradev 会保持连接。"
 msgid "Sign in to {0}"
 msgstr "登录{0}"
 
+msgid "Sign in to continue"
+msgstr "登录以继续"
+
 msgid "Sign in to continue to Paradev"
 msgstr "登录以继续使用Paradev"
 
 msgid "Sign in to get started"
 msgstr "登录即可开始"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "在终端中登录智能体，然后继续。"
 
 msgid "Sign in to view this page"
 msgstr "登录以查看此页面"
@@ -17284,6 +17308,9 @@ msgstr "启动中"
 msgid "Starting {agentLabel}"
 msgstr "正在启动{agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "正在开始新的聊天…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "正在为此拉取请求启动工作区"
 
@@ -17747,6 +17774,9 @@ msgstr "任务"
 msgid "Task ID copied"
 msgstr "已复制任务 ID"
 
+msgid "Task interrupted"
+msgstr "任务已中断"
+
 msgid "Task key"
 msgstr "任务键"
 
@@ -18005,8 +18035,17 @@ msgstr "智能体在同一个窗格中点击和输入来测试修改。你可以
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "智能体复制该对话，分支在新标签页中打开"
 
+msgid "The agent crashed"
+msgstr "智能体崩溃了"
+
+msgid "The agent lost this conversation"
+msgstr "智能体丢失了此对话"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "智能体从工单一路负责到差异。人类审查结果，而不是击键过程。注意力从写代码转向定义工作和判断成果。一名工程师在隔离工作区里同时跑好几个智能体。"
+
+msgid "The agent stopped responding"
+msgstr "智能体已停止响应"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "恢复对话时代理已停止。"
@@ -18204,6 +18243,9 @@ msgstr "本地主机服务刚刚启动。正在重新连接。"
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "多数已合并的智能体PR只需审查，无需任何人工修改。"
+
+msgid "The model declined to continue"
+msgstr "模型拒绝继续"
 
 msgid "The name of your organization or team"
 msgstr "你的组织或团队的名称"
@@ -18463,6 +18505,9 @@ msgstr "无法启动此云端工作区"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "正在唤醒此云工作区。如果它已闲置一段时间，可能需要最多 30 秒。"
 
+msgid "This conversation is too long for the model"
+msgstr "此对话对模型来说太长了"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "这将删除用于重启/崩溃恢复的已保存回滚缓冲。"
 
@@ -18564,6 +18609,9 @@ msgstr "这个Microsoft租户已被{detail}连接。请让对方先断开连接�
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "这个Microsoft租户已被另一个Paradev组织连接。"
+
+msgid "This model isn't available"
+msgstr "此模型不可用"
 
 msgid "This month"
 msgstr "本月"
@@ -19117,12 +19165,6 @@ msgstr "隧道已建立"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "把日常杂务交给按计划或在事件到来时运行的智能体：议题分类、更新日志草稿、依赖升级。它们会自行运行，并创建 PR 供你审查。"
-
-msgid "Turn failed"
-msgstr "本轮失败"
-
-msgid "Turn failed: {message}"
-msgstr "本轮失败：{message}"
 
 msgid "Turn Fast mode on or off"
 msgstr "开启或关闭快速模式"

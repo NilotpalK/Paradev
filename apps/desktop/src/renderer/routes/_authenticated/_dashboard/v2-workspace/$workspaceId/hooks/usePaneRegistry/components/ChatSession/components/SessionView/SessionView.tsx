@@ -33,6 +33,7 @@ import {
 	type OpenLink,
 	type OpenPage,
 } from "../../providers/ChatPaneActionsProvider";
+import { TurnFailureActionsProvider } from "../../providers/TurnFailureActionsProvider";
 import type { ChatEditRequest, ChatForkTarget } from "../../types";
 import { buildChatHandoffTranscript } from "../../utils/chatHandoffTranscript";
 import { heldPromptQueue } from "../../utils/heldPromptQueue";
@@ -58,6 +59,7 @@ import {
 	WorkDrawer,
 	type WorkDrawerHandle,
 } from "../WorkDrawer";
+import { useFailureRecovery } from "./hooks/useFailureRecovery";
 import { useMainSend } from "./hooks/useMainSend";
 import { useMoveToBackground } from "./hooks/useMoveToBackground";
 import { usePendingPrompts } from "./hooks/usePendingPrompts";
@@ -94,6 +96,8 @@ export function SessionView({
 	onPendingPromptsSent,
 	onFork,
 	onEditMessage,
+	onRestartAndContinue,
+	onStartNewChat,
 	onUserPrompt,
 	onSessionState,
 	openFile,
@@ -130,6 +134,10 @@ export function SessionView({
 	onFork?: ((target: ChatForkTarget, transcript: string) => void) | undefined;
 	canForkToWorktree?: boolean;
 	onEditMessage?: (request: ChatEditRequest) => void;
+	/** Restarts the agent and sends `prompt` once it is back. */
+	onRestartAndContinue?: (prompt: string) => Promise<boolean>;
+	/** Resolves false when the new chat could not be started. */
+	onStartNewChat?: () => Promise<boolean>;
 	/** Called when the user sends a message, as opposed to anything sent for them. */
 	onUserPrompt?: () => void;
 	/** Names the speaker in a handed-over transcript. */
@@ -327,10 +335,6 @@ export function SessionView({
 		},
 		[respondToApproval, loaded],
 	);
-	const onSetConfigOption = useCallback(
-		(configId: string, value: string) => void setConfigOption(configId, value),
-		[setConfigOption],
-	);
 	const onSetMode = useCallback(
 		(modeId: string) => {
 			onModeChange?.(modeId);
@@ -486,6 +490,26 @@ export function SessionView({
 		[heldQueued],
 	);
 	const booting = sessionState?.status === "starting";
+	const openModelPicker = useCallback(
+		() => composerRef.current?.openModelPicker(),
+		[],
+	);
+	const { failureActions, onSetConfigOption, onModelPickerOpenChange } =
+		useFailureRecovery({
+			blocked:
+				!loaded ||
+				booting ||
+				held !== undefined ||
+				runningTurnId !== null ||
+				approvals.length > 0 ||
+				outbox.length > 0,
+			configOptions,
+			onRestartAndContinue,
+			onStartNewChat,
+			openModelPicker,
+			sendPrompt,
+			setConfigOption,
+		});
 	const composerQueue = heldQueue ?? (held ? undefined : promptQueue);
 	const drawerQueue = subagent.target === undefined ? composerQueue : undefined;
 
@@ -530,26 +554,28 @@ export function SessionView({
 										queued={subagent.queued}
 									/>
 								) : (
-									<Transcript
-										approvals={approvals}
-										canForkToWorktree={canForkToWorktree}
-										groups={timeline}
-										hasOlder={session.hasOlder}
-										isActive={isActive}
-										onCloseFind={focusComposer}
-										onDiscardPrompt={session.discardPrompt}
-										onFork={onFork ? forkWithTranscript : undefined}
-										onLoadOlder={loadOlder}
-										onRequestItemBodies={session.requestItemBodies}
-										onRespond={onRespond}
-										onMessageRevealed={clearRevealMessage}
-										onRetryPrompt={session.retryPrompt}
-										outbox={session.outbox}
-										ref={transcriptRef}
-										revealMessageId={revealMessageId}
-										sessionId={client.sessionId}
-										snapshot={session.snapshot}
-									/>
+									<TurnFailureActionsProvider value={failureActions}>
+										<Transcript
+											approvals={approvals}
+											canForkToWorktree={canForkToWorktree}
+											groups={timeline}
+											hasOlder={session.hasOlder}
+											isActive={isActive}
+											onCloseFind={focusComposer}
+											onDiscardPrompt={session.discardPrompt}
+											onFork={onFork ? forkWithTranscript : undefined}
+											onLoadOlder={loadOlder}
+											onRequestItemBodies={session.requestItemBodies}
+											onRespond={onRespond}
+											onMessageRevealed={clearRevealMessage}
+											onRetryPrompt={session.retryPrompt}
+											outbox={session.outbox}
+											ref={transcriptRef}
+											revealMessageId={revealMessageId}
+											sessionId={client.sessionId}
+											snapshot={session.snapshot}
+										/>
+									</TurnFailureActionsProvider>
 								)}
 							</NestedItemsProvider>
 						</TranscriptPluginsProvider>
@@ -590,6 +616,7 @@ export function SessionView({
 					availableCommands={sessionState?.availableCommands ?? NO_COMMANDS}
 					configOptions={sessionState?.configOptions ?? NO_CONFIG_OPTIONS}
 					onSetConfigOption={onSetConfigOption}
+					onModelPickerOpenChange={onModelPickerOpenChange}
 					modes={sessionState?.availableModes}
 					currentModeId={sessionState?.modeId}
 					onSetMode={onSetMode}
