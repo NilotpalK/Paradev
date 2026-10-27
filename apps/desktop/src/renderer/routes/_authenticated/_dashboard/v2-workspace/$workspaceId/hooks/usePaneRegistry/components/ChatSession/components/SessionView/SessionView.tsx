@@ -608,6 +608,7 @@ export function SessionView({
 					canQueue={composerQueue !== undefined}
 					onOpenHistory={onOpenHistory}
 					sessionUsage={sessionUsage}
+					turnRunning={runningTurnId !== null}
 					terminalId={terminalId}
 					agentLabel={agentLabel}
 					workspaceId={workspaceId}

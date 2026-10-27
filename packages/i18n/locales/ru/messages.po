@@ -20255,6 +20255,10 @@ msgstr "Ширина · параллельных сессий"
 msgid "Window"
 msgstr "Окно"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Размер"
+
 msgid "With action"
 msgstr "С действием"
 

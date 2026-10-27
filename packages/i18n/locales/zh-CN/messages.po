@@ -20255,6 +20255,10 @@ msgstr "宽度 · 并行会话数"
 msgid "Window"
 msgstr "窗口"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "大小"
+
 msgid "With action"
 msgstr "带操作"
 

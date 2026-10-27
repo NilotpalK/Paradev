@@ -20255,6 +20255,10 @@ msgstr "Chiều rộng · các phiên song song"
 msgid "Window"
 msgstr "Cửa sổ"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Kích thước"
+
 msgid "With action"
 msgstr "Có hành động"
 

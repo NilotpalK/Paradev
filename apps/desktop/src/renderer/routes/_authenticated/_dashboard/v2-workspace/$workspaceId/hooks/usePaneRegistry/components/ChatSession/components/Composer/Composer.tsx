@@ -94,6 +94,7 @@ export type ComposerProps = {
 	escapeGoesBack?: boolean;
 	onEnterDrawer?: (options: { actionableOnly: boolean }) => boolean;
 	sessionUsage?: SessionUsage | null;
+	turnRunning?: boolean;
 	terminalId?: string;
 	agentLabel?: string;
 };
@@ -149,6 +150,7 @@ export const Composer = memo(function Composer({
 	placeholder,
 	sessionUsage,
 	target,
+	turnRunning = false,
 	terminalId,
 	workspaceId,
 }: ComposerProps) {
@@ -570,7 +572,7 @@ export const Composer = memo(function Composer({
 								<ContextWindowRing
 									usage={sessionUsage}
 									onCompact={canCompact ? compact : undefined}
-									compactDisabled={blocked || stop !== undefined}
+									compactDisabled={blocked || turnRunning}
 								/>
 							)}
 							{configOptions && onSetConfigOption && (

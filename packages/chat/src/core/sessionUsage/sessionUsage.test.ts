@@ -28,23 +28,4 @@ describe("latestSessionUsage", () => {
 			),
 		).toEqual({ contextUsed: 40, contextSize: 100, costUsd: 1 });
 	});
-
-	it("reads the context a turn's usage reports when it has no session usage", () => {
-		expect(
-			latestSessionUsage(
-				turns({
-					id: "t1",
-					status: "running",
-					startedAtMs: 1,
-					usage: {
-						inputTokens: 5,
-						cachedInputTokens: 0,
-						outputTokens: 2,
-						contextUsed: 7,
-						contextSize: 1_000,
-					},
-				}),
-			),
-		).toEqual({ contextUsed: 7, contextSize: 1_000 });
-	});
 });

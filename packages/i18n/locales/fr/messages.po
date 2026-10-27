@@ -20255,6 +20255,10 @@ msgstr "Largeur · sessions parallèles"
 msgid "Window"
 msgstr "Fenêtre"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Taille"
+
 msgid "With action"
 msgstr "Avec action"
 

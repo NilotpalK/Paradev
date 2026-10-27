@@ -1207,7 +1207,7 @@ msgid "{received} of {total}"
 msgstr "{received} z {total}"
 
 msgid "{remaining} tokens left"
-msgstr "Zbývá {remaining} tokenů"
+msgstr "Zbývající tokeny: {remaining}"
 
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} není v účtu {installedAccountLogin}, kde je nainstalovaná GitHub App této organizace."
@@ -20254,6 +20254,10 @@ msgstr "Šířka · souběžné relace"
 
 msgid "Window"
 msgstr "Okno"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "Velikost"
 
 msgid "With action"
 msgstr "S akcí"

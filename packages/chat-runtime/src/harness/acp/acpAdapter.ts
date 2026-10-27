@@ -2441,22 +2441,29 @@ export class AcpAdapter implements HarnessAdapter {
 		this.syncAwaitingBackground();
 	}
 
-	/** Only a running turn is sent again: a settled one would deliver the queue twice. */
 	private recordSessionUsage({ used, size, cost }: AcpUsageUpdate): void {
-		if (used === undefined || size === undefined) return;
+		const previous = this.sessionUsage;
+		const contextUsed = used ?? previous?.contextUsed;
+		const contextSize = size ?? previous?.contextSize;
+		if (contextUsed === undefined || contextSize === undefined) return;
 		const costUsd =
-			acpUsdCostSchema.safeParse(cost).data?.amount ??
-			this.sessionUsage?.costUsd;
+			acpUsdCostSchema.safeParse(cost).data?.amount ?? previous?.costUsd;
+		if (
+			previous?.contextUsed === contextUsed &&
+			previous.contextSize === contextSize &&
+			previous.costUsd === costUsd
+		)
+			return;
 		this.sessionUsage = {
-			contextUsed: used,
-			contextSize: size,
+			contextUsed,
+			contextSize,
 			...(costUsd === undefined ? {} : { costUsd }),
 		};
-		if (this.currentTurn?.status === "running") this.emitTurn(this.currentTurn);
+		if (this.currentTurn) this.emitTurn(this.currentTurn);
 		const compaction = this.compactionAwaitingUsage;
 		if (compaction) {
 			this.compactionAwaitingUsage = null;
-			compaction.notice = { ...compaction.notice, tokensAfter: used };
+			compaction.notice = { ...compaction.notice, tokensAfter: contextUsed };
 			this.emitCompaction(compaction);
 		}
 	}

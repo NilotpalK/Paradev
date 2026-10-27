@@ -1207,7 +1207,7 @@ msgid "{received} of {total}"
 msgstr "{received} z {total}"
 
 msgid "{remaining} tokens left"
-msgstr "Pozostało {remaining} tokenów"
+msgstr "Pozostałe tokeny: {remaining}"
 
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} nie należy do {installedAccountLogin}, gdzie zainstalowana jest GitHub App tej organizacji."
@@ -20254,6 +20254,10 @@ msgstr "Szerokość · równoległe sesje"
 
 msgid "Window"
 msgstr "Okno"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "Rozmiar"
 
 msgid "With action"
 msgstr "Z akcją"

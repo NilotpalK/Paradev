@@ -49,6 +49,19 @@ describe("SessionStatusContent", () => {
 		expect(text).not.toContain("Effort");
 	});
 
+	test("warns that the account's limits are out of date next to the cached windows", () => {
+		const { container } = render(
+			<SessionStatusContent
+				usage={null}
+				limits={{ ...limits, status: "Usage is out of date" }}
+			/>,
+		);
+
+		expect(container.textContent).toContain(
+			"Rate limitsUsage is out of dateSession (5h)82% used",
+		);
+	});
+
 	test("says the context window is not reported before the agent sends usage", () => {
 		const { container } = render(
 			<SessionStatusContent
