@@ -625,6 +625,7 @@ export function AcpChatPane({
 			}}
 			pendingPrompts={pendingPrompts}
 			preferredModelLabel={modelLabel}
+			terminalId={terminalId}
 			workspaceId={workspaceId}
 		/>
 	);

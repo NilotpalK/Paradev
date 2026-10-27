@@ -3,6 +3,7 @@ import type { SessionClient } from "@superset/chat/client";
 import {
 	deriveQueuedPrompts,
 	runningTurnId as findRunningTurnId,
+	latestSessionUsage,
 	launchConfigSelections,
 	userMessageText,
 } from "@superset/chat/core";
@@ -100,6 +101,7 @@ export function SessionView({
 	openPage,
 	openLink,
 	onOpenHistory,
+	terminalId,
 	workspaceId,
 }: {
 	client: SessionClient;
@@ -107,6 +109,7 @@ export function SessionView({
 	presetId?: string;
 	draftKey: string;
 	workspaceId: string;
+	terminalId?: string;
 	headerLeft?: ReactNode;
 	held?: {
 		notice: ReactNode;
@@ -245,6 +248,10 @@ export function SessionView({
 
 	const runningTurnId = useMemo(
 		() => findRunningTurnId(session.snapshot.turns),
+		[session.snapshot.turns],
+	);
+	const sessionUsage = useMemo(
+		() => latestSessionUsage(session.snapshot.turns),
 		[session.snapshot.turns],
 	);
 
@@ -600,6 +607,9 @@ export function SessionView({
 					target={subagent.target}
 					canQueue={composerQueue !== undefined}
 					onOpenHistory={onOpenHistory}
+					sessionUsage={sessionUsage}
+					terminalId={terminalId}
+					agentLabel={agentLabel}
 					workspaceId={workspaceId}
 				/>
 			</ComposerDropZone>
