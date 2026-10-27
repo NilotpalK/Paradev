@@ -18,7 +18,6 @@ const LEVEL_CLASS: Record<ContextWindowLevel, string> = {
 
 export type ContextWindowRingProps = {
 	usage: SessionUsage;
-	/** Sends the agent's own `/compact`; absent when the agent offers none. */
 	onCompact?: () => void;
 	compactDisabled?: boolean;
 };

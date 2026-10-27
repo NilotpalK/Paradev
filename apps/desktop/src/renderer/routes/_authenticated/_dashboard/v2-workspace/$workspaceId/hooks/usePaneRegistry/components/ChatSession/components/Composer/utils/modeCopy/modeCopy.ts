@@ -33,7 +33,6 @@ const FULL_ACCESS: ModeCopy = {
 	icon: FastForward,
 };
 
-/** Our names for the agents' approval modes, by the id each agent gives it. */
 export const KNOWN_MODES: Readonly<Record<string, ModeCopy>> = {
 	default: ASK_FOR_APPROVAL,
 	"read-only": ASK_FOR_APPROVAL,

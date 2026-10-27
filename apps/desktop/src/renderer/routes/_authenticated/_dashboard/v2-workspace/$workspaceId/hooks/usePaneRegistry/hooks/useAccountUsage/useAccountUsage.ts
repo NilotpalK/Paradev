@@ -7,7 +7,6 @@ import { useNow } from "renderer/hooks/useNow";
 import { getHostServiceClientByUrl } from "renderer/lib/host-service-client";
 import { getAccountUsageState } from "./utils/getAccountUsageState";
 
-/** Quota of the login the agent in this terminal runs under. */
 export function useAccountUsage(workspaceId: string, terminalId: string) {
 	const { t } = useLingui();
 	const binding = useTerminalAgentBinding(workspaceId, terminalId);

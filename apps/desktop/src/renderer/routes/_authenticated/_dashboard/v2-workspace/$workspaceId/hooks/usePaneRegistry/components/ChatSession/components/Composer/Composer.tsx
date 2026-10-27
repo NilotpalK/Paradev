@@ -94,7 +94,6 @@ export type ComposerProps = {
 	escapeGoesBack?: boolean;
 	onEnterDrawer?: (options: { actionableOnly: boolean }) => boolean;
 	sessionUsage?: SessionUsage | null;
-	/** The chat's agent binding, for its account's quota. */
 	terminalId?: string;
 	agentLabel?: string;
 };
