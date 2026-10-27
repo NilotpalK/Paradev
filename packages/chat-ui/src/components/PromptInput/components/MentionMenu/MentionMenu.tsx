@@ -85,7 +85,7 @@ export function MentionMenu({
 											? "bg-accent text-accent-foreground"
 											: "text-foreground",
 									)}
-									onMouseEnter={() => onHighlight(index)}
+									onMouseMove={() => onHighlight(index)}
 									onMouseDown={(event) => event.preventDefault()}
 									onClick={() => onSelect(entry)}
 								>

@@ -60,7 +60,7 @@ export function CommandMenu({
 									startsGroup && group && "scroll-mt-7",
 									selected && "bg-accent text-accent-foreground",
 								)}
-								onMouseEnter={() => onHighlight(index)}
+								onMouseMove={() => onHighlight(index)}
 								onMouseDown={(event) => event.preventDefault()}
 								onClick={() => onSelect(command)}
 							>
