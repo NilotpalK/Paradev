@@ -11193,9 +11193,6 @@ msgstr "Nová skupina z pracovního prostoru"
 msgid "New issue"
 msgstr "Nová issue"
 
-msgid "New message in #{channelName}"
-msgstr "Nová zpráva v #{channelName}"
-
 msgid "New messages"
 msgstr "Nové zprávy"
 
@@ -11240,9 +11237,6 @@ msgstr "Nový terminál"
 
 msgid "New Terminal"
 msgstr "Nový terminál"
-
-msgid "New thread message in #{channelName}"
-msgstr "Nová zpráva ve vlákně v #{channelName}"
 
 msgid "New window"
 msgstr "Nové okno"
@@ -18751,6 +18745,9 @@ msgstr "Přemýšlel pár sekund"
 
 msgid "Thread"
 msgstr "Vlákno"
+
+msgid "Thread in #{channelName}"
+msgstr "Vlákno v #{channelName}"
 
 msgid "Thread not found"
 msgstr "Vlákno nenalezeno"

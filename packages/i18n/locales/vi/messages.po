@@ -11193,9 +11193,6 @@ msgstr "Nhóm mới từ workspace"
 msgid "New issue"
 msgstr "Issue mới"
 
-msgid "New message in #{channelName}"
-msgstr "Tin nhắn mới trong #{channelName}"
-
 msgid "New messages"
 msgstr "Tin nhắn mới"
 
@@ -11240,9 +11237,6 @@ msgstr "Terminal mới"
 
 msgid "New Terminal"
 msgstr "Terminal mới"
-
-msgid "New thread message in #{channelName}"
-msgstr "Tin nhắn chuỗi mới trong #{channelName}"
 
 msgid "New window"
 msgstr "Cửa sổ mới"
@@ -18751,6 +18745,9 @@ msgstr "Đã suy nghĩ vài giây"
 
 msgid "Thread"
 msgstr "Chuỗi"
+
+msgid "Thread in #{channelName}"
+msgstr "Chuỗi trong #{channelName}"
 
 msgid "Thread not found"
 msgstr "Không tìm thấy luồng"

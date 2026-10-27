@@ -7,10 +7,14 @@ import {
 	channelMessages,
 	channels,
 	channelThreadFollows,
+	organizations,
 	members as orgMembers,
 	type SelectChannelMessage,
 } from "@superset/db/schema";
-import { type ChannelNotifyReason, previewOf } from "@superset/shared/channels";
+import {
+	type ChannelNotifyReason,
+	notificationTextOf,
+} from "@superset/shared/channels";
 import type { TRPCRouterRecord } from "@trpc/server";
 import { and, asc, desc, eq, inArray, isNull, lt, sql } from "drizzle-orm";
 import { userError } from "../../i18n-error";
@@ -252,7 +256,7 @@ async function announce(
 	const prefs = await loadNotifyPrefs([...memberIds]);
 	const now = new Date();
 	const preview =
-		previewOf(message.body) ||
+		notificationTextOf(message.body) ||
 		message.attachments.map((file) => file.name).join(", ");
 	const groups = new Map<
 		string,
@@ -282,10 +286,17 @@ async function announce(
 		group.userIds.push(member.userId);
 		groups.set(key, group);
 	}
+	if (groups.size === 0) return;
+	const [organization] = await db
+		.select({ name: organizations.name })
+		.from(organizations)
+		.where(eq(organizations.id, access.channel.organizationId))
+		.limit(1);
 	for (const { reason, showPreview, userIds } of groups.values()) {
 		publishToUsers(userIds, {
 			type: "channel.notify",
 			organizationId: access.channel.organizationId,
+			organizationName: organization?.name ?? "",
 			channelId: access.channel.id,
 			channelName: access.channel.name,
 			messageId: message.id,

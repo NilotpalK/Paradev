@@ -11193,9 +11193,6 @@ msgstr "Новая группа из рабочей области"
 msgid "New issue"
 msgstr "Новая задача"
 
-msgid "New message in #{channelName}"
-msgstr "Новое сообщение в #{channelName}"
-
 msgid "New messages"
 msgstr "Новые сообщения"
 
@@ -11240,9 +11237,6 @@ msgstr "Новый терминал"
 
 msgid "New Terminal"
 msgstr "Новый терминал"
-
-msgid "New thread message in #{channelName}"
-msgstr "Новое сообщение в ветке в #{channelName}"
 
 msgid "New window"
 msgstr "Новое окно"
@@ -18751,6 +18745,9 @@ msgstr "Думал несколько секунд"
 
 msgid "Thread"
 msgstr "Ветка"
+
+msgid "Thread in #{channelName}"
+msgstr "Ветка в #{channelName}"
 
 msgid "Thread not found"
 msgstr "Ветка обсуждения не найдена"

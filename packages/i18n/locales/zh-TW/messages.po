@@ -11193,9 +11193,6 @@ msgstr "以此工作區新建群組"
 msgid "New issue"
 msgstr "新建議題"
 
-msgid "New message in #{channelName}"
-msgstr "#{channelName} 有新訊息"
-
 msgid "New messages"
 msgstr "新訊息"
 
@@ -11240,9 +11237,6 @@ msgstr "新建終端"
 
 msgid "New Terminal"
 msgstr "新建終端"
-
-msgid "New thread message in #{channelName}"
-msgstr "#{channelName} 有新的討論串訊息"
 
 msgid "New window"
 msgstr "新建視窗"
@@ -18751,6 +18745,9 @@ msgstr "思考了幾秒"
 
 msgid "Thread"
 msgstr "討論串"
+
+msgid "Thread in #{channelName}"
+msgstr "#{channelName} 中的討論串"
 
 msgid "Thread not found"
 msgstr "未找到討論串"

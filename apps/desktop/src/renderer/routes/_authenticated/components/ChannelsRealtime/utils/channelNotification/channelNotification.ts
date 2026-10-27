@@ -7,20 +7,27 @@ type ChannelNotifyEvent = Extract<
 	{ type: "channel.notify" }
 >;
 
-/** Slack's wording: "New message in #ch" over "Name: text", or "a message from Name" without a preview. */
+/**
+ * Slack's banner on a Mac signed in to several workspaces: the organization
+ * over "#channel" (or "Thread in #channel"), then "Name: text", or
+ * "a message from Name" without a preview.
+ */
 export function channelNotificationContent(event: ChannelNotifyEvent): {
 	title: string;
+	subtitle?: string;
 	body: string;
 } {
 	const { authorName, channelName, preview } = event;
-	const title = event.threadRootId
-		? i18n._(msg({ message: `New thread message in #${channelName}` }))
-		: i18n._(msg({ message: `New message in #${channelName}` }));
+	const where = event.threadRootId
+		? i18n._(msg({ message: `Thread in #${channelName}` }))
+		: `#${channelName}`;
 	const body =
 		event.showPreview === false || !preview
 			? i18n._(msg({ message: `a message from ${authorName}` }))
 			: `${authorName}: ${preview}`;
-	return { title, body };
+	return event.organizationName
+		? { title: event.organizationName, subtitle: where, body }
+		: { title: where, body };
 }
 
 /** One per conversation, so reading it can dismiss what it showed. */

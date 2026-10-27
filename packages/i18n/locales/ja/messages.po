@@ -11193,9 +11193,6 @@ msgstr "ワークスペースから新規グループ"
 msgid "New issue"
 msgstr "新規issue"
 
-msgid "New message in #{channelName}"
-msgstr "#{channelName} の新着メッセージ"
-
 msgid "New messages"
 msgstr "新着メッセージ"
 
@@ -11240,9 +11237,6 @@ msgstr "新しいターミナル"
 
 msgid "New Terminal"
 msgstr "新規ターミナル"
-
-msgid "New thread message in #{channelName}"
-msgstr "#{channelName} のスレッドの新着メッセージ"
 
 msgid "New window"
 msgstr "新規ウィンドウ"
@@ -18751,6 +18745,9 @@ msgstr "数秒間思考しました"
 
 msgid "Thread"
 msgstr "スレッド"
+
+msgid "Thread in #{channelName}"
+msgstr "#{channelName} のスレッド"
 
 msgid "Thread not found"
 msgstr "スレッドが見つかりません"

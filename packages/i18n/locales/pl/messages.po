@@ -11193,9 +11193,6 @@ msgstr "Nowa grupa z obszaru roboczego"
 msgid "New issue"
 msgstr "Nowe zgłoszenie"
 
-msgid "New message in #{channelName}"
-msgstr "Nowa wiadomość w #{channelName}"
-
 msgid "New messages"
 msgstr "Nowe wiadomości"
 
@@ -11240,9 +11237,6 @@ msgstr "Nowy terminal"
 
 msgid "New Terminal"
 msgstr "Nowy terminal"
-
-msgid "New thread message in #{channelName}"
-msgstr "Nowa wiadomość w wątku w #{channelName}"
 
 msgid "New window"
 msgstr "Nowe okno"
@@ -18751,6 +18745,9 @@ msgstr "Myślał przez kilka sekund"
 
 msgid "Thread"
 msgstr "Wątek"
+
+msgid "Thread in #{channelName}"
+msgstr "Wątek w #{channelName}"
 
 msgid "Thread not found"
 msgstr "Nie znaleziono wątku"

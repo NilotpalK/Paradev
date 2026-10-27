@@ -11193,9 +11193,6 @@ msgstr "Grup baru dari workspace"
 msgid "New issue"
 msgstr "Issue baru"
 
-msgid "New message in #{channelName}"
-msgstr "Pesan baru di #{channelName}"
-
 msgid "New messages"
 msgstr "Pesan baru"
 
@@ -11240,9 +11237,6 @@ msgstr "Terminal baru"
 
 msgid "New Terminal"
 msgstr "Terminal Baru"
-
-msgid "New thread message in #{channelName}"
-msgstr "Pesan utas baru di #{channelName}"
 
 msgid "New window"
 msgstr "Jendela baru"
@@ -18751,6 +18745,9 @@ msgstr "Berpikir beberapa detik"
 
 msgid "Thread"
 msgstr "Utas"
+
+msgid "Thread in #{channelName}"
+msgstr "Utas di #{channelName}"
 
 msgid "Thread not found"
 msgstr "Thread tidak ditemukan"

@@ -11193,9 +11193,6 @@ msgstr "Çalışma alanından yeni grup"
 msgid "New issue"
 msgstr "Yeni issue"
 
-msgid "New message in #{channelName}"
-msgstr "#{channelName} kanalında yeni mesaj"
-
 msgid "New messages"
 msgstr "Yeni mesajlar"
 
@@ -11240,9 +11237,6 @@ msgstr "Yeni terminal"
 
 msgid "New Terminal"
 msgstr "Yeni terminal"
-
-msgid "New thread message in #{channelName}"
-msgstr "#{channelName} kanalında yeni konu mesajı"
 
 msgid "New window"
 msgstr "Yeni pencere"
@@ -18751,6 +18745,9 @@ msgstr "Birkaç saniye düşündü"
 
 msgid "Thread"
 msgstr "Konu"
+
+msgid "Thread in #{channelName}"
+msgstr "#{channelName} içinde konu"
 
 msgid "Thread not found"
 msgstr "Konu bulunamadı"

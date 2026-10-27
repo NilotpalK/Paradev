@@ -9,6 +9,7 @@ const event = (
 ): Parameters<typeof channelNotificationContent>[0] => ({
 	type: "channel.notify",
 	organizationId: "o",
+	organizationName: "Superset",
 	channelId: "c",
 	channelName: "eng",
 	messageId: "m",
@@ -21,13 +22,20 @@ const event = (
 });
 
 describe("channelNotificationContent", () => {
-	test("channel messages and thread replies", () => {
+	test("organization over the channel, then the sender and text", () => {
 		expect(channelNotificationContent(event())).toEqual({
-			title: "New message in #eng",
+			title: "Superset",
+			subtitle: "#eng",
 			body: "Kiet Ho: shipped it",
 		});
-		expect(channelNotificationContent(event({ threadRootId: "r" })).title).toBe(
-			"New thread message in #eng",
+		expect(
+			channelNotificationContent(event({ threadRootId: "r" })).subtitle,
+		).toBe("Thread in #eng");
+	});
+
+	test("the channel is the title when the organization is unknown", () => {
+		expect(channelNotificationContent(event({ organizationName: "" }))).toEqual(
+			{ title: "#eng", body: "Kiet Ho: shipped it" },
 		);
 	});
 
