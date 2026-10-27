@@ -13487,6 +13487,9 @@ msgstr "Paradev và các lựa chọn khác"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev làm việc với mọi coding agent dạng CLI, gồm Claude Code, OpenCode, OpenAI Codex và nhiều agent khác. Chọn agent khác nhau cho từng tác vụ mà không phải đổi workspace hay quy trình review."
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Ứng dụng di động Paradev giúp tôi duy trì công việc của các agent và gỡ vướng cho chúng từ bất cứ đâu, ngay cả khi tôi ở xa máy tính."
 
@@ -17679,9 +17682,6 @@ msgstr "Superset giờ đã là Paradev. À, chúng tôi cũng đã gọi đư�
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile ra mắt trên iPhone"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "Có giám sát"
 
@@ -18231,8 +18231,8 @@ msgstr "Workspace cloud lẽ ra đã khởi động nhưng không phản hồi k
 msgid "The code expired. Start again."
 msgstr "Mã đã hết hạn. Hãy bắt đầu lại."
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "Các lệnh Superset chạy để thiết lập, chạy và lưu trữ các workspace của dự án này, từ .superset/config.toml."
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "Các lệnh Paradev chạy để thiết lập, chạy và lưu trữ các workspace của dự án này, từ .superset/config.toml."
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "Công ty đã gọi được vòng hạt giống 11,5 triệu USD do Union Square Ventures dẫn dắt, cùng Y Combinator và Paul Graham. TechCrunch đã chọn công ty là một trong những startup nổi bật tại YC Demo Day."
@@ -19671,6 +19671,9 @@ msgstr "Cập nhật quy tắc đặt tên cho {0}"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "Cập nhật Paradev trên thiết bị đó. Cập nhật từ ứng dụng yêu cầu bản cài đặt độc lập được hỗ trợ và phiên bản ứng dụng đã phát hành."
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "Hãy cập nhật Paradev trên máy chủ này để chỉnh sửa cấu hình workspace."
+
 msgid "Update payment method"
 msgstr "Cập nhật phương thức thanh toán"
 
@@ -19679,9 +19682,6 @@ msgstr "Bản cập nhật đã sẵn sàng"
 
 msgid "Update Required"
 msgstr "Cần cập nhật"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "Hãy cập nhật Superset trên máy chủ này để chỉnh sửa cấu hình workspace."
 
 msgid "update the branch prefix"
 msgstr "cập nhật tiền tố nhánh"

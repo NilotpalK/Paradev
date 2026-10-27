@@ -13487,6 +13487,9 @@ msgstr "Paradev vs the Alternatives"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 
@@ -17679,9 +17682,6 @@ msgstr "Superset is now Paradev. Also, we raised an $11.5M seed"
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile launches on iPhone"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "Supervised"
 
@@ -18231,8 +18231,8 @@ msgstr "The cloud workspace should have started but didn't answer in time. The n
 msgid "The code expired. Start again."
 msgstr "The code expired. Start again."
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
@@ -19671,6 +19671,9 @@ msgstr "Update naming instructions for {0}"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "Update Paradev on this host to edit its workspace config."
+
 msgid "Update payment method"
 msgstr "Update payment method"
 
@@ -19679,9 +19682,6 @@ msgstr "Update ready"
 
 msgid "Update Required"
 msgstr "Update Required"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "Update Superset on this host to edit its workspace config."
 
 msgid "update the branch prefix"
 msgstr "update the branch prefix"

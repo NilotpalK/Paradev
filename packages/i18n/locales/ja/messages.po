@@ -13487,6 +13487,9 @@ msgstr "Paradevと他ツールの比較"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "ParadevはClaude Code、OpenCode、OpenAI Codexなど、CLIベースのコーディングエージェントであれば何でも使えます。ワークスペースやレビューの流れを変えずに、タスクごとに違うエージェントを選べます。"
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Paradevのモバイルアプリなら、コンピューターから遠く離れていても、どこからでもエージェントの作業を進め、行き詰まりを解消できます。"
 
@@ -17679,9 +17682,6 @@ msgstr "Superset は Paradev になりました。あと、1,150万ドルのシ�
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile が iPhone で登場"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "監督付き"
 
@@ -18231,8 +18231,8 @@ msgstr "クラウドワークスペースは起動しているはずですが、
 msgid "The code expired. Start again."
 msgstr "コードの有効期限が切れました。やり直してください。"
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "このプロジェクトのワークスペースをセットアップ、実行、アーカイブするときに Superset が実行するコマンド（.superset/config.toml）。"
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "このプロジェクトのワークスペースをセットアップ、実行、アーカイブするときに Paradev が実行するコマンド（.superset/config.toml）。"
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "同社は、Union Square Ventures がリードし、Y Combinator と Paul Graham が参加した 1,150 万ドルのシードラウンドを調達しました。TechCrunch は同社を YC Demo Day の注目スタートアップの 1 社に選びました。"
@@ -19671,6 +19671,9 @@ msgstr "{0}の命名指示を更新"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "そのデバイスで Paradev を更新してください。アプリ内からの更新には、対応するスタンドアロンインストールとリリース済みのアプリバージョンが必要です。"
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "ワークスペースの設定を編集するには、このホストの Paradev を更新してください。"
+
 msgid "Update payment method"
 msgstr "支払い方法を更新"
 
@@ -19679,9 +19682,6 @@ msgstr "アップデートの準備ができました"
 
 msgid "Update Required"
 msgstr "アップデートが必要です"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "ワークスペースの設定を編集するには、このホストの Superset を更新してください。"
 
 msgid "update the branch prefix"
 msgstr "ブランチのプレフィックスを更新する"

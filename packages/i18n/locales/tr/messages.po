@@ -13487,6 +13487,9 @@ msgstr "Paradev ve alternatifleri"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev, Claude Code, OpenCode, OpenAI Codex ve daha fazlası dahil olmak üzere CLI tabanlı her kodlama ajanıyla çalışır. Çalışma alanınızı veya inceleme akışınızı değiştirmeden her görev için farklı bir ajan seçin."
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Paradev'in mobil uygulaması, bilgisayarımdan çok uzakta olsam bile ajanlarımı her yerden çalışır durumda tutmamı ve önlerindeki engelleri kaldırmamı sağlıyor."
 
@@ -17679,9 +17682,6 @@ msgstr "Superset artık Paradev. Bir de 11,5 milyon dolarlık tohum yatırımı 
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile iPhone'da yayında"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "Gözetimli"
 
@@ -18231,8 +18231,8 @@ msgstr "Bulut çalışma alanının başlamış olması gerekiyordu ancak zaman�
 msgid "The code expired. Start again."
 msgstr "Kodun süresi doldu. Yeniden başlayın."
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "Superset'in bu projenin çalışma alanlarını hazırlamak, çalıştırmak ve arşivlemek için çalıştırdığı komutlar (.superset/config.toml)."
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "Paradev'in bu projenin çalışma alanlarını hazırlamak, çalıştırmak ve arşivlemek için çalıştırdığı komutlar (.superset/config.toml)."
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "Şirket, Union Square Ventures liderliğinde, Y Combinator ve Paul Graham'ın katılımıyla 11,5 milyon dolarlık tohum yatırımı aldı. TechCrunch, şirketi YC Demo Day'in öne çıkan girişimlerinden biri olarak gösterdi."
@@ -19671,6 +19671,9 @@ msgstr "{0} için adlandırma yönergelerini güncelle"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "Paradev’i o cihazda güncelleyin. Uygulama içinden güncelleme için desteklenen bağımsız bir kurulum ve yayımlanmış bir uygulama sürümü gerekir."
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "Çalışma alanı yapılandırmasını düzenlemek için bu ana bilgisayardaki Paradev'i güncelleyin."
+
 msgid "Update payment method"
 msgstr "Ödeme yöntemini güncelle"
 
@@ -19679,9 +19682,6 @@ msgstr "Güncelleme hazır"
 
 msgid "Update Required"
 msgstr "Güncelleme gerekli"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "Çalışma alanı yapılandırmasını düzenlemek için bu ana bilgisayardaki Superset'i güncelleyin."
 
 msgid "update the branch prefix"
 msgstr "dal ön ekini güncelleme"

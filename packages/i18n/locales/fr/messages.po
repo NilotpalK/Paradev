@@ -13487,6 +13487,9 @@ msgstr "Paradev face aux alternatives"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev fonctionne avec n'importe quel agent de code en ligne de commande, dont Claude Code, OpenCode, OpenAI Codex et bien d'autres. Choisissez un agent différent pour chaque tâche sans changer votre espace de travail ni votre flux de revue."
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "L’application mobile Paradev me permet de faire avancer mes agents et de les débloquer où que je sois, même loin de mon ordinateur."
 
@@ -17679,9 +17682,6 @@ msgstr "Superset s'appelle désormais Paradev. Au passage, nous avons levé 11,5
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile arrive sur iPhone"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "Supervisé"
 
@@ -18231,8 +18231,8 @@ msgstr "L'espace de travail cloud aurait dû démarrer, mais n'a pas répondu à
 msgid "The code expired. Start again."
 msgstr "Le code a expiré. Recommencez."
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "Les commandes que Superset exécute pour préparer, lancer et archiver les espaces de travail de ce projet, depuis .superset/config.toml."
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "Les commandes que Paradev exécute pour préparer, lancer et archiver les espaces de travail de ce projet, depuis .superset/config.toml."
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "L’entreprise a levé un tour de table d’amorçage de 11,5 millions de dollars mené par Union Square Ventures, avec Y Combinator et Paul Graham. TechCrunch l’a citée parmi les startups les plus remarquables du YC Demo Day."
@@ -19671,6 +19671,9 @@ msgstr "Mettre à jour les instructions de nommage pour {0}"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "Mettez à jour Paradev sur cet appareil. Les mises à jour depuis l’application nécessitent une installation autonome compatible et une version publiée de l’application."
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "Mettez à jour Paradev sur cet hôte pour modifier la configuration de l'espace de travail."
+
 msgid "Update payment method"
 msgstr "Mettre à jour le moyen de paiement"
 
@@ -19679,9 +19682,6 @@ msgstr "Mise à jour prête"
 
 msgid "Update Required"
 msgstr "Mise à jour requise"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "Mettez à jour Superset sur cet hôte pour modifier la configuration de l'espace de travail."
 
 msgid "update the branch prefix"
 msgstr "mettre à jour le préfixe de branche"

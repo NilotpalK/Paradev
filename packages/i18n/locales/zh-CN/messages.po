@@ -13487,6 +13487,9 @@ msgstr "Paradev与同类方案对比"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev支持任何基于CLI的编码智能体，包括Claude Code、OpenCode、OpenAI Codex等。每个任务都可以换用不同的智能体，工作区和审查流程都不用变。"
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Paradev 手机应用让我可以随时随地推动智能体工作、解决它们的阻碍，即使我离电脑很远也没问题。"
 
@@ -17679,9 +17682,6 @@ msgstr "Superset 现已更名为 Paradev。另外，我们完成了 1150 万美�
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile 登陆 iPhone"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "监督"
 
@@ -18231,8 +18231,8 @@ msgstr "云端工作区本应已启动，但没有及时响应。下次运行时
 msgid "The code expired. Start again."
 msgstr "代码已过期。请重新开始。"
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "Superset 在设置、运行和归档此项目的工作区时执行的命令，来自 .superset/config.toml。"
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "Paradev 在设置、运行和归档此项目的工作区时执行的命令，来自 .superset/config.toml。"
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "公司完成了 1150 万美元的种子轮融资，由 Union Square Ventures 领投，Y Combinator 和 Paul Graham 参投。TechCrunch 将其评为 YC Demo Day 的杰出初创公司之一。"
@@ -19671,6 +19671,9 @@ msgstr "更新{0}的命名规则"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "请在该设备上更新 Paradev。应用内更新需要受支持的独立安装和已发布的应用版本。"
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "请更新此主机上的 Paradev，以编辑其工作区配置。"
+
 msgid "Update payment method"
 msgstr "更新支付方式"
 
@@ -19679,9 +19682,6 @@ msgstr "更新已就绪"
 
 msgid "Update Required"
 msgstr "需要更新"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "请更新此主机上的 Superset，以编辑其工作区配置。"
 
 msgid "update the branch prefix"
 msgstr "更新分支前缀"

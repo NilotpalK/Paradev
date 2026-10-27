@@ -13487,6 +13487,9 @@ msgstr "Paradev против альтернатив"
 msgid "Paradev works with any CLI-based coding agent, including Claude Code, OpenCode, OpenAI Codex, and more. Choose a different agent for every task without changing your workspace or review flow."
 msgstr "Paradev работает с любым кодовым агентом с CLI, включая Claude Code, OpenCode, OpenAI Codex и другие. Выбирайте разного агента под каждую задачу, не меняя рабочую область и процесс ревью."
 
+msgid "paradev.com"
+msgstr "paradev.com"
+
 msgid "Paradev's mobile app lets me keep my agents moving and unblock them from anywhere, even when I'm nowhere near my computer."
 msgstr "Мобильное приложение Paradev позволяет мне поддерживать работу агентов и помогать им двигаться дальше откуда угодно, даже вдали от компьютера."
 
@@ -17679,9 +17682,6 @@ msgstr "Superset теперь называется Paradev. А ещё мы пр�
 msgid "Superset Mobile launches on iPhone"
 msgstr "Superset Mobile вышел на iPhone"
 
-msgid "superset.sh"
-msgstr "superset.sh"
-
 msgid "Supervised"
 msgstr "Под присмотром"
 
@@ -18231,8 +18231,8 @@ msgstr "Облачная рабочая область должна была з�
 msgid "The code expired. Start again."
 msgstr "Срок действия кода истёк. Начните заново."
 
-msgid "The commands Superset runs to set up, run and archive this project's workspaces, from .superset/config.toml."
-msgstr "Команды, которые Superset выполняет при подготовке, запуске и архивации рабочих областей этого проекта, из .superset/config.toml."
+msgid "The commands Paradev runs to set up, run and archive this project's workspaces, from .superset/config.toml."
+msgstr "Команды, которые Paradev выполняет при подготовке, запуске и архивации рабочих областей этого проекта, из .superset/config.toml."
 
 msgid "The company raised an $11.5M seed round led by Union Square Ventures, with Y Combinator and Paul Graham. TechCrunch named it one of the standout startups from YC Demo Day."
 msgstr "Компания привлекла 11,5 млн долларов в посевном раунде под руководством Union Square Ventures при участии Y Combinator и Пола Грэма. TechCrunch назвал её одним из самых заметных стартапов YC Demo Day."
@@ -19671,6 +19671,9 @@ msgstr "Обновить правила именования для {0}"
 msgid "Update Paradev on that device. In-app updates require a supported standalone install and a released app version."
 msgstr "Обновите Paradev на этом устройстве. Для обновления из приложения нужны поддерживаемая автономная установка и выпущенная версия приложения."
 
+msgid "Update Paradev on this host to edit its workspace config."
+msgstr "Обновите Paradev на этом хосте, чтобы изменить конфигурацию рабочей области."
+
 msgid "Update payment method"
 msgstr "Обновить способ оплаты"
 
@@ -19679,9 +19682,6 @@ msgstr "Обновление готово"
 
 msgid "Update Required"
 msgstr "Требуется обновление"
-
-msgid "Update Superset on this host to edit its workspace config."
-msgstr "Обновите Superset на этом хосте, чтобы изменить конфигурацию рабочей области."
 
 msgid "update the branch prefix"
 msgstr "обновить префикс ветки"
