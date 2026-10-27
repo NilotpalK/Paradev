@@ -10,6 +10,7 @@ import {
 	type UserMessage,
 	wrapHiddenText,
 } from "@superset/chat/protocol";
+import type { SessionCheckpoints } from "../../checkpoints";
 import type {
 	AdapterEvent,
 	DiscoverNativeSessionsInput,
@@ -26,6 +27,7 @@ export type LiveSessionOptions = {
 	journal: ChatJournal;
 	publish: (envelope: Envelope) => void;
 	adapter: HarnessAdapter;
+	checkpoints?: SessionCheckpoints;
 	mintId?: () => string;
 	now?: () => number;
 };
@@ -63,6 +65,8 @@ type PendingPrompt = {
 	content: UserContent[];
 	turnId: string;
 	seq: number;
+	/** The worktree snapshot taken just before the prompt was sent. */
+	before?: string | null;
 };
 
 function withoutQueued(item: UserMessage): UserMessage {
@@ -85,6 +89,8 @@ export class LiveSession {
 	private steering: Promise<void> = Promise.resolve();
 	private sent = 0;
 	private awaitingTurn: PendingPrompt | null = null;
+	private capturing: PendingPrompt | null = null;
+	private readonly checkpointedTurns = new Set<string>();
 	private steerTarget: string | null = null;
 	private queuePaused = false;
 	private sessionState: SessionState;
@@ -350,6 +356,20 @@ export class LiveSession {
 
 	cancelTurn(turnId?: string, pauseQueue = false): void {
 		if (turnId && this.currentTurn && this.currentTurn.id !== turnId) return;
+		const capturing = this.capturing;
+		if (capturing && !turnId) {
+			this.capturing = null;
+			this.awaitingTurn = null;
+			this.discard(capturing);
+			if (pauseQueue && this.queue.length > 0 && !this.queuePaused) {
+				this.queuePaused = true;
+				this.emitSession({ queuePaused: true });
+				return;
+			}
+			this.emitSession({});
+			this.deliverNextQueued();
+			return;
+		}
 		const steering =
 			this.steerTarget !== null && this.queue[0]?.item.id === this.steerTarget;
 		const waiting = this.queue.length + this.pendingSteers.length;
@@ -443,6 +463,7 @@ export class LiveSession {
 					}
 				} else {
 					this.noteSilentTurn(event.turn);
+					this.settleCheckpoint(event.turn.id);
 					this.deliverNextQueued();
 				}
 				return;
@@ -564,6 +585,10 @@ export class LiveSession {
 		if (!awaiting) return;
 		this.promptedTurns.add(turnId);
 		this.awaitingTurn = null;
+		if (awaiting.before) {
+			this.checkpointedTurns.add(turnId);
+			this.options.checkpoints?.turnStarted(turnId, awaiting.before);
+		}
 		this.appendDurable({
 			type: "item",
 			item: withoutQueued(awaiting.item),
@@ -573,7 +598,34 @@ export class LiveSession {
 
 	private deliver(prompt: PendingPrompt): void {
 		this.awaitingTurn = prompt;
-		this.send(prompt);
+		const checkpoints = this.options.checkpoints;
+		if (!checkpoints) {
+			this.send(prompt);
+			return;
+		}
+		this.capturing = prompt;
+		void checkpoints
+			.capture()
+			.catch((error: unknown) => {
+				console.warn("[chat-runtime] checkpoint failed", error);
+				return null;
+			})
+			.then((before) => {
+				if (this.capturing !== prompt) return;
+				this.capturing = null;
+				if (this.stopped || this.awaitingTurn !== prompt) return;
+				prompt.before = before;
+				try {
+					this.send(prompt);
+				} catch (error) {
+					this.fail(error);
+				}
+			});
+	}
+
+	private settleCheckpoint(turnId: string): void {
+		if (!this.checkpointedTurns.delete(turnId)) return;
+		this.options.checkpoints?.turnSettled(turnId);
 	}
 
 	private send(prompt: PendingPrompt): void {
@@ -660,6 +712,7 @@ export class LiveSession {
 				completedAtMs: failedAtMs,
 			};
 			this.appendDurable({ type: "turn", turn: this.currentTurn });
+			this.settleCheckpoint(turn.id);
 		}
 		this.discardPending();
 		this.appendDurable({

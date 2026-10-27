@@ -7,6 +7,7 @@ import {
 } from "@superset/chat/core";
 import type { DurableEnvelope, UserMessage } from "@superset/chat/protocol";
 import { isDurableEnvelope, wrapHiddenText } from "@superset/chat/protocol";
+import type { ChatCheckpoints } from "../../checkpoints";
 import type { FakeHarnessScript } from "../../harness/fake";
 import type { ChatRuntime } from "../../index";
 import {
@@ -181,6 +182,80 @@ describe("LiveSession", () => {
 			turnId: "t1",
 			item: { noticeKind: "error" },
 		});
+		await runtime.dispose();
+	});
+
+	function gatedCheckpoints() {
+		const calls: string[] = [];
+		let release = () => {};
+		const gate = new Promise<void>((resolve) => {
+			release = resolve;
+		});
+		const checkpoints: ChatCheckpoints = {
+			capture: async ({ cwd }) => {
+				calls.push(`capture ${cwd}`);
+				await gate;
+				return "before-sha";
+			},
+			turnStarted: async ({ turnId, before }) => {
+				calls.push(`started ${turnId} ${before}`);
+			},
+			turnSettled: async ({ turnId }) => {
+				calls.push(`settled ${turnId}`);
+			},
+			changes: async () => null,
+		};
+		return { calls, release: () => release(), checkpoints };
+	}
+
+	test("holds a prompt until the worktree is snapshotted, and names the snapshot for its turn", async () => {
+		const { harnesses } = fakeHarnessRegistry(SINGLE_TURN);
+		const { calls, release, checkpoints } = gatedCheckpoints();
+		const runtime = createTestRuntime({ harnesses, checkpoints });
+		const { sessionId } = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+		sendPrompt(runtime, sessionId, "hello");
+
+		await waitFor(() => calls.length === 1);
+		expect(runtime.live.require(sessionId).turn).toBeNull();
+
+		release();
+		await waitFor(() => runtime.sessions.get(sessionId)?.status === "idle");
+		expect(calls).toEqual([
+			"capture /tmp/workspace",
+			"started t1 before-sha",
+			"settled t1",
+		]);
+		await runtime.dispose();
+	});
+
+	test("a prompt cancelled while the worktree is snapshotted never reaches the agent", async () => {
+		const { harnesses } = fakeHarnessRegistry(SINGLE_TURN);
+		const { calls, release, checkpoints } = gatedCheckpoints();
+		const runtime = createTestRuntime({ harnesses, checkpoints });
+		const { sessionId } = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+		const result = sendPrompt(runtime, sessionId, "hello");
+		await waitFor(() => calls.length === 1);
+
+		runtime.live.require(sessionId).cancelTurn();
+		release();
+		await waitFor(
+			() =>
+				snapshotOf(runtime, sessionId).items.get(result.itemId)?.item
+					.discarded === true,
+		);
+
+		expect(runtime.live.require(sessionId).turn).toBeNull();
+		expect(calls).toEqual(["capture /tmp/workspace"]);
 		await runtime.dispose();
 	});
 

@@ -72,6 +72,12 @@ export type SessionClient = {
 	getItems(page?: GetItemsPage): Promise<ChatRouterOutputs["getItems"]>;
 	getOutline(): Promise<ChatRouterOutputs["getOutline"]>;
 	getItemBodies(itemIds: string[]): Promise<ChatRouterOutputs["getItemBodies"]>;
+	/** "unsupported" when the host predates turn snapshots. */
+	getTurnChanges(input: {
+		workspaceId: string;
+		turnId: string;
+		live?: boolean;
+	}): Promise<ChatRouterOutputs["getTurnChanges"] | "unsupported">;
 	prompt(options: PromptOptions): Promise<ChatRouterOutputs["prompt"]>;
 	removeQueuedPrompt(itemId: string): Promise<void>;
 	steerQueuedPrompt(itemId: string): Promise<void>;
@@ -119,6 +125,15 @@ export function createSessionClient(
 
 		getItemBodies: (itemIds) =>
 			options.transport.getItemBodies({ sessionId, itemIds, ...nested }),
+
+		getTurnChanges: async (input) => {
+			try {
+				return await options.transport.getTurnChanges({ sessionId, ...input });
+			} catch (error) {
+				if (isMissingProcedureError(error)) return "unsupported";
+				throw error;
+			}
+		},
 
 		prompt: (promptOptions) =>
 			options.transport.prompt({

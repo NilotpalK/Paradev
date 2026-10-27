@@ -9,6 +9,7 @@ import {
 	getItemsInputSchema,
 	getOutlineInputSchema,
 	getSessionInputSchema,
+	getTurnChangesInputSchema,
 	listSessionsInputSchema,
 	promptInputSchema,
 	queuedPromptInputSchema,
@@ -191,6 +192,16 @@ export function createChatRouter(
 		getSession: t.procedure
 			.input(getSessionInputSchema)
 			.query(({ input }) => runtime.commands.getSession(input)),
+
+		getTurnChanges: t.procedure
+			.input(
+				getTurnChangesInputSchema.extend({ workspaceId: z.string().min(1) }),
+			)
+			.query(async ({ input }) => {
+				const { workspaceId, ...rest } = input;
+				const cwd = await options.resolveCwd(workspaceId);
+				return runtime.commands.getTurnChanges({ ...rest, cwd });
+			}),
 
 		getQueue: t.procedure
 			.input(getSessionInputSchema)

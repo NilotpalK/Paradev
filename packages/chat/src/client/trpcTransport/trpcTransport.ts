@@ -24,7 +24,8 @@ type Query =
 	| "discoverSessions"
 	| "getItems"
 	| "getOutline"
-	| "getItemBodies";
+	| "getItemBodies"
+	| "getTurnChanges";
 
 /** A tRPC client for the chat router, by shape rather than by router type. */
 export type ChatTrpcClient = {
@@ -58,5 +59,6 @@ export function chatTransportFromTrpc(client: ChatTrpcClient): ChatTransport {
 		getItems: (input) => client.getItems.query(input),
 		getOutline: (input) => client.getOutline.query(input),
 		getItemBodies: (input) => client.getItemBodies.query(input),
+		getTurnChanges: (input) => client.getTurnChanges.query(input),
 	};
 }

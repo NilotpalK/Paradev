@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { DiscoverSessionsResult, Envelope } from "@superset/chat/protocol";
+import type { ChatCheckpoints, SessionCheckpoints } from "../../checkpoints";
 import type {
 	DiscoverNativeSessionsInput,
 	HarnessAdapter,
@@ -34,9 +35,32 @@ export type LiveSessionRegistryOptions = {
 	publish: (envelope: Envelope) => void;
 	harnesses: HarnessRegistry;
 	observer?: LiveSessionObserver;
+	checkpoints?: ChatCheckpoints;
 	mintId?: () => string;
 	now?: () => number;
 };
+
+function warnOnFailure(work: Promise<unknown>): void {
+	work.catch((error: unknown) =>
+		console.warn("[chat-runtime] checkpoint failed", error),
+	);
+}
+
+function sessionCheckpoints(
+	checkpoints: ChatCheckpoints,
+	cwd: string,
+	sessionId: string,
+): SessionCheckpoints {
+	return {
+		capture: () => checkpoints.capture({ cwd, sessionId }),
+		turnStarted: (turnId, before) =>
+			warnOnFailure(
+				checkpoints.turnStarted({ cwd, sessionId, turnId, before }),
+			),
+		turnSettled: (turnId) =>
+			warnOnFailure(checkpoints.turnSettled({ cwd, sessionId, turnId })),
+	};
+}
 
 export class LiveSessionRegistry {
 	private readonly live = new Map<string, LiveSession>();
@@ -114,6 +138,15 @@ export class LiveSessionRegistry {
 				this.observe(() => observer?.published(envelope, session));
 			},
 			adapter: factory(options),
+			...(this.options.checkpoints
+				? {
+						checkpoints: sessionCheckpoints(
+							this.options.checkpoints,
+							options.cwd,
+							options.sessionId,
+						),
+					}
+				: {}),
 			mintId: this.options.mintId,
 			now: this.options.now,
 		});

@@ -19,6 +19,7 @@ import type {
 	DurableEvent,
 	GetItemsInput,
 	GetSessionInput,
+	GetTurnChangesInput,
 	PromptInput,
 	QueuedPromptInput,
 	RespondToApprovalInput,
@@ -40,6 +41,7 @@ import {
 	getItemsInputSchema,
 	getOutlineInputSchema,
 	getSessionInputSchema,
+	getTurnChangesInputSchema,
 	listSessionsInputSchema,
 	promptInputSchema,
 	queuedPromptInputSchema,
@@ -52,6 +54,7 @@ import {
 	stopBackgroundTaskInputSchema,
 } from "@superset/chat/protocol";
 import { z } from "zod";
+import type { ChatCheckpoints, TurnChanges } from "../../checkpoints";
 import type { ChatDb, ChatSessionRow } from "../../db";
 import type { ChatJournal } from "../../journal";
 import type { ChatSessionStore } from "../../projection";
@@ -220,6 +223,9 @@ export type ChatCommands = {
 	): Promise<CreateSessionResult | null>;
 	rewindSession(input: RewindSessionCommandInput): Promise<CreateSessionResult>;
 	getSession(input: GetSessionInput): GetSessionResult;
+	getTurnChanges(
+		input: GetTurnChangesInput & { cwd: string },
+	): Promise<TurnChanges | null>;
 	getQueue(input: GetSessionInput): GetQueueResult;
 	listSessions(input: ListSessionsCommandInput): ChatSessionListEntry[];
 	discoverSessions(
@@ -245,6 +251,7 @@ export type CommandsOptions = {
 	db: ChatDb;
 	sessions: ChatSessionStore;
 	live: LiveSessionRegistry;
+	checkpoints?: ChatCheckpoints;
 	dedupe: { run<T>(commandId: string, execute: () => T): T };
 	mintSessionId?: () => string;
 	subagentItems?: SubagentItems;
@@ -672,6 +679,17 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 				subagentItems.forget(sessionId);
 				options.journal.announce(sessionId);
 			}
+		},
+
+		async getTurnChanges({ cwd, ...input }) {
+			const parsed = getTurnChangesInputSchema.parse(input);
+			if (!options.checkpoints) return null;
+			return options.checkpoints.changes({
+				cwd,
+				sessionId: parsed.sessionId,
+				turnId: parsed.turnId,
+				live: parsed.live === true,
+			});
 		},
 
 		getSession(input) {

@@ -147,6 +147,14 @@ export type CloseSessionInput = z.infer<typeof closeSessionInputSchema>;
 export const getSessionInputSchema = z.object({ sessionId: z.string().min(1) });
 export type GetSessionInput = z.infer<typeof getSessionInputSchema>;
 
+/** What a turn changed in the worktree; `live` compares a running turn with the files now. */
+export const getTurnChangesInputSchema = z.object({
+	sessionId: z.string().min(1),
+	turnId: z.string().min(1),
+	live: z.boolean().optional(),
+});
+export type GetTurnChangesInput = z.infer<typeof getTurnChangesInputSchema>;
+
 export const listSessionsInputSchema = z.object({
 	workspaceId: z.string().min(1).optional(),
 	limit: z.number().int().positive().max(200).default(50),
