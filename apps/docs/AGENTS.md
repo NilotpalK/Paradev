@@ -1,6 +1,6 @@
 # Docs site
 
-Everything under `content/` is published at docs.superset.sh, so it documents
+Everything under `content/` is published at docs.paradev.com, so it documents
 only what a customer can run today.
 
 - **CLI reference (`content/docs/cli/cli-reference.mdx`) lists public commands

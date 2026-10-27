@@ -1,8 +1,8 @@
-# Superset Monorepo
+# Paradev Monorepo
 
-Superset is an agent-first development platform, with an Electron desktop IDE, Next.js web apps, and an Expo mobile app as the main customer-facing surfaces. It's a Turborepo monorepo, deployed apps are in apps/ and supporting packages are in packages/, and we use tRPC for the api.
+Paradev is an agent-first development platform, with an Electron desktop IDE, Next.js web apps, and an Expo mobile app as the main customer-facing surfaces. It's a Turborepo monorepo, deployed apps are in apps/ and supporting packages are in packages/, and we use tRPC for the api.
 
-You're working inside a Superset workspace, an isolated checkout of this repo — a git worktree on a
+You're working inside a Paradev workspace, an isolated checkout of this repo — a git worktree on a
 machine someone owns, a plain clone at `/workspace` in a cloud workspace. "Workspace" in a user
 message means that, not an editor workspace.
 
@@ -116,7 +116,7 @@ Details: `docs/plugins.md`.
 
 When work wants a fresh isolated environment, a parallel agent, or a long-running job, reach for the
 `superset` CLI instead of hand-rolling git worktrees or doing it all serially in this one. It's
-already on `PATH` in Superset terminals, and we dogfood it. `paradev` is an alias for the same
+already on `PATH` in Paradev terminals, and we dogfood it. `paradev` is an alias for the same
 binary; write `superset` in code and docs here.
 
 Replace the capitalized placeholders before running these:
