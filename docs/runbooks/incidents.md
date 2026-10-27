@@ -1,6 +1,6 @@
 # Incidents
 
-How to run an incident for Paradev's hosted services, and how to keep status.superset.sh current
+How to run an incident for Paradev's hosted services, and how to keep status.paradev.com current
 while it happens. Agents: `.agents/skills/incident-triage/SKILL.md` does the first pass of the
 "Where to look first" section and drafts the status message. A human posts it.
 
@@ -141,7 +141,7 @@ Rules for the text:
 When you declare:
 
 - [ ] Open an incident channel or thread, and post the severity, the lead, and a one-line summary.
-- [ ] Post "Investigating" on status.superset.sh (SEV1 and SEV2).
+- [ ] Post "Investigating" on status.paradev.com (SEV1 and SEV2).
 - [ ] Tell support (Plain) and Discord moderators, so that they link the status page in replies and do not guess.
 
 During the incident:

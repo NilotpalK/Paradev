@@ -142,7 +142,7 @@ jobs:
 ### curl | sh (planned)
 
 ```bash
-curl -fsSL https://get.superset.sh | sh
+curl -fsSL https://paradev.com/cli/install.sh | sh
 ```
 
 Detects platform/arch, downloads tarball from GitHub Releases, extracts to `~/.superset/bin/`, prints PATH instructions.
