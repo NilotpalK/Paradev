@@ -32,6 +32,14 @@ export interface ChannelAttachment {
 	url: string;
 }
 
+export type ChannelBroadcast = "here" | "channel" | "everyone";
+
+export const CHANNEL_BROADCASTS: readonly ChannelBroadcast[] = [
+	"here",
+	"channel",
+	"everyone",
+];
+
 export interface ChannelMessageWire {
 	id: string;
 	channelId: string;
@@ -40,6 +48,7 @@ export interface ChannelMessageWire {
 	authorUserId: string | null;
 	body: string;
 	mentionedUserIds: string[];
+	broadcast: ChannelBroadcast | null;
 	clientId: string | null;
 	replyCount: number;
 	lastReplyAt: string | null;
@@ -50,7 +59,8 @@ export interface ChannelMessageWire {
 	attachments: ChannelAttachment[];
 }
 
-export type ChannelNotifyReason = "mention" | "reply" | "message";
+/** `here` is an @here: the client drops it while its person is away. */
+export type ChannelNotifyReason = "mention" | "here" | "reply" | "message";
 
 export type ChannelRealtimeEvent =
 	| { type: "channel.message"; channelId: string; message: ChannelMessageWire }
@@ -79,7 +89,9 @@ export type ChannelRealtimeEvent =
 			threadRootId: string | null;
 			reason: ChannelNotifyReason;
 			authorName: string;
+			/** Empty when `showPreview` is off. */
 			preview: string;
+			showPreview: boolean;
 	  };
 
 const EVENT_TYPES = new Set([

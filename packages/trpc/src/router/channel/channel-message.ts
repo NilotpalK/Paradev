@@ -1,6 +1,7 @@
 import { db, dbWs } from "@superset/db/client";
 import {
 	attachments,
+	type ChannelNotify,
 	channelMembers,
 	channelMessageReactions,
 	channelMessages,
@@ -9,7 +10,7 @@ import {
 	members as orgMembers,
 	type SelectChannelMessage,
 } from "@superset/db/schema";
-import { previewOf } from "@superset/shared/channels";
+import { type ChannelNotifyReason, previewOf } from "@superset/shared/channels";
 import type { TRPCRouterRecord } from "@trpc/server";
 import { and, asc, desc, eq, inArray, isNull, lt, sql } from "drizzle-orm";
 import { userError } from "../../i18n-error";
@@ -23,6 +24,8 @@ import {
 } from "./access";
 import { type EnrichedMessage, enrichMessage, enrichMessages } from "./enrich";
 import { isUniqueViolation, orgMemberIds } from "./members";
+import { loadNotifyPrefs } from "./notification-prefs";
+import { DEFAULT_NOTIFY_PREFS, notifyReason } from "./notify-rules";
 import { publishToUsers, toWire } from "./publish";
 import { publishThreadRead } from "./read-state";
 import {
@@ -70,8 +73,9 @@ async function loadMessage(userId: string, messageId: string) {
 
 interface Recipient {
 	userId: string;
-	notify: string;
+	notify: ChannelNotify | null;
 	muted: boolean;
+	suppressBroadcasts: boolean;
 }
 
 /** The channel's members who still belong to its organization. */
@@ -81,6 +85,7 @@ async function recipients(channelId: string): Promise<Recipient[]> {
 			userId: channelMembers.userId,
 			notify: channelMembers.notify,
 			muted: channelMembers.muted,
+			suppressBroadcasts: channelMembers.suppressBroadcasts,
 		})
 		.from(channelMembers)
 		.innerJoin(channels, eq(channels.id, channelMembers.channelId))
@@ -210,9 +215,8 @@ async function followOnReply(
 
 /**
  * Sends the message to the channel's members and, in a public channel, to
- * people it mentions and thread followers who are not members. Members'
- * mute and notify settings decide their notifications; outsiders are only
- * told about mentions and replies.
+ * people it mentions and thread followers who are not members, so their
+ * open views update. Only members are notified, as in Slack.
  */
 async function announce(
 	access: ChannelAccess,
@@ -225,13 +229,12 @@ async function announce(
 	const followers = root
 		? await threadFollowers(root.id, access.channel.organizationId)
 		: new Set<string>();
-	const mentioned = new Set(message.mentionedUserIds);
-	const isPublic = access.channel.visibility === "public";
-	const outsiders = isPublic
-		? [...new Set([...mentioned, ...followers])].filter(
-				(id) => !memberIds.has(id),
-			)
-		: [];
+	const outsiders =
+		access.channel.visibility === "public"
+			? [...new Set([...message.mentionedUserIds, ...followers])].filter(
+					(id) => !memberIds.has(id),
+				)
+			: [];
 	const audience = [...memberIds, ...outsiders];
 	publishToUsers(audience, {
 		type: "channel.message",
@@ -246,32 +249,41 @@ async function announce(
 		});
 	}
 
-	const byReason = {
-		mention: [] as string[],
-		reply: [] as string[],
-		message: [] as string[],
-	};
+	const prefs = await loadNotifyPrefs([...memberIds]);
+	const now = new Date();
+	const preview =
+		previewOf(message.body) ||
+		message.attachments.map((file) => file.name).join(", ");
+	const groups = new Map<
+		string,
+		{ reason: ChannelNotifyReason; showPreview: boolean; userIds: string[] }
+	>();
 	for (const member of members) {
-		if (
-			member.userId === message.authorUserId ||
-			member.muted ||
-			member.notify === "none"
-		) {
-			continue;
-		}
-		if (mentioned.has(member.userId)) byReason.mention.push(member.userId);
-		else if (followers.has(member.userId)) byReason.reply.push(member.userId);
-		else if (member.notify === "all" && !root) {
-			byReason.message.push(member.userId);
-		}
+		const memberPrefs = prefs.get(member.userId) ?? DEFAULT_NOTIFY_PREFS;
+		const reason = notifyReason(
+			{ ...member, followsThread: followers.has(member.userId) },
+			memberPrefs,
+			{
+				authorUserId: message.authorUserId,
+				body: message.body,
+				mentionedUserIds: message.mentionedUserIds,
+				broadcast: message.broadcast,
+				isReply: root !== null,
+			},
+			now,
+		);
+		if (!reason) continue;
+		const key = `${reason}:${memberPrefs.showPreview}`;
+		const group = groups.get(key) ?? {
+			reason,
+			showPreview: memberPrefs.showPreview,
+			userIds: [],
+		};
+		group.userIds.push(member.userId);
+		groups.set(key, group);
 	}
-	for (const userId of outsiders) {
-		if (userId === message.authorUserId) continue;
-		if (mentioned.has(userId)) byReason.mention.push(userId);
-		else byReason.reply.push(userId);
-	}
-	for (const reason of ["mention", "reply", "message"] as const) {
-		publishToUsers(byReason[reason], {
+	for (const { reason, showPreview, userIds } of groups.values()) {
+		publishToUsers(userIds, {
 			type: "channel.notify",
 			organizationId: access.channel.organizationId,
 			channelId: access.channel.id,
@@ -280,9 +292,8 @@ async function announce(
 			threadRootId: message.threadRootId,
 			reason,
 			authorName,
-			preview:
-				previewOf(message.body) ||
-				message.attachments.map((file) => file.name).join(", "),
+			preview: showPreview ? preview : "",
+			showPreview,
 		});
 	}
 }
@@ -424,6 +435,7 @@ export const channelMessageRouter = {
 							authorUserId: userId,
 							body,
 							mentionedUserIds,
+							broadcast: input.broadcast ?? null,
 							clientId: input.clientId,
 							createdAt: now,
 						})
@@ -476,7 +488,13 @@ export const channelMessageRouter = {
 			).filter((id) => id !== userId);
 			const [updated] = await db
 				.update(channelMessages)
-				.set({ body, mentionedUserIds, editedAt: new Date() })
+				.set({
+					body,
+					mentionedUserIds,
+					broadcast:
+						input.broadcast === undefined ? message.broadcast : input.broadcast,
+					editedAt: new Date(),
+				})
 				.where(eq(channelMessages.id, message.id))
 				.returning();
 			if (!updated) throw messageNotFound();
@@ -516,7 +534,12 @@ export const channelMessageRouter = {
 					);
 				const [row] = await tx
 					.update(channelMessages)
-					.set({ body: "", mentionedUserIds: [], deletedAt: new Date() })
+					.set({
+						body: "",
+						mentionedUserIds: [],
+						broadcast: null,
+						deletedAt: new Date(),
+					})
 					.where(eq(channelMessages.id, message.id))
 					.returning();
 				if (!row?.threadRootId) return { row, root: null };
