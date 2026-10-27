@@ -111,14 +111,12 @@ export function PickRepositoriesStep({
 						out what to install and gets it running in the cloud.
 					</Trans>
 				</DialogDescription>
-				<p className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-					<FaGithub className="size-3.5" />
-					{accountLogin ? (
+				{accountLogin && (
+					<p className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+						<FaGithub className="size-3.5" />
 						<Trans>Connected to GitHub as {accountLogin}</Trans>
-					) : (
-						<Trans>Pull requests open as the Paradev GitHub App</Trans>
-					)}
-				</p>
+					</p>
+				)}
 			</DialogHeader>
 			<div className="flex flex-col gap-2 px-5 pb-5">
 				<div className="flex items-center justify-between">
