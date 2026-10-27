@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received}/{total}"
 
+msgid "{remaining} tokens left"
+msgstr "残り {remaining} トークン"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} は、この組織の GitHub App がインストールされている {installedAccountLogin} にありません。"
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, other {# 件のファイルをアップロード中�
 msgid "{used} of {limit} environments"
 msgstr "{limit} 件中 {used} 件の環境"
 
+msgid "{used} of {size} tokens"
+msgstr "{size} トークン中 {used}"
+
 msgid "{used} used"
 msgstr "{used} 使用済み"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting}件待機中"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "{windowLabel} の上限: {percent} 使用済み"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: ホストが利用できません"
@@ -3039,6 +3048,9 @@ msgstr "チケットからPRまでの自律パイプライン"
 msgid "Available"
 msgstr "利用可能"
 
+msgid "Available when the agent is idle."
+msgstr "エージェントが待機中のときに使用できます。"
+
 msgid "Avatar"
 msgstr "アバター"
 
@@ -4551,6 +4563,9 @@ msgstr "コミュニケーション"
 msgid "Community"
 msgstr "コミュニティ"
 
+msgid "Compact now"
+msgstr "今すぐ圧縮"
+
 msgid "Company"
 msgstr "会社"
 
@@ -4892,6 +4907,12 @@ msgstr "Context"
 
 msgid "Context Menu"
 msgstr "Context Menu"
+
+msgid "Context window"
+msgstr "コンテキストウィンドウ"
+
+msgid "Context window: {percent} used"
+msgstr "コンテキストウィンドウ: {percent} 使用済み"
 
 msgid "Continue"
 msgstr "続行"
@@ -10871,6 +10892,9 @@ msgstr "モバイルアプリ"
 msgid "Mobile App"
 msgstr "モバイルアプリ"
 
+msgid "Mode"
+msgstr "モード"
+
 msgid "model"
 msgstr "モデル"
 
@@ -12061,6 +12085,9 @@ msgstr "このバージョンにはありません"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "まだイベントを受信していません: Microsoft Graphが通知サブスクリプションを拒否しました。アプリの管理者同意と保護されたAPIの承認を確認してから、再接続してください。"
 
+msgid "Not reported yet"
+msgstr "まだ報告されていません"
+
 msgid "Not reviewed by you"
 msgstr "自分がレビューしていない"
 
@@ -12218,6 +12245,9 @@ msgstr "オフライン/ローカルファーストモード"
 
 msgid "Older"
 msgstr "それ以前"
+
+msgid "On"
+msgstr "オン"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "{offScopeHostName}上 — ここでは実行されません"
@@ -14317,6 +14347,9 @@ msgstr "{appName}を評価"
 msgid "Rate limit exceeded."
 msgstr "レート制限を超えました。"
 
+msgid "Rate limits"
+msgstr "使用量の上限"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Paradevリレー経由でどこからでもこのMacに接続でき、クラウドワークスペースも起動できます。どのクライアントからでも接続できます。"
 
@@ -14620,6 +14653,9 @@ msgstr "プロジェクトを移動しますか?"
 
 msgid "Relocating…"
 msgstr "移動中…"
+
+msgid "Remaining"
+msgstr "残り"
 
 msgid "rematch"
 msgstr "再戦"
@@ -16245,6 +16281,12 @@ msgstr "セッション"
 msgid "Session {0}"
 msgstr "セッション {0}"
 
+msgid "Session cost"
+msgstr "セッションのコスト"
+
+msgid "Session cost: {cost}"
+msgstr "セッションのコスト: {cost}"
+
 msgid "Session details"
 msgstr "セッションの詳細"
 
@@ -16265,6 +16307,9 @@ msgstr "セッション名を {trimmed} に変更しました"
 
 msgid "Session snapshots & revert"
 msgstr "セッションのスナップショットと巻き戻し"
+
+msgid "Session status"
+msgstr "セッションの状態"
 
 msgid "Sessions"
 msgstr "セッション"
@@ -17978,6 +18023,9 @@ msgstr "エージェントがチケットから差分までタスクを引き受
 msgid "The agent stopped while resuming the conversation."
 msgstr "会話の再開中にエージェントが停止しました。"
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "エージェントがここまでの会話を要約します。コンテキストが空き、使用量の一部を消費します。"
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "このオートメーションに設定されていたエージェントは、ホスト上に存在しなくなりました — ホストのエージェントがリセットまたは削除された可能性があります。オートメーションの設定でエージェントを選び直してください。"
 
@@ -19614,6 +19662,9 @@ msgstr "音声文字起こしとプッシュトゥトーク機能を使用しま
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "既存のエージェントの契約とAPIキーをそのまま使えます。Paradevがモデルの呼び出しを中継したり、ワークフローを特定のプロバイダーに縛ったりすることはありません。"
+
+msgid "Used"
+msgstr "使用済み"
 
 msgid "Used in URLs and APIs."
 msgstr "URLとAPIで使用されます。"

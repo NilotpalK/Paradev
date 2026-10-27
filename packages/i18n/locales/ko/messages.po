@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{total} 중 {received}"
 
+msgid "{remaining} tokens left"
+msgstr "{remaining} 토큰 남음"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName}은(는) 이 조직의 GitHub App이 설치된 {installedAccountLogin}에 없습니다."
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, other {파일 #개 업로드 중…}}"
 msgid "{used} of {limit} environments"
 msgstr "환경 {limit}개 중 {used}개"
 
+msgid "{used} of {size} tokens"
+msgstr "{size} 토큰 중 {used}"
+
 msgid "{used} used"
 msgstr "{used} 사용됨"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting}명 대기 중"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "{windowLabel} 한도: {percent} 사용됨"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: 호스트를 사용할 수 없습니다"
@@ -3039,6 +3048,9 @@ msgstr "자율 티켓-투-PR 파이프라인"
 msgid "Available"
 msgstr "사용 가능"
 
+msgid "Available when the agent is idle."
+msgstr "에이전트가 대기 중일 때 사용할 수 있습니다."
+
 msgid "Avatar"
 msgstr "아바타"
 
@@ -4551,6 +4563,9 @@ msgstr "커뮤니케이션"
 msgid "Community"
 msgstr "커뮤니티"
 
+msgid "Compact now"
+msgstr "지금 압축"
+
 msgid "Company"
 msgstr "회사"
 
@@ -4892,6 +4907,12 @@ msgstr "컨텍스트"
 
 msgid "Context Menu"
 msgstr "컨텍스트 메뉴"
+
+msgid "Context window"
+msgstr "컨텍스트 창"
+
+msgid "Context window: {percent} used"
+msgstr "컨텍스트 창: {percent} 사용됨"
 
 msgid "Continue"
 msgstr "계속"
@@ -10871,6 +10892,9 @@ msgstr "모바일 앱"
 msgid "Mobile App"
 msgstr "모바일 앱"
 
+msgid "Mode"
+msgstr "모드"
+
 msgid "model"
 msgstr "모델"
 
@@ -12061,6 +12085,9 @@ msgstr "이 버전에는 없음"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "아직 이벤트를 받지 못하고 있습니다. Microsoft Graph가 알림 구독을 거부했습니다. 앱의 관리자 동의와 보호된 API 승인을 확인한 뒤 다시 연결하세요."
 
+msgid "Not reported yet"
+msgstr "아직 보고되지 않음"
+
 msgid "Not reviewed by you"
 msgstr "내가 리뷰하지 않음"
 
@@ -12218,6 +12245,9 @@ msgstr "오프라인 / 로컬 우선 모드"
 
 msgid "Older"
 msgstr "이전"
+
+msgid "On"
+msgstr "켬"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "{offScopeHostName}에 있음 — 여기서는 실행되지 않습니다"
@@ -14317,6 +14347,9 @@ msgstr "{appName} 평가하기"
 msgid "Rate limit exceeded."
 msgstr "요청 한도를 초과했습니다."
 
+msgid "Rate limits"
+msgstr "사용량 한도"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Paradev 릴레이를 통해 어디서든 이 Mac에 접속하거나 클라우드 워크스페이스를 띄우세요. 어떤 클라이언트에서도 연결할 수 있습니다."
 
@@ -14620,6 +14653,9 @@ msgstr "프로젝트를 이동할까요?"
 
 msgid "Relocating…"
 msgstr "이동하는 중…"
+
+msgid "Remaining"
+msgstr "남음"
 
 msgid "rematch"
 msgstr "재대결"
@@ -16245,6 +16281,12 @@ msgstr "세션"
 msgid "Session {0}"
 msgstr "세션 {0}"
 
+msgid "Session cost"
+msgstr "세션 비용"
+
+msgid "Session cost: {cost}"
+msgstr "세션 비용: {cost}"
+
 msgid "Session details"
 msgstr "세션 상세"
 
@@ -16265,6 +16307,9 @@ msgstr "세션 이름을 {trimmed}(으)로 변경했습니다"
 
 msgid "Session snapshots & revert"
 msgstr "세션 스냅샷 및 되돌리기"
+
+msgid "Session status"
+msgstr "세션 상태"
 
 msgid "Sessions"
 msgstr "세션"
@@ -17978,6 +18023,9 @@ msgstr "에이전트가 티켓부터 차이까지 작업을 맡습니다. 사람
 msgid "The agent stopped while resuming the conversation."
 msgstr "대화를 재개하는 중에 에이전트가 중지되었습니다."
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "에이전트가 지금까지의 대화를 요약합니다. 컨텍스트가 확보되며 사용량 일부가 소모됩니다."
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "이 자동화가 실행하도록 설정된 에이전트가 해당 호스트에 더 이상 존재하지 않습니다. 호스트의 에이전트가 초기화되었거나 제거되었을 수 있습니다. 자동화 설정에서 에이전트를 다시 선택하세요."
 
@@ -19614,6 +19662,9 @@ msgstr "음성 받아쓰기와 푸시 투 토크 기능을 사용합니다."
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "기존 에이전트 구독과 API 키를 그대로 쓰세요. Paradev는 모델 호출을 중계하지 않고, 워크플로를 한 제공사에 묶어 두지 않습니다."
+
+msgid "Used"
+msgstr "사용됨"
 
 msgid "Used in URLs and APIs."
 msgstr "URL과 API에서 사용됩니다."

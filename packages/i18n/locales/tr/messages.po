@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{total} içinden {received}"
 
+msgid "{remaining} tokens left"
+msgstr "{remaining} token kaldı"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName}, bu organizasyonun GitHub App'inin kurulu olduğu {installedAccountLogin} hesabında değil."
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, other {# dosya yükleniyor…}}"
 msgid "{used} of {limit} environments"
 msgstr "{limit} ortamdan {used} tanesi"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} / {size} token"
+
 msgid "{used} used"
 msgstr "{used} kullanıldı"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} bekliyor"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "{windowLabel} sınırı: {percent} kullanıldı"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host kullanılamıyor"
@@ -3039,6 +3048,9 @@ msgstr "Otonom biletten PR'a boru hattı"
 msgid "Available"
 msgstr "Uygun"
 
+msgid "Available when the agent is idle."
+msgstr "Ajan boştayken kullanılabilir."
+
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -4551,6 +4563,9 @@ msgstr "İletişim"
 msgid "Community"
 msgstr "Topluluk"
 
+msgid "Compact now"
+msgstr "Şimdi sıkıştır"
+
 msgid "Company"
 msgstr "Şirket"
 
@@ -4892,6 +4907,12 @@ msgstr "Bağlam"
 
 msgid "Context Menu"
 msgstr "Bağlam menüsü"
+
+msgid "Context window"
+msgstr "Bağlam penceresi"
+
+msgid "Context window: {percent} used"
+msgstr "Bağlam penceresi: {percent} kullanıldı"
 
 msgid "Continue"
 msgstr "Devam et"
@@ -10871,6 +10892,9 @@ msgstr "Mobil uygulama"
 msgid "Mobile App"
 msgstr "Mobil uygulama"
 
+msgid "Mode"
+msgstr "Mod"
+
 msgid "model"
 msgstr "model"
 
@@ -12061,6 +12085,9 @@ msgstr "Bu sürümde yok"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Henüz olay alınmıyor: Microsoft Graph bildirim aboneliklerini reddetti. Uygulamanın yönetici onayını ve korumalı API onayını kontrol edip yeniden bağlanın."
 
+msgid "Not reported yet"
+msgstr "Henüz bildirilmedi"
+
 msgid "Not reviewed by you"
 msgstr "Sizin incelemediğiniz"
 
@@ -12218,6 +12245,9 @@ msgstr "Çevrimdışı / yerel öncelikli mod"
 
 msgid "Older"
 msgstr "Daha eski"
+
+msgid "On"
+msgstr "Açık"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "{offScopeHostName} üzerinde — burada çalışmaz"
@@ -14317,6 +14347,9 @@ msgstr "{appName}'i puanla"
 msgid "Rate limit exceeded."
 msgstr "Hız sınırı aşıldı."
 
+msgid "Rate limits"
+msgstr "Kullanım sınırları"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Paradev rölesi üzerinden bu Mac'e her yerden erişin veya bulut çalışma alanları başlatın. Herhangi bir istemciden bağlanın."
 
@@ -14620,6 +14653,9 @@ msgstr "Proje taşınsın mı?"
 
 msgid "Relocating…"
 msgstr "Taşınıyor…"
+
+msgid "Remaining"
+msgstr "Kalan"
 
 msgid "rematch"
 msgstr "rövanş"
@@ -16245,6 +16281,12 @@ msgstr "Oturum"
 msgid "Session {0}"
 msgstr "Oturum {0}"
 
+msgid "Session cost"
+msgstr "Oturum maliyeti"
+
+msgid "Session cost: {cost}"
+msgstr "Oturum maliyeti: {cost}"
+
 msgid "Session details"
 msgstr "Oturum ayrıntıları"
 
@@ -16265,6 +16307,9 @@ msgstr "Oturum {trimmed} olarak yeniden adlandırıldı"
 
 msgid "Session snapshots & revert"
 msgstr "Oturum anlık görüntüleri ve geri alma"
+
+msgid "Session status"
+msgstr "Oturum durumu"
 
 msgid "Sessions"
 msgstr "Oturumlar"
@@ -17978,6 +18023,9 @@ msgstr "Ajan, bir görevi biletten farka kadar sahiplenir. İnsan tuş vuruşlar
 msgid "The agent stopped while resuming the conversation."
 msgstr "Ajan, konuşmayı sürdürürken durdu."
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "Ajan şimdiye kadarki konuşmayı özetler. Bu, bağlamda yer açar ve kullanımınızın bir kısmını tüketir."
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "Bu otomasyonun çalıştırılacağı ajan, host'unda artık yok — host'un ajanları sıfırlanmış veya kaldırılmış olabilir. Otomasyonun ayarlarından yeni bir ajan seçin."
 
@@ -19614,6 +19662,9 @@ msgstr "Sesli yazıya dökme ve bas-konuş özelliklerini kullanın."
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Mevcut ajan aboneliklerinizi ve API anahtarlarınızı kullanın. Paradev model çağrılarını asla vekil olarak iletmez ve iş akışınızı tek bir sağlayıcıya kilitlemez."
+
+msgid "Used"
+msgstr "Kullanılan"
 
 msgid "Used in URLs and APIs."
 msgstr "URL'lerde ve API'lerde kullanılır."

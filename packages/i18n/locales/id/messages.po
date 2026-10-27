@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} dari {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Sisa {remaining} token"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} tidak ada di {installedAccountLogin}, tempat GitHub App organisasi ini dipasang."
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, other {Mengunggah # file…}}"
 msgid "{used} of {limit} environments"
 msgstr "{used} dari {limit} lingkungan"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} dari {size} token"
+
 msgid "{used} used"
 msgstr "{used} terpakai"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} Menunggu"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Batas {windowLabel}: {percent} terpakai"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host tidak tersedia"
@@ -3039,6 +3048,9 @@ msgstr "Pipeline otonom dari tiket ke PR"
 msgid "Available"
 msgstr "Tersedia"
 
+msgid "Available when the agent is idle."
+msgstr "Tersedia saat agen tidak sedang bekerja."
+
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -4551,6 +4563,9 @@ msgstr "Komunikasi"
 msgid "Community"
 msgstr "Komunitas"
 
+msgid "Compact now"
+msgstr "Padatkan sekarang"
+
 msgid "Company"
 msgstr "Perusahaan"
 
@@ -4892,6 +4907,12 @@ msgstr "Konteks"
 
 msgid "Context Menu"
 msgstr "Menu Konteks"
+
+msgid "Context window"
+msgstr "Jendela konteks"
+
+msgid "Context window: {percent} used"
+msgstr "Jendela konteks: {percent} terpakai"
 
 msgid "Continue"
 msgstr "Lanjutkan"
@@ -10871,6 +10892,9 @@ msgstr "Aplikasi mobile"
 msgid "Mobile App"
 msgstr "Aplikasi Mobile"
 
+msgid "Mode"
+msgstr "Mode"
+
 msgid "model"
 msgstr "model"
 
@@ -12061,6 +12085,9 @@ msgstr "Tidak ada di versi ini"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Belum menerima event: Microsoft Graph menolak langganan notifikasi. Periksa persetujuan admin aplikasi dan persetujuan protected API, lalu hubungkan ulang."
 
+msgid "Not reported yet"
+msgstr "Belum dilaporkan"
+
 msgid "Not reviewed by you"
 msgstr "Belum Anda review"
 
@@ -12218,6 +12245,9 @@ msgstr "Mode offline / local-first"
 
 msgid "Older"
 msgstr "Lebih lama"
+
+msgid "On"
+msgstr "Nyala"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "di {offScopeHostName} — tidak akan berjalan di sini"
@@ -14317,6 +14347,9 @@ msgstr "Beri Nilai {appName}"
 msgid "Rate limit exceeded."
 msgstr "Batas laju terlampaui."
 
+msgid "Rate limits"
+msgstr "Batas penggunaan"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Jangkau Mac ini dari mana saja lewat relay Paradev, atau jalankan workspace cloud. Hubungkan dari klien mana pun."
 
@@ -14620,6 +14653,9 @@ msgstr "Pindahkan proyek?"
 
 msgid "Relocating…"
 msgstr "Memindahkan…"
+
+msgid "Remaining"
+msgstr "Tersisa"
 
 msgid "rematch"
 msgstr "tanding ulang"
@@ -16245,6 +16281,12 @@ msgstr "Sesi"
 msgid "Session {0}"
 msgstr "Sesi {0}"
 
+msgid "Session cost"
+msgstr "Biaya sesi"
+
+msgid "Session cost: {cost}"
+msgstr "Biaya sesi: {cost}"
+
 msgid "Session details"
 msgstr "Detail sesi"
 
@@ -16265,6 +16307,9 @@ msgstr "Nama sesi diganti menjadi {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Snapshot sesi & pengembalian"
+
+msgid "Session status"
+msgstr "Status sesi"
 
 msgid "Sessions"
 msgstr "Sesi"
@@ -17978,6 +18023,9 @@ msgstr "Agen memegang tugas dari tiket sampai diff. Manusia mereview hasilnya, b
 msgid "The agent stopped while resuming the conversation."
 msgstr "Agen berhenti saat melanjutkan percakapan."
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "Agen merangkum percakapan sejauh ini. Ini mengosongkan konteks dan memakai sebagian kuota penggunaan Anda."
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "Agen yang disetel untuk menjalankan otomatisasi ini sudah tidak ada di host-nya — agen host itu mungkin telah direset atau dihapus. Pilih ulang agen di pengaturan otomatisasi."
 
@@ -19614,6 +19662,9 @@ msgstr "Memakai transkripsi suara dan fitur push-to-talk."
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Pakai langganan agen dan kunci API Anda yang sudah ada. Paradev tidak pernah mem-proxy panggilan model atau mengunci alur kerja Anda ke satu penyedia."
+
+msgid "Used"
+msgstr "Terpakai"
 
 msgid "Used in URLs and APIs."
 msgstr "Dipakai di URL dan API."

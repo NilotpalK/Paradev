@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} из {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Осталось токенов: {remaining}"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} не находится в {installedAccountLogin}, где установлено GitHub App этой организации."
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, one {Загрузка # файла…} few {Загр
 msgid "{used} of {limit} environments"
 msgstr "{used} из {limit} окружений"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} из {size} токенов"
+
 msgid "{used} used"
 msgstr "Использовано {used}"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} ГБ"
 
 msgid "{waiting} Waiting"
 msgstr "Ожидают: {waiting}"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Лимит «{windowLabel}»: использовано {percent}"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: хост недоступен"
@@ -3039,6 +3048,9 @@ msgstr "Автономный конвейер от тикета до PR"
 msgid "Available"
 msgstr "Свободен"
 
+msgid "Available when the agent is idle."
+msgstr "Доступно, когда агент простаивает."
+
 msgid "Avatar"
 msgstr "Аватар"
 
@@ -4551,6 +4563,9 @@ msgstr "Коммуникация"
 msgid "Community"
 msgstr "Сообщество"
 
+msgid "Compact now"
+msgstr "Сжать сейчас"
+
 msgid "Company"
 msgstr "Компания"
 
@@ -4892,6 +4907,12 @@ msgstr "Контекст"
 
 msgid "Context Menu"
 msgstr "Контекстное меню"
+
+msgid "Context window"
+msgstr "Контекстное окно"
+
+msgid "Context window: {percent} used"
+msgstr "Контекстное окно: использовано {percent}"
 
 msgid "Continue"
 msgstr "Продолжить"
@@ -10871,6 +10892,9 @@ msgstr "Мобильное приложение"
 msgid "Mobile App"
 msgstr "Мобильное приложение"
 
+msgid "Mode"
+msgstr "Режим"
+
 msgid "model"
 msgstr "модель"
 
@@ -12061,6 +12085,9 @@ msgstr "Нет в этой версии"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "События пока не приходят: Microsoft Graph отклонил подписки на уведомления. Проверьте согласие администратора и одобрение защищённого API, затем переподключитесь."
 
+msgid "Not reported yet"
+msgstr "Пока нет данных"
+
 msgid "Not reviewed by you"
 msgstr "Не проверено вами"
 
@@ -12218,6 +12245,9 @@ msgstr "Офлайн / local-first режим"
 
 msgid "Older"
 msgstr "Ранее"
+
+msgid "On"
+msgstr "Вкл."
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "на {offScopeHostName} — здесь не запустится"
@@ -14317,6 +14347,9 @@ msgstr "Оценить {appName}"
 msgid "Rate limit exceeded."
 msgstr "Превышен лимит запросов."
 
+msgid "Rate limits"
+msgstr "Лимиты использования"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Достучитесь до этого Mac откуда угодно через реле Paradev или поднимите облачные рабочие области. Подключайтесь с любого клиента."
 
@@ -14620,6 +14653,9 @@ msgstr "Переместить проект?"
 
 msgid "Relocating…"
 msgstr "Перемещение…"
+
+msgid "Remaining"
+msgstr "Осталось"
 
 msgid "rematch"
 msgstr "реванш"
@@ -16245,6 +16281,12 @@ msgstr "Сессия"
 msgid "Session {0}"
 msgstr "Сессия {0}"
 
+msgid "Session cost"
+msgstr "Стоимость сеанса"
+
+msgid "Session cost: {cost}"
+msgstr "Стоимость сеанса: {cost}"
+
 msgid "Session details"
 msgstr "Детали сессии"
 
@@ -16265,6 +16307,9 @@ msgstr "Сессия переименована в {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Снимки сессий и откат"
+
+msgid "Session status"
+msgstr "Состояние сеанса"
 
 msgid "Sessions"
 msgstr "Сессии"
@@ -17978,6 +18023,9 @@ msgstr "Агент ведёт задачу от тикета до diff. Чело
 msgid "The agent stopped while resuming the conversation."
 msgstr "Агент остановился при возобновлении разговора."
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "Агент кратко изложит разговор до этого момента. Это освободит контекст и израсходует часть вашего лимита."
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "Агента, на котором должна была запускаться эта автоматизация, больше нет на его хосте — возможно, агенты хоста были сброшены или удалены. Выберите агента заново в настройках автоматизации."
 
@@ -19614,6 +19662,9 @@ msgstr "Использовать голосовую расшифровку и р
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Используйте свои подписки на агентов и ключи API. Paradev никогда не проксирует вызовы моделей и не привязывает ваш процесс к одному провайдеру."
+
+msgid "Used"
+msgstr "Использовано"
 
 msgid "Used in URLs and APIs."
 msgstr "Используется в URL и API."

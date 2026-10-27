@@ -1203,6 +1203,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} de {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Restam {remaining} tokens"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} não está em {installedAccountLogin}, onde a GitHub App desta organização está instalada."
 
@@ -1301,6 +1304,9 @@ msgstr "{uploading, plural, one {Enviando # arquivo…} other {Enviando # arquiv
 msgid "{used} of {limit} environments"
 msgstr "{used} de {limit} ambientes"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} de {size} tokens"
+
 msgid "{used} used"
 msgstr "{used} usado"
 
@@ -1309,6 +1315,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} aguardando"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Limite {windowLabel}: {percent} usado"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: o host está indisponível"
@@ -3039,6 +3048,9 @@ msgstr "Pipeline autônomo de ticket para PR"
 msgid "Available"
 msgstr "Disponível"
 
+msgid "Available when the agent is idle."
+msgstr "Disponível quando o agente estiver ocioso."
+
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -4551,6 +4563,9 @@ msgstr "Comunicação"
 msgid "Community"
 msgstr "Comunidade"
 
+msgid "Compact now"
+msgstr "Compactar agora"
+
 msgid "Company"
 msgstr "Empresa"
 
@@ -4892,6 +4907,12 @@ msgstr "Contexto"
 
 msgid "Context Menu"
 msgstr "Menu de contexto"
+
+msgid "Context window"
+msgstr "Janela de contexto"
+
+msgid "Context window: {percent} used"
+msgstr "Janela de contexto: {percent} usado"
 
 msgid "Continue"
 msgstr "Continuar"
@@ -10871,6 +10892,9 @@ msgstr "App para celular"
 msgid "Mobile App"
 msgstr "App para celular"
 
+msgid "Mode"
+msgstr "Modo"
+
 msgid "model"
 msgstr "modelo"
 
@@ -12061,6 +12085,9 @@ msgstr "Não está nesta versão"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Ainda não recebendo eventos: o Microsoft Graph recusou as assinaturas de notificação. Verifique o consentimento de administrador e a aprovação de API protegida do app e reconecte."
 
+msgid "Not reported yet"
+msgstr "Ainda não informado"
+
 msgid "Not reviewed by you"
 msgstr "Não revisados por você"
 
@@ -12218,6 +12245,9 @@ msgstr "Modo offline / local-first"
 
 msgid "Older"
 msgstr "Mais antigo"
+
+msgid "On"
+msgstr "Ligado"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "em {offScopeHostName} — não vai rodar aqui"
@@ -14317,6 +14347,9 @@ msgstr "Avaliar o {appName}"
 msgid "Rate limit exceeded."
 msgstr "Limite de requisições excedido."
 
+msgid "Rate limits"
+msgstr "Limites de uso"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Acesse este Mac de qualquer lugar pelo relay do Paradev ou crie áreas de trabalho na nuvem. Conecte-se de qualquer cliente."
 
@@ -14620,6 +14653,9 @@ msgstr "Mover o projeto?"
 
 msgid "Relocating…"
 msgstr "Movendo…"
+
+msgid "Remaining"
+msgstr "Restante"
 
 msgid "rematch"
 msgstr "revanche"
@@ -16245,6 +16281,12 @@ msgstr "Sessão"
 msgid "Session {0}"
 msgstr "Sessão {0}"
 
+msgid "Session cost"
+msgstr "Custo da sessão"
+
+msgid "Session cost: {cost}"
+msgstr "Custo da sessão: {cost}"
+
 msgid "Session details"
 msgstr "Detalhes da sessão"
 
@@ -16265,6 +16307,9 @@ msgstr "Sessão renomeada para {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Snapshots de sessão e reversão"
+
+msgid "Session status"
+msgstr "Status da sessão"
 
 msgid "Sessions"
 msgstr "Sessões"
@@ -17978,6 +18023,9 @@ msgstr "O agente é dono da tarefa, do ticket ao diff. A pessoa revisa o resulta
 msgid "The agent stopped while resuming the conversation."
 msgstr "O agente parou ao retomar a conversa."
 
+msgid "The agent summarizes the conversation so far, which frees context and uses some of your usage."
+msgstr "O agente resume a conversa até aqui, o que libera contexto e consome parte do seu uso."
+
 msgid "The agent this automation was set to run no longer exists on its host — the host's agents may have been reset or removed. Re-select an agent in the automation's settings."
 msgstr "O agente que esta automação usava não existe mais no host — os agentes do host podem ter sido redefinidos ou removidos. Selecione outro agente nas configurações da automação."
 
@@ -19614,6 +19662,9 @@ msgstr "Usar transcrição de voz e o recurso de apertar para falar."
 
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Use suas assinaturas de agente e chaves de API atuais. O Paradev nunca faz proxy das chamadas de modelo nem prende seu fluxo a um único provedor."
+
+msgid "Used"
+msgstr "Usado"
 
 msgid "Used in URLs and APIs."
 msgstr "Usado em URLs e APIs."
