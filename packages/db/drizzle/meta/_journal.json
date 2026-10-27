@@ -1156,6 +1156,20 @@
       "when": 1792723955672,
       "tag": "0164_rename_environments_primary_repository",
       "breakpoints": true
+    },
+    {
+      "idx": 165,
+      "version": "7",
+      "when": 1793053915894,
+      "tag": "0165_channels",
+      "breakpoints": true
+    },
+    {
+      "idx": 166,
+      "version": "7",
+      "when": 1793061654318,
+      "tag": "0166_channel_notifications",
+      "breakpoints": true
     }
   ]
 }

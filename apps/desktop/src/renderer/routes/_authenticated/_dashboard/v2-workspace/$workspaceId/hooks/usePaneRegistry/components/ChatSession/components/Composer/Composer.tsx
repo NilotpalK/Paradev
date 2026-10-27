@@ -6,6 +6,7 @@ import type {
 	UserContent,
 } from "@superset/chat/protocol";
 import type {
+	ComposerActionContext,
 	ComposerChip,
 	ComposerMentionEntry,
 	ComposerMentionProvider,
@@ -18,7 +19,6 @@ import { usePaneFocus } from "@superset/panes";
 import { toast } from "@superset/ui/sonner";
 import { cn } from "@superset/ui/utils";
 import { workspaceTrpc } from "@superset/workspace-client";
-import { History } from "lucide-react";
 import {
 	memo,
 	type Ref,
@@ -29,6 +29,7 @@ import {
 	useLayoutEffect,
 	useMemo,
 	useRef,
+	useState,
 } from "react";
 import { useIsDarkTheme } from "renderer/assets/app-icons/preset-icons";
 import { env } from "renderer/env.renderer";
@@ -40,12 +41,14 @@ import { useHostWorkspaces } from "renderer/routes/_authenticated/providers/Host
 import { useChatComposerStore } from "../../../../stores/chatComposerStore";
 import { CHAT_COLUMN_CLASSNAME, CHAT_GUTTER_CLASSNAME } from "../../constants";
 import { useChatWiring } from "../../hooks/useSessionClient";
+import type { ChatForkTarget } from "../../types";
 import { chatContextLine, chatReferenceChip } from "../../utils/chatReference";
 import { commandChip, LEADING_COMMAND } from "../../utils/commandChip";
 import { mcpContextLine } from "../../utils/mcpServerChips";
 import { elementsForChips } from "../../utils/messageElements";
 import { type AgentSwitcher, ModelPicker } from "./components/ModelPicker";
 import { ModePicker, type SessionMode } from "./components/ModePicker";
+import { useAppCommands } from "./hooks/useAppCommands";
 import { useAttachmentPreview } from "./hooks/useAttachmentPreview";
 import {
 	takeRecoveredDraftText,
@@ -68,6 +71,8 @@ export type ComposerHandle = Pick<
 	"appendText" | "addFiles" | "focus"
 > & {
 	returnFocus: (recallHistory?: boolean) => void;
+	/** Opens the model picker on this agent's models only. */
+	openModelPicker: () => void;
 };
 
 export type ComposerProps = {
@@ -81,6 +86,7 @@ export type ComposerProps = {
 	availableCommands: AvailableCommand[];
 	configOptions?: SessionConfigOption[];
 	onSetConfigOption?: (configId: string, value: string) => unknown;
+	onModelPickerOpenChange?: (open: boolean) => void;
 	agentSwitcher?: AgentSwitcher;
 	modes?: SessionMode[];
 	currentModeId?: string;
@@ -88,6 +94,10 @@ export type ComposerProps = {
 	onSend: (content: UserContent[], options: { steer: boolean }) => unknown;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
+	onNewChat?: () => void;
+	onFork?: (target: ChatForkTarget) => void;
+	canForkToWorktree?: boolean;
+	onOpenFind?: () => void;
 	history?: string[];
 	isActive?: boolean;
 	placeholder?: string;
@@ -129,12 +139,14 @@ export const Composer = memo(function Composer({
 	presetId,
 	agentSwitcher,
 	availableCommands,
+	canForkToWorktree,
 	canQueue = false,
 	configOptions,
 	escapeGoesBack = false,
 	currentModeId,
 	modes,
 	onSetConfigOption,
+	onModelPickerOpenChange,
 	onSetMode,
 	disabled,
 	draftKey,
@@ -144,6 +156,9 @@ export const Composer = memo(function Composer({
 	isActive,
 	onCancelTurn,
 	onEnterDrawer,
+	onFork,
+	onNewChat,
+	onOpenFind,
 	onSend,
 	onOpenHistory,
 	placeholder,
@@ -177,6 +192,16 @@ export const Composer = memo(function Composer({
 	});
 	const { returnFocus } = drawerEntry;
 	const mcpPicker = useMcpServerPicker({ workspaceId, presetId });
+	const [modelPickerOpen, setModelPickerOpen] = useState(false);
+	const [agentModelsOnly, setAgentModelsOnly] = useState(false);
+	const changeModelPickerOpen = useCallback(
+		(open: boolean) => {
+			setModelPickerOpen(open);
+			if (!open) setAgentModelsOnly(false);
+			onModelPickerOpenChange?.(open);
+		},
+		[onModelPickerOpenChange],
+	);
 	useImperativeHandle(
 		inputRef,
 		() => ({
@@ -184,8 +209,12 @@ export const Composer = memo(function Composer({
 			addFiles: (files: File[]) => promptInputRef.current?.addFiles(files),
 			focus: focusInput,
 			returnFocus,
+			openModelPicker: () => {
+				setAgentModelsOnly(true);
+				changeModelPickerOpen(true);
+			},
 		}),
-		[focusInput, returnFocus],
+		[focusInput, returnFocus, changeModelPickerOpen],
 	);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const footerTier = useFooterTier(rootRef);
@@ -380,45 +409,57 @@ export const Composer = memo(function Composer({
 
 	const linkChips = useLinkChips();
 
-	const mcpCommand = mcpPicker.command;
-	const resumeCommand = useMemo<PromptInputCommand | null>(
-		() =>
-			onOpenHistory
-				? {
-						id: "superset:resume",
-						title: "/resume",
-						description: t({ message: "Chat history" }),
-						icon: <History className="size-4" />,
-						group: t({ message: "Commands" }),
-						onSelect: () => {
-							queueMicrotask(() => {
-								promptInputRef.current?.blur();
-								onOpenHistory();
-							});
-						},
-					}
-				: null,
-		[onOpenHistory, t],
+	const hasModelPicker =
+		!target &&
+		onSetConfigOption !== undefined &&
+		(configOptions?.some(
+			(option) => option.category === "model" && option.options.length > 0,
+		) === true ||
+			(agentSwitcher?.agents.length ?? 0) > 1);
+	const openModelPicker = useCallback(
+		() => changeModelPickerOpen(true),
+		[changeModelPickerOpen],
 	);
-	const commands = useMemo(() => {
-		const local: PromptInputCommand[] = [
-			...(mcpCommand ? [mcpCommand] : []),
-			...(resumeCommand ? [resumeCommand] : []),
-		];
-		const agentCommands = toMenuCommands(
-			availableCommands.filter(
-				(command) =>
-					!(mcpCommand && command.name === "mcp") &&
-					!(resumeCommand && command.name === "resume") &&
-					!HIDDEN_AGENT_COMMANDS.has(command.name),
+	const openMcp = useCallback(
+		(ctx: ComposerActionContext) => mcpPicker.open.current(ctx),
+		[mcpPicker.open],
+	);
+	const appCommands = useAppCommands({
+		inputRef: promptInputRef,
+		availableCommands,
+		...(presetId ? { presetId } : {}),
+		...(configOptions ? { configOptions } : {}),
+		...(onSetConfigOption ? { onSetConfigOption } : {}),
+		...(modes ? { modes } : {}),
+		...(currentModeId ? { currentModeId } : {}),
+		...(onSetMode ? { onSetMode } : {}),
+		...(hasModelPicker ? { openModelPicker } : {}),
+		...(onNewChat ? { onNewChat } : {}),
+		...(onFork ? { onFork } : {}),
+		...(canForkToWorktree ? { canForkToWorktree } : {}),
+		...(onOpenHistory ? { onOpenHistory } : {}),
+		...(onOpenFind ? { onOpenFind } : {}),
+		...(mcpPicker.available ? { openMcp } : {}),
+		toSubagent: target !== undefined,
+	});
+	const { hiddenAgentNames, runTyped } = appCommands;
+	const commands = useMemo(
+		() => [
+			...appCommands.commands,
+			...toMenuCommands(
+				availableCommands.filter(
+					(command) =>
+						!hiddenAgentNames.has(command.name) &&
+						!HIDDEN_AGENT_COMMANDS.has(command.name),
+				),
+				{
+					commands: t({ message: "Commands" }),
+					mcp: t({ message: "MCP Server Commands" }),
+				},
 			),
-			{
-				commands: t({ message: "Commands" }),
-				mcp: t({ message: "MCP Server Commands" }),
-			},
-		);
-		return [...local, ...agentCommands];
-	}, [availableCommands, mcpCommand, resumeCommand, t]);
+		],
+		[appCommands.commands, availableCommands, hiddenAgentNames, t],
+	);
 
 	const send = useCallback(
 		async (
@@ -485,31 +526,10 @@ export const Composer = memo(function Composer({
 				(text.trim() === "" && files.length === 0 && pastedTexts.length === 0)
 			)
 				return;
+			const typed = runTyped(text, files.length > 0 || pastedTexts.length > 0);
+			if (typed === "ran") return;
+			if (typed === "kept") return false;
 			const name = LEADING_COMMAND.exec(text.trim())?.[1];
-			const input = promptInputRef.current;
-			if (text.trim() === "/mcp" && mcpPicker.command && input) {
-				queueMicrotask(() =>
-					mcpPicker.open.current({
-						insertChip: input.insertChip,
-						attachFiles: input.openFileDialog,
-						openPanel: input.openPanel,
-						query: "",
-					}),
-				);
-				return;
-			}
-			if (
-				text.trim() === "/resume" &&
-				onOpenHistory &&
-				files.length === 0 &&
-				pastedTexts.length === 0
-			) {
-				queueMicrotask(() => {
-					input?.blur();
-					onOpenHistory();
-				});
-				return;
-			}
 			if (
 				name &&
 				!target &&
@@ -521,7 +541,7 @@ export const Composer = memo(function Composer({
 			}
 			return send(text, files, mentions, pastedTexts, steer);
 		},
-		[availableCommands, blocked, send, t, target, mcpPicker, onOpenHistory],
+		[availableCommands, blocked, runTyped, send, t, target],
 	);
 
 	return (
@@ -578,11 +598,13 @@ export const Composer = memo(function Composer({
 				toolbarEnd={
 					!target && configOptions && onSetConfigOption ? (
 						<ModelPicker
-							agentSwitcher={agentSwitcher}
+							agentSwitcher={agentModelsOnly ? undefined : agentSwitcher}
 							configOptions={configOptions}
 							hideEffortLabel={footerTier >= 1}
 							hideModelLabel={footerTier >= 3}
+							onOpenChange={changeModelPickerOpen}
 							onSelect={onSetConfigOption}
+							open={modelPickerOpen}
 						/>
 					) : undefined
 				}

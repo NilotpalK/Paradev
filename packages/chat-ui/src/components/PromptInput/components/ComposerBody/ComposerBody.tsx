@@ -21,6 +21,7 @@ import {
 	$isTextNode,
 	$setSelection,
 	CLICK_COMMAND,
+	COMMAND_PRIORITY_CRITICAL,
 	COMMAND_PRIORITY_HIGH,
 	COMMAND_PRIORITY_LOW,
 	DROP_COMMAND,
@@ -29,6 +30,7 @@ import {
 	KEY_DOWN_COMMAND,
 	KEY_ENTER_COMMAND,
 	KEY_ESCAPE_COMMAND,
+	KEY_TAB_COMMAND,
 	type LexicalNode,
 	PASTE_COMMAND,
 } from "lexical";
@@ -57,6 +59,7 @@ import {
 	type MentionSection,
 	useMentionSources,
 } from "../../hooks/useMentionSources";
+import { useMentionTrigger } from "../../hooks/useMentionTrigger";
 import { usePastedTexts } from "../../hooks/usePastedTexts";
 import { MentionChipNode } from "../../nodes/mentionChipNode";
 import {
@@ -74,7 +77,6 @@ import type {
 import { registerDraftEdit } from "../../utils/draftEdit";
 import { registerHistoryNavigation } from "../../utils/historyNavigation";
 import { $insertTranscript } from "../../utils/insertTranscript";
-import { matchToken } from "../../utils/matchToken";
 import { rankCommands } from "../../utils/rankCommands";
 import { $restoreChips } from "../../utils/restoreChips";
 import {
@@ -269,6 +271,15 @@ export function ComposerBody({
 				});
 				editor.focus();
 			},
+			isEmpty() {
+				return (
+					editor
+						.getEditorState()
+						.read(() => $getRoot().getTextContent().trim() === "") &&
+					cardsRef.current.length === 0 &&
+					stateRef.current.attachments.length === 0
+				);
+			},
 			addFiles(files: File[]) {
 				addFilesRef.current(files);
 				focusAtEnd();
@@ -294,7 +305,7 @@ export function ComposerBody({
 				editor.blur();
 			},
 		}),
-		[draftText, editor, focusAtEnd, pasted.restore, splitPastes],
+		[cardsRef, draftText, editor, focusAtEnd, pasted.restore, splitPastes],
 	);
 	const [attachments, setAttachments] = useState<PromptInputAttachment[]>([]);
 	const [isEmpty, setIsEmpty] = useState(true);
@@ -434,8 +445,12 @@ export function ComposerBody({
 	const actionContextRef = useRef(actionContext);
 	actionContextRef.current = actionContext;
 
-	const sections = useMentionSources(
+	const { matchTrigger, activeProviders } = useMentionTrigger(
 		mentionProviders ?? [],
+		mentionQuery,
+	);
+	const sections = useMentionSources(
+		activeProviders,
 		mentionQuery != null || browseOpen,
 		mentionQuery ?? "",
 	);
@@ -487,6 +502,28 @@ export function ComposerBody({
 	const commandOptions = useMemo(
 		() => rankedCommands.map((command) => new CommandTypeaheadOption(command)),
 		[rankedCommands],
+	);
+	const commandMenuRef = useRef<{
+		option: CommandTypeaheadOption | undefined;
+		select: (option: CommandTypeaheadOption) => void;
+	} | null>(null);
+	const completingRef = useRef(false);
+	useEffect(
+		() =>
+			editor.registerCommand<KeyboardEvent | null>(
+				KEY_TAB_COMMAND,
+				(event) => {
+					const menu = commandMenuRef.current;
+					if (event?.shiftKey || !menu?.option?.command.completion)
+						return false;
+					event?.preventDefault();
+					completingRef.current = true;
+					menu.select(menu.option);
+					return true;
+				},
+				COMMAND_PRIORITY_CRITICAL,
+			),
+		[editor],
 	);
 
 	const selectMentionEntry = (
@@ -985,7 +1022,7 @@ export function ComposerBody({
 							selectMentionEntry(option.entry, nodeToReplace, closeMenu)
 						}
 						options={mentionOptions}
-						triggerFn={(text) => matchToken(text, "@")}
+						triggerFn={matchTrigger}
 						commandPriority={COMMAND_PRIORITY_HIGH}
 						onClose={() => setMentionQuery(null)}
 						menuRenderFn={(
@@ -1013,12 +1050,20 @@ export function ComposerBody({
 					/>
 					<LexicalTypeaheadMenuPlugin<CommandTypeaheadOption>
 						onQueryChange={setCommandQuery}
+						onClose={() => {
+							commandMenuRef.current = null;
+						}}
 						onSelectOption={(option, nodeToReplace, closeMenu) => {
 							editor.update(() => {
 								nodeToReplace?.remove();
 								closeMenu();
 							});
-							void option.command.onSelect(actionContextRef.current);
+							const completion = completingRef.current
+								? option.command.completion
+								: undefined;
+							completingRef.current = false;
+							if (completion) actionContextRef.current.insertChip(completion);
+							else void option.command.onSelect(actionContextRef.current);
 						}}
 						options={commandOptions}
 						triggerFn={(text) => matchCommandToken(text)}
@@ -1026,11 +1071,22 @@ export function ComposerBody({
 						menuRenderFn={(
 							anchorElementRef,
 							{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
-						) =>
-							anchorElementRef.current &&
-							menuSlot &&
-							!commandDismissed &&
-							rankedCommands.length > 0
+						) => {
+							const shown =
+								anchorElementRef.current &&
+								menuSlot &&
+								!commandDismissed &&
+								rankedCommands.length > 0;
+							commandMenuRef.current = shown
+								? {
+										option:
+											selectedIndex === null
+												? undefined
+												: commandOptions[selectedIndex],
+										select: selectOptionAndCleanUp,
+									}
+								: null;
+							return shown
 								? createPortal(
 										<CommandMenu
 											commands={rankedCommands}
@@ -1045,8 +1101,8 @@ export function ComposerBody({
 										/>,
 										menuSlot,
 									)
-								: null
-						}
+								: null;
+						}}
 					/>
 				</div>
 				<div

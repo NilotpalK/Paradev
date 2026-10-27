@@ -278,6 +278,12 @@ class FakeAcpAgent {
 		}
 	}
 
+	failHeldPrompts(code: number, message: string): void {
+		for (const id of this.heldPrompts.splice(0)) {
+			this.deliver({ jsonrpc: "2.0", id, error: { code, message } });
+		}
+	}
+
 	responseTo(id: number): Record<string, unknown> | undefined {
 		return this.sent.find((frame) => frame.id === id && !frame.method);
 	}
@@ -524,6 +530,7 @@ function startAdapter(
 		| "shellPollMs"
 		| "backgroundDetailIntervalMs"
 		| "startupTimeoutMs"
+		| "launch"
 	> = {},
 ): { adapter: AcpAdapter; events: AdapterEvent[] } {
 	let counter = 0;
@@ -2817,6 +2824,39 @@ describe("AcpAdapter on protocol v2", () => {
 				(item) => item.kind === "notice" && item.noticeKind === "error",
 			),
 		).toBe(true);
+
+		await adapter.dispose();
+	});
+
+	it("tells the caller whether the agent took a setting", async () => {
+		const agent = new FakeAcpAgent();
+		agent.newSessionConfigOptions = [
+			{
+				configId: "model",
+				name: "Model",
+				type: "select",
+				category: "model",
+				currentValue: "sonnet",
+				options: [
+					{ value: "sonnet", name: "Sonnet" },
+					{ value: "opus", name: "Opus" },
+				],
+			},
+		];
+		const { adapter } = startAdapter(
+			agent,
+			undefined,
+			{},
+			{ requestTimeoutMs: 20 },
+		);
+		await flush();
+
+		expect(await adapter.setConfigOption("model", "opus")).toBe(true);
+		agent.holdSelections = true;
+		expect(await adapter.setConfigOption("model", "sonnet")).toBe(false);
+		agent.holdSelections = false;
+		agent.rejectSelections = true;
+		expect(await adapter.setConfigOption("model", "sonnet")).toBe(false);
 
 		await adapter.dispose();
 	});
@@ -5638,15 +5678,61 @@ describe("AcpAdapter when the agent fails", () => {
 		agent.holdPrompts = true;
 		const { adapter, events } = startAdapter(agent);
 		await flush();
+		agent.stderr("warning: config uses a deprecated key\n");
 		adapter.prompt([{ type: "text", text: "hi" }]);
 		await flush();
 
+		agent.stderr("Segmentation fault\n");
 		agent.exit(1);
 		await flush();
 
-		const turns = events.flatMap((e) => (e.kind === "turn" ? [e.turn] : []));
-		expect(turns.at(-1)?.status).toBe("failed");
+		const failed = events.flatMap((e) =>
+			e.kind === "turn" && e.turn.status === "failed" ? [e.turn] : [],
+		);
+		expect(failed.map((turn) => turn.error)).toEqual([
+			{
+				message: "acp agent exited (code 1)",
+				kind: "crashed",
+				detail: "Segmentation fault",
+			},
+		]);
 		expect(sessionsOf(events).at(-1)?.status).toBe("dead");
+
+		await adapter.dispose();
+	});
+
+	it("names a failed prompt, with what the agent printed during the turn and how to sign in", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(
+			agent,
+			undefined,
+			{},
+			{
+				launch: async () => ({
+					command: "fake",
+					loginCommand: "claude auth login",
+				}),
+			},
+		);
+		await flush();
+		agent.stderr("started\n");
+		adapter.prompt([{ type: "text", text: "hi" }]);
+		await flush();
+
+		agent.stderr("POST /v1/messages 401\n");
+		agent.failHeldPrompts(-32000, "Authentication required");
+		await flush();
+
+		const turn = events
+			.flatMap((e) => (e.kind === "turn" ? [e.turn] : []))
+			.at(-1);
+		expect(turn?.error).toEqual({
+			message: "Authentication required",
+			kind: "auth",
+			detail: "POST /v1/messages 401",
+			loginCommand: "claude auth login",
+		});
 
 		await adapter.dispose();
 	});

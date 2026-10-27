@@ -2,12 +2,12 @@
 	"name": "@superset/desktop",
 	"productName": "Superset",
 	"description": "The last developer tool you'll ever need",
-	"version": "1.40.0",
+	"version": "2.0.0",
 	"main": "./dist/main/index.js",
 	"resources": "src/resources",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/superset-sh/superset.git"
+		"url": "https://github.com/paradevai/paradev.git"
 	},
 	"author": {
 		"name": "Superset",
@@ -188,6 +188,7 @@
 		"drizzle-orm": "0.45.2",
 		"electron-log": "5.4.3",
 		"electron-updater": "6.8.3",
+		"emojibase-data": "17.0.0",
 		"execa": "9.6.1",
 		"expo-device-hub": "0.18.0",
 		"express": "5.2.1",

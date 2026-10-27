@@ -19,6 +19,10 @@ export function isCloudAgentId(id: string): boolean {
 	return CLOUD_AGENT_IDS.includes(id);
 }
 
+export function supportsCloudAgentChat(agent: string | undefined): boolean {
+	return agent === "claude" || agent === "pdev";
+}
+
 /**
  * What a cloud workspace launches on first boot: a built-in agent and its
  * prompt. The API validates it, provisioning hands it to the sandbox as
@@ -47,6 +51,35 @@ export const cloudAgentLaunchSchema = z.object({
 });
 
 export type CloudAgentLaunch = z.infer<typeof cloudAgentLaunchSchema>;
+
+export type CloudAgentLaunchDescriptor = {
+	agent: string;
+	surface: "chat" | "terminal";
+	promptHash: string | null;
+};
+
+export async function hashCloudAgentPrompt(prompt: string): Promise<string> {
+	const digest = await crypto.subtle.digest(
+		"SHA-256",
+		new TextEncoder().encode(prompt),
+	);
+	return Array.from(new Uint8Array(digest), (byte) =>
+		byte.toString(16).padStart(2, "0"),
+	).join("");
+}
+
+export async function describeCloudAgentLaunch(
+	launch: CloudAgentLaunch | undefined,
+): Promise<CloudAgentLaunchDescriptor | null> {
+	if (!launch) return null;
+	return {
+		agent: launch.agent,
+		surface: launch.surface === "chat" ? "chat" : "terminal",
+		promptHash: launch.prompt.trim()
+			? await hashCloudAgentPrompt(launch.prompt)
+			: null,
+	};
+}
 
 const ENV = {
 	agent: "SUPERSET_SANDBOX_AGENT",

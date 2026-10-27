@@ -1,5 +1,6 @@
 import { afterEach, expect, test } from "bun:test";
 import {
+	type ComposerMentionProvider,
 	PromptInput,
 	type PromptInputHandle,
 } from "@superset/chat-ui/PromptInput";
@@ -19,6 +20,15 @@ afterEach(cleanup);
 
 const handle: { current: PromptInputHandle | null } = { current: null };
 
+const mentionProviders: ComposerMentionProvider[] = [
+	{
+		id: "files",
+		title: "Files",
+		priority: 0,
+		source: { kind: "static", load: () => [] },
+	},
+];
+
 function Composer() {
 	const { chipForPaste, renderChip } = useLinkChips();
 	return (
@@ -26,7 +36,7 @@ function Composer() {
 			chipForPaste={chipForPaste}
 			commands={[]}
 			defaultValue="Draft about https://github.com/acme/widgets/issues/7 here"
-			mentionProviders={[]}
+			mentionProviders={mentionProviders}
 			ref={(instance) => {
 				handle.current = instance;
 			}}

@@ -12,12 +12,14 @@ import type {
 	SubagentStatus,
 	ToolCall,
 	Turn,
+	TurnError,
 	UserContent,
 } from "@superset/chat/protocol";
 import { AGENT_DEFAULT_MODE, isHiddenText } from "@superset/chat/protocol";
 import { z } from "zod";
 import { BackgroundTasks } from "../backgroundTasks";
 import { EventQueue } from "../eventQueue";
+import { classifyTurnFailure } from "../turnFailure";
 import type {
 	AdapterEvent,
 	HarnessAdapter,
@@ -205,7 +207,11 @@ function sessionMissing(error: unknown): boolean {
 }
 
 export type AcpAdapterOptions = SpawnAcpOptions & {
-	launch?: () => Promise<Pick<SpawnAcpOptions, "command" | "args" | "env">>;
+	launch?: () => Promise<
+		Pick<SpawnAcpOptions, "command" | "args" | "env"> & {
+			loginCommand?: string;
+		}
+	>;
 	/** Selected for a new session that asks for no mode, when the agent offers it. */
 	defaultModeId?: string;
 	clientApprovalModes?: boolean;
@@ -437,6 +443,8 @@ export class AcpAdapter implements HarnessAdapter {
 	private disposed = false;
 	private dead = false;
 	private stderrTail = "";
+	private turnStderr = "";
+	private loginCommand: string | undefined;
 	private customAnswer: string | null = null;
 	private heldTurnId: string | null = null;
 	private readonly shellPids = new Map<string, number>();
@@ -652,10 +660,10 @@ export class AcpAdapter implements HarnessAdapter {
 		}
 	}
 
-	setConfigOption(configId: string, value: string): void {
+	setConfigOption(configId: string, value: string): Promise<boolean> {
 		const client = this.client;
 		const sessionId = this.sessionId;
-		if (!client || !sessionId) return;
+		if (!client || !sessionId) return Promise.resolve(false);
 		const previous = this.configOptions;
 		const previousModeId =
 			configId === this.modeConfigId ? this.modeId : undefined;
@@ -691,6 +699,10 @@ export class AcpAdapter implements HarnessAdapter {
 				});
 				this.emitNotice("error", error.message);
 			});
+		return request.then(
+			() => true,
+			() => false,
+		);
 	}
 
 	async stopBackgroundTask(taskId: string): Promise<boolean> {
@@ -869,6 +881,7 @@ export class AcpAdapter implements HarnessAdapter {
 	private async initializeAgent(cwd: string): Promise<void> {
 		const launch = await this.options.launch?.();
 		if (this.disposed) return;
+		this.loginCommand = launch?.loginCommand;
 		const client = new AcpRpcClient({
 			createTransport: (handlers) => {
 				const transport = (this.options.createTransport ?? spawnAcpTransport)(
@@ -887,6 +900,7 @@ export class AcpAdapter implements HarnessAdapter {
 			onServerRequest: (request) => this.handleServerRequest(request),
 			onStderr: (chunk) => {
 				this.stderrTail = (this.stderrTail + chunk).slice(-STDERR_TAIL_CHARS);
+				this.turnStderr = (this.turnStderr + chunk).slice(-STDERR_TAIL_CHARS);
 			},
 			onDispatchError: (error, method) =>
 				this.emitNotice(
@@ -1080,6 +1094,7 @@ export class AcpAdapter implements HarnessAdapter {
 		if (!client || !this.sessionId || this.currentTurn?.id !== turnId) return;
 		const v2 = this.negotiatedVersion >= 2;
 		if (v2) this.v2Turn = { id: turnId, inserted: false };
+		this.turnStderr = "";
 		try {
 			const response = await client.request("session/prompt", {
 				sessionId: this.sessionId,
@@ -1098,7 +1113,8 @@ export class AcpAdapter implements HarnessAdapter {
 			this.finishTurn(turnId, parsed?.stopReason);
 		} catch (error) {
 			if (this.v2Turn?.id === turnId) this.v2Turn = null;
-			this.failTurn(turnId, (error as Error).message);
+			if (this.dead) return;
+			this.failTurn(turnId, this.turnError(error));
 		}
 	}
 
@@ -1130,6 +1146,7 @@ export class AcpAdapter implements HarnessAdapter {
 		if (this.v2Turn?.id === turnId || this.currentTurn?.id !== turnId) return;
 		if (this.currentTurn.status === "running" || !insertedAfterLastIdle) return;
 		const id = this.mintId();
+		this.turnStderr = "";
 		this.emitTurn({ id, status: "running", startedAtMs: this.now() });
 		this.emitSession({ status: "running" });
 		this.v2Turn = { id, inserted: true };
@@ -1140,7 +1157,9 @@ export class AcpAdapter implements HarnessAdapter {
 		if (idle.stopReason === "error")
 			this.failTurn(
 				turnId,
-				idle.error?.message ?? "The agent stopped with an error.",
+				this.turnError(
+					idle.error?.message ?? "The agent stopped with an error.",
+				),
 			);
 		else this.finishTurn(turnId, idle.stopReason ?? undefined);
 	}
@@ -1160,18 +1179,18 @@ export class AcpAdapter implements HarnessAdapter {
 		this.sendCustomAnswer();
 	}
 
-	private failTurn(turnId: string, message: string): void {
+	private failTurn(turnId: string, error: TurnError): void {
 		this.customAnswer = null;
 		this.main.flush();
 		this.cancelPendingApprovals(turnId);
 		this.emitTurn({
 			id: turnId,
 			status: "failed",
-			error: { message },
+			error,
 			startedAtMs: this.currentTurn?.startedAtMs ?? this.now(),
 			completedAtMs: this.now(),
 		});
-		this.emitNotice("error", message);
+		this.emitNotice("error", error.message);
 		this.emitSession({ status: this.statusAfterApprovals() });
 	}
 
@@ -2209,10 +2228,11 @@ export class AcpAdapter implements HarnessAdapter {
 		if (this.stderrTail) console.warn(`[acp] ${message}\n${this.stderrTail}`);
 		if (this.currentTurn?.status === "running") {
 			this.main.flush();
+			const detail = this.turnStderr.trim();
 			this.emitTurn({
 				...this.currentTurn,
 				status: "failed",
-				error: { message },
+				error: { message, kind: "crashed", ...(detail ? { detail } : {}) },
 				completedAtMs: this.now(),
 			});
 		}
@@ -2225,6 +2245,29 @@ export class AcpAdapter implements HarnessAdapter {
 		this.client
 			?.close()
 			.catch((error) => console.warn("[acp] could not close the agent", error));
+	}
+
+	private turnError(error: unknown): TurnError {
+		const message =
+			error instanceof AcpRpcError
+				? error.detail
+				: error instanceof Error
+					? error.message
+					: String(error);
+		const kind = classifyTurnFailure({
+			message,
+			...(error instanceof AcpTimeoutError ? { timedOut: true } : {}),
+			...(error instanceof AcpRpcError ? { code: error.code } : {}),
+		});
+		const detail = this.turnStderr.trim();
+		return {
+			message,
+			kind,
+			...(detail ? { detail } : {}),
+			...(kind === "auth" && this.loginCommand
+				? { loginCommand: this.loginCommand }
+				: {}),
+		};
 	}
 
 	private withStderr(message: string): string {
