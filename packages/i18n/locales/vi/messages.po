@@ -17691,29 +17691,8 @@ msgstr "bị thay thế"
 msgid "superset"
 msgstr "superset"
 
-msgid "Superset"
-msgstr "Superset"
-
-msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
-msgstr "Superset (YC P26) là IDE công khai mã nguồn cho kỷ nguyên agent AI, nơi các kỹ sư chạy song song hàng trăm agent lập trình như Claude Code và Codex."
-
-msgid "Superset {version}"
-msgstr "Superset {version}"
-
 msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
 msgstr "Superset thao tác trên GitHub dưới tên của bạn. Kết nối tài khoản GitHub để hợp nhất, bình luận và cập nhật pull request."
-
-msgid "Superset Agent"
-msgstr "Superset Agent"
-
-msgid "Superset app"
-msgstr "Ứng dụng Superset"
-
-msgid "Superset App"
-msgstr "Ứng dụng Superset"
-
-msgid "Superset Automations"
-msgstr "Tự động hóa Superset"
 
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp in ra endpoint chỉ cho ngăn đó. Trỏ Playwright hoặc browser-use vào đó."
@@ -18865,9 +18844,6 @@ msgstr "Hồ sơ này hiện đang quá tải"
 
 msgid "This project is no longer available on your devices."
 msgstr "Dự án này không còn khả dụng trên các thiết bị của bạn."
-
-msgid "This project isn't linked to a GitHub repository."
-msgstr "Dự án này chưa được liên kết với kho lưu trữ GitHub."
 
 msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
 msgstr "Dự án này vẫn dùng config.json cũ. Nó vẫn hoạt động; hãy chuyển sang config.toml để dùng các phần mới."

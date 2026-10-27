@@ -17691,29 +17691,8 @@ msgstr "대체됨"
 msgid "superset"
 msgstr "superset"
 
-msgid "Superset"
-msgstr "Superset"
-
-msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
-msgstr "Superset(YC P26)은 AI 에이전트 시대를 위한 소스 공개형 IDE로, 엔지니어가 Claude Code와 Codex 같은 코딩 에이전트 수백 개를 병렬로 실행할 수 있습니다."
-
-msgid "Superset {version}"
-msgstr "Superset {version}"
-
 msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
 msgstr "Superset은 본인 계정으로 GitHub에서 작업합니다. 풀 리퀘스트를 병합, 댓글 작성, 업데이트하려면 GitHub 계정을 연결하세요."
-
-msgid "Superset Agent"
-msgstr "Superset 에이전트"
-
-msgid "Superset app"
-msgstr "Superset 앱"
-
-msgid "Superset App"
-msgstr "Superset 앱"
-
-msgid "Superset Automations"
-msgstr "Superset 자동화"
 
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp는 해당 패널 전용 엔드포인트만 출력합니다. Playwright나 browser-use를 여기에 연결하세요."
@@ -18865,9 +18844,6 @@ msgstr "이 프로필은 지금 이용자가 많습니다"
 
 msgid "This project is no longer available on your devices."
 msgstr "이 프로젝트는 더 이상 내 기기에서 사용할 수 없습니다."
-
-msgid "This project isn't linked to a GitHub repository."
-msgstr "이 프로젝트는 GitHub 저장소에 연결되어 있지 않습니다."
 
 msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
 msgstr "이 프로젝트는 아직 이전 config.json을 사용합니다. 계속 작동하지만, 새 섹션을 사용하려면 config.toml로 변환하세요."

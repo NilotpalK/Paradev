@@ -17691,29 +17691,8 @@ msgstr "sostituita"
 msgid "superset"
 msgstr "superset"
 
-msgid "Superset"
-msgstr "Superset"
-
-msgid "Superset (YC P26) is the source-available IDE for the AI agents era, where engineers run hundreds of coding agents like Claude Code and Codex in parallel."
-msgstr "Superset (YC P26) è l’IDE source-available per l’era degli agenti IA, in cui gli ingegneri eseguono in parallelo centinaia di agenti di programmazione come Claude Code e Codex."
-
-msgid "Superset {version}"
-msgstr "Superset {version}"
-
 msgid "Superset acts on GitHub as you. Connect your GitHub account to merge, comment on and update pull requests."
 msgstr "Superset agisce su GitHub a tuo nome. Collega il tuo account GitHub per unire, commentare e aggiornare le pull request."
-
-msgid "Superset Agent"
-msgstr "Superset Agent"
-
-msgid "Superset app"
-msgstr "App Superset"
-
-msgid "Superset App"
-msgstr "App Superset"
-
-msgid "Superset Automations"
-msgstr "Superset Automazioni"
 
 msgid "superset browser cdp prints an endpoint for that pane only. Point Playwright or browser-use at it."
 msgstr "superset browser cdp stampa un endpoint solo per quel riquadro. Punta Playwright o browser-use su di esso."
@@ -18865,9 +18844,6 @@ msgstr "Questo profilo è molto richiesto in questo momento"
 
 msgid "This project is no longer available on your devices."
 msgstr "Questo progetto non è più disponibile sui tuoi dispositivi."
-
-msgid "This project isn't linked to a GitHub repository."
-msgstr "Questo progetto non è collegato a un repository GitHub."
 
 msgid "This project still uses the older config.json. It keeps working; convert it to config.toml to use the new sections."
 msgstr "Questo progetto usa ancora il vecchio config.json. Continua a funzionare; convertilo in config.toml per usare le nuove sezioni."
