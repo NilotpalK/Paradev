@@ -200,16 +200,31 @@ describe("LiveSession", () => {
 			turnStarted: async ({ turnId, before }) => {
 				calls.push(`started ${turnId} ${before}`);
 			},
-			turnSettled: async ({ turnId }) => {
-				calls.push(`settled ${turnId}`);
+			turnSettled: async ({ turnId, anchorItemId }) => {
+				calls.push(`settled ${turnId} ${anchorItemId ?? "-"}`);
 			},
 			changes: async () => null,
+			undo: async () => ({ status: "refused", reason: "unsupported" }),
 		};
 		return { calls, release: () => release(), checkpoints };
 	}
 
 	test("holds a prompt until the worktree is snapshotted, and names the snapshot for its turn", async () => {
-		const { harnesses } = fakeHarnessRegistry(SINGLE_TURN);
+		const { harnesses } = fakeHarnessRegistry({
+			turns: [
+				[
+					{ kind: "turn", turn: turn("t1") },
+					{ kind: "item", item: toolCall("tc1"), turnId: "t1" },
+					{ kind: "item", item: toolCall("tc2"), turnId: "t1" },
+					{ kind: "item", item: agentMessage("a1", "done"), turnId: "t1" },
+					{
+						kind: "turn",
+						turn: turn("t1", { status: "completed", completedAtMs: 2 }),
+					},
+					{ kind: "session", session: { status: "idle" } },
+				],
+			],
+		});
 		const { calls, release, checkpoints } = gatedCheckpoints();
 		const runtime = createTestRuntime({ harnesses, checkpoints });
 		const { sessionId } = runtime.commands.createSession({
@@ -228,7 +243,7 @@ describe("LiveSession", () => {
 		expect(calls).toEqual([
 			"capture /tmp/workspace",
 			"started t1 before-sha",
-			"settled t1",
+			"settled t1 tc1",
 		]);
 		await runtime.dispose();
 	});
@@ -466,6 +481,51 @@ describe("LiveSession", () => {
 			decision: { type: "accept" },
 		});
 	}
+
+	test("refuses to undo a turn's files while any chat in that worktree is running", async () => {
+		const { harnesses } = fakeHarnessRegistry(HELD_THEN_QUICK);
+		const runtime = createTestRuntime({
+			harnesses,
+			checkpoints: {
+				capture: async () => "before-sha",
+				turnStarted: async () => {},
+				turnSettled: async () => {},
+				changes: async () => null,
+				undo: async ({ paths }) => ({
+					status: "undone",
+					restored: paths,
+					skipped: [],
+				}),
+			},
+		});
+		const create = () =>
+			runtime.commands.createSession({
+				commandId: randomUUID(),
+				scopeId: "workspace-1",
+				harness: FAKE_HARNESS,
+				cwd: "/tmp/workspace",
+			}).sessionId;
+		const working = create();
+		const idle = create();
+		const undo = () =>
+			runtime.commands.undoTurnFiles({
+				commandId: randomUUID(),
+				sessionId: idle,
+				turnId: "t0",
+				paths: ["a.ts"],
+				cwd: "/tmp/workspace",
+			});
+		sendPrompt(runtime, working, "hello");
+		await waitFor(
+			() => runtime.live.require(working).turn?.status === "running",
+		);
+
+		expect(await undo()).toEqual({ status: "refused", reason: "busy" });
+		answerApproval(runtime, working);
+		await waitFor(() => runtime.sessions.get(working)?.status === "idle");
+		expect(await undo()).toMatchObject({ status: "undone" });
+		await runtime.dispose();
+	});
 
 	test("a prompt sent while the turn only waits on background work joins it", async () => {
 		const { runtime, sessionId } = startSession({

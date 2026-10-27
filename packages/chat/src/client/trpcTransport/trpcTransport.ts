@@ -15,7 +15,8 @@ type Mutation =
 	| "setConfigOption"
 	| "closeSession"
 	| "forkSession"
-	| "rewindSession";
+	| "rewindSession"
+	| "undoTurnFiles";
 
 type Query =
 	| "getSession"
@@ -52,6 +53,7 @@ export function chatTransportFromTrpc(client: ChatTrpcClient): ChatTransport {
 		closeSession: (input) => client.closeSession.mutate(input),
 		forkSession: (input) => client.forkSession.mutate(input),
 		rewindSession: (input) => client.rewindSession.mutate(input),
+		undoTurnFiles: (input) => client.undoTurnFiles.mutate(input),
 		getSession: (input) => client.getSession.query(input),
 		getQueue: (input) => client.getQueue.query(input),
 		listSessions: (input) => client.listSessions.query(input),

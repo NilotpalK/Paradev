@@ -52,9 +52,15 @@ import {
 	setModeInputSchema,
 	steerSubagentInputSchema,
 	stopBackgroundTaskInputSchema,
+	type UndoTurnFilesInput,
+	undoTurnFilesInputSchema,
 } from "@superset/chat/protocol";
 import { z } from "zod";
-import type { ChatCheckpoints, TurnChanges } from "../../checkpoints";
+import type {
+	ChatCheckpoints,
+	TurnChanges,
+	TurnUndoResult,
+} from "../../checkpoints";
 import type { ChatDb, ChatSessionRow } from "../../db";
 import type { ChatJournal } from "../../journal";
 import type { ChatSessionStore } from "../../projection";
@@ -226,6 +232,9 @@ export type ChatCommands = {
 	getTurnChanges(
 		input: GetTurnChangesInput & { cwd: string },
 	): Promise<TurnChanges | null>;
+	undoTurnFiles(
+		input: UndoTurnFilesInput & { cwd: string },
+	): Promise<TurnUndoResult>;
 	getQueue(input: GetSessionInput): GetQueueResult;
 	listSessions(input: ListSessionsCommandInput): ChatSessionListEntry[];
 	discoverSessions(
@@ -689,6 +698,37 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 				sessionId: parsed.sessionId,
 				turnId: parsed.turnId,
 				live: parsed.live === true,
+				...(parsed.anchorItemIds
+					? { anchorItemIds: parsed.anchorItemIds }
+					: {}),
+			});
+		},
+
+		undoTurnFiles({ cwd, ...input }) {
+			const parsed = undoTurnFilesInputSchema.parse(input);
+			return options.dedupe.run(`undoTurnFiles:${parsed.commandId}`, () => {
+				const checkpoints = options.checkpoints;
+				if (!checkpoints) {
+					return Promise.resolve<TurnUndoResult>({
+						status: "refused",
+						reason: "unsupported",
+					});
+				}
+				if (options.live.busyIn(cwd)) {
+					return Promise.resolve<TurnUndoResult>({
+						status: "refused",
+						reason: "busy",
+					});
+				}
+				return checkpoints.undo({
+					cwd,
+					sessionId: parsed.sessionId,
+					turnId: parsed.turnId,
+					paths: parsed.paths,
+					...(parsed.anchorItemIds
+						? { anchorItemIds: parsed.anchorItemIds }
+						: {}),
+				});
 			});
 		},
 

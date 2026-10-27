@@ -22,6 +22,7 @@ import type { ChatJournal } from "../../journal";
 export type LiveSessionOptions = {
 	sessionId: string;
 	scopeId: string;
+	cwd?: string;
 	harness: string;
 	terminalId?: string;
 	journal: ChatJournal;
@@ -91,6 +92,7 @@ export class LiveSession {
 	private awaitingTurn: PendingPrompt | null = null;
 	private capturing: PendingPrompt | null = null;
 	private readonly checkpointedTurns = new Set<string>();
+	private readonly turnAnchors = new Map<string, string>();
 	private steerTarget: string | null = null;
 	private queuePaused = false;
 	private sessionState: SessionState;
@@ -123,6 +125,14 @@ export class LiveSession {
 
 	get terminalId(): string | undefined {
 		return this.options.terminalId;
+	}
+
+	get cwd(): string | undefined {
+		return this.options.cwd;
+	}
+
+	get busy(): boolean {
+		return this.isBusy();
 	}
 
 	get harness(): string {
@@ -445,6 +455,13 @@ export class LiveSession {
 				if (event.item.kind !== "user_message") {
 					this.turnsWithOutput.add(event.turnId);
 				}
+				if (
+					event.item.kind === "tool_call" &&
+					this.checkpointedTurns.has(event.turnId) &&
+					!this.turnAnchors.has(event.turnId)
+				) {
+					this.turnAnchors.set(event.turnId, event.item.id);
+				}
 				this.appendDurable({
 					type: "item",
 					item: event.item,
@@ -625,7 +642,9 @@ export class LiveSession {
 
 	private settleCheckpoint(turnId: string): void {
 		if (!this.checkpointedTurns.delete(turnId)) return;
-		this.options.checkpoints?.turnSettled(turnId);
+		const anchor = this.turnAnchors.get(turnId);
+		this.turnAnchors.delete(turnId);
+		this.options.checkpoints?.turnSettled(turnId, anchor);
 	}
 
 	private send(prompt: PendingPrompt): void {

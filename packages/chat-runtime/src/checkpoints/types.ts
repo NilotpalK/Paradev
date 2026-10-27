@@ -4,6 +4,12 @@ export type TurnCheckpointTarget = {
 	turnId: string;
 };
 
+/**
+ * A resumed chat replays its history under new session and turn ids, but its
+ * tool calls keep the agent's ids; a settled turn is found again by those.
+ */
+export type TurnAnchors = { anchorItemIds?: string[] };
+
 export type TurnChangedFile = {
 	/** Relative to the repository root. */
 	path: string;
@@ -23,7 +29,23 @@ export type TurnChanges = {
 	shared: boolean;
 	/** `after` is a snapshot of a turn still running. */
 	live: boolean;
+	/** Its file changes were undone. */
+	undone: boolean;
+	/** Files whose turn result HEAD now holds, with nothing left to commit. */
+	committed: string[];
 };
+
+export type TurnUndoResult =
+	| {
+			status: "undone";
+			restored: string[];
+			/** Changed again since the turn, by anyone, so left as they are. */
+			skipped: string[];
+	  }
+	| {
+			status: "refused";
+			reason: "busy" | "head-moved" | "missing" | "unsupported";
+	  };
 
 /**
  * Snapshots of the worktree around each turn, kept as commits under hidden
@@ -35,16 +57,23 @@ export type ChatCheckpoints = {
 	capture(input: { cwd: string; sessionId: string }): Promise<string | null>;
 	/** Names the snapshot taken before the prompt that started this turn. */
 	turnStarted(input: TurnCheckpointTarget & { before: string }): Promise<void>;
-	turnSettled(input: TurnCheckpointTarget): Promise<void>;
+	/** `anchorItemId` is the turn's first tool call, kept to find the turn after a resume. */
+	turnSettled(
+		input: TurnCheckpointTarget & { anchorItemId?: string },
+	): Promise<void>;
 	/** Null when the turn has no snapshots. A running turn is compared with the worktree now. */
 	changes(
-		input: TurnCheckpointTarget & { live: boolean },
+		input: TurnCheckpointTarget & TurnAnchors & { live: boolean },
 	): Promise<TurnChanges | null>;
+	/** Puts `paths` back as the turn found them, skipping any changed since. */
+	undo(
+		input: TurnCheckpointTarget & TurnAnchors & { paths: string[] },
+	): Promise<TurnUndoResult>;
 };
 
 /** One session's view of the checkpoints, bound to its worktree. */
 export type SessionCheckpoints = {
 	capture(): Promise<string | null>;
 	turnStarted(turnId: string, before: string): void;
-	turnSettled(turnId: string): void;
+	turnSettled(turnId: string, anchorItemId?: string): void;
 };

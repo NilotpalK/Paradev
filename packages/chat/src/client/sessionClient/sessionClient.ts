@@ -78,6 +78,11 @@ export type SessionClient = {
 		turnId: string;
 		live?: boolean;
 	}): Promise<ChatRouterOutputs["getTurnChanges"] | "unsupported">;
+	undoTurnFiles(input: {
+		workspaceId: string;
+		turnId: string;
+		paths: string[];
+	}): Promise<ChatRouterOutputs["undoTurnFiles"] | "unsupported">;
 	prompt(options: PromptOptions): Promise<ChatRouterOutputs["prompt"]>;
 	removeQueuedPrompt(itemId: string): Promise<void>;
 	steerQueuedPrompt(itemId: string): Promise<void>;
@@ -129,6 +134,19 @@ export function createSessionClient(
 		getTurnChanges: async (input) => {
 			try {
 				return await options.transport.getTurnChanges({ sessionId, ...input });
+			} catch (error) {
+				if (isMissingProcedureError(error)) return "unsupported";
+				throw error;
+			}
+		},
+
+		undoTurnFiles: async (input) => {
+			try {
+				return await options.transport.undoTurnFiles({
+					commandId: mintId(),
+					sessionId,
+					...input,
+				});
 			} catch (error) {
 				if (isMissingProcedureError(error)) return "unsupported";
 				throw error;

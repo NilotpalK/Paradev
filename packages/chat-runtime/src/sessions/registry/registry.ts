@@ -57,8 +57,15 @@ function sessionCheckpoints(
 			warnOnFailure(
 				checkpoints.turnStarted({ cwd, sessionId, turnId, before }),
 			),
-		turnSettled: (turnId) =>
-			warnOnFailure(checkpoints.turnSettled({ cwd, sessionId, turnId })),
+		turnSettled: (turnId, anchorItemId) =>
+			warnOnFailure(
+				checkpoints.turnSettled({
+					cwd,
+					sessionId,
+					turnId,
+					...(anchorItemId ? { anchorItemId } : {}),
+				}),
+			),
 	};
 }
 
@@ -130,6 +137,7 @@ export class LiveSessionRegistry {
 		const session = new LiveSession({
 			sessionId: options.sessionId,
 			scopeId: options.scopeId,
+			cwd: options.cwd,
 			harness: options.harness,
 			terminalId: options.terminalId,
 			journal: this.options.journal,
@@ -174,6 +182,14 @@ export class LiveSessionRegistry {
 		} catch (error) {
 			console.warn("[chat-runtime] session observer failed", error);
 		}
+	}
+
+	/** Whether any chat working in `cwd` has a turn running or about to. */
+	busyIn(cwd: string): boolean {
+		for (const session of this.live.values()) {
+			if (session.cwd === cwd && session.busy) return true;
+		}
+		return false;
 	}
 
 	get(sessionId: string): LiveSession | null {

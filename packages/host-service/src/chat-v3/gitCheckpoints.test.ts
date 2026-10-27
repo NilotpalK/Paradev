@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
-import { rm, writeFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { TurnChangedFile } from "@superset/chat-runtime";
@@ -107,6 +107,88 @@ describe("createGitCheckpoints", () => {
 			live: false,
 		});
 		expect(changes?.files.map((file) => file.path)).toEqual(["mine.txt"]);
+	});
+
+	async function editedTurn() {
+		await startTurn("s1", "t1");
+		await writeFile(join(repo, "tracked.txt"), "agent\n");
+		await writeFile(join(repo, "new.txt"), "agent\n");
+		await rm(join(repo, "gone.txt"));
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+	}
+	const t1 = { sessionId: "s1", turnId: "t1" };
+	const allPaths = ["gone.txt", "new.txt", "tracked.txt"];
+
+	test("undoes a turn's files, leaving and listing any changed since", async () => {
+		await editedTurn();
+		await writeFile(join(repo, "new.txt"), "edited by the user\n");
+		const staged = await git.raw(["diff", "--cached", "--name-only"]);
+
+		const result = await checkpoints.undo({
+			...t1,
+			cwd: repo,
+			paths: allPaths,
+		});
+
+		expect(result).toEqual({
+			status: "undone",
+			restored: ["gone.txt", "tracked.txt"],
+			skipped: ["new.txt"],
+		});
+		expect(await readFile(join(repo, "tracked.txt"), "utf8")).toBe(
+			"one\ntwo\n",
+		);
+		expect(await readFile(join(repo, "gone.txt"), "utf8")).toBe("old\n");
+		expect(await readFile(join(repo, "new.txt"), "utf8")).toBe(
+			"edited by the user\n",
+		);
+		expect(await git.raw(["diff", "--cached", "--name-only"])).toBe(staged);
+		expect(
+			(await checkpoints.changes({ ...t1, cwd: repo, live: false }))?.undone,
+		).toBe(true);
+	});
+
+	test("once the turn's files are committed, lists them so and refuses to undo", async () => {
+		await editedTurn();
+		await git.raw(["add", "-A"]);
+		await git.raw(["commit", "-m", "the turn's work"]);
+
+		const changes = await checkpoints.changes({
+			...t1,
+			cwd: repo,
+			live: false,
+		});
+		const undo = await checkpoints.undo({ ...t1, cwd: repo, paths: allPaths });
+
+		expect(changes?.committed).toEqual(allPaths);
+		expect(undo).toEqual({ status: "refused", reason: "head-moved" });
+	});
+
+	test("finds a settled turn again by its tool calls once the chat resumes under new ids", async () => {
+		await startTurn("s1", "t1");
+		await writeFile(join(repo, "tracked.txt"), "agent\n");
+		await checkpoints.turnSettled({
+			cwd: repo,
+			sessionId: "s1",
+			turnId: "t1",
+			anchorItemId: "toolu_1",
+		});
+		const resumed = { cwd: repo, sessionId: "s2", turnId: "t9", live: false };
+
+		const anchored = { ...resumed, anchorItemIds: ["toolu_0", "toolu_1"] };
+
+		expect(await checkpoints.changes(resumed)).toBeNull();
+		expect(
+			(await checkpoints.changes(anchored))?.files.map((file) => file.path),
+		).toEqual(["tracked.txt"]);
+		await checkpoints.undo({
+			cwd: repo,
+			sessionId: "s1",
+			turnId: "t1",
+			paths: ["tracked.txt"],
+			anchorItemIds: ["toolu_1"],
+		});
+		expect((await checkpoints.changes(anchored))?.undone).toBe(true);
 	});
 
 	test("marks turns that overlapped another chat's in the same worktree", async () => {

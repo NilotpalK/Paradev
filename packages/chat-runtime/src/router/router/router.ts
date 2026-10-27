@@ -20,6 +20,7 @@ import {
 	setModeInputSchema,
 	steerSubagentInputSchema,
 	stopBackgroundTaskInputSchema,
+	undoTurnFilesInputSchema,
 } from "@superset/chat/protocol";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { initTRPC, TRPCError } from "@trpc/server";
@@ -192,6 +193,16 @@ export function createChatRouter(
 		getSession: t.procedure
 			.input(getSessionInputSchema)
 			.query(({ input }) => runtime.commands.getSession(input)),
+
+		undoTurnFiles: t.procedure
+			.input(
+				undoTurnFilesInputSchema.extend({ workspaceId: z.string().min(1) }),
+			)
+			.mutation(async ({ input }) => {
+				const { workspaceId, ...rest } = input;
+				const cwd = await options.resolveCwd(workspaceId);
+				return runtime.commands.undoTurnFiles({ ...rest, cwd });
+			}),
 
 		getTurnChanges: t.procedure
 			.input(

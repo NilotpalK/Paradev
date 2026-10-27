@@ -152,8 +152,19 @@ export const getTurnChangesInputSchema = z.object({
 	sessionId: z.string().min(1),
 	turnId: z.string().min(1),
 	live: z.boolean().optional(),
+	/** The turn's tool call ids, which find it again after the chat resumed. */
+	anchorItemIds: z.array(z.string().min(1)).max(100).optional(),
 });
 export type GetTurnChangesInput = z.infer<typeof getTurnChangesInputSchema>;
+
+/** Puts files a turn changed back as the turn found them; the chat stays as it is. */
+export const undoTurnFilesInputSchema = z.object({
+	...commandBaseFields,
+	turnId: z.string().min(1),
+	paths: z.array(z.string().min(1)).min(1),
+	anchorItemIds: z.array(z.string().min(1)).max(100).optional(),
+});
+export type UndoTurnFilesInput = z.infer<typeof undoTurnFilesInputSchema>;
 
 export const listSessionsInputSchema = z.object({
 	workspaceId: z.string().min(1).optional(),

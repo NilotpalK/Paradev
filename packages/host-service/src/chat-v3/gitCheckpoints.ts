@@ -2,9 +2,11 @@ import type { ChatCheckpoints } from "@superset/chat-runtime";
 import type { WorkerTaskDefinition } from "../workers/define-worker-task";
 import { getHostWorkerPool } from "../workers/host-worker-pool";
 import {
+	checkpointAnchorTask,
 	checkpointCaptureTask,
 	checkpointChangesTask,
 	checkpointRefTask,
+	checkpointUndoTask,
 	SHARED_TURN_TRAILER,
 	turnRef,
 } from "../workers/tasks/checkpoints";
@@ -60,7 +62,7 @@ export function createGitCheckpoints(
 			});
 		},
 
-		turnSettled: async ({ cwd, sessionId, turnId }) => {
+		turnSettled: async ({ cwd, sessionId, turnId, anchorItemId }) => {
 			const key = turnKey(sessionId, turnId);
 			const running = runningByCwd.get(cwd);
 			running?.delete(key);
@@ -73,7 +75,11 @@ export function createGitCheckpoints(
 				message: wasShared
 					? `superset chat turn after\n\n${SHARED_TURN_TRAILER}`
 					: "superset chat turn after",
-			});
+			}).then(() =>
+				anchorItemId
+					? run(checkpointAnchorTask, { cwd, sessionId, turnId, anchorItemId })
+					: undefined,
+			);
 			settling.set(key, snapshot);
 			try {
 				await snapshot;
@@ -82,7 +88,7 @@ export function createGitCheckpoints(
 			}
 		},
 
-		changes: async ({ cwd, sessionId, turnId, live }) => {
+		changes: async ({ cwd, sessionId, turnId, live, anchorItemIds }) => {
 			const key = turnKey(sessionId, turnId);
 			await settling.get(key)?.catch(() => undefined);
 			const changes = await run(checkpointChangesTask, {
@@ -90,9 +96,19 @@ export function createGitCheckpoints(
 				sessionId,
 				turnId,
 				live,
+				...(anchorItemIds ? { anchorItemIds } : {}),
 			});
 			if (!changes || !live) return changes;
 			return { ...changes, shared: changes.shared || shared.has(key) };
 		},
+
+		undo: ({ cwd, sessionId, turnId, paths, anchorItemIds }) =>
+			run(checkpointUndoTask, {
+				cwd,
+				sessionId,
+				turnId,
+				paths,
+				...(anchorItemIds ? { anchorItemIds } : {}),
+			}),
 	};
 }
