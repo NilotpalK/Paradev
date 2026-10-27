@@ -39,6 +39,7 @@ describe("rankCommands", () => {
 		expect(ids(rankCommands(commands, "clear"))).toEqual(["new"]);
 		expect(ids(rankCommands(commands, "hist"))).toEqual(["resume"]);
 		expect(ids(rankCommands(commands, "cmpt"))).toEqual(["compact"]);
+		expect(ids(rankCommands(commands, "mpt"))).toEqual([]);
 	});
 
 	it("leads with the group of the best match, and with the first group on a tie", () => {

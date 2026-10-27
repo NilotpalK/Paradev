@@ -31,7 +31,8 @@ function nameScore(name: string, query: string): number {
 	if (name.split(/[:_-]/).some((word) => word.startsWith(query)))
 		return NAME_WORD_PREFIX;
 	if (name.includes(query)) return NAME_SUBSTRING;
-	if (query.length > 1 && isSubsequence(query, name)) return NAME_SUBSEQUENCE;
+	if (query.length > 1 && name[0] === query[0] && isSubsequence(query, name))
+		return NAME_SUBSEQUENCE;
 	return 0;
 }
 
