@@ -917,6 +917,9 @@ msgstr "{total}项检查中有{failing}项失败"
 msgid "{failing} of {total} checks failing"
 msgstr "{total}项检查中有{failing}项失败"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {编辑了 # 个文件} other {编辑了 # 个文件}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText}聚焦"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {显示 # 条回复} other {显示 # 条回复}}"
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, other {查看另外 # 条回复}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {再显示 # 个文件} other {再显示 # 个文件}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {再显示#个栈帧} other {再显示#个栈帧}}"
@@ -5711,6 +5717,9 @@ msgstr "无法上传 {name}"
 msgid "Couldn’t verify"
 msgstr "无法确认"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "根据智能体的文件编辑统计。不包括通过 shell 命令、notebook 或 MCP 工具以及子智能体所做的更改，多次编辑的文件中同一行可能被计算两次。"
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "删除工作区"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "删除工作区“{workspaceName}”？"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "已删除"
 
 msgid "Deleted"
 msgstr "已删除"
@@ -11150,6 +11163,10 @@ msgstr "从未"
 msgid "Never asks before acting"
 msgstr "执行前从不询问"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "新"
+
 msgid "New"
 msgstr "新功能"
 
@@ -12009,6 +12026,9 @@ msgstr "没有人因此改变审查方式。"
 
 msgid "None"
 msgstr "无"
+
+msgid "None of this turn's files have changes here"
+msgstr "本轮的文件在此处都没有更改"
 
 msgid "None. This is the floor."
 msgstr "没有。这是起点。"
@@ -16492,6 +16512,9 @@ msgstr "在主页侧边栏的“拉取请求”下方显示“用量”按钮"
 msgid "Show all {count}"
 msgstr "显示全部{count}条"
 
+msgid "Show all changes"
+msgstr "显示所有更改"
+
 msgid "Show all comments"
 msgstr "显示全部评论"
 
@@ -16539,6 +16562,9 @@ msgstr "显示打开过此工作区的所有人"
 
 msgid "Show fewer"
 msgstr "收起"
+
+msgid "Show fewer files"
+msgstr "显示更少文件"
 
 msgid "Show file tree"
 msgstr "显示文件树"
@@ -18711,6 +18737,12 @@ msgstr "这个讨论里没有可回复的评论。"
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "此讨论串尚未对智能体开放。需要先有人评论，智能体才能回复。"
+
+msgid "This turn"
+msgstr "本轮"
+
+msgid "This turn's files"
+msgstr "本轮的文件"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "此次更新仅重启了一次你的终端。新终端会在相同文件夹中打开。"

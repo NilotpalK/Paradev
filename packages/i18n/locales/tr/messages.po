@@ -917,6 +917,9 @@ msgstr "{total} kontrolden {failing} tanesi başarısız"
 msgid "{failing} of {total} checks failing"
 msgstr "{total} kontrolden {failing} tanesi başarısız"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {# dosya düzenlendi} other {# dosya düzenlendi}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "Odaklanmak için {focusShortcutText}"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {# yanıtı göster} other {# yanıtı göster}}"
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {# yanıt daha göster} other {# yanıt daha göster}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {# dosya daha göster} other {# dosya daha göster}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {# çerçeve daha göster} other {# çerçeve daha göster}}"
@@ -5711,6 +5717,9 @@ msgstr "{name} yüklenemedi"
 msgid "Couldn’t verify"
 msgstr "Doğrulanamadı"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Ajanın dosya düzenlemelerinden sayıldı. Kabuk komutları, notebook veya MCP araçları ya da alt ajanlarla yapılan değişiklikler dahil değildir ve birden fazla düzenlenen bir dosyada bir satır iki kez sayılabilir."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Çalışma alanını sil"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "\"{workspaceName}\" çalışma alanı silinsin mi?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "silindi"
 
 msgid "Deleted"
 msgstr "Silindi"
@@ -11150,6 +11163,10 @@ msgstr "Hiç"
 msgid "Never asks before acting"
 msgstr "Hiç sormadan çalışır"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "yeni"
+
 msgid "New"
 msgstr "Yeni"
 
@@ -12009,6 +12026,9 @@ msgstr "Kimse bu yüzden farklı inceleme yapmaz."
 
 msgid "None"
 msgstr "Yok"
+
+msgid "None of this turn's files have changes here"
+msgstr "Bu turun dosyalarının hiçbirinde burada değişiklik yok"
 
 msgid "None. This is the floor."
 msgstr "Yok. Bu, taban düzeydir."
@@ -16492,6 +16512,9 @@ msgstr "Ana sayfa kenar çubuğunda, pull request'lerin altında bir Kullanım d
 msgid "Show all {count}"
 msgstr "Tümünü göster ({count})"
 
+msgid "Show all changes"
+msgstr "Tüm değişiklikleri göster"
+
 msgid "Show all comments"
 msgstr "Tüm yorumları göster"
 
@@ -16539,6 +16562,9 @@ msgstr "Bu çalışma alanını açan herkesi göster"
 
 msgid "Show fewer"
 msgstr "Daha az göster"
+
+msgid "Show fewer files"
+msgstr "Daha az dosya göster"
 
 msgid "Show file tree"
 msgstr "Dosya ağacını göster"
@@ -18711,6 +18737,12 @@ msgstr "Bu konuda yanıtlanacak yorum yok."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Bu konu bir ajana devredilmedi. Önce birinin sayfadan devretmesi gerekiyor."
+
+msgid "This turn"
+msgstr "Bu tur"
+
+msgid "This turn's files"
+msgstr "Bu turun dosyaları"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Bu güncelleme terminallerinizi yalnızca bir kez yeniden başlattı. Yenileri aynı klasörlerde açılır."

@@ -30,6 +30,7 @@ import { useStableList } from "renderer/hooks/useStableList";
 import type { OpenFile } from "../../../../../../types";
 import {
 	ChatPaneActionsProvider,
+	type OpenDiff,
 	type OpenLink,
 	type OpenPage,
 } from "../../providers/ChatPaneActionsProvider";
@@ -100,6 +101,7 @@ export function SessionView({
 	onStartNewChat,
 	onUserPrompt,
 	onSessionState,
+	openDiff,
 	openFile,
 	openPage,
 	openLink,
@@ -153,6 +155,7 @@ export function SessionView({
 		) => void;
 	};
 	openFile?: OpenFile;
+	openDiff?: OpenDiff;
 	openPage?: OpenPage;
 	openLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
@@ -515,6 +518,7 @@ export function SessionView({
 		<ChatPaneActionsProvider
 			editMessage={editMessage}
 			editableMessageIds={editableIds}
+			openDiff={openDiff}
 			openFile={openFile}
 			openPage={openPage}
 			openLink={openLink}

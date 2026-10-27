@@ -15,6 +15,11 @@ import type {
 	UserMessage,
 } from "@superset/chat/protocol";
 import type { PageLink, PageLinkFinder } from "../../../../utils/pageLinks";
+import {
+	changesFiles,
+	type TurnFileChange,
+	turnChangedFiles,
+} from "../turnChangedFiles";
 import { turnPageLinks } from "../turnPageLinks";
 
 export type TranscriptRow =
@@ -66,6 +71,15 @@ export type TranscriptRow =
 			key: string;
 			groupStart: false;
 			item: AgentMessage;
+	  }
+	| {
+			kind: "changed_files";
+			key: string;
+			groupStart: false;
+			turnId: string;
+			files: TurnFileChange[];
+			/** The calls behind the files, so a reopened chat can load their bodies. */
+			calls: ToolCall[];
 	  };
 
 /**
@@ -134,6 +148,8 @@ export function transcriptRows(
 		let noticeDetail = "";
 		let run = null as Extract<TranscriptRow, { kind: "tool_run" }> | null;
 		let runAt = -1;
+		let lastReplyAt = -1;
+		const calls: ToolCall[] = [];
 		const unwrapLoneCall = () => {
 			const only = run?.steps.length === 1 ? run.items[0] : undefined;
 			if (!run || !only) return;
@@ -173,6 +189,7 @@ export function transcriptRows(
 				...(pagesShownEarlier ? { pagesShownEarlier } : {}),
 				...(afterTarget ? { afterTarget } : {}),
 			});
+			if (item.kind === "agent_message") lastReplyAt = rows.length - 1;
 		};
 		const addTools = (
 			items: ToolCall[],
@@ -209,6 +226,7 @@ export function transcriptRows(
 					: entry.item.kind === "tool_call"
 						? [entry.item as ToolCall]
 						: null;
+			if (tools) calls.push(...tools);
 			if (entry.kind === "item" && !tools) {
 				if (hiddenToolIds.has(entry.item.id)) continue;
 				const repeated = repeatedTurnFailure(entry.item, turn);
@@ -246,6 +264,19 @@ export function transcriptRows(
 		placeClock();
 		if (turn?.status === "running" && run && rows.at(-1) === run)
 			run.active = true;
+		const files = turnSettled ? turnChangedFiles(calls) : [];
+		if (files.length > 0) {
+			const card: TranscriptRow = {
+				kind: "changed_files",
+				key: `changed_files:${group.turnId}`,
+				groupStart: false,
+				turnId: group.turnId,
+				files,
+				calls: calls.filter(changesFiles),
+			};
+			if (lastReplyAt === -1) push(card);
+			else rows.splice(lastReplyAt + 1, 0, card);
+		}
 		if (turn?.status === "failed" || turn?.status === "interrupted") {
 			push({
 				kind: "turn_status",

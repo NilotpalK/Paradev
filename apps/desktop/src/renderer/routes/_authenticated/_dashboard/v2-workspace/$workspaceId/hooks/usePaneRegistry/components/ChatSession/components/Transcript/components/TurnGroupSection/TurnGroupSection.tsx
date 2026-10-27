@@ -19,6 +19,7 @@ import { AttachmentRail, type RailImage } from "../AttachmentRail";
 import { ReplyFooter } from "../ReplyFooter";
 import { ItemRow } from "./components/ItemRow";
 import { ToolRunRow } from "./components/ToolRunRow";
+import { TurnChangesCard } from "./components/TurnChangesCard";
 import { TurnStatusRow } from "./components/TurnStatusRow";
 import { WorkingFor } from "./components/WorkingFor";
 
@@ -181,6 +182,8 @@ export function TurnGroupSection({
 					turnId={row.turnId}
 				/>
 			);
+		case "changed_files":
+			return <TurnChangesCard files={row.files} />;
 		case "reply_footer":
 			return (
 				<ReplyFooter

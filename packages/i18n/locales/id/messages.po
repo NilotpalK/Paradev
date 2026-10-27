@@ -917,6 +917,9 @@ msgstr "{failing} dari {total} check gagal"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} dari {total} check gagal"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Mengedit # file} other {Mengedit # file}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} untuk fokus"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Tampilkan # balasan} other {Tampilkan # balasan}}"
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, other {Lihat # balasan lagi}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Tampilkan # file lagi} other {Tampilkan # file lagi}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Tampilkan # frame lagi} other {Tampilkan # frame lagi}}"
@@ -5711,6 +5717,9 @@ msgstr "Gagal mengunggah {name}"
 msgid "Couldn’t verify"
 msgstr "Tidak bisa memverifikasi"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Dihitung dari edit file oleh agen. Perubahan lewat perintah shell, alat notebook atau MCP, atau subagen tidak termasuk, dan baris di file yang diedit lebih dari sekali bisa terhitung dua kali."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Hapus workspace"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Hapus workspace \"{workspaceName}\"?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "dihapus"
 
 msgid "Deleted"
 msgstr "Dihapus"
@@ -11150,6 +11163,10 @@ msgstr "Tidak pernah"
 msgid "Never asks before acting"
 msgstr "Tidak pernah bertanya dulu"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "baru"
+
 msgid "New"
 msgstr "Baru"
 
@@ -12009,6 +12026,9 @@ msgstr "Tidak ada yang mereview secara berbeda karenanya."
 
 msgid "None"
 msgstr "Tidak ada"
+
+msgid "None of this turn's files have changes here"
+msgstr "Tidak ada file giliran ini yang berubah di sini"
 
 msgid "None. This is the floor."
 msgstr "Tidak ada. Ini adalah lantai dasarnya."
@@ -16492,6 +16512,9 @@ msgstr "Tampilkan tombol Penggunaan di sidebar beranda, di bawah Pull request"
 msgid "Show all {count}"
 msgstr "Tampilkan semua {count}"
 
+msgid "Show all changes"
+msgstr "Tampilkan semua perubahan"
+
 msgid "Show all comments"
 msgstr "Tampilkan semua komentar"
 
@@ -16539,6 +16562,9 @@ msgstr "Tampilkan semua yang membuka workspace ini"
 
 msgid "Show fewer"
 msgstr "Tampilkan lebih sedikit"
+
+msgid "Show fewer files"
+msgstr "Tampilkan lebih sedikit file"
 
 msgid "Show file tree"
 msgstr "Tampilkan pohon file"
@@ -18711,6 +18737,12 @@ msgstr "Thread ini tidak punya komentar untuk dibalas."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Thread ini belum diserahkan ke agen. Seseorang harus menyerahkannya dari halaman itu dulu."
+
+msgid "This turn"
+msgstr "Giliran ini"
+
+msgid "This turn's files"
+msgstr "File giliran ini"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Pembaruan ini memulai ulang terminal Anda satu kali saja. Terminal baru terbuka di folder yang sama."

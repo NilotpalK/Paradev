@@ -917,6 +917,9 @@ msgstr "Selhává {failing} z {total} kontroly"
 msgid "{failing} of {total} checks failing"
 msgstr "Selhává {failing} z {total} kontrol"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Upraven # soubor} few {Upraveny # soubory} many {Upraveno # souboru} other {Upraveno # souborů}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} pro zaměření"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Zobrazit # odpověď} few {Zobrazit # odpovědi} m
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {Zobrazit # další odpověď} few {Zobrazit # další odpovědi} many {Zobrazit # další odpovědi} other {Zobrazit # dalších odpovědí}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Zobrazit další # soubor} few {Zobrazit další # soubory} many {Zobrazit dalších # souboru} other {Zobrazit dalších # souborů}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Zobrazit ještě # rámec} few {Zobrazit ještě # rámce} many {Zobrazit ještě # rámce} other {Zobrazit ještě # rámců}}"
@@ -5711,6 +5717,9 @@ msgstr "{name} se nepodařilo nahrát"
 msgid "Couldn’t verify"
 msgstr "Nelze ověřit"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Spočítáno z úprav souborů agentem. Změny provedené příkazy shellu, nástroji notebooku nebo MCP či subagenty nejsou zahrnuty a v souboru upraveném víckrát se řádek může započítat dvakrát."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Smazat pracovní prostor"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Smazat pracovní prostor „{workspaceName}“?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "smazán"
 
 msgid "Deleted"
 msgstr "Smazáno"
@@ -11150,6 +11163,10 @@ msgstr "Nikdy"
 msgid "Never asks before acting"
 msgstr "Nikdy se neptá"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "nový"
+
 msgid "New"
 msgstr "Novinka"
 
@@ -12009,6 +12026,9 @@ msgstr "Nikdo kvůli tomu nereviduje jinak."
 
 msgid "None"
 msgstr "Žádný"
+
+msgid "None of this turn's files have changes here"
+msgstr "Žádný ze souborů tohoto tahu tu nemá změny"
 
 msgid "None. This is the floor."
 msgstr "Žádná. Tohle je základ."
@@ -16492,6 +16512,9 @@ msgstr "Zobrazovat tlačítko Využití v postranním panelu domovské obrazovky
 msgid "Show all {count}"
 msgstr "Zobrazit všech {count}"
 
+msgid "Show all changes"
+msgstr "Zobrazit všechny změny"
+
 msgid "Show all comments"
 msgstr "Zobrazit všechny komentáře"
 
@@ -16539,6 +16562,9 @@ msgstr "Zobrazit všechny, kdo otevřeli tento pracovní prostor"
 
 msgid "Show fewer"
 msgstr "Zobrazit méně"
+
+msgid "Show fewer files"
+msgstr "Zobrazit méně souborů"
 
 msgid "Show file tree"
 msgstr "Zobrazit strom souborů"
@@ -18711,6 +18737,12 @@ msgstr "V tomto vlákně není komentář, na který by šlo odpovědět."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Toto vlákno nebylo předáno agentovi. Nejprve ho někdo musí ze stránky předat."
+
+msgid "This turn"
+msgstr "Tento tah"
+
+msgid "This turn's files"
+msgstr "Soubory tohoto tahu"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Tato aktualizace jednorázově restartovala vaše terminály. Nové se otevírají ve stejných složkách."

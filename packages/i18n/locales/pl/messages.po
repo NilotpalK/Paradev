@@ -917,6 +917,9 @@ msgstr "{failing} z {total} kontroli nie przechodzi"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} z {total} kontroli nie przechodzi"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Edytowano # plik} few {Edytowano # pliki} many {Edytowano # plików} other {Edytowano # pliku}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} aby aktywować"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Pokaż # odpowiedź} few {Pokaż # odpowiedzi} man
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {Pokaż # kolejną odpowiedź} few {Pokaż # kolejne odpowiedzi} many {Pokaż # kolejnych odpowiedzi} other {Pokaż # kolejnej odpowiedzi}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Pokaż jeszcze # plik} few {Pokaż jeszcze # pliki} many {Pokaż jeszcze # plików} other {Pokaż jeszcze # pliku}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Pokaż # kolejną ramkę} few {Pokaż # kolejne ramki} many {Pokaż # kolejnych ramek} other {Pokaż # kolejnej ramki}}"
@@ -5711,6 +5717,9 @@ msgstr "Nie udało się przesłać {name}"
 msgid "Couldn’t verify"
 msgstr "Nie udało się zweryfikować"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Policzono na podstawie edycji plików przez agenta. Zmiany wprowadzone poleceniami powłoki, narzędziami notebooka lub MCP albo przez subagentów nie są uwzględnione, a w pliku edytowanym więcej niż raz wiersz może zostać policzony dwa razy."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Usuń obszar roboczy"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Usunąć obszar roboczy „{workspaceName}”?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "usunięty"
 
 msgid "Deleted"
 msgstr "Usunięte"
@@ -11150,6 +11163,10 @@ msgstr "Nigdy"
 msgid "Never asks before acting"
 msgstr "Nigdy nie pyta przed działaniem"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "nowy"
+
 msgid "New"
 msgstr "Nowość"
 
@@ -12009,6 +12026,9 @@ msgstr "Nikt przez to nie przegląda inaczej."
 
 msgid "None"
 msgstr "Brak"
+
+msgid "None of this turn's files have changes here"
+msgstr "Żaden z plików tej tury nie ma tu zmian"
 
 msgid "None. This is the floor."
 msgstr "Brak. To jest poziom zerowy."
@@ -16492,6 +16512,9 @@ msgstr "Pokazuj przycisk Zużycie na pasku bocznym strony głównej, pod pull re
 msgid "Show all {count}"
 msgstr "Pokaż wszystkie ({count})"
 
+msgid "Show all changes"
+msgstr "Pokaż wszystkie zmiany"
+
 msgid "Show all comments"
 msgstr "Pokaż wszystkie komentarze"
 
@@ -16539,6 +16562,9 @@ msgstr "Pokaż wszystkich, którzy otworzyli ten obszar roboczy"
 
 msgid "Show fewer"
 msgstr "Pokaż mniej"
+
+msgid "Show fewer files"
+msgstr "Pokaż mniej plików"
 
 msgid "Show file tree"
 msgstr "Pokaż drzewo plików"
@@ -18711,6 +18737,12 @@ msgstr "Ten wątek nie ma komentarza, na który można odpowiedzieć."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Ten wątek nie został przekazany agentowi. Ktoś musi go najpierw przekazać ze strony."
+
+msgid "This turn"
+msgstr "Ta tura"
+
+msgid "This turn's files"
+msgstr "Pliki tej tury"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Ta aktualizacja jednorazowo uruchomiła ponownie Twoje terminale. Nowe otwierają się w tych samych folderach."

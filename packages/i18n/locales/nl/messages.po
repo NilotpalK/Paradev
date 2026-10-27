@@ -917,6 +917,9 @@ msgstr "{failing} van {total} check mislukt"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} van {total} checks mislukt"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {# bestand bewerkt} other {# bestanden bewerkt}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} om te focussen"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {# reactie tonen} other {# reacties tonen}}"
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {# reactie meer weergeven} other {# reacties meer weergeven}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Nog # bestand tonen} other {Nog # bestanden tonen}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {# frame meer tonen} other {# frames meer tonen}}"
@@ -5711,6 +5717,9 @@ msgstr "{name} uploaden mislukt"
 msgid "Couldn’t verify"
 msgstr "Kon het niet verifiëren"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Geteld uit de bestandsbewerkingen van de agent. Wijzigingen via shellopdrachten, notebook- of MCP-tools of subagents tellen niet mee, en in een bestand dat meer dan eens is bewerkt kan een regel dubbel tellen."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Werkruimte verwijderen"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Werkruimte \"{workspaceName}\" verwijderen?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "verwijderd"
 
 msgid "Deleted"
 msgstr "Verwijderd"
@@ -11150,6 +11163,10 @@ msgstr "Nooit"
 msgid "Never asks before acting"
 msgstr "Vraagt nooit vooraf"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "nieuw"
+
 msgid "New"
 msgstr "Nieuw"
 
@@ -12009,6 +12026,9 @@ msgstr "Niemand reviewt er anders door."
 
 msgid "None"
 msgstr "Geen"
+
+msgid "None of this turn's files have changes here"
+msgstr "Geen van de bestanden van deze beurt heeft hier wijzigingen"
 
 msgid "None. This is the floor."
 msgstr "Geen. Dit is de bodem."
@@ -16492,6 +16512,9 @@ msgstr "Toon een knop Gebruik in de zijbalk van het startscherm, onder Pull requ
 msgid "Show all {count}"
 msgstr "Alle {count} tonen"
 
+msgid "Show all changes"
+msgstr "Alle wijzigingen tonen"
+
 msgid "Show all comments"
 msgstr "Alle opmerkingen tonen"
 
@@ -16539,6 +16562,9 @@ msgstr "Iedereen tonen die deze workspace heeft geopend"
 
 msgid "Show fewer"
 msgstr "Minder tonen"
+
+msgid "Show fewer files"
+msgstr "Minder bestanden tonen"
 
 msgid "Show file tree"
 msgstr "Bestandsboom tonen"
@@ -18711,6 +18737,12 @@ msgstr "Deze thread heeft geen opmerking om op te reageren."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Deze thread is niet aan een agent overgedragen. Iemand moet hem eerst vanaf de pagina overdragen."
+
+msgid "This turn"
+msgstr "Deze beurt"
+
+msgid "This turn's files"
+msgstr "Bestanden van deze beurt"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Deze update heeft je terminals eenmalig opnieuw gestart. Nieuwe openen in dezelfde mappen."

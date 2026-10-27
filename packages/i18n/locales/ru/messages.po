@@ -917,6 +917,9 @@ msgstr "{failing} из {total} проверки не пройдена"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} из {total} проверок не пройдены"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Изменён # файл} few {Изменено # файла} many {Изменено # файлов} other {Изменено # файла}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} — фокус"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Показать # ответ} few {Показат
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {Показать ещё # ответ} few {Показать ещё # ответа} many {Показать ещё # ответов} other {Показать ещё # ответа}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Показать ещё # файл} few {Показать ещё # файла} many {Показать ещё # файлов} other {Показать ещё # файла}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Показать ещё # кадр} few {Показать ещё # кадра} many {Показать ещё # кадров} other {Показать ещё # кадра}}"
@@ -5711,6 +5717,9 @@ msgstr "Не удалось загрузить {name}"
 msgid "Couldn’t verify"
 msgstr "Не удалось проверить"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Подсчитано по правкам файлов агентом. Изменения через команды оболочки, инструменты notebook или MCP и субагентов не учитываются, а в файле, изменённом несколько раз, строка может быть посчитана дважды."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Удалить рабочую область"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Удалить рабочую область «{workspaceName}»?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "удалён"
 
 msgid "Deleted"
 msgstr "Удалено"
@@ -11150,6 +11163,10 @@ msgstr "Никогда"
 msgid "Never asks before acting"
 msgstr "Никогда не спрашивает"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "новый"
+
 msgid "New"
 msgstr "Новое"
 
@@ -12009,6 +12026,9 @@ msgstr "Из-за этого никто не проверяет код инач�
 
 msgid "None"
 msgstr "Нет"
+
+msgid "None of this turn's files have changes here"
+msgstr "Ни в одном из файлов этого хода здесь нет изменений"
 
 msgid "None. This is the floor."
 msgstr "Нет. Это нижняя граница."
@@ -16492,6 +16512,9 @@ msgstr "Показывать кнопку «Использование» в бо
 msgid "Show all {count}"
 msgstr "Показать все {count}"
 
+msgid "Show all changes"
+msgstr "Показать все изменения"
+
 msgid "Show all comments"
 msgstr "Показать все комментарии"
 
@@ -16539,6 +16562,9 @@ msgstr "Показать всех, кто открывал это рабочее
 
 msgid "Show fewer"
 msgstr "Показать меньше"
+
+msgid "Show fewer files"
+msgstr "Показать меньше файлов"
 
 msgid "Show file tree"
 msgstr "Показать дерево файлов"
@@ -18711,6 +18737,12 @@ msgstr "В этой ветке нет комментария, на которы�
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Эта ветка не передана агенту. Сначала кто-то должен передать её со страницы."
+
+msgid "This turn"
+msgstr "Этот ход"
+
+msgid "This turn's files"
+msgstr "Файлы этого хода"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Это обновление однократно перезапустило ваши терминалы. Новые открываются в тех же папках."

@@ -917,6 +917,9 @@ msgstr "{total}件中{failing}件のチェックが失敗"
 msgid "{failing} of {total} checks failing"
 msgstr "{total}件中{failing}件のチェックが失敗"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {#件のファイルを編集} other {#件のファイルを編集}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText}でフォーカス"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {#件の返信を表示} other {#件の返信を表
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, other {他 # 件の返信を表示}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {さらに#件のファイルを表示} other {さらに#件のファイルを表示}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {さらに#件のフレームを表示} other {さらに#件のフレームを表示}}"
@@ -5711,6 +5717,9 @@ msgstr "{name} をアップロードできませんでした"
 msgid "Couldn’t verify"
 msgstr "確認できませんでした"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "エージェントのファイル編集から集計しています。シェルコマンド、ノートブックやMCPツール、サブエージェントによる変更は含まれず、複数回編集されたファイルでは同じ行が二重に数えられることがあります。"
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "ワークスペースを削除"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "ワークスペース「{workspaceName}」を削除しますか?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "削除"
 
 msgid "Deleted"
 msgstr "削除済み"
@@ -11150,6 +11163,10 @@ msgstr "未使用"
 msgid "Never asks before acting"
 msgstr "確認なしで実行"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "新規"
+
 msgid "New"
 msgstr "新着"
 
@@ -12009,6 +12026,9 @@ msgstr "それによってレビューのやり方が変わることはない。
 
 msgid "None"
 msgstr "なし"
+
+msgid "None of this turn's files have changes here"
+msgstr "このターンのファイルにはここで変更がありません"
 
 msgid "None. This is the floor."
 msgstr "なし。ここが出発点です。"
@@ -16492,6 +16512,9 @@ msgstr "ホームのサイドバーの「プルリクエスト」の下に「使
 msgid "Show all {count}"
 msgstr "{count}件すべて表示"
 
+msgid "Show all changes"
+msgstr "すべての変更を表示"
+
 msgid "Show all comments"
 msgstr "すべてのコメントを表示"
 
@@ -16539,6 +16562,9 @@ msgstr "このワークスペースを開いた全員を表示"
 
 msgid "Show fewer"
 msgstr "表示を減らす"
+
+msgid "Show fewer files"
+msgstr "表示するファイルを減らす"
 
 msgid "Show file tree"
 msgstr "ファイルツリーを表示"
@@ -18711,6 +18737,12 @@ msgstr "このスレッドには返信できるコメントがありません。
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "このスレッドはエージェントに公開されていません。エージェントが返信するには、まず人がコメントする必要があります。"
+
+msgid "This turn"
+msgstr "このターン"
+
+msgid "This turn's files"
+msgstr "このターンのファイル"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "このアップデートでターミナルが一度だけ再起動しました。新しいターミナルは同じフォルダで開きます。"

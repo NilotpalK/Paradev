@@ -917,6 +917,9 @@ msgstr "{failing} of {total} check failing"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} of {total} checks failing"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} to focus"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Show # reply} other {Show # replies}}"
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {View # more reply} other {View # more replies}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
@@ -5711,6 +5717,9 @@ msgstr "Couldn't upload {name}"
 msgid "Couldn’t verify"
 msgstr "Couldn’t verify"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Delete workspace"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "Delete workspace \"{workspaceName}\"?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "deleted"
 
 msgid "Deleted"
 msgstr "Deleted"
@@ -11150,6 +11163,10 @@ msgstr "Never"
 msgid "Never asks before acting"
 msgstr "Never asks before acting"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "new"
+
 msgid "New"
 msgstr "New"
 
@@ -12009,6 +12026,9 @@ msgstr "Nobody reviews differently because of it."
 
 msgid "None"
 msgstr "None"
+
+msgid "None of this turn's files have changes here"
+msgstr "None of this turn's files have changes here"
 
 msgid "None. This is the floor."
 msgstr "None. This is the floor."
@@ -16492,6 +16512,9 @@ msgstr "Show a Usage button in the home sidebar, under Pull requests"
 msgid "Show all {count}"
 msgstr "Show all {count}"
 
+msgid "Show all changes"
+msgstr "Show all changes"
+
 msgid "Show all comments"
 msgstr "Show all comments"
 
@@ -16539,6 +16562,9 @@ msgstr "Show everyone who opened this workspace"
 
 msgid "Show fewer"
 msgstr "Show fewer"
+
+msgid "Show fewer files"
+msgstr "Show fewer files"
 
 msgid "Show file tree"
 msgstr "Show file tree"
@@ -18711,6 +18737,12 @@ msgstr "This thread has no comment to reply to."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "This thread is not open to agents. A person has to comment on it before an agent can reply."
+
+msgid "This turn"
+msgstr "This turn"
+
+msgid "This turn's files"
+msgstr "This turn's files"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "This update restarted your terminals once. New ones open in the same folders."

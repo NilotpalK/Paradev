@@ -917,6 +917,9 @@ msgstr "{failing} de {total} comprobación falla"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} de {total} comprobaciones fallan"
 
+msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
+msgstr "{fileCount, plural, one {Editó # archivo} other {Editó # archivos}}"
+
 msgid "{focusShortcutText} to focus"
 msgstr "{focusShortcutText} para enfocar"
 
@@ -955,6 +958,9 @@ msgstr "{hidden, plural, one {Mostrar # respuesta} other {Mostrar # respuestas}}
 
 msgid "{hidden, plural, one {View # more reply} other {View # more replies}}"
 msgstr "{hidden, plural, one {Ver # respuesta más} other {Ver # respuestas más}}"
+
+msgid "{hiddenCount, plural, one {Show # more file} other {Show # more files}}"
+msgstr "{hiddenCount, plural, one {Mostrar # archivo más} other {Mostrar # archivos más}}"
 
 msgid "{hiddenCount, plural, one {Show # more frame} other {Show # more frames}}"
 msgstr "{hiddenCount, plural, one {Mostrar # marco más} other {Mostrar # marcos más}}"
@@ -5711,6 +5717,9 @@ msgstr "No se pudo subir {name}"
 msgid "Couldn’t verify"
 msgstr "No se pudo verificar"
 
+msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
+msgstr "Contado a partir de las ediciones de archivos del agente. No incluye los cambios hechos con comandos de shell, herramientas de notebook o MCP ni subagentes, y un archivo editado más de una vez puede contar una línea dos veces."
+
 msgid "CPU"
 msgstr "CPU"
 
@@ -6320,6 +6329,10 @@ msgstr "Eliminar espacio de trabajo"
 
 msgid "Delete workspace \"{workspaceName}\"?"
 msgstr "¿Eliminar el espacio de trabajo \"{workspaceName}\"?"
+
+msgctxt "changed file badge"
+msgid "deleted"
+msgstr "eliminado"
 
 msgid "Deleted"
 msgstr "Eliminados"
@@ -11150,6 +11163,10 @@ msgstr "Nunca"
 msgid "Never asks before acting"
 msgstr "Nunca pregunta antes de actuar"
 
+msgctxt "changed file badge"
+msgid "new"
+msgstr "nuevo"
+
 msgid "New"
 msgstr "Nuevo"
 
@@ -12009,6 +12026,9 @@ msgstr "Nadie revisa de forma distinta por ello."
 
 msgid "None"
 msgstr "Ninguno"
+
+msgid "None of this turn's files have changes here"
+msgstr "Ninguno de los archivos de este turno tiene cambios aquí"
 
 msgid "None. This is the floor."
 msgstr "Ninguna. Este es el punto de partida."
@@ -16492,6 +16512,9 @@ msgstr "Mostrar un botón de Uso en la barra lateral de inicio, debajo de Pull r
 msgid "Show all {count}"
 msgstr "Mostrar los {count}"
 
+msgid "Show all changes"
+msgstr "Mostrar todos los cambios"
+
 msgid "Show all comments"
 msgstr "Mostrar todos los comentarios"
 
@@ -16539,6 +16562,9 @@ msgstr "Mostrar a todos los que abrieron este espacio de trabajo"
 
 msgid "Show fewer"
 msgstr "Mostrar menos"
+
+msgid "Show fewer files"
+msgstr "Mostrar menos archivos"
 
 msgid "Show file tree"
 msgstr "Mostrar el árbol de archivos"
@@ -18711,6 +18737,12 @@ msgstr "Este hilo no tiene ningún comentario al que responder."
 
 msgid "This thread is not open to agents. A person has to comment on it before an agent can reply."
 msgstr "Este hilo no se ha pasado a un agente. Alguien tiene que pasarlo desde la página primero."
+
+msgid "This turn"
+msgstr "Este turno"
+
+msgid "This turn's files"
+msgstr "Archivos de este turno"
 
 msgid "This update restarted your terminals once. New ones open in the same folders."
 msgstr "Esta actualización reinició tus terminales una sola vez. Los nuevos se abren en las mismas carpetas."
