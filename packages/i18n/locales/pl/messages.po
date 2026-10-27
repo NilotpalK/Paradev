@@ -451,6 +451,10 @@ msgstr "{0} jest już przypisane do „{1}”."
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} jest już używany dla zadań w tej organizacji."
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0} buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb. Jesteśmy trójką byłych CTO z YC budującą narzędzie, które sami kochamy."
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} nie jest repozytorium, w którym zainstalowano aplikację GitHub App"
@@ -1206,6 +1210,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} z {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Pozostałe tokeny: {remaining}"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} nie należy do {installedAccountLogin}, gdzie zainstalowana jest GitHub App tej organizacji."
 
@@ -1304,6 +1311,9 @@ msgstr "{uploading, plural, one {Przesyłanie # pliku…} few {Przesyłanie # pl
 msgid "{used} of {limit} environments"
 msgstr "{used} z {limit} środowisk"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} z {size} tokenów"
+
 msgid "{used} used"
 msgstr "Wykorzystano {used}"
 
@@ -1312,6 +1322,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} oczekuje"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Limit {windowLabel}: wykorzystano {percent}"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host jest niedostępny"
@@ -3054,6 +3067,9 @@ msgstr "Autonomiczny potok od zgłoszenia do PR"
 msgid "Available"
 msgstr "Dostępny"
 
+msgid "Available when the agent is idle."
+msgstr "Dostępne, gdy agent nie pracuje."
+
 msgid "Avatar"
 msgstr "Awatar"
 
@@ -4575,6 +4591,9 @@ msgstr "Komunikacja"
 msgid "Community"
 msgstr "Społeczność"
 
+msgid "Compact now"
+msgstr "Kompaktuj teraz"
+
 msgid "Company"
 msgstr "Firma"
 
@@ -4916,6 +4935,12 @@ msgstr "Kontekst"
 
 msgid "Context Menu"
 msgstr "Menu kontekstowe"
+
+msgid "Context window"
+msgstr "Okno kontekstu"
+
+msgid "Context window: {percent} used"
+msgstr "Okno kontekstu: wykorzystano {percent}"
 
 msgid "Continue"
 msgstr "Kontynuuj"
@@ -10925,6 +10950,9 @@ msgstr "Aplikacja mobilna"
 msgid "Mobile App"
 msgstr "Aplikacja mobilna"
 
+msgid "Mode"
+msgstr "Tryb"
+
 msgid "model"
 msgstr "model"
 
@@ -12118,6 +12146,9 @@ msgstr "Nie ma w tej wersji"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Brak zdarzeń: Microsoft Graph odrzucił subskrypcje powiadomień. Sprawdź zgodę administratora i zatwierdzenie chronionych API, a potem połącz ponownie."
 
+msgid "Not reported yet"
+msgstr "Jeszcze nie zgłoszono"
+
 msgid "Not reviewed by you"
 msgstr "Nieprzejrzane przez Ciebie"
 
@@ -12275,6 +12306,9 @@ msgstr "Tryb offline / local-first"
 
 msgid "Older"
 msgstr "Starsze"
+
+msgid "On"
+msgstr "Wł."
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "na {offScopeHostName} — nie uruchomi się tutaj"
@@ -13298,9 +13332,6 @@ msgstr "Paradev to aplikacja na komputer. Podaj e-mail, a wyślemy Ci link do po
 
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb."
-
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb. Jesteśmy trójką byłych CTO z YC budującą narzędzie, które sami kochamy."
 
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev tworzy zespół z San Francisco w Kalifornii. W sprawach wsparcia produktu lub konta napisz na <0>{supportEmail}</0> — odpowiemy w ciągu jednego dnia roboczego. W sprawach partnerstw, prasy, enterprise lub w każdej innej sprawie pisz na <1>{teamEmail}</1>."
@@ -14374,6 +14405,9 @@ msgstr "Oceń {appName}"
 msgid "Rate limit exceeded."
 msgstr "Przekroczono limit żądań."
 
+msgid "Rate limits"
+msgstr "Limity użycia"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Sięgnij po tego Maca z dowolnego miejsca przez przekaźnik Paradev albo uruchom obszary robocze w chmurze. Połącz się z dowolnego klienta."
 
@@ -14677,6 +14711,9 @@ msgstr "Przenieść projekt?"
 
 msgid "Relocating…"
 msgstr "Przenoszenie…"
+
+msgid "Remaining"
+msgstr "Pozostało"
 
 msgid "rematch"
 msgstr "rewanż"
@@ -16308,6 +16345,12 @@ msgstr "Sesja"
 msgid "Session {0}"
 msgstr "Sesja {0}"
 
+msgid "Session cost"
+msgstr "Koszt sesji"
+
+msgid "Session cost: {cost}"
+msgstr "Koszt sesji: {cost}"
+
 msgid "Session details"
 msgstr "Szczegóły sesji"
 
@@ -16328,6 +16371,9 @@ msgstr "Zmieniono nazwę sesji na {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Migawki sesji i cofanie"
+
+msgid "Session status"
+msgstr "Stan sesji"
 
 msgid "Sessions"
 msgstr "Sesje"
@@ -17527,6 +17573,9 @@ msgstr "Suma CPU zużywanego przez Paradev i monitorowane drzewa procesów termi
 
 msgid "Summarize the changes in this workspace"
 msgstr "Podsumuj zmiany w tym obszarze roboczym"
+
+msgid "Summarizes the chat to free up context."
+msgstr "Podsumowuje czat, aby zwolnić kontekst."
 
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -19714,6 +19763,9 @@ msgstr "Transkrypcja głosu i funkcje push-to-talk."
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Korzystaj z własnych subskrypcji agentów i kluczy API. Paradev nigdy nie pośredniczy w wywołaniach modeli ani nie przywiązuje Twojego procesu do jednego dostawcy."
 
+msgid "Used"
+msgstr "Wykorzystano"
+
 msgid "Used in URLs and APIs."
 msgstr "Używany w adresach URL i API."
 
@@ -20126,6 +20178,10 @@ msgstr "Witamy w Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "Witaj w nowym Paradev"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "Czym jest {0}, kto go tworzy i dla kogo jest. Zespół z San Francisco prowadzony przez trzech byłych CTO z YC, budujący obszar roboczy dla równoległych agentów kodujących."
+
 msgid "What are the benefits?"
 msgstr "Jakie są benefity?"
 
@@ -20158,9 +20214,6 @@ msgstr "Czym jest Paradev Enterprise?"
 
 msgid "What is wrong?"
 msgstr "Co jest nie tak?"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Czym jest Paradev, kto go tworzy i dla kogo jest. Zespół z San Francisco prowadzony przez trzech byłych CTO z YC, budujący obszar roboczy dla równoległych agentów kodujących."
 
 msgid "What platforms does Paradev run on?"
 msgstr "Na jakich platformach działa Paradev?"
@@ -20281,6 +20334,10 @@ msgstr "Szerokość · równoległe sesje"
 
 msgid "Window"
 msgstr "Okno"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "Rozmiar"
 
 msgid "With action"
 msgstr "Z akcją"

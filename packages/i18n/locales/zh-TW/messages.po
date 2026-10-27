@@ -451,6 +451,10 @@ msgstr "{0}已分配給「{1}」。"
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} 已在此組織的任務中使用。"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0}正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。我們是3位YC出身的前CTO，在做一個自己喜歡的工具。"
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} 不是已安裝 GitHub App 的存放庫"
@@ -1206,6 +1210,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received}/{total}"
 
+msgid "{remaining} tokens left"
+msgstr "剩餘 {remaining} 個 token"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} 不在 {installedAccountLogin} 上，而本組織的 GitHub App 安裝在那裡。"
 
@@ -1304,6 +1311,9 @@ msgstr "{uploading, plural, other {正在上傳 # 個檔案…}}"
 msgid "{used} of {limit} environments"
 msgstr "已用 {used}/{limit} 個環境"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} / {size} 個 token"
+
 msgid "{used} used"
 msgstr "已使用 {used}"
 
@@ -1312,6 +1322,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting}人等待"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "{windowLabel} 額度：已使用 {percent}"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}：主機不可用"
@@ -3054,6 +3067,9 @@ msgstr "工單到PR的自主流水線"
 msgid "Available"
 msgstr "可用"
 
+msgid "Available when the agent is idle."
+msgstr "代理程式閒置時可用。"
+
 msgid "Avatar"
 msgstr "頭像"
 
@@ -4575,6 +4591,9 @@ msgstr "溝通"
 msgid "Community"
 msgstr "社群"
 
+msgid "Compact now"
+msgstr "立即壓縮"
+
 msgid "Company"
 msgstr "公司"
 
@@ -4916,6 +4935,12 @@ msgstr "上下文"
 
 msgid "Context Menu"
 msgstr "右鍵選單"
+
+msgid "Context window"
+msgstr "上下文視窗"
+
+msgid "Context window: {percent} used"
+msgstr "上下文視窗：已使用 {percent}"
 
 msgid "Continue"
 msgstr "繼續"
@@ -10925,6 +10950,9 @@ msgstr "行動應用程式"
 msgid "Mobile App"
 msgstr "行動應用程式"
 
+msgid "Mode"
+msgstr "模式"
+
 msgid "model"
 msgstr "模型"
 
@@ -12118,6 +12146,9 @@ msgstr "不在此版本中"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "尚未接收到事件：Microsoft Graph拒絕了通知訂閱。請檢查應用的管理員同意和受保護API的審批，然後重新連線。"
 
+msgid "Not reported yet"
+msgstr "尚未回報"
+
 msgid "Not reviewed by you"
 msgstr "你還沒有審查"
 
@@ -12275,6 +12306,9 @@ msgstr "離線/本地優先模式"
 
 msgid "Older"
 msgstr "更早"
+
+msgid "On"
+msgstr "開啟"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "在{offScopeHostName}上，不會在這裡執行"
@@ -13298,9 +13332,6 @@ msgstr "Paradev是桌面應用程式。留下電子郵件，我們會把下載�
 
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。"
-
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。我們是3位YC出身的前CTO，在做一個自己喜歡的工具。"
 
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev由一支位於加州舊金山的團隊打造。產品支援或帳戶問題，請發郵件至<0>{supportEmail}</0>，我們會在一個工作日內回覆。合作、媒體、企業版或其他任何事宜，請寫信至<1>{teamEmail}</1>。"
@@ -14374,6 +14405,9 @@ msgstr "為{appName}評分"
 msgid "Rate limit exceeded."
 msgstr "超出速率限制。"
 
+msgid "Rate limits"
+msgstr "用量限制"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "通過Paradev中繼從任何地方連上這臺Mac，或啟動雲端工作區。可從任意客戶端連線。"
 
@@ -14677,6 +14711,9 @@ msgstr "遷移專案？"
 
 msgid "Relocating…"
 msgstr "正在遷移…"
+
+msgid "Remaining"
+msgstr "剩餘"
 
 msgid "rematch"
 msgstr "再來一局"
@@ -16308,6 +16345,12 @@ msgstr "會話"
 msgid "Session {0}"
 msgstr "會話{0}"
 
+msgid "Session cost"
+msgstr "工作階段費用"
+
+msgid "Session cost: {cost}"
+msgstr "工作階段費用：{cost}"
+
 msgid "Session details"
 msgstr "會話詳情"
 
@@ -16328,6 +16371,9 @@ msgstr "會話已重新命名為 {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "會話快照與回退"
+
+msgid "Session status"
+msgstr "工作階段狀態"
 
 msgid "Sessions"
 msgstr "會話"
@@ -17527,6 +17573,9 @@ msgstr "Paradev與受監控的終端處理程序樹佔用的CPU總和。超過10
 
 msgid "Summarize the changes in this workspace"
 msgstr "總結此工作區中的變更"
+
+msgid "Summarizes the chat to free up context."
+msgstr "摘要對話以騰出上下文空間。"
 
 msgid "Summary"
 msgstr "摘要"
@@ -19714,6 +19763,9 @@ msgstr "使用語音轉寫和按住說話功能。"
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "使用你已有的代理程式訂閱和API金鑰。Paradev從不代理模型呼叫，也不會把你的工作流鎖死在某一家提供商上。"
 
+msgid "Used"
+msgstr "已使用"
+
 msgid "Used in URLs and APIs."
 msgstr "用於URL和API。"
 
@@ -20126,6 +20178,10 @@ msgstr "歡迎使用Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "歡迎使用全新的 Paradev"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "{0} 是什麼、由誰打造、為誰而做。一支由三位前 YC CTO 帶領的舊金山團隊，正在打造平行編碼代理的工作區。"
+
 msgid "What are the benefits?"
 msgstr "有哪些福利？"
 
@@ -20158,9 +20214,6 @@ msgstr "什麼是Paradev Enterprise？"
 
 msgid "What is wrong?"
 msgstr "哪裡有問題？"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Paradev 是什麼、由誰打造、為誰而做。一支由三位前 YC CTO 帶領的舊金山團隊，正在打造平行編碼代理的工作區。"
 
 msgid "What platforms does Paradev run on?"
 msgstr "Paradev支援哪些平臺？"
@@ -20281,6 +20334,10 @@ msgstr "寬度 · 並行工作階段數"
 
 msgid "Window"
 msgstr "視窗"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "大小"
 
 msgid "With action"
 msgstr "帶操作"

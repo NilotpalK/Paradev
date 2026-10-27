@@ -451,6 +451,10 @@ msgstr "{0} zaten \"{1}\" için atanmış."
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} bu kuruluştaki görevler için zaten kullanılıyor."
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0}, kendini geliştiren yazılım üretiyor. Bu, mühendislere zamanla ihtiyaçlarına uyum sağlayan en iyi araçları vermekle başlıyor. Sevdiğimiz bir araç geliştiren 3 eski YC CTO'suyuz."
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0}, GitHub App’in yüklü olduğu bir depo değil"
@@ -1206,6 +1210,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{total} içinden {received}"
 
+msgid "{remaining} tokens left"
+msgstr "{remaining} token kaldı"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName}, bu organizasyonun GitHub App'inin kurulu olduğu {installedAccountLogin} hesabında değil."
 
@@ -1304,6 +1311,9 @@ msgstr "{uploading, plural, other {# dosya yükleniyor…}}"
 msgid "{used} of {limit} environments"
 msgstr "{limit} ortamdan {used} tanesi"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} / {size} token"
+
 msgid "{used} used"
 msgstr "{used} kullanıldı"
 
@@ -1312,6 +1322,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} bekliyor"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "{windowLabel} sınırı: {percent} kullanıldı"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host kullanılamıyor"
@@ -3054,6 +3067,9 @@ msgstr "Otonom biletten PR'a boru hattı"
 msgid "Available"
 msgstr "Uygun"
 
+msgid "Available when the agent is idle."
+msgstr "Ajan boştayken kullanılabilir."
+
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -4575,6 +4591,9 @@ msgstr "İletişim"
 msgid "Community"
 msgstr "Topluluk"
 
+msgid "Compact now"
+msgstr "Şimdi sıkıştır"
+
 msgid "Company"
 msgstr "Şirket"
 
@@ -4916,6 +4935,12 @@ msgstr "Bağlam"
 
 msgid "Context Menu"
 msgstr "Bağlam menüsü"
+
+msgid "Context window"
+msgstr "Bağlam penceresi"
+
+msgid "Context window: {percent} used"
+msgstr "Bağlam penceresi: {percent} kullanıldı"
 
 msgid "Continue"
 msgstr "Devam et"
@@ -10925,6 +10950,9 @@ msgstr "Mobil uygulama"
 msgid "Mobile App"
 msgstr "Mobil uygulama"
 
+msgid "Mode"
+msgstr "Mod"
+
 msgid "model"
 msgstr "model"
 
@@ -12118,6 +12146,9 @@ msgstr "Bu sürümde yok"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Henüz olay alınmıyor: Microsoft Graph bildirim aboneliklerini reddetti. Uygulamanın yönetici onayını ve korumalı API onayını kontrol edip yeniden bağlanın."
 
+msgid "Not reported yet"
+msgstr "Henüz bildirilmedi"
+
 msgid "Not reviewed by you"
 msgstr "Sizin incelemediğiniz"
 
@@ -12275,6 +12306,9 @@ msgstr "Çevrimdışı / yerel öncelikli mod"
 
 msgid "Older"
 msgstr "Daha eski"
+
+msgid "On"
+msgstr "Açık"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "{offScopeHostName} üzerinde — burada çalışmaz"
@@ -13298,9 +13332,6 @@ msgstr "Paradev bir masaüstü uygulamasıdır. E-postanızı girin, Mac'inizde 
 
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev, kendini geliştiren yazılım üretiyor. Bu, mühendislere zamanla ihtiyaçlarına uyum sağlayan en iyi araçları vermekle başlıyor."
-
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev, kendini geliştiren yazılım üretiyor. Bu, mühendislere zamanla ihtiyaçlarına uyum sağlayan en iyi araçları vermekle başlıyor. Sevdiğimiz bir araç geliştiren 3 eski YC CTO'suyuz."
 
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev, San Francisco, Kaliforniya merkezli bir ekip tarafından geliştirilir. Ürün desteği veya hesap soruları için <0>{supportEmail}</0> adresine e-posta gönderin; bir iş günü içinde size dönelim. İş birliği, basın, kurumsal veya diğer tüm konular için <1>{teamEmail}</1> adresine yazın."
@@ -14374,6 +14405,9 @@ msgstr "{appName}'i puanla"
 msgid "Rate limit exceeded."
 msgstr "Hız sınırı aşıldı."
 
+msgid "Rate limits"
+msgstr "Kullanım sınırları"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Paradev rölesi üzerinden bu Mac'e her yerden erişin veya bulut çalışma alanları başlatın. Herhangi bir istemciden bağlanın."
 
@@ -14677,6 +14711,9 @@ msgstr "Proje taşınsın mı?"
 
 msgid "Relocating…"
 msgstr "Taşınıyor…"
+
+msgid "Remaining"
+msgstr "Kalan"
 
 msgid "rematch"
 msgstr "rövanş"
@@ -16308,6 +16345,12 @@ msgstr "Oturum"
 msgid "Session {0}"
 msgstr "Oturum {0}"
 
+msgid "Session cost"
+msgstr "Oturum maliyeti"
+
+msgid "Session cost: {cost}"
+msgstr "Oturum maliyeti: {cost}"
+
 msgid "Session details"
 msgstr "Oturum ayrıntıları"
 
@@ -16328,6 +16371,9 @@ msgstr "Oturum {trimmed} olarak yeniden adlandırıldı"
 
 msgid "Session snapshots & revert"
 msgstr "Oturum anlık görüntüleri ve geri alma"
+
+msgid "Session status"
+msgstr "Oturum durumu"
 
 msgid "Sessions"
 msgstr "Oturumlar"
@@ -17527,6 +17573,9 @@ msgstr "Paradev ve izlenen terminal süreç ağaçlarının kullandığı CPU to
 
 msgid "Summarize the changes in this workspace"
 msgstr "Bu çalışma alanındaki değişiklikleri özetle"
+
+msgid "Summarizes the chat to free up context."
+msgstr "Bağlamda yer açmak için sohbeti özetler."
 
 msgid "Summary"
 msgstr "Özet"
@@ -19714,6 +19763,9 @@ msgstr "Sesli yazıya dökme ve bas-konuş özelliklerini kullanın."
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Mevcut ajan aboneliklerinizi ve API anahtarlarınızı kullanın. Paradev model çağrılarını asla vekil olarak iletmez ve iş akışınızı tek bir sağlayıcıya kilitlemez."
 
+msgid "Used"
+msgstr "Kullanılan"
+
 msgid "Used in URLs and APIs."
 msgstr "URL'lerde ve API'lerde kullanılır."
 
@@ -20126,6 +20178,10 @@ msgstr "Paradev'e hoş geldiniz"
 msgid "Welcome to the new Paradev"
 msgstr "Yeni Paradev'e hoş geldiniz"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "{0} nedir, kimler geliştiriyor ve kimler için. Paralel kodlama ajanları için çalışma alanını geliştiren, üç eski YC CTO'sunun liderliğindeki bir San Francisco ekibi."
+
 msgid "What are the benefits?"
 msgstr "Yan haklar neler?"
 
@@ -20158,9 +20214,6 @@ msgstr "Paradev Enterprise nedir?"
 
 msgid "What is wrong?"
 msgstr "Sorun nedir?"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Paradev nedir, kimler geliştiriyor ve kimler için. Paralel kodlama ajanları için çalışma alanını geliştiren, üç eski YC CTO'sunun liderliğindeki bir San Francisco ekibi."
 
 msgid "What platforms does Paradev run on?"
 msgstr "Paradev hangi platformlarda çalışıyor?"
@@ -20281,6 +20334,10 @@ msgstr "Genişlik · paralel oturumlar"
 
 msgid "Window"
 msgstr "Pencere"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "Boyut"
 
 msgid "With action"
 msgstr "Eylemli"

@@ -3,6 +3,7 @@ import type { SessionClient } from "@superset/chat/client";
 import {
 	deriveQueuedPrompts,
 	runningTurnId as findRunningTurnId,
+	latestSessionUsage,
 	launchConfigSelections,
 	userMessageText,
 } from "@superset/chat/core";
@@ -104,6 +105,7 @@ export function SessionView({
 	openPage,
 	openLink,
 	onOpenHistory,
+	terminalId,
 	onNewChat,
 	workspaceId,
 }: {
@@ -112,6 +114,7 @@ export function SessionView({
 	presetId?: string;
 	draftKey: string;
 	workspaceId: string;
+	terminalId?: string;
 	headerLeft?: ReactNode;
 	held?: {
 		notice: ReactNode;
@@ -258,6 +261,10 @@ export function SessionView({
 
 	const runningTurnId = useMemo(
 		() => findRunningTurnId(session.snapshot.turns),
+		[session.snapshot.turns],
+	);
+	const sessionUsage = useMemo(
+		() => latestSessionUsage(session.snapshot.turns),
 		[session.snapshot.turns],
 	);
 
@@ -642,6 +649,10 @@ export function SessionView({
 					target={subagent.target}
 					canQueue={composerQueue !== undefined}
 					onOpenHistory={onOpenHistory}
+					sessionUsage={sessionUsage}
+					turnRunning={runningTurnId !== null}
+					terminalId={terminalId}
+					agentLabel={agentLabel}
 					onNewChat={onNewChat}
 					onFork={onFork ? forkWithTranscript : undefined}
 					canForkToWorktree={canForkToWorktree}
