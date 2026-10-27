@@ -3620,6 +3620,9 @@ msgstr "Tidak dapat menjangkau host"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Tidak bisa dibatalkan selagi chat di workspace ini bekerja."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Tidak bisa dibatalkan: chat lain bekerja di workspace ini selama giliran ini."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Tidak bisa dibatalkan: HEAD berpindah sejak giliran ini, karena commit, pull, atau checkout."
 

@@ -3620,6 +3620,9 @@ msgstr "Impossibile raggiungere l'host"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Impossibile annullare mentre una chat in questo workspace sta lavorando."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Impossibile annullare: un'altra chat ha lavorato in questo workspace durante questo turno."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Impossibile annullare: HEAD si è spostato da questo turno, per un commit, un pull o un checkout."
 

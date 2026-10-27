@@ -3620,6 +3620,9 @@ msgstr "Host niet bereikbaar"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Ongedaan maken kan niet terwijl een chat in deze werkruimte bezig is."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Ongedaan maken kan niet: een andere chat werkte tijdens deze beurt in deze werkruimte."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Ongedaan maken kan niet: HEAD is sinds deze beurt verplaatst, door een commit, pull of checkout."
 

@@ -29,7 +29,13 @@ export function useTurnChanges(
 	const { turnChanges, workspaceId } = useChatPaneActions();
 	const lastLoadAt = useRef(0);
 	const query = useQuery({
-		queryKey: ["chat-turn-changes", turnChanges?.sessionId, turnId, live],
+		queryKey: [
+			"chat-turn-changes",
+			turnChanges?.sessionId,
+			turnId,
+			live,
+			anchorItemIds?.join(","),
+		],
 		queryFn: async () => {
 			lastLoadAt.current = Date.now();
 			if (!turnChanges || !turnId) return null;

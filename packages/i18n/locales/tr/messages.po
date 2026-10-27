@@ -3620,6 +3620,9 @@ msgstr "Host'a ulaşılamıyor"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Bu çalışma alanında bir sohbet çalışırken geri alınamaz."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Geri alınamıyor: bu tur sırasında bu çalışma alanında başka bir sohbet çalıştı."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Geri alınamıyor: HEAD bu turdan sonra bir commit, pull veya checkout ile taşındı."
 

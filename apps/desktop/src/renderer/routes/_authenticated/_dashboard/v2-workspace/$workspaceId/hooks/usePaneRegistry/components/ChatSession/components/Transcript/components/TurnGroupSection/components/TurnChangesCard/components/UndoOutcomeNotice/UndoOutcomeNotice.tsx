@@ -24,6 +24,10 @@ export function UndoOutcomeNotice({ outcome }: { outcome: UndoOutcome }) {
 					"Can't undo: HEAD moved since this turn, by a commit, pull or checkout.",
 			}),
 			missing: t({ message: "Can't undo: this turn's snapshots are missing." }),
+			shared: t({
+				message:
+					"Can't undo: another chat worked in this workspace during this turn.",
+			}),
 		};
 		return (
 			<p className="border-border/50 border-t px-3 py-1.5 text-warning text-xs">

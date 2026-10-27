@@ -3620,6 +3620,9 @@ msgstr "Não foi possível acessar o host"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Não é possível desfazer enquanto um chat nesta área de trabalho está trabalhando."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Não é possível desfazer: outro chat trabalhou nesta área de trabalho durante este turno."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Não é possível desfazer: o HEAD mudou desde este turno, por um commit, pull ou checkout."
 

@@ -1,6 +1,7 @@
 export type {
 	ChatCheckpoints,
 	SessionCheckpoints,
+	TurnAnchor,
 	TurnAnchors,
 	TurnChangedFile,
 	TurnChanges,

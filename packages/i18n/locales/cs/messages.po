@@ -3620,6 +3620,9 @@ msgstr "Host není dostupný"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Nelze vrátit, dokud v tomto pracovním prostoru pracuje chat."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Nelze vrátit: během tohoto tahu v tomto pracovním prostoru pracoval jiný chat."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Nelze vrátit: HEAD se od tohoto tahu posunul kvůli commitu, pullu nebo checkoutu."
 

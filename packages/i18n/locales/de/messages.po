@@ -3620,6 +3620,9 @@ msgstr "Host nicht erreichbar"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Rückgängig machen geht nicht, während ein Chat in diesem Arbeitsbereich arbeitet."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Rückgängig machen geht nicht: Während dieses Durchlaufs hat ein anderer Chat in diesem Arbeitsbereich gearbeitet."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Rückgängig machen geht nicht: HEAD hat sich seit diesem Durchlauf bewegt, durch einen Commit, Pull oder Checkout."
 

@@ -3620,6 +3620,9 @@ msgstr "Nie można połączyć się z hostem"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Nie można cofnąć, gdy czat w tym obszarze roboczym pracuje."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Nie można cofnąć: podczas tej tury w tym obszarze roboczym pracował inny czat."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Nie można cofnąć: HEAD przesunął się od tej tury przez commit, pull lub checkout."
 

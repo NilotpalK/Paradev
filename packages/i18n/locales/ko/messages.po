@@ -3620,6 +3620,9 @@ msgstr "호스트에 연결할 수 없습니다"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "이 워크스페이스에서 채팅이 작업 중이어서 실행 취소할 수 없습니다."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "실행 취소할 수 없습니다: 이 턴 동안 다른 채팅이 이 워크스페이스에서 작업했습니다."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "실행 취소할 수 없습니다: 이 턴 이후 커밋, pull 또는 checkout으로 HEAD가 이동했습니다."
 

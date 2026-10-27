@@ -1,6 +1,15 @@
-import { copyFile, mkdtemp, rm } from "node:fs/promises";
+import {
+	copyFile,
+	lstat,
+	mkdtemp,
+	realpath,
+	rm,
+	rmdir,
+	stat,
+	utimes,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import type {
 	TurnChangedFile,
 	TurnChanges,
@@ -31,9 +40,12 @@ function turnBase(sessionId: string, turnId: string): string {
 	return `refs/superset/chat-turns/${refSegment(sessionId)}/${refSegment(turnId)}`;
 }
 
-/** Where a settled turn is also kept: under its first tool call, whose id survives a resume. */
-function anchorBase(anchorItemId: string): string {
-	return `refs/superset/chat-turns/by-call/${refSegment(anchorItemId)}`;
+/**
+ * Where a settled turn is also kept: under the agent's own session and the
+ * turn's first tool call, both of which survive a resume.
+ */
+function anchorBase(harnessSessionId: string, anchorItemId: string): string {
+	return `refs/superset/chat-turns/by-call/${refSegment(harnessSessionId)}/${refSegment(anchorItemId)}`;
 }
 
 export function turnRef(
@@ -52,18 +64,35 @@ function gitAt(
 	return createUserSimpleGit(cwd, {
 		timeout: { block: GIT_TIMEOUT_MS },
 		...(abort ? { abort } : {}),
-		env: { ...process.env, GIT_OPTIONAL_LOCKS: "0", ...env },
+		env: {
+			...process.env,
+			GIT_OPTIONAL_LOCKS: "0",
+			GIT_LITERAL_PATHSPECS: "1",
+			...env,
+		},
 	});
 }
 
-type Repo = { root: string; index: string };
+type Repo = {
+	root: string;
+	index: string;
+	/** The root as the chat's cwd spells it, which git resolves through symlinks. */
+	shownRoot: string;
+};
 
 async function repoAt(cwd: string): Promise<Repo | null> {
 	const [root, index] = await gitAt(cwd)
 		.raw(["rev-parse", "--show-toplevel", "--git-path", "index"])
 		.then((out) => out.trim().split("\n"))
 		.catch(() => []);
-	return root && index ? { root, index: resolve(cwd, index) } : null;
+	if (!root || !index) return null;
+	const real = await realpath(cwd).catch(() => "");
+	const sameFolder = real === root || real.toLowerCase() === root.toLowerCase();
+	return {
+		root,
+		index: resolve(cwd, index),
+		shownRoot: sameFolder ? cwd.replace(/[\\/]+$/, "") : root,
+	};
 }
 
 /**
@@ -79,7 +108,16 @@ async function withScratchIndex<T>(
 	const dir = await mkdtemp(join(tmpdir(), "superset-checkpoint-"));
 	const index = join(dir, "index");
 	try {
-		await copyFile(repo.index, index).catch(() => undefined);
+		const copied = await copyFile(repo.index, index).then(
+			() => true,
+			() => false,
+		);
+		// The copy keeps the index's mtime, or git trusts stat data for files
+		// edited in the same second as the index was written.
+		if (copied) {
+			const { atime, mtime } = await stat(repo.index);
+			await utimes(index, atime, mtime);
+		}
 		return await run(
 			gitAt(
 				repo.root,
@@ -297,25 +335,34 @@ async function worktreeEntries(
 	});
 }
 
-/** The refs of a settled turn: its own, or those of a tool call it shares with a resumed chat. */
+type Anchors = { harnessSessionId?: string; anchorItemIds?: string[] };
+
+async function anchorRefs(
+	git: SimpleGit,
+	{ harnessSessionId, anchorItemIds = [] }: Anchors,
+): Promise<{ base: string; before: string }[]> {
+	if (!harnessSessionId || anchorItemIds.length === 0) return [];
+	const output = await git.raw([
+		"for-each-ref",
+		"--format=%(refname) %(objectname)",
+		...anchorItemIds.map((id) => `${anchorBase(harnessSessionId, id)}/before`),
+	]);
+	return output.split("\n").flatMap((line) => {
+		const [ref = "", before = ""] = line.split(" ");
+		return ref ? [{ base: ref.slice(0, -"/before".length), before }] : [];
+	});
+}
+
+/** The refs of a settled turn: its own, or those it left under its tool calls before a resume. */
 async function settledBase(
 	git: SimpleGit,
 	sessionId: string,
 	turnId: string,
-	anchorItemIds: readonly string[] = [],
+	anchors: Anchors,
 ): Promise<string | null> {
 	const own = turnBase(sessionId, turnId);
 	if (await readRef(git, `${own}/before`)) return own;
-	if (anchorItemIds.length === 0) return null;
-	const found = (
-		await git.raw([
-			"for-each-ref",
-			"--count=1",
-			"--format=%(refname)",
-			...anchorItemIds.map((id) => `${anchorBase(id)}/before`),
-		])
-	).trim();
-	return found ? found.slice(0, -"/before".length) : null;
+	return (await anchorRefs(git, anchors))[0]?.base ?? null;
 }
 
 /** Marks a turn undone under its own refs and under each alias of the same snapshot. */
@@ -323,20 +370,11 @@ async function markUndone(
 	git: SimpleGit,
 	base: string,
 	before: string,
-	anchorItemIds: readonly string[] = [],
+	anchors: Anchors,
 ): Promise<void> {
-	const aliases =
-		anchorItemIds.length === 0
-			? ""
-			: await git.raw([
-					"for-each-ref",
-					"--format=%(refname) %(objectname)",
-					...anchorItemIds.map((id) => `${anchorBase(id)}/before`),
-				]);
 	const bases = new Set([base]);
-	for (const line of aliases.split("\n")) {
-		const [ref = "", commit = ""] = line.split(" ");
-		if (commit === before) bases.add(ref.slice(0, -"/before".length));
+	for (const alias of await anchorRefs(git, anchors)) {
+		if (alias.before === before) bases.add(alias.base);
 	}
 	for (const each of bases) {
 		await git.raw(["update-ref", `${each}/undone`, before]);
@@ -383,18 +421,30 @@ export const checkpointRefTask = defineWorkerTask<
 });
 
 export const checkpointAnchorTask = defineWorkerTask<
-	{ cwd: string; sessionId: string; turnId: string; anchorItemId: string },
+	{
+		cwd: string;
+		sessionId: string;
+		turnId: string;
+		harnessSessionId: string;
+		anchorItemId: string;
+	},
 	void
 >({
 	type: "checkpoints/anchor",
-	handler: async ({ cwd, sessionId, turnId, anchorItemId }) => {
+	handler: async ({
+		cwd,
+		sessionId,
+		turnId,
+		harnessSessionId,
+		anchorItemId,
+	}) => {
 		const git = gitAt(cwd);
 		for (const snapshot of ["before", "after"] as const) {
 			const commit = await readRef(git, turnRef(sessionId, turnId, snapshot));
 			if (commit) {
 				await git.raw([
 					"update-ref",
-					`${anchorBase(anchorItemId)}/${snapshot}`,
+					`${anchorBase(harnessSessionId, anchorItemId)}/${snapshot}`,
 					commit,
 				]);
 			}
@@ -408,18 +458,17 @@ export const checkpointChangesTask = defineWorkerTask<
 		sessionId: string;
 		turnId: string;
 		live: boolean;
-		anchorItemIds?: string[];
-	},
+	} & Anchors,
 	TurnChanges | null
 >({
 	type: "checkpoints/changes",
-	handler: async ({ cwd, sessionId, turnId, live, anchorItemIds }) => {
+	handler: async ({ cwd, sessionId, turnId, live, ...anchors }) => {
 		const repo = await repoAt(cwd);
 		if (!repo) return null;
 		const git = gitAt(repo.root);
 		const base = live
 			? turnBase(sessionId, turnId)
-			: await settledBase(git, sessionId, turnId, anchorItemIds);
+			: await settledBase(git, sessionId, turnId, anchors);
 		if (!base) return null;
 		const before = await readRef(git, `${base}/before`);
 		if (!before) return null;
@@ -444,7 +493,7 @@ export const checkpointChangesTask = defineWorkerTask<
 			? diffed.filter((file) => authored.has(file.path))
 			: diffed;
 		return {
-			root: repo.root,
+			root: repo.shownRoot,
 			before,
 			after,
 			files,
@@ -463,10 +512,54 @@ export const checkpointChangesTask = defineWorkerTask<
 	},
 });
 
+async function kindAt(
+	path: string,
+): Promise<"file" | "folder" | "other" | null> {
+	const stats = await lstat(path).catch(() => null);
+	if (!stats) return null;
+	if (stats.isFile()) return "file";
+	return stats.isDirectory() ? "folder" : "other";
+}
+
+/** Every folder above `path`, inside the repo, is a real folder or not there yet. */
+async function plainFolders(root: string, path: string): Promise<boolean> {
+	const folders: string[] = [];
+	for (
+		let dir = dirname(path);
+		dir !== "." && dir !== "/";
+		dir = dirname(dir)
+	) {
+		folders.push(dir);
+	}
+	for (const folder of folders) {
+		const kind = await kindAt(join(root, folder));
+		if (kind !== null && kind !== "folder") return false;
+	}
+	return true;
+}
+
+/** Removes the folders a removed file leaves empty, up to the repo root. */
+async function removeEmptyFolders(root: string, path: string): Promise<void> {
+	for (
+		let dir = dirname(path);
+		dir !== "." && dir !== "/";
+		dir = dirname(dir)
+	) {
+		const removed = await rmdir(join(root, dir)).then(
+			() => true,
+			() => false,
+		);
+		if (!removed) return;
+	}
+}
+
 /**
  * Puts files back as they were before the turn, but only those that still
- * hold exactly what the turn left. Anything changed since, by anyone, stays
- * as it is and is listed. The user's index, HEAD and branch are untouched.
+ * hold exactly what the turn left, at a path that is still a plain file in
+ * plain folders. Anything changed since, by anyone, stays as it is and is
+ * listed. A turn that ran beside another chat is not undone: its result
+ * holds that chat's edits too. The user's index, HEAD and branch are
+ * untouched.
  */
 export const checkpointUndoTask = defineWorkerTask<
 	{
@@ -474,16 +567,15 @@ export const checkpointUndoTask = defineWorkerTask<
 		sessionId: string;
 		turnId: string;
 		paths: string[];
-		anchorItemIds?: string[];
-	},
+	} & Anchors,
 	TurnUndoResult
 >({
 	type: "checkpoints/undo",
-	handler: async ({ cwd, sessionId, turnId, paths, anchorItemIds }) => {
+	handler: async ({ cwd, sessionId, turnId, paths, ...anchors }) => {
 		const repo = await repoAt(cwd);
 		if (!repo) return { status: "refused", reason: "missing" };
 		const git = gitAt(repo.root);
-		const base = await settledBase(git, sessionId, turnId, anchorItemIds);
+		const base = await settledBase(git, sessionId, turnId, anchors);
 		if (!base) return { status: "refused", reason: "missing" };
 		const [before, after, head] = await Promise.all([
 			readRef(git, `${base}/before`),
@@ -491,9 +583,18 @@ export const checkpointUndoTask = defineWorkerTask<
 			readRef(git, "HEAD"),
 		]);
 		if (!before || !after) return { status: "refused", reason: "missing" };
-		const { beforeHead, afterHead } = await snapshotHeads(git, before, after);
-		if (beforeHead !== afterHead || (head ?? "") !== afterHead) {
+		const [heads, message] = await Promise.all([
+			snapshotHeads(git, before, after),
+			git.raw(["log", "-1", "--format=%B", after]),
+		]);
+		if (
+			heads.beforeHead !== heads.afterHead ||
+			(head ?? "") !== heads.afterHead
+		) {
 			return { status: "refused", reason: "head-moved" };
+		}
+		if (message.includes(SHARED_TURN_TRAILER)) {
+			return { status: "refused", reason: "shared" };
 		}
 		const requested = new Set(paths);
 		const changed = (await diffFiles(git, before, after))
@@ -516,9 +617,32 @@ export const checkpointUndoTask = defineWorkerTask<
 				current.oid === left.oid
 			);
 		};
-		const restored = changed.filter(unchangedSince);
-		const skipped = changed.filter((path) => !unchangedSince(path));
-		const recreate = restored.filter((path) => original.has(path));
+		const restored: string[] = [];
+		const candidates = changed.filter(unchangedSince);
+
+		for (const path of candidates.filter((each) => !original.has(each))) {
+			const absolute = join(repo.root, path);
+			if (
+				!(await plainFolders(repo.root, path)) ||
+				(await kindAt(absolute)) !== "file"
+			) {
+				continue;
+			}
+			await rm(absolute);
+			await removeEmptyFolders(repo.root, path);
+			restored.push(path);
+		}
+
+		const recreate: string[] = [];
+		for (const path of candidates.filter((each) => original.has(each))) {
+			const kind = await kindAt(join(repo.root, path));
+			if (
+				(kind === null || kind === "file") &&
+				(await plainFolders(repo.root, path))
+			) {
+				recreate.push(path);
+			}
+		}
 		if (recreate.length > 0) {
 			await withScratchIndex(repo, async (scratch) => {
 				await scratch.raw(["read-tree", `${before}^{tree}`]);
@@ -526,14 +650,16 @@ export const checkpointUndoTask = defineWorkerTask<
 					await scratch.raw(["checkout-index", "-f", "--", ...batch]);
 				}
 			});
+			restored.push(...recreate);
 		}
-		await Promise.all(
-			restored
-				.filter((path) => !original.has(path))
-				.map((path) => rm(join(repo.root, path), { force: true })),
-		);
-		await markUndone(git, base, before, anchorItemIds);
-		return { status: "undone", restored, skipped };
+
+		await markUndone(git, base, before, anchors);
+		const done = new Set(restored);
+		return {
+			status: "undone",
+			restored: changed.filter((path) => done.has(path)),
+			skipped: changed.filter((path) => !done.has(path)),
+		};
 	},
 });
 

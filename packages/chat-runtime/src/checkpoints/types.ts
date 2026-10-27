@@ -5,10 +5,14 @@ export type TurnCheckpointTarget = {
 };
 
 /**
- * A resumed chat replays its history under new session and turn ids, but its
- * tool calls keep the agent's ids; a settled turn is found again by those.
+ * A resumed chat replays its history under new session and turn ids, but the
+ * agent's own session and tool call ids stay; a settled turn is found again
+ * by those.
  */
-export type TurnAnchors = { anchorItemIds?: string[] };
+export type TurnAnchors = {
+	harnessSessionId?: string;
+	anchorItemIds?: string[];
+};
 
 export type TurnChangedFile = {
 	/** Relative to the repository root. */
@@ -44,7 +48,7 @@ export type TurnUndoResult =
 	  }
 	| {
 			status: "refused";
-			reason: "busy" | "head-moved" | "missing" | "unsupported";
+			reason: "busy" | "head-moved" | "missing" | "shared" | "unsupported";
 	  };
 
 /**
@@ -57,9 +61,9 @@ export type ChatCheckpoints = {
 	capture(input: { cwd: string; sessionId: string }): Promise<string | null>;
 	/** Names the snapshot taken before the prompt that started this turn. */
 	turnStarted(input: TurnCheckpointTarget & { before: string }): Promise<void>;
-	/** `anchorItemId` is the turn's first tool call, kept to find the turn after a resume. */
+	/** `anchor` is the turn's first tool call, kept to find the turn after a resume. */
 	turnSettled(
-		input: TurnCheckpointTarget & { anchorItemId?: string },
+		input: TurnCheckpointTarget & { anchor?: TurnAnchor },
 	): Promise<void>;
 	/** Null when the turn has no snapshots. A running turn is compared with the worktree now. */
 	changes(
@@ -75,5 +79,7 @@ export type ChatCheckpoints = {
 export type SessionCheckpoints = {
 	capture(): Promise<string | null>;
 	turnStarted(turnId: string, before: string): void;
-	turnSettled(turnId: string, anchorItemId?: string): void;
+	turnSettled(turnId: string, anchor?: TurnAnchor): void;
 };
+
+export type TurnAnchor = { harnessSessionId: string; itemId: string };

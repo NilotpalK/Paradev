@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { TurnChangedFile } from "@superset/chat-runtime";
@@ -148,6 +148,98 @@ describe("createGitCheckpoints", () => {
 		).toBe(true);
 	});
 
+	test("leaves alone a path whose file or folder was swapped, or that git could misread", async () => {
+		await mkdir(join(repo, "dir"));
+		await writeFile(join(repo, "dir/x.txt"), "x\n");
+		await writeFile(join(repo, "config"), "file\n");
+		await git.raw(["add", "-A"]);
+		await git.raw(["commit", "-m", "shapes"]);
+		await startTurn("s1", "t1");
+		await rm(join(repo, "config"));
+		await mkdir(join(repo, "config"));
+		await writeFile(join(repo, "config/a.json"), "{}\n");
+		await rm(join(repo, "dir"), { recursive: true });
+		await writeFile(join(repo, "dir"), "now a file\n");
+		await writeFile(join(repo, ":weird"), "agent\n");
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+		await writeFile(join(repo, "config/user.json"), "mine\n");
+		await writeFile(join(repo, "dir"), "edited by the user\n");
+		await writeFile(join(repo, ":weird"), "edited by the user\n");
+
+		const result = await checkpoints.undo({
+			...t1,
+			cwd: repo,
+			paths: [":weird", "config", "config/a.json", "dir", "dir/x.txt"],
+		});
+
+		expect(result).toEqual({
+			status: "undone",
+			restored: ["config/a.json"],
+			skipped: [":weird", "config", "dir", "dir/x.txt"],
+		});
+		expect(await readFile(join(repo, "config/user.json"), "utf8")).toBe(
+			"mine\n",
+		);
+		expect(await readFile(join(repo, "dir"), "utf8")).toBe(
+			"edited by the user\n",
+		);
+		expect(await readFile(join(repo, ":weird"), "utf8")).toBe(
+			"edited by the user\n",
+		);
+		expect(existsSync(join(repo, "config/a.json"))).toBe(false);
+	});
+
+	test("refuses to undo a turn that shared the worktree with another chat", async () => {
+		await startTurn("s1", "t1");
+		await startTurn("s2", "t2");
+		await writeFile(join(repo, "tracked.txt"), "both chats\n");
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s2", turnId: "t2" });
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+
+		expect(
+			await checkpoints.undo({ ...t1, cwd: repo, paths: ["tracked.txt"] }),
+		).toEqual({ status: "refused", reason: "shared" });
+		expect(await readFile(join(repo, "tracked.txt"), "utf8")).toBe(
+			"both chats\n",
+		);
+	});
+
+	test("sees a same-size edit made in the second the index was written", async () => {
+		await writeFile(join(repo, "tracked.txt"), "aaa\n");
+		await git.raw(["add", "tracked.txt"]);
+		await writeFile(join(repo, "tracked.txt"), "bbb\n");
+
+		const before = await checkpoints.capture({ cwd: repo, sessionId: "s1" });
+
+		expect(await git.raw(["show", `${before}:tracked.txt`])).toBe("bbb\n");
+	});
+
+	test("reports the root the way the chat's path spells it, through a symlink", async () => {
+		const link = `${repo}-link`;
+		await symlink(repo, link);
+		try {
+			const before = await checkpoints.capture({ cwd: link, sessionId: "s1" });
+			await checkpoints.turnStarted({
+				cwd: link,
+				sessionId: "s1",
+				turnId: "t1",
+				before: before ?? "",
+			});
+			await writeFile(join(repo, "tracked.txt"), "agent\n");
+			await checkpoints.turnSettled({
+				cwd: link,
+				sessionId: "s1",
+				turnId: "t1",
+			});
+
+			expect(
+				(await checkpoints.changes({ ...t1, cwd: link, live: false }))?.root,
+			).toBe(link);
+		} finally {
+			rmSync(link, { force: true });
+		}
+	});
+
 	test("once the turn's files are committed, lists them so and refuses to undo", async () => {
 		await editedTurn();
 		await git.raw(["add", "-A"]);
@@ -171,13 +263,19 @@ describe("createGitCheckpoints", () => {
 			cwd: repo,
 			sessionId: "s1",
 			turnId: "t1",
-			anchorItemId: "toolu_1",
+			anchor: { harnessSessionId: "agent-1", itemId: "toolu_1" },
 		});
 		const resumed = { cwd: repo, sessionId: "s2", turnId: "t9", live: false };
-
-		const anchored = { ...resumed, anchorItemIds: ["toolu_0", "toolu_1"] };
+		const anchored = {
+			...resumed,
+			harnessSessionId: "agent-1",
+			anchorItemIds: ["toolu_0", "toolu_1"],
+		};
 
 		expect(await checkpoints.changes(resumed)).toBeNull();
+		expect(
+			await checkpoints.changes({ ...anchored, harnessSessionId: "agent-2" }),
+		).toBeNull();
 		expect(
 			(await checkpoints.changes(anchored))?.files.map((file) => file.path),
 		).toEqual(["tracked.txt"]);
@@ -186,39 +284,95 @@ describe("createGitCheckpoints", () => {
 			sessionId: "s1",
 			turnId: "t1",
 			paths: ["tracked.txt"],
+			harnessSessionId: "agent-1",
 			anchorItemIds: ["toolu_1"],
 		});
 		expect((await checkpoints.changes(anchored))?.undone).toBe(true);
 	});
 
-	test("marks turns that overlapped another chat's in the same worktree", async () => {
+	function recordingCheckpoints() {
 		const afterMessages = new Map<string, string>();
-		const recording = createGitCheckpoints(async (_task, input) => {
-			const { ref, message } = input as { ref?: string; message?: string };
-			if (ref?.endsWith("/after") && message) afterMessages.set(ref, message);
-			return null as never;
-		});
-		const turn = (sessionId: string, turnId: string) => ({
+		const tasks: string[] = [];
+		let tick = 0;
+		const gates = new Map<string, Promise<void>>();
+		const checkpoints = createGitCheckpoints(
+			async (task, input) => {
+				tasks.push(task.type);
+				await gates.get(task.type);
+				const { ref, message } = input as { ref?: string; message?: string };
+				if (ref?.endsWith("/after") && message) afterMessages.set(ref, message);
+				return (task.type === "checkpoints/capture" ? "sha" : null) as never;
+			},
+			() => ++tick,
+		);
+		const shared = (sessionId: string, turnId: string) =>
+			afterMessages
+				.get(`refs/superset/chat-turns/${sessionId}/${turnId}/after`)
+				?.includes(SHARED_TURN_TRAILER) ?? false;
+		return { checkpoints, gates, shared, tasks };
+	}
+
+	test("marks turns that overlapped another chat's, counting from the snapshot before the prompt", async () => {
+		const { checkpoints: recording, shared } = recordingCheckpoints();
+		const target = (sessionId: string, turnId: string) => ({
 			cwd: "/repo",
 			sessionId,
 			turnId,
 		});
-		const shared = (sessionId: string, turnId: string) =>
-			afterMessages
-				.get(`refs/superset/chat-turns/${sessionId}/${turnId}/after`)
-				?.includes(SHARED_TURN_TRAILER);
+		const turn = async (sessionId: string, turnId: string) => {
+			await recording.capture({ cwd: "/repo", sessionId });
+			await recording.turnStarted({
+				...target(sessionId, turnId),
+				before: "b",
+			});
+		};
 
-		await recording.turnStarted({ ...turn("s1", "t1"), before: "c1" });
-		await recording.turnStarted({ ...turn("s2", "t2"), before: "c2" });
-		await recording.turnSettled(turn("s2", "t2"));
-		await recording.turnSettled(turn("s1", "t1"));
-		await recording.turnStarted({ ...turn("s1", "t3"), before: "c3" });
-		await recording.turnSettled(turn("s1", "t3"));
+		await turn("s1", "t1");
+		await turn("s2", "t2");
+		await recording.turnSettled(target("s2", "t2"));
+		await recording.turnSettled(target("s1", "t1"));
+		await recording.capture({ cwd: "/repo", sessionId: "s1" });
+		await turn("s3", "t3");
+		await recording.turnSettled(target("s3", "t3"));
+		await recording.turnStarted({ ...target("s1", "t4"), before: "b" });
+		await recording.turnSettled(target("s1", "t4"));
+		await turn("s1", "t5");
+		await recording.turnSettled(target("s1", "t5"));
 
-		expect([
-			shared("s1", "t1"),
-			shared("s2", "t2"),
-			shared("s1", "t3"),
-		]).toEqual([true, true, false]);
+		expect(
+			[
+				["s1", "t1"],
+				["s2", "t2"],
+				["s3", "t3"],
+				["s1", "t4"],
+				["s1", "t5"],
+			].map(([sessionId = "", turnId = ""]) => shared(sessionId, turnId)),
+		).toEqual([true, true, true, true, false]);
+	});
+
+	test("a snapshot in a worktree waits for an Undo there to finish", async () => {
+		const { checkpoints: recording, gates, tasks } = recordingCheckpoints();
+		let finishUndo = () => {};
+		gates.set(
+			"checkpoints/undo",
+			new Promise<void>((resolve) => {
+				finishUndo = resolve;
+			}),
+		);
+
+		const undo = recording.undo({
+			cwd: "/repo",
+			sessionId: "s1",
+			turnId: "t1",
+			paths: ["a.ts"],
+		});
+		const capture = recording.capture({ cwd: "/repo", sessionId: "s2" });
+		await Promise.resolve();
+		const startedDuringUndo = [...tasks];
+		finishUndo();
+		await Promise.all([undo, capture]);
+
+		expect(startedDuringUndo).toEqual(["checkpoints/undo"]);
+		expect(tasks).toEqual(["checkpoints/undo", "checkpoints/capture"]);
 	});
 });

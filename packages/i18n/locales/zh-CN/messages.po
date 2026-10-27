@@ -3620,6 +3620,9 @@ msgstr "无法连接主机"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "此工作区中有聊天正在工作，无法撤销。"
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "无法撤销：本轮期间另一个聊天在此工作区中工作过。"
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "无法撤销：自本轮以来 HEAD 已因提交、拉取或检出而移动。"
 

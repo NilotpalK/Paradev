@@ -3620,6 +3620,9 @@ msgstr "Impossible de joindre l'hôte"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Impossible d'annuler pendant qu'un chat de cet espace de travail travaille."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Impossible d'annuler : un autre chat a travaillé dans cet espace de travail pendant ce tour."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Impossible d'annuler : HEAD a bougé depuis ce tour, par un commit, un pull ou un checkout."
 

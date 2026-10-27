@@ -107,7 +107,9 @@ export function TurnChangesCard({
 	const othersCount = others.length;
 	const review =
 		filter && openDiff ? (path?: string) => openDiff(filter, path) : undefined;
-	const canUndo = Boolean(newest && turnChanges && changes && !changes.live);
+	const canUndo = Boolean(
+		newest && turnChanges && changes && !changes.live && !changes.shared,
+	);
 	const undo = () => {
 		setConfirmingUndo(false);
 		if (!turnChanges) return;

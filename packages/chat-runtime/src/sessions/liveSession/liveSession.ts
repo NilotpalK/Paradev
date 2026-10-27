@@ -169,8 +169,9 @@ export class LiveSession {
 		const interrupted =
 			this.currentTurn?.status === "running" ||
 			(this.sessionState.backgroundTasks?.length ?? 0) > 0;
+		const inFlight = this.inFlight();
 		const prompts = [
-			...(this.awaitingTurn ? [this.awaitingTurn] : []),
+			...(inFlight ? [inFlight] : []),
 			...this.pendingSteers,
 			...(this.queuePaused ? [] : this.queue),
 		]
@@ -335,7 +336,7 @@ export class LiveSession {
 		if (this.currentTurn?.status === "running") {
 			this.steerTarget = steered.item.id;
 			this.options.adapter.cancelTurn();
-		} else if (this.awaitingTurn) {
+		} else if (this.inFlight()) {
 			this.steerTarget = steered.item.id;
 		} else {
 			this.queue.shift();
@@ -359,17 +360,15 @@ export class LiveSession {
 		if (!this.queuePaused) return;
 		this.queuePaused = false;
 		this.emitSession({ queuePaused: false });
-		if (this.currentTurn?.status !== "running" && !this.awaitingTurn) {
+		if (this.currentTurn?.status !== "running" && !this.inFlight()) {
 			this.deliverNextQueued();
 		}
 	}
 
 	cancelTurn(turnId?: string, pauseQueue = false): void {
-		if (turnId && this.currentTurn && this.currentTurn.id !== turnId) return;
 		const capturing = this.capturing;
-		if (capturing && !turnId) {
+		if (capturing && this.currentTurn?.status !== "running") {
 			this.capturing = null;
-			this.awaitingTurn = null;
 			this.discard(capturing);
 			if (pauseQueue && this.queue.length > 0 && !this.queuePaused) {
 				this.queuePaused = true;
@@ -380,6 +379,7 @@ export class LiveSession {
 			this.deliverNextQueued();
 			return;
 		}
+		if (turnId && this.currentTurn && this.currentTurn.id !== turnId) return;
 		const steering =
 			this.steerTarget !== null && this.queue[0]?.item.id === this.steerTarget;
 		const waiting = this.queue.length + this.pendingSteers.length;
@@ -437,6 +437,9 @@ export class LiveSession {
 
 	async dispose(): Promise<void> {
 		this.stopped = true;
+		if (this.currentTurn?.status === "running") {
+			this.settleCheckpoint(this.currentTurn.id);
+		}
 		this.discardPending();
 		await this.options.adapter.dispose();
 		await this.pump;
@@ -552,7 +555,7 @@ export class LiveSession {
 		if (status === "dead") return;
 		onReleased?.();
 		this.queue.unshift(...held.map((content) => this.queuedPrompt(content)));
-		if (this.currentTurn?.status !== "running" && !this.awaitingTurn) {
+		if (this.currentTurn?.status !== "running" && !this.inFlight()) {
 			this.deliverNextQueued();
 		}
 		if (paused.length === 0) return;
@@ -613,10 +616,15 @@ export class LiveSession {
 		});
 	}
 
+	/** The prompt on its way to the agent: being snapshotted for, or sent and awaiting its turn. */
+	private inFlight(): PendingPrompt | null {
+		return this.awaitingTurn ?? this.capturing;
+	}
+
 	private deliver(prompt: PendingPrompt): void {
-		this.awaitingTurn = prompt;
 		const checkpoints = this.options.checkpoints;
 		if (!checkpoints) {
+			this.awaitingTurn = prompt;
 			this.send(prompt);
 			return;
 		}
@@ -630,8 +638,13 @@ export class LiveSession {
 			.then((before) => {
 				if (this.capturing !== prompt) return;
 				this.capturing = null;
-				if (this.stopped || this.awaitingTurn !== prompt) return;
+				if (this.stopped) return;
+				if (this.currentTurn?.status === "running") {
+					this.requeueFirst(prompt);
+					return;
+				}
 				prompt.before = before;
+				this.awaitingTurn = prompt;
 				try {
 					this.send(prompt);
 				} catch (error) {
@@ -640,11 +653,23 @@ export class LiveSession {
 			});
 	}
 
+	/** The agent started a turn of its own meanwhile; the prompt waits for it to end. */
+	private requeueFirst(prompt: PendingPrompt): void {
+		const item: UserMessage = { ...prompt.item, queued: true };
+		this.appendDurable({ type: "item", item, turnId: prompt.turnId });
+		this.queue.unshift({ ...prompt, item });
+		this.emitSession({});
+	}
+
 	private settleCheckpoint(turnId: string): void {
 		if (!this.checkpointedTurns.delete(turnId)) return;
-		const anchor = this.turnAnchors.get(turnId);
+		const itemId = this.turnAnchors.get(turnId);
 		this.turnAnchors.delete(turnId);
-		this.options.checkpoints?.turnSettled(turnId, anchor);
+		const harnessSessionId = this.sessionState.harnessSessionId;
+		this.options.checkpoints?.turnSettled(
+			turnId,
+			itemId && harnessSessionId ? { harnessSessionId, itemId } : undefined,
+		);
 	}
 
 	private send(prompt: PendingPrompt): void {
@@ -659,7 +684,7 @@ export class LiveSession {
 
 	private steerableTurn(expectedTurnId?: string): Turn | null {
 		const turn = this.currentTurn;
-		if (turn?.status !== "running" || this.awaitingTurn) return null;
+		if (turn?.status !== "running" || this.inFlight()) return null;
 		if (expectedTurnId && expectedTurnId !== turn.id) return null;
 		return this.options.adapter.canSteer?.() ? turn : null;
 	}
@@ -699,7 +724,7 @@ export class LiveSession {
 			if (index === -1) return;
 			this.pendingSteers.splice(index, 1);
 			if (!taken) this.fallBack(prompt, selected);
-			if (this.currentTurn?.status !== "running" && !this.awaitingTurn) {
+			if (this.currentTurn?.status !== "running" && !this.inFlight()) {
 				this.deliverNextQueued();
 			}
 		});
@@ -758,14 +783,16 @@ export class LiveSession {
 	}
 
 	private discardPending(): void {
+		const inFlight = this.inFlight();
 		const pending = [
-			...(this.awaitingTurn?.item.queued ? [this.awaitingTurn] : []),
+			...(inFlight?.item.queued ? [inFlight] : []),
 			...this.pendingSteers,
 			...this.queue,
 		];
 		this.queue.length = 0;
 		this.pendingSteers.length = 0;
 		this.awaitingTurn = null;
+		this.capturing = null;
 		this.steerTarget = null;
 		for (const prompt of pending) this.discard(prompt);
 	}
@@ -811,7 +838,7 @@ export class LiveSession {
 
 	private hasPendingWork(): boolean {
 		return (
-			(this.queue.length > 0 && !this.queuePaused) || this.awaitingTurn !== null
+			(this.queue.length > 0 && !this.queuePaused) || this.inFlight() !== null
 		);
 	}
 

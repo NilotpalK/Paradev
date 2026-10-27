@@ -58,6 +58,7 @@ import {
 import { z } from "zod";
 import type {
 	ChatCheckpoints,
+	TurnAnchors,
 	TurnChanges,
 	TurnUndoResult,
 } from "../../checkpoints";
@@ -269,6 +270,17 @@ export type CommandsOptions = {
 const MAX_CACHED_REPLAY_EVENTS = 20_000;
 
 export function createCommands(options: CommandsOptions): ChatCommands {
+	const turnAnchors = (
+		sessionId: string,
+		anchorItemIds: string[] | undefined,
+	): TurnAnchors => {
+		const harnessSessionId =
+			options.sessions.get(sessionId)?.harnessSessionId ?? undefined;
+		return harnessSessionId && anchorItemIds
+			? { harnessSessionId, anchorItemIds }
+			: {};
+	};
+
 	const mintSessionId = options.mintSessionId ?? randomUUID;
 	const subagentItems = options.subagentItems ?? new SubagentItems(options.db);
 
@@ -698,9 +710,7 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 				sessionId: parsed.sessionId,
 				turnId: parsed.turnId,
 				live: parsed.live === true,
-				...(parsed.anchorItemIds
-					? { anchorItemIds: parsed.anchorItemIds }
-					: {}),
+				...turnAnchors(parsed.sessionId, parsed.anchorItemIds),
 			});
 		},
 
@@ -725,9 +735,7 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 					sessionId: parsed.sessionId,
 					turnId: parsed.turnId,
 					paths: parsed.paths,
-					...(parsed.anchorItemIds
-						? { anchorItemIds: parsed.anchorItemIds }
-						: {}),
+					...turnAnchors(parsed.sessionId, parsed.anchorItemIds),
 				});
 			});
 		},

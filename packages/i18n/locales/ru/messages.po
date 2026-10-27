@@ -3620,6 +3620,9 @@ msgstr "Не удаётся связаться с хостом"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Нельзя отменить, пока чат в этой рабочей области работает."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Нельзя отменить: во время этого хода в этой рабочей области работал другой чат."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Нельзя отменить: HEAD сдвинулся после этого хода из-за коммита, pull или checkout."
 

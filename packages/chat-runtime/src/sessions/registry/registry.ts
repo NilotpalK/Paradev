@@ -57,13 +57,13 @@ function sessionCheckpoints(
 			warnOnFailure(
 				checkpoints.turnStarted({ cwd, sessionId, turnId, before }),
 			),
-		turnSettled: (turnId, anchorItemId) =>
+		turnSettled: (turnId, anchor) =>
 			warnOnFailure(
 				checkpoints.turnSettled({
 					cwd,
 					sessionId,
 					turnId,
-					...(anchorItemId ? { anchorItemId } : {}),
+					...(anchor ? { anchor } : {}),
 				}),
 			),
 	};

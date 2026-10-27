@@ -3620,6 +3620,9 @@ msgstr "Không thể kết nối với host"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "Không thể hoàn tác khi một chat trong workspace này đang làm việc."
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "Không thể hoàn tác: một chat khác đã làm việc trong workspace này trong lượt này."
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "Không thể hoàn tác: HEAD đã di chuyển kể từ lượt này, do commit, pull hoặc checkout."
 

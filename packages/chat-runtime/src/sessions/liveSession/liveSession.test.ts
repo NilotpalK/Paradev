@@ -200,8 +200,10 @@ describe("LiveSession", () => {
 			turnStarted: async ({ turnId, before }) => {
 				calls.push(`started ${turnId} ${before}`);
 			},
-			turnSettled: async ({ turnId, anchorItemId }) => {
-				calls.push(`settled ${turnId} ${anchorItemId ?? "-"}`);
+			turnSettled: async ({ turnId, anchor }) => {
+				calls.push(
+					`settled ${turnId} ${anchor ? `${anchor.harnessSessionId}/${anchor.itemId}` : "-"}`,
+				);
 			},
 			changes: async () => null,
 			undo: async () => ({ status: "refused", reason: "unsupported" }),
@@ -211,6 +213,12 @@ describe("LiveSession", () => {
 
 	test("holds a prompt until the worktree is snapshotted, and names the snapshot for its turn", async () => {
 		const { harnesses } = fakeHarnessRegistry({
+			start: [
+				{
+					kind: "session",
+					session: { status: "idle", harnessSessionId: "h1" },
+				},
+			],
 			turns: [
 				[
 					{ kind: "turn", turn: turn("t1") },
@@ -243,7 +251,7 @@ describe("LiveSession", () => {
 		expect(calls).toEqual([
 			"capture /tmp/workspace",
 			"started t1 before-sha",
-			"settled t1 tc1",
+			"settled t1 h1/tc1",
 		]);
 		await runtime.dispose();
 	});
@@ -481,6 +489,65 @@ describe("LiveSession", () => {
 			decision: { type: "accept" },
 		});
 	}
+
+	test("a prompt that a turn the agent starts on its own overtakes while snapshotting waits for it", async () => {
+		const { harnesses, adapters } = fakeHarnessRegistry({
+			start: [
+				{ kind: "session", session: { status: "idle" } },
+				{ kind: "turn", turn: turn("agent-turn"), delayMs: 20 },
+				{
+					kind: "turn",
+					turn: turn("agent-turn", { status: "completed", completedAtMs: 2 }),
+					delayMs: 100,
+				},
+			],
+			turns: SINGLE_TURN.turns,
+		});
+		const { release, checkpoints } = gatedCheckpoints();
+		const runtime = createTestRuntime({ harnesses, checkpoints });
+		const { sessionId } = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+		const result = sendPrompt(runtime, sessionId, "hello");
+		await waitFor(
+			() => runtime.live.require(sessionId).turn?.id === "agent-turn",
+		);
+
+		release();
+		await waitFor(() => runtime.live.require(sessionId).turn?.id === "t1");
+		await waitFor(() => runtime.sessions.get(sessionId)?.status === "idle");
+
+		expect(adapters[0]?.prompted).toHaveLength(1);
+		expect(
+			snapshotOf(runtime, sessionId).items.get(result.itemId)?.turnId,
+		).toBe("t1");
+		await runtime.dispose();
+	});
+
+	test("closing a chat mid-turn still settles the turn's snapshot", async () => {
+		const { harnesses } = fakeHarnessRegistry(HELD_THEN_QUICK);
+		const { calls, release, checkpoints } = gatedCheckpoints();
+		release();
+		const runtime = createTestRuntime({ harnesses, checkpoints });
+		const { sessionId } = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+		sendPrompt(runtime, sessionId, "hello");
+		await waitFor(
+			() => runtime.live.require(sessionId).turn?.status === "running",
+		);
+
+		await runtime.live.dispose(sessionId);
+
+		expect(calls).toContain("settled t1 -");
+		await runtime.dispose();
+	});
 
 	test("refuses to undo a turn's files while any chat in that worktree is running", async () => {
 		const { harnesses } = fakeHarnessRegistry(HELD_THEN_QUICK);

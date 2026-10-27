@@ -3620,6 +3620,9 @@ msgstr "ホストに接続できません"
 msgid "Can't undo while a chat in this workspace is working."
 msgstr "このワークスペースでチャットが作業中のため取り消せません。"
 
+msgid "Can't undo: another chat worked in this workspace during this turn."
+msgstr "取り消せません: このターンの間に別のチャットがこのワークスペースで作業していました。"
+
 msgid "Can't undo: HEAD moved since this turn, by a commit, pull or checkout."
 msgstr "取り消せません: このターンの後に、コミット、プル、チェックアウトでHEADが移動しました。"
 
