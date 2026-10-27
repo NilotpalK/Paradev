@@ -9,6 +9,7 @@ import type {
 } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/types";
 import { useLinkClickHint } from "../../hooks/useLinkClickHint";
 import { AcpChatPane } from "./components/AcpChatPane";
+import { AgentChatPane } from "./components/AgentChatPane";
 import { RenameChatDialog } from "./components/RenameChatDialog";
 import { useChatActions } from "./hooks/useChatActions";
 import { useOpenChatLink } from "./hooks/useOpenChatLink";
@@ -63,6 +64,27 @@ export function ChatPane({
 			}),
 		[paneId, onExportChat],
 	);
+	const agentId = data.agent?.id;
+	const store = ctx.store;
+	const onNewChat = useCallback(
+		(label: string | undefined) => {
+			if (!agentId) return;
+			store.getState().addTab({
+				panes: [
+					{
+						kind: "chat-v3",
+						...(label ? { titleOverride: label } : {}),
+						data: {
+							terminalId: crypto.randomUUID(),
+							sessionId: null,
+							agent: { id: agentId },
+						} satisfies ChatPaneData,
+					},
+				],
+			});
+		},
+		[agentId, store],
+	);
 	const firstPrompt: UserContent[] =
 		data.pendingPrompt || data.pendingAttachments?.length
 			? [
@@ -80,6 +102,40 @@ export function ChatPane({
 		...(data.queuedPrompts ?? []),
 	];
 
+	const clearPendingPrompts = () => {
+		const {
+			pendingPrompt: _sent,
+			pendingAttachments: _attached,
+			queuedPrompts: _queued,
+			...rest
+		} = latest.current;
+		ctx.actions.updateData(rest);
+	};
+
+	if (data.agentSession) {
+		return (
+			<>
+				<AgentChatPane
+					agentSessionId={data.agentSession.id}
+					agentName={data.agentSession.agentName}
+					workspaceId={workspaceId}
+					isActive={ctx.isActive}
+					pendingPrompts={pendingPrompts}
+					onPendingPromptsSent={clearPendingPrompts}
+					onOpenFile={onOpenFile}
+					onOpenPage={openPage}
+					onOpenLink={openLink}
+					onOpenHistory={onOpenHistory}
+				/>
+				<LinkHoverHint
+					hoverLabel={null}
+					hoverPosition={null}
+					clickHint={hint}
+				/>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<AcpChatPane
@@ -87,15 +143,7 @@ export function ChatPane({
 				agent={data.agent}
 				draftId={data.draftId}
 				isActive={ctx.isActive}
-				onPendingPromptsSent={() => {
-					const {
-						pendingPrompt: _sent,
-						pendingAttachments: _attached,
-						queuedPrompts: _queued,
-						...rest
-					} = latest.current;
-					ctx.actions.updateData(rest);
-				}}
+				onPendingPromptsSent={clearPendingPrompts}
 				onQueuePrompt={(content) =>
 					ctx.actions.updateData({
 						...latest.current,
@@ -103,6 +151,7 @@ export function ChatPane({
 					})
 				}
 				pendingPrompts={pendingPrompts}
+				launchPrompt={data.launchPrompt}
 				modelId={data.chatModelId}
 				modelLabel={data.chatModelLabel}
 				modeId={data.chatModeId}
@@ -201,6 +250,7 @@ export function ChatPane({
 				onOpenPage={openPage}
 				onOpenLink={openLink}
 				onOpenHistory={onOpenHistory}
+				onNewChat={agentId ? onNewChat : undefined}
 				{...(sessionId ? { onRenameChat, onExportChat } : {})}
 				sessionId={data.sessionId}
 				terminalId={data.terminalId}

@@ -21,6 +21,7 @@ import {
 import {
 	closedCloudChatPromptHashes,
 	isChatSessionClosed,
+	isChatTerminalClosed,
 	markChatSessionClosed,
 	reopenCloudChatLaunch,
 } from "../../utils/closedChatSessions";
@@ -261,6 +262,7 @@ export function useAutoAdoptChatSessions({
 					!isChatSessionClosed(session.sessionId) &&
 					!attached.has(session.sessionId) &&
 					!(session.terminalId && attached.has(session.terminalId)) &&
+					!(session.terminalId && isChatTerminalClosed(session.terminalId)) &&
 					!(
 						typeof result.promptHashes[session.sessionId] === "string" &&
 						waitingAgents.has(presetForAcpHarness(session.harness) ?? "")
