@@ -451,6 +451,10 @@ msgstr "{0} jest już przypisane do „{1}”."
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} jest już używany dla zadań w tej organizacji."
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0} buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb. Jesteśmy trójką byłych CTO z YC budującą narzędzie, które sami kochamy."
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} nie jest repozytorium, w którym zainstalowano aplikację GitHub App"
@@ -13287,9 +13291,6 @@ msgstr "Paradev to aplikacja na komputer. Podaj e-mail, a wyślemy Ci link do po
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb."
 
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev buduje samodoskonalące się oprogramowanie. Zaczyna się od dania inżynierom najlepszych narzędzi, które z czasem dopasowują się do ich potrzeb. Jesteśmy trójką byłych CTO z YC budującą narzędzie, które sami kochamy."
-
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev tworzy zespół z San Francisco w Kalifornii. W sprawach wsparcia produktu lub konta napisz na <0>{supportEmail}</0> — odpowiemy w ciągu jednego dnia roboczego. W sprawach partnerstw, prasy, enterprise lub w każdej innej sprawie pisz na <1>{teamEmail}</1>."
 
@@ -20108,6 +20109,10 @@ msgstr "Witamy w Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "Witaj w nowym Paradev"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "Czym jest {0}, kto go tworzy i dla kogo jest. Zespół z San Francisco prowadzony przez trzech byłych CTO z YC, budujący obszar roboczy dla równoległych agentów kodujących."
+
 msgid "What are the benefits?"
 msgstr "Jakie są benefity?"
 
@@ -20140,9 +20145,6 @@ msgstr "Czym jest Paradev Enterprise?"
 
 msgid "What is wrong?"
 msgstr "Co jest nie tak?"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Czym jest Paradev, kto go tworzy i dla kogo jest. Zespół z San Francisco prowadzony przez trzech byłych CTO z YC, budujący obszar roboczy dla równoległych agentów kodujących."
 
 msgid "What platforms does Paradev run on?"
 msgstr "Na jakich platformach działa Paradev?"

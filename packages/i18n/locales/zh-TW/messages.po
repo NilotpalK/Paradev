@@ -451,6 +451,10 @@ msgstr "{0}已分配給「{1}」。"
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} 已在此組織的任務中使用。"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0}正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。我們是3位YC出身的前CTO，在做一個自己喜歡的工具。"
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} 不是已安裝 GitHub App 的存放庫"
@@ -13287,9 +13291,6 @@ msgstr "Paradev是桌面應用程式。留下電子郵件，我們會把下載�
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。"
 
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev正在構建能自我改進的軟體。第一步，是給工程師最好的工具，並讓它隨需求一起演進。我們是3位YC出身的前CTO，在做一個自己喜歡的工具。"
-
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev由一支位於加州舊金山的團隊打造。產品支援或帳戶問題，請發郵件至<0>{supportEmail}</0>，我們會在一個工作日內回覆。合作、媒體、企業版或其他任何事宜，請寫信至<1>{teamEmail}</1>。"
 
@@ -20108,6 +20109,10 @@ msgstr "歡迎使用Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "歡迎使用全新的 Paradev"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "{0} 是什麼、由誰打造、為誰而做。一支由三位前 YC CTO 帶領的舊金山團隊，正在打造平行編碼代理的工作區。"
+
 msgid "What are the benefits?"
 msgstr "有哪些福利？"
 
@@ -20140,9 +20145,6 @@ msgstr "什麼是Paradev Enterprise？"
 
 msgid "What is wrong?"
 msgstr "哪裡有問題？"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Paradev 是什麼、由誰打造、為誰而做。一支由三位前 YC CTO 帶領的舊金山團隊，正在打造平行編碼代理的工作區。"
 
 msgid "What platforms does Paradev run on?"
 msgstr "Paradev支援哪些平臺？"
