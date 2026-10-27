@@ -24,7 +24,8 @@ import {
 	PILL_TRIGGER_CLASS,
 } from "../../constants";
 import { useOptimisticSelections } from "../../hooks/useOptimisticSelections";
-import { currentLabel, isToggle } from "../../utils/configOptionLabels";
+import { currentLabel } from "../../utils/configOptionLabels";
+import { fastOption } from "../../utils/toggleOption";
 import { EffortSliderCard } from "./components/EffortSliderCard";
 import { ModelPanel } from "./components/ModelPanel";
 import type { AgentSwitcher } from "./types";
@@ -89,9 +90,7 @@ export function ModelPicker({
 			option.category !== "mode" &&
 			option.options.length > 0,
 	);
-	const fast = settings.find(
-		(option) => option.id === "fast" && isToggle(option),
-	);
+	const fast = fastOption(settings);
 	const effort = settings.find((option) => option.category === "thought_level");
 	const effortLabel = currentLabel(effort);
 	// The slider card owns effort and the fast toggle; the rest stay as rows.

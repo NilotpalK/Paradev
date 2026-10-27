@@ -92,6 +92,9 @@ msgstr "(sin salida)"
 msgid "(you)"
 msgstr "(tú)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# puerto activo: ocultar detalles} other {# puertos activos: ocultar detalles}}"
@@ -1341,6 +1344,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* si se facturara a la tarifa completa de la API"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} no admite argumentos"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} no admite archivos adjuntos"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1878,6 +1887,9 @@ msgstr "Añadir adjunto"
 msgid "Add Attachment"
 msgstr "Añadir adjunto"
 
+msgid "Add back"
+msgstr "Volver a añadir"
+
 msgid "Add command"
 msgstr "Añadir comando"
 
@@ -1980,6 +1992,9 @@ msgstr "Añadir pruebas para el código sin cobertura más arriesgado…"
 
 msgid "Add tests where they're missing"
 msgstr "Añadir pruebas donde faltan"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "¿Volver a añadir el prompt de /automation a tu mensaje?"
 
 msgid "Add them"
 msgstr "Añadirlos"
@@ -3985,6 +4000,9 @@ msgstr "Elige cómo abrir las rutas de archivo al hacer Cmd+clic en la terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Elige servidores MCP para este mensaje"
 
+msgid "Choose the model"
+msgstr "Elegir el modelo"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Elige qué borrar del navegador integrado."
 
@@ -5788,6 +5806,9 @@ msgstr "Crear de nuevo"
 
 msgid "Create an account"
 msgstr "Crear una cuenta"
+
+msgid "Create an automation from this prompt"
+msgstr "Crear una automatización a partir de este prompt"
 
 msgid "Create environment"
 msgstr "Crear entorno"
@@ -7953,6 +7974,12 @@ msgstr "Preguntas frecuentes"
 msgid "Fast"
 msgstr "Rápido"
 
+msgid "Fast mode off"
+msgstr "Modo rápido desactivado"
+
+msgid "Fast mode on"
+msgstr "Modo rápido activado"
+
 msgid "Fatal"
 msgstr "Fatal"
 
@@ -8144,6 +8171,9 @@ msgstr "Buscar en la página"
 
 msgid "Find in Terminal"
 msgstr "Buscar en la terminal"
+
+msgid "Find in this chat"
+msgstr "Buscar en este chat"
 
 msgid "Find people"
 msgstr "Buscar personas"
@@ -10052,6 +10082,9 @@ msgstr "¿Salir de la organización?"
 
 msgid "Leave organization..."
 msgstr "Salir de la organización..."
+
+msgid "Leave plan mode"
+msgstr "Salir del modo de planificación"
 
 msgid "Leave team"
 msgstr "Salir del equipo"
@@ -19181,6 +19214,9 @@ msgstr "Túnel establecido"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Convierte las tareas rutinarias en agentes que se ejecutan de forma programada o cuando llega un evento: clasificación de issues, borradores del registro de cambios, actualizaciones de dependencias. Trabajan por su cuenta y abren PR para que los revises."
 
+msgid "Turn Fast mode on or off"
+msgstr "Activar o desactivar el modo rápido"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Activa “Permitir el acceso remoto a este dispositivo a través del relay”"
 
@@ -19637,6 +19673,9 @@ msgstr "Secciones de uso"
 
 msgid "Usage unavailable."
 msgstr "Uso no disponible."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Uso: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

@@ -51,7 +51,7 @@ import {
 import { ConnectionNotice } from "../ConnectionNotice";
 import { SessionHeader } from "../SessionHeader";
 import { SubagentView } from "../SubagentView";
-import { Transcript } from "../Transcript";
+import { Transcript, type TranscriptHandle } from "../Transcript";
 import { useChildrenByParent } from "../Transcript/hooks/useChildrenByParent";
 import { NestedItemsProvider } from "../Transcript/providers/NestedItemsProvider";
 import { TranscriptPluginsProvider } from "../Transcript/providers/TranscriptPluginsProvider";
@@ -106,6 +106,7 @@ export function SessionView({
 	openLink,
 	onOpenHistory,
 	terminalId,
+	onNewChat,
 	workspaceId,
 }: {
 	client: SessionClient;
@@ -160,11 +161,13 @@ export function SessionView({
 	openLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
+	onNewChat?: () => void;
 }) {
 	const { t } = useLingui();
 	const session = useChatSession({ client, sendEnabled: held === undefined });
 	const composerRef = useRef<ComposerHandle>(null);
 	const drawerRef = useRef<WorkDrawerHandle>(null);
+	const transcriptRef = useRef<TranscriptHandle>(null);
 	const paneRef = useRef<HTMLDivElement>(null);
 	const { outbox, discardPrompt } = session;
 	const openDraftKey = useRef(draftKey);
@@ -272,6 +275,7 @@ export function SessionView({
 	);
 
 	const focusComposer = useCallback(() => composerRef.current?.focus(), []);
+	const openFind = useCallback(() => transcriptRef.current?.openFind(), []);
 	const [revealMessageId, setRevealMessageId] = useState<string | null>(null);
 	const clearRevealMessage = useCallback(() => setRevealMessageId(null), []);
 	const returnToComposer = useCallback(
@@ -573,6 +577,7 @@ export function SessionView({
 											onMessageRevealed={clearRevealMessage}
 											onRetryPrompt={session.retryPrompt}
 											outbox={session.outbox}
+											ref={transcriptRef}
 											revealMessageId={revealMessageId}
 											sessionId={client.sessionId}
 											snapshot={session.snapshot}
@@ -638,6 +643,10 @@ export function SessionView({
 					turnRunning={runningTurnId !== null}
 					terminalId={terminalId}
 					agentLabel={agentLabel}
+					onNewChat={onNewChat}
+					onFork={onFork ? forkWithTranscript : undefined}
+					canForkToWorktree={canForkToWorktree}
+					onOpenFind={focusedSubagentId ? undefined : openFind}
 					workspaceId={workspaceId}
 				/>
 			</ComposerDropZone>

@@ -92,6 +92,9 @@ msgstr "(no output)"
 msgid "(you)"
 msgstr "(you)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
@@ -1341,6 +1344,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* if billed at full API rate"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} doesn't take arguments"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} doesn't take attachments"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1878,6 +1887,9 @@ msgstr "Add attachment"
 msgid "Add Attachment"
 msgstr "Add Attachment"
 
+msgid "Add back"
+msgstr "Add back"
+
 msgid "Add command"
 msgstr "Add command"
 
@@ -1980,6 +1992,9 @@ msgstr "Add tests for the riskiest untested code…"
 
 msgid "Add tests where they're missing"
 msgstr "Add tests where they're missing"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Add the /automation prompt back to your message?"
 
 msgid "Add them"
 msgstr "Add them"
@@ -3985,6 +4000,9 @@ msgstr "Choose how to open file paths when Cmd+clicking in the terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Choose MCP servers for this message"
 
+msgid "Choose the model"
+msgstr "Choose the model"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Choose what to clear from the in-app browser."
 
@@ -5788,6 +5806,9 @@ msgstr "Create again"
 
 msgid "Create an account"
 msgstr "Create an account"
+
+msgid "Create an automation from this prompt"
+msgstr "Create an automation from this prompt"
 
 msgid "Create environment"
 msgstr "Create environment"
@@ -7953,6 +7974,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Fast"
 
+msgid "Fast mode off"
+msgstr "Fast mode off"
+
+msgid "Fast mode on"
+msgstr "Fast mode on"
+
 msgid "Fatal"
 msgstr "Fatal"
 
@@ -8144,6 +8171,9 @@ msgstr "Find in page"
 
 msgid "Find in Terminal"
 msgstr "Find in Terminal"
+
+msgid "Find in this chat"
+msgstr "Find in this chat"
 
 msgid "Find people"
 msgstr "Find people"
@@ -10052,6 +10082,9 @@ msgstr "Leave organization?"
 
 msgid "Leave organization..."
 msgstr "Leave organization..."
+
+msgid "Leave plan mode"
+msgstr "Leave plan mode"
 
 msgid "Leave team"
 msgstr "Leave team"
@@ -19181,6 +19214,9 @@ msgstr "Tunnel established"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 
+msgid "Turn Fast mode on or off"
+msgstr "Turn Fast mode on or off"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Turn on “Allow remote access to this device via relay”"
 
@@ -19637,6 +19673,9 @@ msgstr "Usage sections"
 
 msgid "Usage unavailable."
 msgstr "Usage unavailable."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Usage: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

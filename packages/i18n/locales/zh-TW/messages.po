@@ -92,6 +92,9 @@ msgstr "（無輸出）"
 msgid "(you)"
 msgstr "（你）"
 
+msgid "[prompt]"
+msgstr "[提示詞]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {#個活動埠 — 隱藏詳情} other {#個活動埠 — 隱藏詳情}}"
@@ -1341,6 +1344,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* 如按API全價計費"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} 不接受參數"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} 不接受附件"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1878,6 +1887,9 @@ msgstr "新增附件"
 msgid "Add Attachment"
 msgstr "新增附件"
 
+msgid "Add back"
+msgstr "加回"
+
 msgid "Add command"
 msgstr "新增命令"
 
@@ -1980,6 +1992,9 @@ msgstr "給風險最高又沒測試的程式碼補上測試…"
 
 msgid "Add tests where they're missing"
 msgstr "給缺測試的地方補測試"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "要把 /automation 提示詞加回你的訊息嗎？"
 
 msgid "Add them"
 msgstr "加入"
@@ -3985,6 +4000,9 @@ msgstr "選擇在終端中Cmd+點選檔案路徑時的開啟方式"
 msgid "Choose MCP servers for this message"
 msgstr "為這則訊息選擇MCP伺服器"
 
+msgid "Choose the model"
+msgstr "選擇模型"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "選擇要從應用程式內瀏覽器清除的內容。"
 
@@ -5788,6 +5806,9 @@ msgstr "再次建立"
 
 msgid "Create an account"
 msgstr "建立帳戶"
+
+msgid "Create an automation from this prompt"
+msgstr "根據此提示詞建立自動化"
 
 msgid "Create environment"
 msgstr "建立環境"
@@ -7953,6 +7974,12 @@ msgstr "常見問題"
 msgid "Fast"
 msgstr "快速"
 
+msgid "Fast mode off"
+msgstr "快速模式已關閉"
+
+msgid "Fast mode on"
+msgstr "快速模式已開啟"
+
 msgid "Fatal"
 msgstr "致命"
 
@@ -8144,6 +8171,9 @@ msgstr "在頁面中查詢"
 
 msgid "Find in Terminal"
 msgstr "在終端中查詢"
+
+msgid "Find in this chat"
+msgstr "在此聊天中查詢"
 
 msgid "Find people"
 msgstr "尋找成員"
@@ -10052,6 +10082,9 @@ msgstr "退出組織？"
 
 msgid "Leave organization..."
 msgstr "退出組織..."
+
+msgid "Leave plan mode"
+msgstr "退出計劃模式"
 
 msgid "Leave team"
 msgstr "退出團隊"
@@ -19181,6 +19214,9 @@ msgstr "通道已建立"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "把例行雜務交給依排程或在事件發生時執行的代理程式：議題分類、更新日誌草稿、相依套件更新。它們會自行執行，並建立 PR 供你審查。"
 
+msgid "Turn Fast mode on or off"
+msgstr "開啟或關閉快速模式"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "開啟「允許透過中繼遠端存取此裝置」"
 
@@ -19637,6 +19673,9 @@ msgstr "用量分區"
 
 msgid "Usage unavailable."
 msgstr "無法獲取用量。"
+
+msgid "Usage: /{name} {hint}"
+msgstr "用法：/{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"
