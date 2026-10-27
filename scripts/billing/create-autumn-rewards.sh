@@ -13,7 +13,7 @@ autumn() {
 		-H "Authorization: Bearer $AUTUMN_SECRET_KEY" \
 		-H "x-api-version: 2.6.0" \
 		-H "Content-Type: application/json" \
-		-d "$2"
+		-d "$2" || return
 	echo
 }
 
@@ -30,6 +30,9 @@ create_reward() {
 	echo "== creating $id"
 	autumn rewards.create "$body"
 }
+
+echo "== checking the Autumn key"
+autumn rewards.list '{}' >/dev/null
 
 create_reward yc-bookface-6mo-pro '{"coupon":{
 	"id":"yc-bookface-6mo-pro","name":"YC Bookface: 6 months Pro free",
@@ -75,5 +78,5 @@ stripe promotion_codes list -d code=SHORTLISTMCR --live |
 	jq '.data[] | {id, active, coupon: (.promotion.coupon // .coupon.id), times_redeemed}'
 
 echo "== rewards.list (new rewards only)"
-autumn rewards.list '{}' | jq '[(.list // .coupons // .)[]? |
+autumn rewards.list '{}' | jq '[.coupons[] |
 	select(.id | IN("yc-bookface-6mo-pro","startup-1-month-free","student-free-pro","shortlist-manchester-2026-1-month"))]'
