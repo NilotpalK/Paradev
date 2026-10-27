@@ -5,7 +5,7 @@ import {
 } from "@superset/ui/hover-card";
 import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useMemo, useState } from "react";
-import { useWorkspaceHostUrl } from "renderer/hooks/host-service/useWorkspaceHostUrl";
+import { useWorkspaceHostTarget } from "renderer/hooks/host-service/useWorkspaceHostUrl";
 import { chatTransportFor } from "../../hooks/useSessionClient";
 import {
 	ChatPreviewCard,
@@ -31,7 +31,8 @@ export function ChatPreviewHoverCard({
 	sessionId: string;
 	workspaceId: string;
 }) {
-	const hostUrl = useWorkspaceHostUrl(workspaceId);
+	const host = useWorkspaceHostTarget(workspaceId);
+	const hostUrl = host.status === "ready" ? host.url : null;
 	const transport = useMemo(
 		() => (hostUrl ? chatTransportFor(hostUrl) : null),
 		[hostUrl],
@@ -59,7 +60,7 @@ export function ChatPreviewHoverCard({
 	});
 	const load: ChatPreviewLoad = query.data
 		? { status: "ready", ...query.data }
-		: query.isError || query.data === null
+		: host.status === "not-found" || query.isError || query.data === null
 			? { status: "unavailable" }
 			: { status: "loading" };
 	return (

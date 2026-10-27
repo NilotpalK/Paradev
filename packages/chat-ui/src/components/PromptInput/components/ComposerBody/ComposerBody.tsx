@@ -26,6 +26,7 @@ import {
 	DROP_COMMAND,
 	KEY_BACKSPACE_COMMAND,
 	KEY_DELETE_COMMAND,
+	KEY_DOWN_COMMAND,
 	KEY_ENTER_COMMAND,
 	KEY_ESCAPE_COMMAND,
 	type LexicalNode,
@@ -409,6 +410,8 @@ export function ComposerBody({
 	addFilesRef.current = addFiles;
 	const chipForPasteRef = useRef(chipForPaste);
 	chipForPasteRef.current = chipForPaste;
+	// Cmd/Ctrl+Shift+V pastes as text; the paste event itself carries no keys.
+	const pasteAsTextRef = useRef(false);
 
 	const dropZone = useComposerDropZone();
 	useEffect(() => {
@@ -634,6 +637,17 @@ export function ComposerBody({
 			},
 			COMMAND_PRIORITY_HIGH,
 		);
+		const unregisterPasteAsText = editor.registerCommand<KeyboardEvent>(
+			KEY_DOWN_COMMAND,
+			(event) => {
+				pasteAsTextRef.current =
+					event.shiftKey &&
+					(event.metaKey || event.ctrlKey) &&
+					event.key.toLowerCase() === "v";
+				return false;
+			},
+			COMMAND_PRIORITY_LOW,
+		);
 		const unregisterPaste = editor.registerCommand<ClipboardEvent>(
 			PASTE_COMMAND,
 			(event) => {
@@ -644,8 +658,11 @@ export function ComposerBody({
 					addFilesRef.current(files);
 					return true;
 				}
+				const asText = pasteAsTextRef.current;
+				pasteAsTextRef.current = false;
 				const pasted = event.clipboardData?.getData("text/plain").trim();
-				const chip = pasted ? chipForPasteRef.current?.(pasted) : null;
+				const chip =
+					pasted && !asText ? chipForPasteRef.current?.(pasted) : null;
 				if (!chip) return false;
 				event.preventDefault();
 				editor.update(() => $insertChipAtSelection(chip));
@@ -702,6 +719,7 @@ export function ComposerBody({
 			unregisterEscape();
 			unregisterDrop();
 			unregisterPaste();
+			unregisterPasteAsText();
 			unregisterClick();
 			unregisterBackspace();
 			unregisterDelete();

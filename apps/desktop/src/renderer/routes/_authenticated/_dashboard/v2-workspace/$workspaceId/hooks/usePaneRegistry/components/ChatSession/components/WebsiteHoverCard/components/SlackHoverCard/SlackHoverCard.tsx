@@ -17,10 +17,11 @@ export function SlackHoverCard({
 }) {
 	const isDark = useIsDarkTheme();
 	const [open, setOpen] = useState(false);
-	const [wanted, setWanted] = useState(false);
+	// Only an opened card asks: these calls share the Slack rate limit with the
+	// agents' Slack tools, and a pointer crossing a link is not worth one.
 	const query = cloudTrpc.plugins.slackLinkPreview.useQuery(
 		{ url },
-		{ enabled: wanted || open, staleTime: FRESH_FOR_MS, retry: false },
+		{ enabled: open, staleTime: FRESH_FOR_MS, retry: false },
 	);
 	const data = query.data;
 	const load: WebsitePreviewLoad =
@@ -38,16 +39,7 @@ export function SlackHoverCard({
 				? { status: "unavailable" }
 				: { status: "loading" };
 	return (
-		<PreviewHoverCard
-			load={load}
-			onOpenChange={(next) => {
-				setOpen(next);
-				if (!next) setWanted(false);
-			}}
-			onWanted={() => setWanted(true)}
-			open={open}
-			url={url}
-		>
+		<PreviewHoverCard load={load} onOpenChange={setOpen} open={open} url={url}>
 			{children}
 		</PreviewHoverCard>
 	);

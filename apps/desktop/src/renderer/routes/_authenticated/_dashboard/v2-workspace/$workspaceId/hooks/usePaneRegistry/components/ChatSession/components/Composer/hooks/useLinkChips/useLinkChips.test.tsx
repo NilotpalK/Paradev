@@ -79,7 +79,22 @@ async function setup() {
 			chip?.closest("[data-slot=hover-card-trigger]") !== null
 		);
 	};
-	return { paste, chips, text, type, chipHasPopup };
+	const pasteAsText = async (value: string) => {
+		await act(async () => {
+			editable.focus();
+			editable.dispatchEvent(
+				new KeyboardEvent("keydown", {
+					key: "V",
+					ctrlKey: true,
+					shiftKey: true,
+					bubbles: true,
+					cancelable: true,
+				}),
+			);
+		});
+		await paste(value);
+	};
+	return { paste, pasteAsText, chips, text, type, chipHasPopup };
 }
 
 test("a pasted link becomes a named chip; other text stays text", async () => {
@@ -104,4 +119,13 @@ test("while the mention menu is open, a chip has no card or tooltip to cover it"
 	expect(chipHasPopup()).toBe(true);
 	await type(" @");
 	expect(chipHasPopup()).toBe(false);
+});
+
+test("Ctrl+Shift+V pastes a link as text, and the next paste is a chip again", async () => {
+	const { paste, pasteAsText, chips, text } = await setup();
+	await pasteAsText("https://github.com/acme/widgets/pull/42");
+	expect(chips()).toEqual([]);
+	expect(text()).toContain("https://github.com/acme/widgets/pull/42");
+	await paste("https://github.com/acme/widgets/pull/43");
+	expect(chips()).toEqual(["acme/widgets#43"]);
 });

@@ -8,6 +8,7 @@ import {
 } from "../supersetAppLink";
 
 const MAX_LABEL_LENGTH = 48;
+const MAX_AGENT_TITLE_LENGTH = 80;
 
 export type ChatReference = {
 	workspaceId: string;
@@ -38,6 +39,17 @@ export function chatReferenceChip(
 	};
 }
 
+/** A chat title is someone's words, so it reaches the agent short and plain. */
+function titleForAgent(title: string): string {
+	const plain = title
+		.replace(/[`\p{Cc}]/gu, " ")
+		.replace(/\s+/g, " ")
+		.trim();
+	return plain.length > MAX_AGENT_TITLE_LENGTH
+		? `${plain.slice(0, MAX_AGENT_TITLE_LENGTH - 1).trimEnd()}…`
+		: plain;
+}
+
 /**
  * What tells the agent how to read the chats a message references. A link is
  * a pointer, not the chat, and the chat is someone else's words.
@@ -58,7 +70,10 @@ export function chatContextLine(
 			continue;
 		}
 		const command = `superset sessions read --workspace ${target.workspaceId} --session ${target.sessionId}`;
-		lines.set(command, `- ${JSON.stringify(chip.label)}: \`${command}\``);
+		lines.set(
+			command,
+			`- ${JSON.stringify(titleForAgent(chip.label))}: \`${command}\``,
+		);
 	}
 	if (lines.size === 0) return null;
 	return [

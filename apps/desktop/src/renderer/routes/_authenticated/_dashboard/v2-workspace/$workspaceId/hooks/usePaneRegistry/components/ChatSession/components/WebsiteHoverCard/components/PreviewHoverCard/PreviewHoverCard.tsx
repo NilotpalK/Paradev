@@ -25,7 +25,7 @@ export function PreviewHoverCard({
 	load: WebsitePreviewLoad;
 	onOpenChange: (open: boolean) => void;
 	/** The pointer or focus arrived, so loading can start before the card opens. */
-	onWanted: () => void;
+	onWanted?: () => void;
 	open: boolean;
 	url: string;
 }) {
@@ -41,7 +41,7 @@ export function PreviewHoverCard({
 				onClick={() => onOpenChange(false)}
 				onFocus={onWanted}
 				onPointerEnter={(event) => {
-					if (event.pointerType !== "touch") onWanted();
+					if (event.pointerType !== "touch") onWanted?.();
 				}}
 			>
 				{children}
