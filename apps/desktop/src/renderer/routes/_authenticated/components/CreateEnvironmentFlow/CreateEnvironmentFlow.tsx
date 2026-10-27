@@ -10,7 +10,6 @@ import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import { ChoosePrimaryStep } from "./components/ChoosePrimaryStep";
 import { ConnectGitHubStep } from "./components/ConnectGitHubStep";
 import { PickRepositoriesStep } from "./components/PickRepositoriesStep";
-import { uniqueEnvironmentName } from "./utils/uniqueEnvironmentName";
 
 interface CreateEnvironmentFlowProps {
 	organizationId: string;
@@ -48,10 +47,6 @@ export function CreateEnvironmentFlow({
 	const usage = cloudTrpc.billing.environmentUsage.useQuery(undefined, {
 		enabled: open,
 	});
-	const environments = cloudTrpc.environment.list.useQuery(
-		{ organizationId },
-		{ enabled: open },
-	);
 	const navigate = useNavigate();
 	const [skippedAccount, setSkippedAccount] = useState(false);
 	// Set once several repositories are picked: the step that asks for the primary.
@@ -94,10 +89,7 @@ export function CreateEnvironmentFlow({
 		try {
 			const environment = await create.mutateAsync({
 				organizationId,
-				name: uniqueEnvironmentName(
-					primary.name,
-					(environments.data ?? []).map((row) => row.name),
-				),
+				name: primary.name,
 				repositoryIds: [
 					primary.id,
 					...repositories
