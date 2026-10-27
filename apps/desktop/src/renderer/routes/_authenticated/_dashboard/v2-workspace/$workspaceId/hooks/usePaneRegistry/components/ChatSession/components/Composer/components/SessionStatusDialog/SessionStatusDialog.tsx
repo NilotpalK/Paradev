@@ -1,8 +1,9 @@
-import { Trans } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import type {
 	SessionConfigOption,
 	SessionUsage,
 } from "@superset/chat/protocol";
+import { AGENT_IDENTITY_LABELS } from "@superset/shared/agent-catalog";
 import {
 	Dialog,
 	DialogContent,
@@ -13,6 +14,7 @@ import { useWorkspaceHostTarget } from "renderer/hooks/host-service/useWorkspace
 import { useHostWorkspaces } from "renderer/routes/_authenticated/providers/HostWorkspacesProvider";
 import { useAccountUsage } from "../../../../../../hooks/useAccountUsage";
 import { configOptionLabels } from "../../utils/configOptionLabels";
+import { KNOWN_MODES } from "../../utils/modeCopy";
 import type { SessionMode } from "../ModePicker";
 import {
 	SessionStatusContent,
@@ -36,11 +38,12 @@ export function SessionStatusDialog({
 	details: SessionStatusDetails;
 	onOpenChange: (open: boolean) => void;
 }) {
+	const { i18n } = useLingui();
 	const { workspaceId, terminalId } = details;
 	const host = useWorkspaceHostTarget(workspaceId);
 	const { workspaces } = useHostWorkspaces();
 	const row = workspaces.find((workspace) => workspace.id === workspaceId);
-	const { account, now, state, status } = useAccountUsage(
+	const { account, binding, now, state, status } = useAccountUsage(
 		workspaceId,
 		terminalId,
 	);
@@ -53,6 +56,8 @@ export function SessionStatusDialog({
 					? "local"
 					: undefined;
 	const { model, effort, fast } = configOptionLabels(details.configOptions);
+	const mode = details.modes?.find(({ id }) => id === details.currentModeId);
+	const knownMode = mode && KNOWN_MODES[mode.id];
 	return (
 		<Dialog open onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-md" aria-describedby={undefined}>
@@ -62,14 +67,14 @@ export function SessionStatusDialog({
 					</DialogTitle>
 				</DialogHeader>
 				<SessionStatusContent
-					agent={details.agentLabel}
+					agent={
+						details.agentLabel ??
+						(binding ? AGENT_IDENTITY_LABELS[binding.agentId] : undefined)
+					}
 					model={model}
 					effort={effort}
 					fast={fast}
-					mode={
-						details.modes?.find((mode) => mode.id === details.currentModeId)
-							?.label
-					}
+					mode={knownMode ? i18n._(knownMode.title) : mode?.label}
 					workspace={workspace}
 					branch={row?.branch ?? undefined}
 					usage={details.usage}
