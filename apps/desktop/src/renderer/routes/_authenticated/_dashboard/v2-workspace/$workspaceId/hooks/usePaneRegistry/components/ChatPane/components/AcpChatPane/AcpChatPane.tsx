@@ -154,7 +154,11 @@ export function AcpChatPane({
 		};
 	}, []);
 	const start = useCallback(
-		async (resumeHarness: string, resume?: string, replacing = false) => {
+		async (
+			resumeHarness: string,
+			resume?: string,
+			replacing = false,
+		): Promise<boolean> => {
 			attaching.current = true;
 			setFailure(null);
 			try {
@@ -175,7 +179,16 @@ export function AcpChatPane({
 										terminalId,
 										...(modelId ? { modelId } : {}),
 										...(startModeId ? { modeId: startModeId } : {}),
-										...(resume ? { resume: { harnessSessionId: resume } } : {}),
+										...(resume
+											? {
+													resume: {
+														harnessSessionId: resume,
+														...(replacing && sessionId
+															? { replacesSessionId: sessionId }
+															: {}),
+													},
+												}
+											: {}),
 									})
 									.then((created) => created.sessionId),
 							isReachableFailure: (error) =>
@@ -188,13 +201,15 @@ export function AcpChatPane({
 							.catch(() => undefined);
 					},
 				);
-				if (!mounted.current) return;
+				if (!mounted.current) return false;
 				if (replacing) setReplacement(createdId);
 				else onSessionCreated(createdId);
+				return true;
 			} catch (error) {
 				attaching.current = false;
 				if (replacing) recoveryInFlight.current = false;
 				setFailure(error instanceof Error ? error.message : String(error));
+				return false;
 			}
 		},
 		[
@@ -206,6 +221,7 @@ export function AcpChatPane({
 			modelId,
 			modeId,
 			agent,
+			sessionId,
 		],
 	);
 
@@ -279,6 +295,21 @@ export function AcpChatPane({
 		attaching.current = false;
 		void start(harness);
 	}, [harness, start]);
+
+	const startNewChat = useCallback(async () => {
+		if (!harness) return false;
+		const previous = sessionId;
+		attaching.current = false;
+		const started = await start(harness);
+		if (started && previous) {
+			void wiring.transport
+				.closeSession({ sessionId: previous })
+				.catch((error: unknown) =>
+					console.warn("[acp-chat] could not close the earlier chat", error),
+				);
+		}
+		return started;
+	}, [harness, sessionId, start, wiring.transport]);
 
 	const agentSwitch = useMemo(() => {
 		if (!agent || !onSwitchAgent) return undefined;
@@ -403,6 +434,14 @@ export function AcpChatPane({
 			.catch(() => undefined)
 			.then(() => start(harness, agentSessionId, true));
 	}, [harness, agentSessionId, sessionId, start, wiring.transport]);
+	const continueAfterRestart = useRef<UserContent[] | null>(null);
+	const restartAndContinue = useCallback(
+		(content: UserContent[]) => {
+			continueAfterRestart.current = content;
+			recover();
+		},
+		[recover],
+	);
 	const { data: replacementState } = useQuery({
 		enabled: replacement !== null,
 		queryKey: ["acp-chat-replacement", replacement],
@@ -418,11 +457,15 @@ export function AcpChatPane({
 		const commit = () => {
 			recoveryInFlight.current = false;
 			onSessionCreated(replacement);
+			const content = continueAfterRestart.current;
+			continueAfterRestart.current = null;
+			if (content) onQueuePrompt(content);
 			setReplacement(null);
 		};
 		const status = replacementState?.session?.status;
 		if (status === "dead") {
 			recoveryInFlight.current = false;
+			continueAfterRestart.current = null;
 			setReplacement(null);
 			setFailure(
 				replacementState?.lastError ??
@@ -436,7 +479,7 @@ export function AcpChatPane({
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
-	}, [replacement, replacementState, onSessionCreated, t]);
+	}, [replacement, replacementState, onSessionCreated, onQueuePrompt, t]);
 	const recovering =
 		replacement !== null ||
 		(recoverable && recoveries.current < MAX_RECOVERIES);
@@ -605,6 +648,8 @@ export function AcpChatPane({
 			isActive={isActive}
 			onFork={fork}
 			onEditMessage={onRewound ? onEditMessage : undefined}
+			onRestartAndContinue={harness ? restartAndContinue : undefined}
+			onStartNewChat={harness ? startNewChat : undefined}
 			onUserPrompt={agent ? () => saveLastChatAgent(agent.id) : undefined}
 			openFile={onOpenFile}
 			openPage={onOpenPage}

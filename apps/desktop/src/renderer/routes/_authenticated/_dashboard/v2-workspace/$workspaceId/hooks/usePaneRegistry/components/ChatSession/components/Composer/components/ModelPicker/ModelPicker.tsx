@@ -11,7 +11,7 @@ import {
 } from "@superset/ui/dropdown-menu";
 import { cn } from "@superset/ui/utils";
 import { Settings2 } from "lucide-react";
-import { type KeyboardEvent, useMemo, useRef, useState } from "react";
+import { type KeyboardEvent, useMemo, useRef } from "react";
 import { LuCheck, LuChevronDown } from "react-icons/lu";
 import {
 	getPresetIcon,
@@ -34,6 +34,8 @@ export type ModelPickerProps = {
 	agentSwitcher?: AgentSwitcher;
 	hideEffortLabel?: boolean;
 	hideModelLabel?: boolean;
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
 };
 
 const TRAIT_ROW_CLASS = cn(
@@ -59,9 +61,10 @@ export function ModelPicker({
 	configOptions,
 	hideEffortLabel,
 	hideModelLabel,
+	onOpenChange,
 	onSelect,
+	open,
 }: ModelPickerProps) {
-	const [open, setOpen] = useState(false);
 	const searchRef = useRef<HTMLInputElement>(null);
 	const settingsRef = useRef<HTMLDivElement>(null);
 	const isDark = useIsDarkTheme();
@@ -126,7 +129,7 @@ export function ModelPicker({
 		.join(" · ");
 	const pick = (option: SessionConfigOption, value: string) => {
 		if (value !== option.currentValue) choose(option.id, value);
-		setOpen(false);
+		onOpenChange(false);
 	};
 	// Radix traps Tab inside the menu, so the settings row below the model
 	// panel is only reachable by hand: Tab past the last agent tab lands on
@@ -159,7 +162,7 @@ export function ModelPicker({
 	};
 
 	return (
-		<DropdownMenu onOpenChange={setOpen} open={open}>
+		<DropdownMenu onOpenChange={onOpenChange} open={open}>
 			<DropdownMenuTrigger asChild>
 				<button
 					className={cn(PILL_TRIGGER_CLASS, "group")}
@@ -211,7 +214,7 @@ export function ModelPicker({
 							agentSwitcher && {
 								...agentSwitcher,
 								onSwitch: (presetId, picked) => {
-									setOpen(false);
+									onOpenChange(false);
 									agentSwitcher.onSwitch(presetId, picked);
 								},
 							}
