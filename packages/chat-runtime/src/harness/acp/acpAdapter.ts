@@ -7,6 +7,7 @@ import type {
 	FormField,
 	Item,
 	ItemAttachment,
+	NoticeCompaction,
 	SessionConfigOption,
 	SessionState,
 	SessionUsage,
@@ -30,6 +31,7 @@ import {
 	airAsyncTaskProgressSchema,
 	airAsyncTaskSpawnedSchema,
 	airAsyncTaskStateSchema,
+	airContextCompaction,
 	airForkPointMeta,
 	airSubagentSpawnedSchema,
 	airSubagentStateSchema,
@@ -63,6 +65,8 @@ import {
 	type AcpContentBlock,
 	type AcpSubagentUpdate,
 	acpAvailableCommandsUpdateSchema,
+	acpCompactionSummaryChunkSchema,
+	acpCompactionUpdateSchema,
 	acpConfigOptionUpdateSchema,
 	acpContentBlockSchema,
 	acpCreateElicitationParamsSchema,
@@ -165,6 +169,34 @@ function resolvedModelOf(raw: unknown): string | undefined {
 }
 
 type AcpStateUpdate = z.infer<typeof acpStateUpdateSchema>;
+
+type Compaction = {
+	itemId: string;
+	turnId: string;
+	startedAtMs: number;
+	streamedSummary: string;
+	notice: NoticeCompaction;
+};
+
+const COMPACTION_STATUS: Record<string, NoticeCompaction["status"]> = {
+	in_progress: "running",
+	completed: "completed",
+	failed: "failed",
+	cancelled: "cancelled",
+};
+
+const COMPACTION_TEXT: Record<NoticeCompaction["status"], string> = {
+	running: "Compacting context",
+	completed: "Context compacted",
+	failed: "Context compaction failed",
+	cancelled: "Context compaction stopped",
+};
+
+function compactionError(error: unknown): string | undefined {
+	if (typeof error === "string") return error || undefined;
+	const message = (error as { message?: unknown } | null)?.message;
+	return typeof message === "string" && message ? message : undefined;
+}
 
 type V2Turn = {
 	id: string;
@@ -430,6 +462,8 @@ export class AcpAdapter implements HarnessAdapter {
 	private cycleEnded = false;
 	private steeredCyclePending = false;
 	private sessionUsage: SessionUsage | undefined;
+	private readonly compactions = new Map<string, Compaction>();
+	private compactionAwaitingUsage: Compaction | null = null;
 	private readonly backgroundTaskTurns = new Map<string, string | undefined>();
 	private awaitingBackground = false;
 	/** The v2 config option that stands in for v1's session mode, once seen. */
@@ -919,13 +953,19 @@ export class AcpAdapter implements HarnessAdapter {
 				info: CLIENT_INFO,
 				// v2 moved fs and terminal out of client capabilities entirely.
 				// Without form elicitation, claude-agent-acp drops AskUserQuestion.
-				capabilities: { elicitation: { form: {} }, _meta: AIR_CLIENT_META },
+				capabilities: {
+					elicitation: { form: {} },
+					session: { compaction: {} },
+					_meta: AIR_CLIENT_META,
+				},
 				// Do not advertise fs/terminal: the agent falls back to its own
 				// Read/Edit/Bash tools, which run headless in the workspace.
 				clientCapabilities: {
 					fs: { readTextFile: false, writeTextFile: false },
 					terminal: false,
 					elicitation: { form: {} },
+					// Agents then report compaction as compaction_update, not a tool call.
+					session: { compaction: {} },
 					_meta: AIR_CLIENT_META,
 				},
 			},
@@ -1313,6 +1353,12 @@ export class AcpAdapter implements HarnessAdapter {
 				return;
 			case "available_commands_update":
 				this.handleAvailableCommands(outer.data.update);
+				return;
+			case "compaction_update":
+				this.handleCompactionUpdate(outer.data.update);
+				return;
+			case "compaction_summary_chunk":
+				this.handleCompactionSummaryChunk(outer.data.update);
 				return;
 			case "current_mode_update":
 				if (update.data.currentModeId && !this.options.clientApprovalModes)
@@ -2404,6 +2450,87 @@ export class AcpAdapter implements HarnessAdapter {
 			...(costUsd === undefined ? {} : { costUsd }),
 		};
 		if (this.currentTurn?.status === "running") this.emitTurn(this.currentTurn);
+		const compaction = this.compactionAwaitingUsage;
+		if (compaction) {
+			this.compactionAwaitingUsage = null;
+			compaction.notice = { ...compaction.notice, tokensAfter: used };
+			this.emitCompaction(compaction);
+		}
+	}
+
+	private handleCompactionUpdate(raw: unknown): void {
+		const parsed = acpCompactionUpdateSchema.safeParse(raw);
+		const status = parsed.data && COMPACTION_STATUS[parsed.data.status];
+		if (!parsed.data || !status) return;
+		const compaction = this.compaction(parsed.data.compactionId);
+		const facts = airContextCompaction(raw);
+		const trigger =
+			facts?.trigger === "automatic" || facts?.trigger === "manual"
+				? facts.trigger
+				: compaction.notice.trigger;
+		const tokensBefore = facts?.preTokens ?? compaction.notice.tokensBefore;
+		const tokensAfter = facts?.postTokens ?? compaction.notice.tokensAfter;
+		const summary =
+			parsed.data.summary
+				?.flatMap((block) => (block.text ? [block.text] : []))
+				.join("") ||
+			compaction.notice.summary ||
+			compaction.streamedSummary;
+		const error = compactionError(parsed.data.error);
+		compaction.notice = {
+			status,
+			...(trigger ? { trigger } : {}),
+			...(tokensBefore === undefined ? {} : { tokensBefore }),
+			...(tokensAfter === undefined ? {} : { tokensAfter }),
+			...(summary ? { summary } : {}),
+			...(error ? { error } : {}),
+		};
+		this.compactionAwaitingUsage =
+			status === "completed" && tokensAfter === undefined ? compaction : null;
+		this.emitCompaction(compaction);
+	}
+
+	private handleCompactionSummaryChunk(raw: unknown): void {
+		const parsed = acpCompactionSummaryChunkSchema.safeParse(raw).data;
+		const compaction = parsed && this.compactions.get(parsed.compactionId);
+		if (!compaction || !parsed.content?.text) return;
+		compaction.streamedSummary += parsed.content.text;
+	}
+
+	private compaction(compactionId: string): Compaction {
+		const existing = this.compactions.get(compactionId);
+		if (existing) return existing;
+		this.main.flush();
+		const compaction: Compaction = {
+			itemId: this.mintId(),
+			turnId: this.resolveTurnId(),
+			startedAtMs: this.nextStartMs(),
+			streamedSummary: "",
+			notice: {
+				status: "running",
+				...(this.sessionUsage
+					? { tokensBefore: this.sessionUsage.contextUsed }
+					: {}),
+			},
+		};
+		this.compactions.set(compactionId, compaction);
+		return compaction;
+	}
+
+	private emitCompaction(compaction: Compaction): void {
+		const { notice } = compaction;
+		this.emitItem(
+			{
+				id: compaction.itemId,
+				kind: "notice",
+				noticeKind: "compaction",
+				text: COMPACTION_TEXT[notice.status],
+				startedAtMs: compaction.startedAtMs,
+				...(notice.status === "running" ? {} : { completedAtMs: this.now() }),
+				compaction: notice,
+			},
+			compaction.turnId,
+		);
 	}
 
 	private turnUsage(usage: AcpPromptUsage): NonNullable<Turn["usage"]> {
