@@ -377,7 +377,7 @@ test("a subagent's task call leaves its tool run", () => {
 	).toEqual([["r1", "r2"], "task-1", "r3"]);
 });
 
-test("a failed turn says its failure once, on the turn's own row, keeping what only the notice said", () => {
+test("a failed turn says its failure once, on the turn's own row, keeping the stderr an older host put only in the notice", () => {
 	const notice = (id: string, text: string): Item => ({
 		id,
 		kind: "notice",
@@ -390,7 +390,7 @@ test("a failed turn says its failure once, on the turn's own row, keeping what o
 		turn: {
 			id: "t1",
 			status: "failed",
-			error: { message: "acp agent exited (code 1)", kind: "crashed" },
+			error: { message: "acp agent exited (code 1)" },
 			startedAtMs: 2,
 			completedAtMs: 4,
 		},
@@ -407,7 +407,10 @@ test("a failed turn says its failure once, on the turn's own row, keeping what o
 	expect(rows.at(-1)).toMatchObject({
 		kind: "turn_status",
 		turnId: "t1",
-		error: { kind: "crashed", detail: "Segmentation fault" },
+		error: {
+			message: "acp agent exited (code 1)",
+			detail: "Segmentation fault",
+		},
 		latest: true,
 	});
 });

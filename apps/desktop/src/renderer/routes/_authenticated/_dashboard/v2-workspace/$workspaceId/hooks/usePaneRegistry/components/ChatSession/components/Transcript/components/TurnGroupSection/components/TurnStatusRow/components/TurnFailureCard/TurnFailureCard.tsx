@@ -54,22 +54,23 @@ export function TurnFailureCard({
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const detailsId = useId();
 	const blocked = actions?.blocked ?? true;
+	const dismissed = actions?.dismissed.has(turnId) === true;
 
 	useLayoutEffect(() => {
 		const node = textRef.current;
-		if (!node || expanded) return;
+		if (!node || expanded || dismissed) return;
 		const measure = () => setClamped(node.scrollHeight > node.clientHeight + 1);
 		measure();
 		const observer = new ResizeObserver(measure);
 		observer.observe(node);
 		return () => observer.disconnect();
-	}, [expanded]);
+	}, [expanded, dismissed]);
 
 	useEffect(() => {
 		if (!blocked) setRunning(null);
 	}, [blocked]);
 
-	if (actions?.dismissed.has(turnId)) {
+	if (actions && dismissed) {
 		return (
 			<button
 				aria-expanded={false}
@@ -91,6 +92,12 @@ export function TurnFailureCard({
 	const run = (next: Running, action: () => void) => {
 		setRunning(next);
 		action();
+	};
+	const restartAgent = (restart: () => Promise<boolean>) => {
+		setRunning("restart");
+		void restart().then((restarted) => {
+			if (!restarted) setRunning(null);
+		});
 	};
 	const startNewChat = (start: () => Promise<boolean>) => {
 		setRunning("new_chat");
@@ -118,7 +125,7 @@ export function TurnFailureCard({
 					disabled: blocked,
 					onClick: () =>
 						restart
-							? run("restart", restart)
+							? restartAgent(restart)
 							: run("continue", recovery.continueTask),
 				},
 				change_model: changeModel

@@ -2843,10 +2843,18 @@ describe("AcpAdapter on protocol v2", () => {
 				],
 			},
 		];
-		const { adapter } = startAdapter(agent);
+		const { adapter } = startAdapter(
+			agent,
+			undefined,
+			{},
+			{ requestTimeoutMs: 20 },
+		);
 		await flush();
 
 		expect(await adapter.setConfigOption("model", "opus")).toBe(true);
+		agent.holdSelections = true;
+		expect(await adapter.setConfigOption("model", "sonnet")).toBe(false);
+		agent.holdSelections = false;
 		agent.rejectSelections = true;
 		expect(await adapter.setConfigOption("model", "sonnet")).toBe(false);
 
@@ -5670,6 +5678,7 @@ describe("AcpAdapter when the agent fails", () => {
 		agent.holdPrompts = true;
 		const { adapter, events } = startAdapter(agent);
 		await flush();
+		agent.stderr("warning: config uses a deprecated key\n");
 		adapter.prompt([{ type: "text", text: "hi" }]);
 		await flush();
 

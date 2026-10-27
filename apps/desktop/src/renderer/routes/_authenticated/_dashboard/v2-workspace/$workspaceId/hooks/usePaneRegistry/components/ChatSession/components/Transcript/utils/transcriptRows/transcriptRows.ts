@@ -91,7 +91,7 @@ function withNoticeDetail(
 	error: TurnError | undefined,
 	noticeDetail: string,
 ): TurnError | undefined {
-	if (!error || error.detail || !noticeDetail) return error;
+	if (!error || error.kind || error.detail || !noticeDetail) return error;
 	return { ...error, detail: noticeDetail };
 }
 

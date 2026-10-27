@@ -23,7 +23,7 @@ const TEXT_RULES: readonly [TurnFailureKind, RegExp][] = [
 	["session_lost", SESSION_LOST],
 	[
 		"auth",
-		/\b(?:status|code|error)\W{1,3}40[13]\b|unauthori[sz]ed|forbidden|authenticat|not (?:logged|signed) in|\/login\b|(?:log|sign) ?in (?:again|required)|invalid (?:x-)?api[ _-]?key|api[ _-]?key (?:is )?(?:invalid|missing|expired|revoked)|token (?:has )?(?:expired|been revoked|is invalid)|credentials?\b/i,
+		/\b(?:status|code|error)\W{1,3}40[13]\b|unauthori[sz]ed|forbidden|authenticat|not (?:logged|signed) in|(?:please |to )?run \/login\b|(?:log|sign) ?in (?:again|required)|invalid (?:x-)?api[ _-]?key|api[ _-]?key (?:is )?(?:invalid|missing|expired|revoked)|token (?:has )?(?:expired|been revoked|is invalid)|(?:invalid|missing|expired|no) credentials|credentials? (?:(?:are|is|have) )?(?:invalid|missing|expired|not found|revoked)/i,
 	],
 	[
 		"context_too_long",
@@ -39,7 +39,7 @@ const TEXT_RULES: readonly [TurnFailureKind, RegExp][] = [
 	],
 	[
 		"network",
-		/ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ENETUNREACH|EHOSTUNREACH|EPIPE|socket hang up|fetch failed|network|disconnected|connection (?:error|reset|refused|closed|lost)|getaddrinfo|overloaded|bad gateway|service unavailable|internal server error|\b(?:status|code|error)\W{1,3}5\d\d\b/i,
+		/ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ENETUNREACH|EHOSTUNREACH|EPIPE|socket hang up|fetch failed|network (?:error|is unreachable|request failed)|disconnected|connection (?:error|reset|refused|closed|lost)|getaddrinfo|overloaded|bad gateway|service unavailable|internal server error|\b(?:status|code|error)\W{1,3}5\d\d\b/i,
 	],
 	[
 		"refused",

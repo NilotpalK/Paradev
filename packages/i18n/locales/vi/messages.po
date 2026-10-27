@@ -15149,7 +15149,7 @@ msgid "Restarting host services…"
 msgstr "Đang khởi động lại dịch vụ host…"
 
 msgid "Restarting the agent…"
-msgstr "Đang khởi động lại tác tử…"
+msgstr "Đang khởi động lại agent…"
 
 msgid "Restarting…"
 msgstr "Đang khởi động lại…"
@@ -16690,7 +16690,7 @@ msgid "Sign in to get started"
 msgstr "Đăng nhập để bắt đầu"
 
 msgid "Sign in to the agent in a terminal, then continue."
-msgstr "Hãy đăng nhập vào tác tử trong terminal rồi tiếp tục."
+msgstr "Hãy đăng nhập vào agent trong terminal rồi tiếp tục."
 
 msgid "Sign in to view this page"
 msgstr "Đăng nhập để xem trang này"
@@ -18003,16 +18003,16 @@ msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Tác nhân sao chép hội thoại; nhánh mở trong một thẻ mới"
 
 msgid "The agent crashed"
-msgstr "Tác tử đã gặp sự cố"
+msgstr "Agent đã gặp sự cố"
 
 msgid "The agent lost this conversation"
-msgstr "Tác tử đã mất cuộc trò chuyện này"
+msgstr "Agent đã mất cuộc trò chuyện này"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent làm chủ một tác vụ từ ticket đến diff. Con người review kết quả, không phải từng thao tác gõ. Sự chú ý dịch từ viết code sang đặc tả công việc và đánh giá nó. Một kỹ sư chạy nhiều agent cùng lúc trong các workspace tách biệt."
 
 msgid "The agent stopped responding"
-msgstr "Tác tử đã ngừng phản hồi"
+msgstr "Agent đã ngừng phản hồi"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Tác tử đã dừng khi đang tiếp tục cuộc trò chuyện."

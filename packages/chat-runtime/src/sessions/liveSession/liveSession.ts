@@ -95,6 +95,7 @@ export class LiveSession {
 	private heldPaused: UserContent[][] = [];
 	private onHeldReleased: (() => void) | null = null;
 	private carriedFailure: Turn | null = null;
+	private carriedAtMs: number | null = null;
 	/** Replays stamp items ahead of the clock to keep their order. */
 	private latestStartMs = 0;
 	/** Turns a user prompt started, and those of them that have shown anything yet. */
@@ -430,8 +431,8 @@ export class LiveSession {
 				});
 				return;
 			case "turn": {
-				this.currentTurn = event.turn;
-				this.appendDurable({ type: "turn", turn: event.turn });
+				this.currentTurn = this.afterCarriedFailure(event.turn);
+				this.appendDurable({ type: "turn", turn: this.currentTurn });
 				if (event.turn.status === "running") {
 					this.attributeAwaitingPrompt(event.turn.id);
 					const steered = this.steerTarget;
@@ -468,6 +469,7 @@ export class LiveSession {
 		if (!turn || this.sessionState.status === "starting") return;
 		this.carriedFailure = null;
 		const at = Math.max(this.now(), this.latestStartMs + 1);
+		this.carriedAtMs = at;
 		this.appendDurable({
 			type: "turn",
 			turn: { ...turn, startedAtMs: at, completedAtMs: at },
@@ -484,6 +486,14 @@ export class LiveSession {
 			},
 			turnId: turn.id,
 		});
+	}
+
+	/** The agent's own clock can give the next turn the carried failure's start, and a tie sorts at random. */
+	private afterCarriedFailure(turn: Turn): Turn {
+		const at = this.carriedAtMs;
+		return at !== null && turn.startedAtMs <= at
+			? { ...turn, startedAtMs: at + 1 }
+			: turn;
 	}
 
 	private releaseHeldPrompts(): void {

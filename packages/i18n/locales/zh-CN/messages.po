@@ -15149,7 +15149,7 @@ msgid "Restarting host services…"
 msgstr "正在重启主机服务…"
 
 msgid "Restarting the agent…"
-msgstr "正在重启代理…"
+msgstr "正在重启智能体…"
 
 msgid "Restarting…"
 msgstr "正在重启…"
@@ -16690,7 +16690,7 @@ msgid "Sign in to get started"
 msgstr "登录即可开始"
 
 msgid "Sign in to the agent in a terminal, then continue."
-msgstr "在终端中登录代理，然后继续。"
+msgstr "在终端中登录智能体，然后继续。"
 
 msgid "Sign in to view this page"
 msgstr "登录以查看此页面"
@@ -18003,16 +18003,16 @@ msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "智能体复制该对话，分支在新标签页中打开"
 
 msgid "The agent crashed"
-msgstr "代理崩溃了"
+msgstr "智能体崩溃了"
 
 msgid "The agent lost this conversation"
-msgstr "代理丢失了此对话"
+msgstr "智能体丢失了此对话"
 
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "智能体从工单一路负责到差异。人类审查结果，而不是击键过程。注意力从写代码转向定义工作和判断成果。一名工程师在隔离工作区里同时跑好几个智能体。"
 
 msgid "The agent stopped responding"
-msgstr "代理已停止响应"
+msgstr "智能体已停止响应"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "恢复对话时代理已停止。"

@@ -16,7 +16,7 @@ export function useFailureRecovery({
 }: {
 	blocked: boolean;
 	configOptions: SessionConfigOption[] | undefined;
-	onRestartAndContinue?: ((prompt: string) => void) | undefined;
+	onRestartAndContinue?: ((prompt: string) => Promise<boolean>) | undefined;
 	onStartNewChat?: (() => Promise<boolean>) | undefined;
 	openModelPicker: () => void;
 	sendPrompt: (content: UserContent[]) => unknown;

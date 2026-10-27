@@ -61,6 +61,20 @@ const TABLE: [TurnFailureSignal, TurnFailureKind][] = [
 	[{ message: "The model encountered an unknown error" }, "unknown"],
 	[{ message: "TypeError at agent.js:401:12" }, "unknown"],
 	[{ message: "Internal error", code: -32603 }, "unknown"],
+	[{ message: "Could not open /login/callback.html" }, "unknown"],
+	[
+		{
+			message: "Saved the MCP server credentials to disk, then the tool failed",
+		},
+		"unknown",
+	],
+	[
+		{ message: "The network tab shows 3 failed requests in the page" },
+		"unknown",
+	],
+	[{ message: "No credentials found for this account" }, "auth"],
+	[{ message: "Invalid credentials" }, "auth"],
+	[{ message: "Network error while sending the request" }, "network"],
 ];
 
 test("names each failure the agents report, and leaves the rest unknown", () => {

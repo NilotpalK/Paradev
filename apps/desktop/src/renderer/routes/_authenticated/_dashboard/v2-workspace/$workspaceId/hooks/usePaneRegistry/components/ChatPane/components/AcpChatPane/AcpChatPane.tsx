@@ -445,18 +445,22 @@ export function AcpChatPane({
 			.then(() => start(harness, agentSessionId, true));
 	}, [harness, agentSessionId, sessionId, start, wiring.transport]);
 	const continueAfterRestart = useRef<string | null>(null);
+	if (continuedInTerminal) continueAfterRestart.current = null;
 	const restartAndContinue = useCallback(
-		(prompt: string) => {
-			if (!sessionId) return;
+		async (prompt: string) => {
+			if (!sessionId) return false;
 			continueAfterRestart.current = prompt;
-			void wiring.transport
-				.closeSession({ sessionId })
-				.catch((error: unknown) => {
-					continueAfterRestart.current = null;
-					console.warn("[acp-chat] could not restart the agent", error);
-				});
+			try {
+				await wiring.transport.closeSession({ sessionId });
+				return true;
+			} catch (error) {
+				continueAfterRestart.current = null;
+				console.warn("[acp-chat] could not restart the agent", error);
+				toast.error(t({ message: "Couldn't stop the chat" }));
+				return false;
+			}
 		},
-		[sessionId, wiring.transport],
+		[sessionId, wiring.transport, t],
 	);
 	const { data: replacementState } = useQuery({
 		enabled: replacement !== null,

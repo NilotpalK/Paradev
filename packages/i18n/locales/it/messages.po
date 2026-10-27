@@ -18003,7 +18003,7 @@ msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "L'agente copia la conversazione; il ramo si apre in una nuova scheda"
 
 msgid "The agent crashed"
-msgstr "L'agente si è bloccato"
+msgstr "L'agente si è arrestato in modo anomalo"
 
 msgid "The agent lost this conversation"
 msgstr "L'agente ha perso questa conversazione"

@@ -134,7 +134,7 @@ export function SessionView({
 	canForkToWorktree?: boolean;
 	onEditMessage?: (request: ChatEditRequest) => void;
 	/** Restarts the agent and sends `prompt` once it is back. */
-	onRestartAndContinue?: (prompt: string) => void;
+	onRestartAndContinue?: (prompt: string) => Promise<boolean>;
 	/** Resolves false when the new chat could not be started. */
 	onStartNewChat?: () => Promise<boolean>;
 	/** Called when the user sends a message, as opposed to anything sent for them. */

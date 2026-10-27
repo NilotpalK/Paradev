@@ -6,8 +6,8 @@ export type TurnFailureActions = {
 	continueTask: () => void;
 	/** Opens the composer's model picker; picking a model continues the task. */
 	changeModel?: () => void;
-	/** Restarts the agent so a new sign-in takes effect, then continues. */
-	restartAndContinue?: () => void;
+	/** Restarts the agent so a new sign-in takes effect, then continues; false when it could not. */
+	restartAndContinue?: () => Promise<boolean>;
 	/** Resolves false when the new chat could not be started. */
 	startNewChat?: () => Promise<boolean>;
 	dismissed: ReadonlySet<string>;

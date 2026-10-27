@@ -701,7 +701,7 @@ export class AcpAdapter implements HarnessAdapter {
 			});
 		return request.then(
 			() => true,
-			(error) => error instanceof AcpTimeoutError,
+			() => false,
 		);
 	}
 
@@ -1146,6 +1146,7 @@ export class AcpAdapter implements HarnessAdapter {
 		if (this.v2Turn?.id === turnId || this.currentTurn?.id !== turnId) return;
 		if (this.currentTurn.status === "running" || !insertedAfterLastIdle) return;
 		const id = this.mintId();
+		this.turnStderr = "";
 		this.emitTurn({ id, status: "running", startedAtMs: this.now() });
 		this.emitSession({ status: "running" });
 		this.v2Turn = { id, inserted: true };
@@ -2227,7 +2228,7 @@ export class AcpAdapter implements HarnessAdapter {
 		if (this.stderrTail) console.warn(`[acp] ${message}\n${this.stderrTail}`);
 		if (this.currentTurn?.status === "running") {
 			this.main.flush();
-			const detail = this.stderrTail.trim();
+			const detail = this.turnStderr.trim();
 			this.emitTurn({
 				...this.currentTurn,
 				status: "failed",

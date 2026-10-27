@@ -157,37 +157,49 @@ describe("epoch recovery", () => {
 });
 
 describe("replacing a chat whose agent died", () => {
-	test("the failure that ended it shows after the history the agent replays", async () => {
+	test("the failure that ended it shows after the history the agent replays, and before the turns that follow", async () => {
 		const crashed = turn("t1", {
 			status: "failed",
 			error: { message: "acp agent exited (code 1)", kind: "crashed" },
 			completedAtMs: 2,
 		});
+		const replayStart = Date.now() + 60_000;
 		const replayed: ScriptedEvent = {
 			kind: "item",
 			item: {
 				...agentMessage("replayed", "earlier reply"),
-				startedAtMs: Date.now() + 60_000,
+				startedAtMs: replayStart,
 			},
 			turnId: "history",
 		};
+		const continued = turn("t2", { startedAtMs: replayStart });
 		let agents = 0;
 		const harnesses: HarnessRegistry = new Map([
 			[
 				FAKE_HARNESS,
-				() =>
-					new FakeHarness({
+				() => {
+					const replacing = agents++ > 0;
+					return new FakeHarness({
 						start: [
-							...(agents++ > 0 ? [replayed] : []),
+							...(replacing ? [replayed] : []),
 							{ kind: "session", delayMs: 2, session: { status: "idle" } },
 						],
 						turns: [
-							[
-								{ kind: "turn", turn: turn("t1") },
-								{ kind: "turn", turn: crashed },
-							],
+							replacing
+								? [
+										{ kind: "turn", turn: continued },
+										{
+											kind: "turn",
+											turn: { ...continued, status: "completed" },
+										},
+									]
+								: [
+										{ kind: "turn", turn: turn("t1") },
+										{ kind: "turn", turn: crashed },
+									],
 						],
-					}),
+					});
+				},
 			],
 		]);
 		const runtime = createTestRuntime({ harnesses });
@@ -227,17 +239,34 @@ describe("replacing a chat whose agent died", () => {
 			),
 		);
 
-		const groups = deriveTimeline(
-			reduceMany(
-				emptySnapshot(),
-				journalEnvelopes(runtime, replacement.sessionId),
-			),
-		);
-		expect(groups.map((group) => group.turnId)).toEqual(["history", "t1"]);
-		expect(groups.at(-1)?.turn).toMatchObject({
+		const timeline = () =>
+			deriveTimeline(
+				reduceMany(
+					emptySnapshot(),
+					journalEnvelopes(runtime, replacement.sessionId),
+				),
+			);
+		expect(timeline().map((group) => group.turnId)).toEqual(["history", "t1"]);
+		expect(timeline().at(-1)?.turn).toMatchObject({
 			status: "failed",
 			error: { message: "acp agent exited (code 1)", kind: "crashed" },
 		});
+
+		runtime.commands.prompt({
+			commandId: randomUUID(),
+			sessionId: replacement.sessionId,
+			clientId: "client-2",
+			content: [{ type: "text", text: "Continue where you left off." }],
+		});
+		await waitFor(
+			() =>
+				runtime.live.get(replacement.sessionId)?.turn?.status === "completed",
+		);
+		expect(timeline().map((group) => group.turnId)).toEqual([
+			"history",
+			"t1",
+			"t2",
+		]);
 
 		await runtime.dispose();
 	});
