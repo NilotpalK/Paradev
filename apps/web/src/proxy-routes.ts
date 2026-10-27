@@ -9,6 +9,8 @@ const otherPublicRoutes = [
 	// app, so a sign-in wall only strands the recipient of a shared link.
 	"/tasks",
 	"/automations",
+	"/workspaces",
+	"/plugins",
 	"/page",
 	"/robots.txt",
 	"/.well-known/apple-app-site-association",
