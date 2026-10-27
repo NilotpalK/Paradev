@@ -29,6 +29,7 @@ import {
 	useLayoutEffect,
 	useMemo,
 	useRef,
+	useState,
 } from "react";
 import { env } from "renderer/env.renderer";
 import { useHotkey } from "renderer/hotkeys";
@@ -66,6 +67,8 @@ export type ComposerHandle = Pick<
 	"appendText" | "addFiles" | "focus"
 > & {
 	returnFocus: (recallHistory?: boolean) => void;
+	/** Opens the model picker on this agent's models only. */
+	openModelPicker: () => void;
 };
 
 export type ComposerProps = {
@@ -77,6 +80,7 @@ export type ComposerProps = {
 	availableCommands: AvailableCommand[];
 	configOptions?: SessionConfigOption[];
 	onSetConfigOption?: (configId: string, value: string) => unknown;
+	onModelPickerOpenChange?: (open: boolean) => void;
 	agentSwitcher?: AgentSwitcher;
 	modes?: SessionMode[];
 	currentModeId?: string;
@@ -136,6 +140,7 @@ export const Composer = memo(function Composer({
 	currentModeId,
 	modes,
 	onSetConfigOption,
+	onModelPickerOpenChange,
 	onSetMode,
 	disabled,
 	draftKey,
@@ -180,6 +185,16 @@ export const Composer = memo(function Composer({
 	});
 	const { returnFocus } = drawerEntry;
 	const mcpPicker = useMcpServerPicker({ workspaceId, presetId });
+	const [modelPickerOpen, setModelPickerOpen] = useState(false);
+	const [agentModelsOnly, setAgentModelsOnly] = useState(false);
+	const changeModelPickerOpen = useCallback(
+		(open: boolean) => {
+			setModelPickerOpen(open);
+			if (!open) setAgentModelsOnly(false);
+			onModelPickerOpenChange?.(open);
+		},
+		[onModelPickerOpenChange],
+	);
 	useImperativeHandle(
 		inputRef,
 		() => ({
@@ -187,8 +202,12 @@ export const Composer = memo(function Composer({
 			addFiles: (files: File[]) => promptInputRef.current?.addFiles(files),
 			focus: focusInput,
 			returnFocus,
+			openModelPicker: () => {
+				setAgentModelsOnly(true);
+				changeModelPickerOpen(true);
+			},
 		}),
-		[focusInput, returnFocus],
+		[focusInput, returnFocus, changeModelPickerOpen],
 	);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const footerTier = useFooterTier(rootRef);
@@ -577,11 +596,13 @@ export const Composer = memo(function Composer({
 							)}
 							{configOptions && onSetConfigOption && (
 								<ModelPicker
-									agentSwitcher={agentSwitcher}
+									agentSwitcher={agentModelsOnly ? undefined : agentSwitcher}
 									configOptions={configOptions}
 									hideEffortLabel={footerTier >= 1}
 									hideModelLabel={footerTier >= 3}
+									onOpenChange={changeModelPickerOpen}
 									onSelect={onSetConfigOption}
+									open={modelPickerOpen}
 								/>
 							)}
 						</>
