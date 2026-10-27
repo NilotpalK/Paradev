@@ -49,6 +49,7 @@ export type UseAppCommandsOptions = {
 	canForkToWorktree?: boolean;
 	onOpenHistory?: () => void;
 	onOpenFind?: () => void;
+	openStatus?: () => void;
 	openMcp?: (composer: ComposerActionContext) => void;
 	/** Writing to a subagent: only commands about the message itself apply. */
 	toSubagent: boolean;
@@ -69,6 +70,7 @@ export function useAppCommands({
 	canForkToWorktree,
 	onOpenHistory,
 	onOpenFind,
+	openStatus,
 	openMcp,
 	toSubagent,
 }: UseAppCommandsOptions): {
@@ -156,6 +158,7 @@ export function useAppCommands({
 				: {}),
 			...(onOpenHistory ? { openHistory: leaveComposer(onOpenHistory) } : {}),
 			...(onOpenFind ? { openFind: leaveComposer(onOpenFind) } : {}),
+			...(openStatus ? { openStatus: leaveComposer(openStatus) } : {}),
 			createAutomation: (prompt: string) => {
 				void createAutomation({
 					prompt,
@@ -193,6 +196,7 @@ export function useAppCommands({
 		onSetMode,
 		openMcp,
 		openModelPicker,
+		openStatus,
 		presetId,
 		projectId,
 		t,

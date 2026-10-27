@@ -451,6 +451,10 @@ msgstr "{0} is al toegewezen aan \"{1}\"."
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} wordt al gebruikt voor taken in deze organisatie."
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0} bouwt zelfverbeterende software. Dat begint met engineers de beste tools geven, die met hun behoeften meegroeien. We zijn 3 ex-YC-CTO's die een tool bouwen waar we zelf dol op zijn."
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} is geen repository waarop de GitHub App is geïnstalleerd"
@@ -1221,6 +1225,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} van {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Nog {remaining} tokens over"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} staat niet op {installedAccountLogin}, waar de GitHub App van deze organisatie is geïnstalleerd."
 
@@ -1322,6 +1329,9 @@ msgstr "{uploading, plural, one {# bestand uploaden…} other {# bestanden uploa
 msgid "{used} of {limit} environments"
 msgstr "{used} van {limit} omgevingen"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} van {size} tokens"
+
 msgid "{used} used"
 msgstr "{used} gebruikt"
 
@@ -1330,6 +1340,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} wachten"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Limiet {windowLabel}: {percent} gebruikt"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host is niet beschikbaar"
@@ -3072,6 +3085,9 @@ msgstr "Autonome pijplijn van ticket naar PR"
 msgid "Available"
 msgstr "Beschikbaar"
 
+msgid "Available when the agent is idle."
+msgstr "Beschikbaar als de agent niet bezig is."
+
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -4602,6 +4618,9 @@ msgstr "Communicatie"
 msgid "Community"
 msgstr "Community"
 
+msgid "Compact now"
+msgstr "Nu comprimeren"
+
 msgid "Company"
 msgstr "Bedrijf"
 
@@ -4943,6 +4962,12 @@ msgstr "Context"
 
 msgid "Context Menu"
 msgstr "Contextmenu"
+
+msgid "Context window"
+msgstr "Contextvenster"
+
+msgid "Context window: {percent} used"
+msgstr "Contextvenster: {percent} gebruikt"
 
 msgid "Continue"
 msgstr "Doorgaan"
@@ -10974,6 +10999,9 @@ msgstr "Mobiele app"
 msgid "Mobile App"
 msgstr "Mobiele app"
 
+msgid "Mode"
+msgstr "Modus"
+
 msgid "model"
 msgstr "model"
 
@@ -12171,6 +12199,9 @@ msgstr "Niet in deze versie"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Er komen nog geen gebeurtenissen binnen: Microsoft Graph heeft de meldingsabonnementen geweigerd. Controleer de beheerderstoestemming en de goedkeuring van de beveiligde API van de app, en verbind opnieuw."
 
+msgid "Not reported yet"
+msgstr "Nog niet gemeld"
+
 msgid "Not reviewed by you"
 msgstr "Niet door jou gereviewd"
 
@@ -12328,6 +12359,9 @@ msgstr "Offline / local-first modus"
 
 msgid "Older"
 msgstr "Ouder"
+
+msgid "On"
+msgstr "Aan"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "op {offScopeHostName} — draait hier niet"
@@ -13351,9 +13385,6 @@ msgstr "Paradev is een desktop-app. Vul je e-mailadres in, dan sturen we je een 
 
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev bouwt zelfverbeterende software. Dat begint met engineers de beste tools geven, die met hun behoeften meegroeien."
-
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev bouwt zelfverbeterende software. Dat begint met engineers de beste tools geven, die met hun behoeften meegroeien. We zijn 3 ex-YC-CTO's die een tool bouwen waar we zelf dol op zijn."
 
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev wordt gebouwd door een team in San Francisco, Californië. Voor productsupport of vragen over je account mail je <0>{supportEmail}</0>; we reageren binnen één werkdag. Voor partnerships, pers, enterprise of iets anders schrijf je naar <1>{teamEmail}</1>."
@@ -14427,6 +14458,9 @@ msgstr "{appName} beoordelen"
 msgid "Rate limit exceeded."
 msgstr "Limiet overschreden."
 
+msgid "Rate limits"
+msgstr "Gebruikslimieten"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Bereik deze Mac van overal via de Paradev-relay, of start cloudwerkruimtes. Verbind vanaf elke client."
 
@@ -14730,6 +14764,9 @@ msgstr "Project verplaatsen?"
 
 msgid "Relocating…"
 msgstr "Verplaatsen…"
+
+msgid "Remaining"
+msgstr "Resterend"
 
 msgid "rematch"
 msgstr "revanche"
@@ -16364,6 +16401,12 @@ msgstr "Sessie"
 msgid "Session {0}"
 msgstr "Sessie {0}"
 
+msgid "Session cost"
+msgstr "Sessiekosten"
+
+msgid "Session cost: {cost}"
+msgstr "Sessiekosten: {cost}"
+
 msgid "Session details"
 msgstr "Sessiedetails"
 
@@ -16384,6 +16427,9 @@ msgstr "Sessienaam gewijzigd in {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Sessiesnapshots en terugdraaien"
+
+msgid "Session status"
+msgstr "Sessiestatus"
 
 msgid "Sessions"
 msgstr "Sessies"
@@ -17589,6 +17635,9 @@ msgstr "Som van het CPU-gebruik van Paradev en de gemonitorde terminalprocesbome
 
 msgid "Summarize the changes in this workspace"
 msgstr "Vat de wijzigingen in deze werkruimte samen"
+
+msgid "Summarizes the chat to free up context."
+msgstr "Vat de chat samen om context vrij te maken."
 
 msgid "Summary"
 msgstr "Samenvatting"
@@ -19788,6 +19837,9 @@ msgstr "Spraaktranscriptie en push-to-talk gebruiken."
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Gebruik je bestaande agentabonnementen en API-sleutels. Paradev proxyt nooit modelaanroepen en zet je workflow niet vast op één provider."
 
+msgid "Used"
+msgstr "Gebruikt"
+
 msgid "Used in URLs and APIs."
 msgstr "Wordt gebruikt in URL's en API's."
 
@@ -20200,6 +20252,10 @@ msgstr "Welkom bij Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "Welkom bij het nieuwe Paradev"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "Wat {0} is, wie het bouwt en voor wie het bedoeld is. Een team uit San Francisco onder leiding van drie ex-YC-CTO's dat de werkruimte voor parallelle coding agents bouwt."
+
 msgid "What are the benefits?"
 msgstr "Wat zijn de voordelen?"
 
@@ -20232,9 +20288,6 @@ msgstr "Wat is Paradev Enterprise?"
 
 msgid "What is wrong?"
 msgstr "Wat is er mis?"
-
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Wat Paradev is, wie het bouwt en voor wie het bedoeld is. Een team uit San Francisco onder leiding van drie ex-YC-CTO's dat de werkruimte voor parallelle coding agents bouwt."
 
 msgid "What platforms does Paradev run on?"
 msgstr "Op welke platforms draait Paradev?"
@@ -20355,6 +20408,10 @@ msgstr "Breedte · parallelle sessies"
 
 msgid "Window"
 msgstr "Venster"
+
+msgctxt "context window size"
+msgid "Window"
+msgstr "Grootte"
 
 msgid "With action"
 msgstr "Met actie"

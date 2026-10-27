@@ -3,6 +3,7 @@ import { appendPastedText } from "@superset/chat/core";
 import type {
 	AvailableCommand,
 	SessionConfigOption,
+	SessionUsage,
 	UserContent,
 } from "@superset/chat/protocol";
 import type {
@@ -41,6 +42,8 @@ import type { ChatForkTarget } from "../../types";
 import { commandChip, LEADING_COMMAND } from "../../utils/commandChip";
 import { mcpContextLine } from "../../utils/mcpServerChips";
 import { elementsForChips } from "../../utils/messageElements";
+import { AccountLimitNotice } from "./components/AccountLimitNotice";
+import { ContextWindowRing } from "./components/ContextWindowRing";
 import { type AgentSwitcher, ModelPicker } from "./components/ModelPicker";
 import { ModePicker, type SessionMode } from "./components/ModePicker";
 import { useAppCommands } from "./hooks/useAppCommands";
@@ -52,6 +55,7 @@ import {
 import { useDrawerEntry } from "./hooks/useDrawerEntry";
 import { useFooterTier } from "./hooks/useFooterTier";
 import { useMcpServerPicker } from "./hooks/useMcpServerPicker";
+import { useStatusDialog } from "./hooks/useStatusDialog";
 import { useUploadAttachments } from "./hooks/useUploadAttachments";
 
 export type ComposerTarget = {
@@ -99,6 +103,10 @@ export type ComposerProps = {
 	canQueue?: boolean;
 	escapeGoesBack?: boolean;
 	onEnterDrawer?: (options: { actionableOnly: boolean }) => boolean;
+	sessionUsage?: SessionUsage | null;
+	turnRunning?: boolean;
+	terminalId?: string;
+	agentLabel?: string;
 };
 
 const HIDDEN_AGENT_COMMANDS = new Set(["rewind"]);
@@ -129,6 +137,7 @@ let focusHandoff: { draftKey: string; at: number } | null = null;
 
 export const Composer = memo(function Composer({
 	presetId,
+	agentLabel,
 	agentSwitcher,
 	availableCommands,
 	canForkToWorktree,
@@ -154,7 +163,10 @@ export const Composer = memo(function Composer({
 	onSend,
 	onOpenHistory,
 	placeholder,
+	sessionUsage,
 	target,
+	turnRunning = false,
+	terminalId,
 	workspaceId,
 }: ComposerProps) {
 	const { t } = useLingui();
@@ -341,6 +353,37 @@ export const Composer = memo(function Composer({
 		[searchFiles, searchPages, t],
 	);
 
+	const statusDetails = useMemo(
+		() =>
+			terminalId
+				? {
+						workspaceId,
+						terminalId,
+						agentLabel,
+						configOptions: configOptions ?? [],
+						modes,
+						currentModeId,
+						usage: sessionUsage ?? null,
+					}
+				: undefined,
+		[
+			workspaceId,
+			terminalId,
+			agentLabel,
+			configOptions,
+			modes,
+			currentModeId,
+			sessionUsage,
+		],
+	);
+	const status = useStatusDialog(statusDetails);
+	const canCompact = availableCommands.some(
+		(command) => command.name === "compact",
+	);
+	const compact = useCallback(
+		() => onSend([{ type: "text", text: "/compact" }], { steer: false }),
+		[onSend],
+	);
 	const hasModelPicker =
 		!target &&
 		onSetConfigOption !== undefined &&
@@ -371,6 +414,7 @@ export const Composer = memo(function Composer({
 		...(canForkToWorktree ? { canForkToWorktree } : {}),
 		...(onOpenHistory ? { onOpenHistory } : {}),
 		...(onOpenFind ? { onOpenFind } : {}),
+		...(status.available ? { openStatus: status.open } : {}),
 		...(mcpPicker.available ? { openMcp } : {}),
 		toSubagent: target !== undefined,
 	});
@@ -472,6 +516,13 @@ export const Composer = memo(function Composer({
 				useChatComposerStore.getState().markActive(composerId)
 			}
 		>
+			{terminalId && (
+				<AccountLimitNotice
+					className={CHAT_COLUMN_CLASSNAME}
+					terminalId={terminalId}
+					workspaceId={workspaceId}
+				/>
+			)}
 			<AgentComposer
 				className={CHAT_COLUMN_CLASSNAME}
 				clearOnSubmit={!blocked}
@@ -513,21 +564,33 @@ export const Composer = memo(function Composer({
 					) : undefined
 				}
 				toolbarEnd={
-					!target && configOptions && onSetConfigOption ? (
-						<ModelPicker
-							agentSwitcher={agentModelsOnly ? undefined : agentSwitcher}
-							configOptions={configOptions}
-							hideEffortLabel={footerTier >= 1}
-							hideModelLabel={footerTier >= 3}
-							onOpenChange={changeModelPickerOpen}
-							onSelect={onSetConfigOption}
-							open={modelPickerOpen}
-						/>
-					) : undefined
+					target ? undefined : (
+						<>
+							{sessionUsage && (
+								<ContextWindowRing
+									usage={sessionUsage}
+									onCompact={canCompact ? compact : undefined}
+									compactDisabled={blocked || turnRunning}
+								/>
+							)}
+							{configOptions && onSetConfigOption && (
+								<ModelPicker
+									agentSwitcher={agentModelsOnly ? undefined : agentSwitcher}
+									configOptions={configOptions}
+									hideEffortLabel={footerTier >= 1}
+									hideModelLabel={footerTier >= 3}
+									onOpenChange={changeModelPickerOpen}
+									onSelect={onSetConfigOption}
+									open={modelPickerOpen}
+								/>
+							)}
+						</>
+					)
 				}
 			/>
 			{attachmentPreview.overlay}
 			{mcpPicker.dialog}
+			{status.dialog}
 		</div>
 	);
 });
