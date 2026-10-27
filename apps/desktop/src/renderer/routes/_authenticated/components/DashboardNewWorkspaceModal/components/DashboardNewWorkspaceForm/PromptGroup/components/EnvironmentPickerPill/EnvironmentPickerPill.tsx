@@ -21,7 +21,6 @@ import {
 	FORM_PICKER_MENU_CLASS,
 	FormPickerTrigger,
 } from "../FormPickerTrigger";
-import { ReservedLabel } from "../ReservedLabel";
 
 export interface EnvironmentOption {
 	id: string;
@@ -80,21 +79,13 @@ export function EnvironmentPickerPill({
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				<FormPickerTrigger>
-					<ReservedLabel
-						leading={
-							needsSetup ? (
-								<HiMiniPlus className="size-4 shrink-0 text-muted-foreground" />
-							) : (
-								<LuContainer className="size-4 shrink-0 text-muted-foreground" />
-							)
-						}
-						trailing={<HiChevronUpDown className="size-3 shrink-0" />}
-						reserve={[
-							t({ message: "Select environment" }),
-							t({ message: "Create environment" }),
-						]}
-					>
+				<FormPickerTrigger className="max-w-[160px]">
+					{needsSetup ? (
+						<HiMiniPlus className="size-4 shrink-0 text-muted-foreground" />
+					) : (
+						<LuContainer className="size-4 shrink-0 text-muted-foreground" />
+					)}
+					<span className="truncate">
 						{selectedEnvironment?.name ??
 							(isLoading ? (
 								<span className="inline-block h-2.5 w-14 rounded-sm bg-muted-foreground/15 align-middle animate-pulse" />
@@ -103,7 +94,8 @@ export function EnvironmentPickerPill({
 							) : (
 								t({ message: "Select environment" })
 							))}
-					</ReservedLabel>
+					</span>
+					<HiChevronUpDown className="size-3 shrink-0" />
 				</FormPickerTrigger>
 			</PopoverTrigger>
 			<PopoverContent

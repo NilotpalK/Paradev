@@ -13,10 +13,9 @@ import {
 	FORM_PICKER_MENU_CLASS,
 	FormPickerTrigger,
 } from "../FormPickerTrigger";
-import { ReservedLabel } from "../ReservedLabel";
 
 interface MachineSizePickerPillProps {
-	machineSize: MachineSize;
+	machineSize: MachineSize | null;
 	onSelectMachineSize: (machineSize: MachineSize) => void;
 }
 
@@ -25,9 +24,11 @@ export function MachineSizePickerPill({
 	onSelectMachineSize,
 }: MachineSizePickerPillProps) {
 	const { t } = useLingui();
-	const { options } = useMachineSizeOptions();
-	const selected = options.find((option) => option.size === machineSize);
-	const label = selected?.name ?? machineSize;
+	const { options, defaultSize } = useMachineSizeOptions();
+	const selected =
+		options.find((option) => option.size === machineSize) ??
+		options.find((option) => option.size === defaultSize);
+	const label = selected?.name ?? machineSize ?? defaultSize;
 
 	return (
 		<DropdownMenu>
@@ -36,14 +37,9 @@ export function MachineSizePickerPill({
 					aria-label={t({ message: `Machine size: ${label}` })}
 					title={selected?.spec ?? label}
 				>
-					<ReservedLabel
-						leading={<LuCpu className="size-3 shrink-0" />}
-						leadingClassName="size-3"
-						trailing={<HiChevronUpDown className="size-3 shrink-0" />}
-						reserve={options.map((option) => option.name)}
-					>
-						{label}
-					</ReservedLabel>
+					<LuCpu className="size-3 shrink-0" />
+					<span className="truncate">{label}</span>
+					<HiChevronUpDown className="size-3 shrink-0" />
 				</FormPickerTrigger>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
