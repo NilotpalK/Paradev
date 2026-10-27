@@ -41,19 +41,51 @@ function anchorsInput({ harnessSessionId, anchorItemIds }: TurnAnchors) {
 		: {};
 }
 
+/** Resolves null once `ms` pass, whatever `work` is still waiting on. */
+function withDeadline<T>(work: Promise<T>, ms: number): Promise<T | null> {
+	let timer: ReturnType<typeof setTimeout> | undefined;
+	const deadline = new Promise<null>((resolve) => {
+		timer = setTimeout(() => resolve(null), ms);
+	});
+	return Promise.race([work, deadline]).finally(() => clearTimeout(timer));
+}
+
+export type GitCheckpointsOptions = {
+	now?: () => number;
+	captureTimeoutMs?: number;
+};
+
 /**
  * Git snapshots run in the host worker pool, off the event loop. Which chats
  * work in a worktree at once is known only here: a turn whose span, from the
  * snapshot before its prompt to its end, overlaps another chat's is marked
- * shared. A snapshot waits for an Undo in the same worktree to finish.
+ * shared. Work on a worktree's snapshot index (snapshots, live reads, Undo)
+ * runs one at a time, in the order asked, so a prompt's snapshot never starts
+ * before the previous turn's has finished.
  */
 export function createGitCheckpoints(
 	run: RunTask = runInWorker,
-	now: () => number = Date.now,
+	{
+		now = Date.now,
+		captureTimeoutMs = CAPTURE_TIMEOUT_MS,
+	}: GitCheckpointsOptions = {},
 ): ChatCheckpoints {
 	const spansByCwd = new Map<string, Map<string, Span>>();
 	const settling = new Map<string, Promise<unknown>>();
-	const undoing = new Map<string, Promise<unknown>>();
+	const queues = new Map<string, Promise<unknown>>();
+
+	const queued = <T>(cwd: string, work: () => Promise<T>): Promise<T> => {
+		const next = (queues.get(cwd) ?? Promise.resolve()).then(work);
+		const tail = next.then(
+			() => undefined,
+			() => undefined,
+		);
+		queues.set(cwd, tail);
+		void tail.then(() => {
+			if (queues.get(cwd) === tail) queues.delete(cwd);
+		});
+		return next;
+	};
 
 	const spansIn = (cwd: string): Map<string, Span> => {
 		let spans = spansByCwd.get(cwd);
@@ -93,14 +125,18 @@ export function createGitCheckpoints(
 
 	return {
 		capture: async ({ cwd, sessionId }) => {
-			await undoing.get(cwd)?.catch(() => undefined);
 			const key = unstartedKey(sessionId);
 			spansIn(cwd).set(key, { sessionId, start: now(), end: null });
-			const before = await run(checkpointCaptureTask, {
-				cwd,
-				message: "superset chat turn before",
-				timeoutMs: CAPTURE_TIMEOUT_MS,
-			}).catch((error: unknown) => {
+			const before = await withDeadline(
+				queued(cwd, () =>
+					run(checkpointCaptureTask, {
+						cwd,
+						message: "superset chat turn before",
+						timeoutMs: captureTimeoutMs,
+					}),
+				),
+				captureTimeoutMs,
+			).catch((error: unknown) => {
 				spansIn(cwd).delete(key);
 				throw error;
 			});
@@ -132,14 +168,16 @@ export function createGitCheckpoints(
 			spansIn(cwd).set(key, span);
 			const wasShared = overlapsOther(cwd, span, at);
 			prune(cwd, at);
-			const snapshot = run(checkpointCaptureTask, {
-				cwd,
-				ref: turnRef(sessionId, turnId, "after"),
-				dropRefs: [turnRef(sessionId, turnId, "live")],
-				message: wasShared
-					? `superset chat turn after\n\n${SHARED_TURN_TRAILER}`
-					: "superset chat turn after",
-			}).then(() =>
+			const snapshot = queued(cwd, () =>
+				run(checkpointCaptureTask, {
+					cwd,
+					ref: turnRef(sessionId, turnId, "after"),
+					dropRefs: [turnRef(sessionId, turnId, "live")],
+					message: wasShared
+						? `superset chat turn after\n\n${SHARED_TURN_TRAILER}`
+						: "superset chat turn after",
+				}),
+			).then(() =>
 				anchor
 					? run(checkpointAnchorTask, {
 							cwd,
@@ -161,13 +199,15 @@ export function createGitCheckpoints(
 		changes: async ({ cwd, sessionId, turnId, live, ...anchors }) => {
 			const key = turnKey(sessionId, turnId);
 			await settling.get(key)?.catch(() => undefined);
-			const changes = await run(checkpointChangesTask, {
-				cwd,
-				sessionId,
-				turnId,
-				live,
-				...anchorsInput(anchors),
-			});
+			const read = () =>
+				run(checkpointChangesTask, {
+					cwd,
+					sessionId,
+					turnId,
+					live,
+					...anchorsInput(anchors),
+				});
+			const changes = await (live ? queued(cwd, read) : read());
 			const span = spansByCwd.get(cwd)?.get(key);
 			if (!changes || !live || !span) return changes;
 			return {
@@ -176,20 +216,15 @@ export function createGitCheckpoints(
 			};
 		},
 
-		undo: async ({ cwd, sessionId, turnId, paths, ...anchors }) => {
-			const undo = run(checkpointUndoTask, {
-				cwd,
-				sessionId,
-				turnId,
-				paths,
-				...anchorsInput(anchors),
-			});
-			undoing.set(cwd, undo);
-			try {
-				return await undo;
-			} finally {
-				if (undoing.get(cwd) === undo) undoing.delete(cwd);
-			}
-		},
+		undo: ({ cwd, sessionId, turnId, paths, ...anchors }) =>
+			queued(cwd, () =>
+				run(checkpointUndoTask, {
+					cwd,
+					sessionId,
+					turnId,
+					paths,
+					...anchorsInput(anchors),
+				}),
+			),
 	};
 }

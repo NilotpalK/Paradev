@@ -920,6 +920,9 @@ msgstr "Selhává {failing} z {total} kontroly"
 msgid "{failing} of {total} checks failing"
 msgstr "Selhává {failing} z {total} kontrol"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {V tomto pracovním prostoru se změnil # soubor} few {V tomto pracovním prostoru se změnily # soubory} many {V tomto pracovním prostoru se změnilo # souboru} other {V tomto pracovním prostoru se změnilo # souborů}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {Upraven # soubor} few {Upraveny # soubory} many {Upraveno # souboru} other {Upraveno # souborů}}"
 
@@ -8466,6 +8469,9 @@ msgstr "Podle snímků worktree před tímto tahem a po něm, takže se počíta
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "Podle snímků worktree před tímto tahem a po něm. Současně tu pracoval jiný chat, takže soubory, které měnil jen on, jsou uvedeny zvlášť."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "Podle snímků worktree před tímto tahem a po něm. Současně tu pracoval jiný chat, takže některé z těchto změn mohou být jeho."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter je skrytý — pro úpravy přepněte na Markdown"

@@ -62,6 +62,12 @@ describe("createGitCheckpoints", () => {
 			turnId: "t1",
 			live: false,
 		});
+		const lateLive = await checkpoints.changes({
+			cwd: repo,
+			sessionId: "s1",
+			turnId: "t1",
+			live: true,
+		});
 
 		const expected: TurnChangedFile[] = [
 			{ path: "gone.txt", status: "deleted", additions: 0, deletions: 1 },
@@ -77,8 +83,22 @@ describe("createGitCheckpoints", () => {
 		expect(live?.live).toBe(true);
 		expect(settled?.files).toEqual(expected);
 		expect(settled).toMatchObject({ live: false, shared: false });
+		expect(lateLive).toMatchObject({ live: false, after: settled?.after });
+		expect(
+			await git.raw(["for-each-ref", "refs/superset/chat-turns/s1/t1/live"]),
+		).toBe("");
 		expect(await git.revparse(["HEAD"])).toBe(head);
 		expect(await git.raw(["diff", "--cached", "--name-only"])).toBe(staged);
+		expect(
+			existsSync(
+				join(
+					repo,
+					(
+						await git.raw(["rev-parse", "--git-path", "superset-checkpoint-index"])
+					).trim(),
+				),
+			),
+		).toBe(true);
 	});
 
 	test("leaves out files that changed only because HEAD moved", async () => {
@@ -187,6 +207,41 @@ describe("createGitCheckpoints", () => {
 			"edited by the user\n",
 		);
 		expect(existsSync(join(repo, "config/a.json"))).toBe(false);
+	});
+
+	test("puts back what the turn staged for the files it undoes", async () => {
+		await startTurn("s1", "t1");
+		await writeFile(join(repo, "tracked.txt"), "agent\n");
+		await writeFile(join(repo, "new.txt"), "agent\n");
+		await git.raw(["add", "tracked.txt", "new.txt"]);
+		await git.raw(["rm", "-q", "gone.txt"]);
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+
+		await checkpoints.undo({ ...t1, cwd: repo, paths: allPaths });
+
+		expect(await git.raw(["status", "--porcelain"])).toBe("");
+	});
+
+	test("leaves alone an ignored file back on disk where the turn deleted it", async () => {
+		await writeFile(join(repo, ".gitignore"), "*.log\n");
+		await writeFile(join(repo, "build.log"), "tracked anyway\n");
+		await git.raw(["add", "-f", ".gitignore", "build.log"]);
+		await git.raw(["commit", "-q", "-m", "ignored but tracked"]);
+		await startTurn("s1", "t1");
+		await git.raw(["rm", "-q", "build.log"]);
+		await checkpoints.turnSettled({ cwd: repo, sessionId: "s1", turnId: "t1" });
+		await writeFile(join(repo, "build.log"), "written by the user\n");
+
+		const result = await checkpoints.undo({
+			...t1,
+			cwd: repo,
+			paths: ["build.log"],
+		});
+
+		expect(result).toMatchObject({ status: "undone", skipped: ["build.log"] });
+		expect(await readFile(join(repo, "build.log"), "utf8")).toBe(
+			"written by the user\n",
+		);
 	});
 
 	test("refuses to undo a turn that shared the worktree with another chat", async () => {
@@ -303,7 +358,7 @@ describe("createGitCheckpoints", () => {
 				if (ref?.endsWith("/after") && message) afterMessages.set(ref, message);
 				return (task.type === "checkpoints/capture" ? "sha" : null) as never;
 			},
-			() => ++tick,
+			{ now: () => ++tick, captureTimeoutMs: 50 },
 		);
 		const shared = (sessionId: string, turnId: string) =>
 			afterMessages
@@ -374,5 +429,21 @@ describe("createGitCheckpoints", () => {
 
 		expect(startedDuringUndo).toEqual(["checkpoints/undo"]);
 		expect(tasks).toEqual(["checkpoints/undo", "checkpoints/capture"]);
+	});
+
+	test("a prompt's snapshot waits for the previous turn's, and gives up at the deadline", async () => {
+		const { checkpoints: recording, gates, tasks } = recordingCheckpoints();
+		gates.set("checkpoints/capture", new Promise<void>(() => {}));
+
+		const settled = recording.turnSettled({
+			cwd: "/repo",
+			sessionId: "s1",
+			turnId: "t1",
+		});
+		const before = await recording.capture({ cwd: "/repo", sessionId: "s1" });
+
+		expect(before).toBeNull();
+		expect(tasks).toEqual(["checkpoints/capture"]);
+		void settled;
 	});
 });

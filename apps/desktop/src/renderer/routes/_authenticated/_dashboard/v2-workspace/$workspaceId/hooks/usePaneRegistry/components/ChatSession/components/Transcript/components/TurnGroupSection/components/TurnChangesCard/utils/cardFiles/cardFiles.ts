@@ -19,6 +19,8 @@ export type CardFiles = {
 	files: CardFile[];
 	/** Changed by someone else in the worktree while a shared turn ran. */
 	others: CardFile[];
+	/** False when a shared turn touched none of `files` through its own edits. */
+	own: boolean;
 };
 
 const KIND_BY_STATUS: Record<TurnChangedFile["status"], FileChangeKind> = {
@@ -47,8 +49,9 @@ function snapshotFile(
  * The rows of a turn's card. Snapshots, when the turn has them, are exact
  * and include shell edits; the tool calls still say which files this chat
  * touched, in what order, and where each change starts. A turn that ran
- * beside another chat's lists only its own files, and the rest apart. Files
- * committed since the turn are done with and drop off.
+ * beside another chat's lists only its own files, and the rest apart; with
+ * none of its own, as when it edited only through shell commands, it lists
+ * every file and claims none. Files committed since the turn drop off.
  */
 export function cardFiles(
 	toolFiles: readonly TurnFileChange[],
@@ -64,6 +67,7 @@ export function cardFiles(
 				...(file.line ? { line: file.line } : {}),
 			})),
 			others: [],
+			own: true,
 		};
 	}
 	const touchOrder = new Map<string, number>();
@@ -83,9 +87,14 @@ export function cardFiles(
 	const rows = ordered
 		.filter((file) => !committed.has(file.path))
 		.map((file) => snapshotFile(changes.root, file, lineByPath.get(file.path)));
-	if (!changes.shared) return { files: rows, others: [] };
+	if (!changes.shared) return { files: rows, others: [], own: true };
+	const touched = (row: CardFile) =>
+		touchOrder.has(row.place.relativePath ?? "");
+	const files = rows.filter(touched);
+	if (files.length === 0) return { files: rows, others: [], own: false };
 	return {
-		files: rows.filter((row) => touchOrder.has(row.place.relativePath ?? "")),
-		others: rows.filter((row) => !touchOrder.has(row.place.relativePath ?? "")),
+		files,
+		others: rows.filter((row) => !touched(row)),
+		own: true,
 	};
 }

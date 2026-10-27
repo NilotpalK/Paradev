@@ -920,6 +920,9 @@ msgstr "{total}件中{failing}件のチェックが失敗"
 msgid "{failing} of {total} checks failing"
 msgstr "{total}件中{failing}件のチェックが失敗"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {このワークスペースで変更されたファイル: #件} other {このワークスペースで変更されたファイル: #件}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {#件のファイルを編集} other {#件のファイルを編集}}"
 
@@ -8466,6 +8469,9 @@ msgstr "このターンの前後のワークツリーのスナップショット
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、そのチャットだけが変更したファイルは別に表示されます。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、これらの変更の一部はそのチャットによるものかもしれません。"
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "フロントマターは非表示です — 編集するにはMarkdownに切り替えてください"

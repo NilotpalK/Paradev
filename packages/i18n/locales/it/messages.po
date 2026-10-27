@@ -920,6 +920,9 @@ msgstr "{failing} controllo su {total} non superato"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} controlli su {total} non superati"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {# file modificato in questo workspace} other {# file modificati in questo workspace}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {Modificato # file} other {Modificati # file}}"
 
@@ -8466,6 +8469,9 @@ msgstr "Da snapshot del worktree prima e dopo questo turno, quindi contano anche
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "Da snapshot del worktree prima e dopo questo turno. Un'altra chat ha lavorato qui nello stesso momento, quindi i file toccati solo da quella sono elencati a parte."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "Da snapshot del worktree prima e dopo questo turno. Un'altra chat ha lavorato qui nello stesso momento, quindi alcune di queste modifiche potrebbero essere sue."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter nascosto — passa a Markdown per modificarlo"

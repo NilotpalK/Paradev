@@ -920,6 +920,9 @@ msgstr "{total}项检查中有{failing}项失败"
 msgid "{failing} of {total} checks failing"
 msgstr "{total}项检查中有{failing}项失败"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {此工作区中有 # 个文件更改} other {此工作区中有 # 个文件更改}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {编辑了 # 个文件} other {编辑了 # 个文件}}"
 
@@ -8466,6 +8469,9 @@ msgstr "根据本轮前后的 worktree 快照统计，因此 shell 命令所做�
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此只有它修改过的文件会单独列出。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此其中部分更改可能来自它。"
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "已隐藏front matter，切换到Markdown可编辑"

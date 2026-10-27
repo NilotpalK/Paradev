@@ -67,6 +67,19 @@ describe("cardFiles", () => {
 		]);
 	});
 
+	test("lists every file and claims none when a shared turn edited only through the shell", () => {
+		const { files, others, own } = cardFiles([], snapshot(true), ROOT);
+
+		expect(files.map((row) => row.place.relativePath)).toEqual([
+			"NOTES.md",
+			"src/a.ts",
+			"src/b.ts",
+			"logo.png",
+		]);
+		expect(others).toEqual([]);
+		expect(own).toBe(false);
+	});
+
 	test("drops files committed since the turn, and has nothing left once all are", () => {
 		const some = cardFiles(
 			toolFiles,

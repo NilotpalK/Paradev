@@ -76,29 +76,52 @@ function gitAt(
 type Repo = {
 	root: string;
 	index: string;
+	/** The worktree's own index for snapshots, kept between them. */
+	snapshotIndex: string;
 	/** The root as the chat's cwd spells it, which git resolves through symlinks. */
 	shownRoot: string;
 };
 
 async function repoAt(cwd: string): Promise<Repo | null> {
-	const [root, index] = await gitAt(cwd)
-		.raw(["rev-parse", "--show-toplevel", "--git-path", "index"])
+	const [root, index, snapshotIndex] = await gitAt(cwd)
+		.raw([
+			"rev-parse",
+			"--show-toplevel",
+			"--git-path",
+			"index",
+			"--git-path",
+			"superset-checkpoint-index",
+		])
 		.then((out) => out.trim().split("\n"))
 		.catch(() => []);
-	if (!root || !index) return null;
+	if (!root || !index || !snapshotIndex) return null;
 	const real = await realpath(cwd).catch(() => "");
 	const sameFolder = real === root || real.toLowerCase() === root.toLowerCase();
 	return {
 		root,
 		index: resolve(cwd, index),
+		snapshotIndex: resolve(cwd, snapshotIndex),
 		shownRoot: sameFolder ? cwd.replace(/[\\/]+$/, "") : root,
 	};
 }
 
 /**
+ * Copies the real index, keeping its mtime: with a newer one, git would trust
+ * stat data for files edited in the same second as the index was written.
+ */
+async function seedIndex(from: string, to: string): Promise<void> {
+	const copied = await copyFile(from, to).then(
+		() => true,
+		() => false,
+	);
+	if (!copied) return;
+	const { atime, mtime } = await stat(from);
+	await utimes(to, atime, mtime);
+}
+
+/**
  * Runs git against a private copy of the index, so the user's staging area,
- * HEAD and branch are never touched. Seeding it from the real index keeps
- * `add -A` cheap: only files whose stat changed are hashed again.
+ * HEAD and branch are never touched.
  */
 async function withScratchIndex<T>(
 	repo: Repo,
@@ -108,16 +131,7 @@ async function withScratchIndex<T>(
 	const dir = await mkdtemp(join(tmpdir(), "superset-checkpoint-"));
 	const index = join(dir, "index");
 	try {
-		const copied = await copyFile(repo.index, index).then(
-			() => true,
-			() => false,
-		);
-		// The copy keeps the index's mtime, or git trusts stat data for files
-		// edited in the same second as the index was written.
-		if (copied) {
-			const { atime, mtime } = await stat(repo.index);
-			await utimes(index, atime, mtime);
-		}
+		await seedIndex(repo.index, index);
 		return await run(
 			gitAt(
 				repo.root,
@@ -127,6 +141,35 @@ async function withScratchIndex<T>(
 		);
 	} finally {
 		await rm(dir, { recursive: true, force: true });
+	}
+}
+
+/**
+ * Runs git against the worktree's snapshot index, kept beside the real one so
+ * a file git already hashed, untracked ones included, is hashed again only
+ * when its stat changes. The host runs one snapshot per worktree at a time; a
+ * fresh copy of the real index stands in when the kept one can't be used,
+ * such as while another app holds its lock.
+ */
+async function withSnapshotIndex<T>(
+	repo: Repo,
+	run: (git: SimpleGit) => Promise<T>,
+	abort?: AbortSignal,
+): Promise<T> {
+	try {
+		if (!(await stat(repo.snapshotIndex).catch(() => null))) {
+			await seedIndex(repo.index, repo.snapshotIndex);
+		}
+		return await run(
+			gitAt(
+				repo.root,
+				{ ...CHECKPOINT_IDENTITY, GIT_INDEX_FILE: repo.snapshotIndex },
+				abort,
+			),
+		);
+	} catch (error) {
+		if (abort?.aborted) throw error;
+		return withScratchIndex(repo, run, abort);
 	}
 }
 
@@ -324,7 +367,7 @@ async function worktreeEntries(
 	repo: Repo,
 	paths: readonly string[],
 ): Promise<Map<string, Entry>> {
-	return withScratchIndex(repo, async (git) => {
+	return withSnapshotIndex(repo, async (git) => {
 		await git.raw(["add", "-A"]);
 		const map = new Map<string, Entry>();
 		for (const batch of batches(paths)) {
@@ -396,7 +439,7 @@ export const checkpointCaptureTask = defineWorkerTask<
 	handler: async ({ cwd, message, ref, dropRefs = [], timeoutMs }) => {
 		const repo = await repoAt(cwd);
 		if (!repo) return null;
-		const commit = await withScratchIndex(
+		const commit = await withSnapshotIndex(
 			repo,
 			(git) => snapshotCommit(git, message),
 			timeoutMs ? AbortSignal.timeout(timeoutMs) : undefined,
@@ -472,14 +515,13 @@ export const checkpointChangesTask = defineWorkerTask<
 		if (!base) return null;
 		const before = await readRef(git, `${base}/before`);
 		if (!before) return null;
-		let after: string | null;
-		if (live) {
-			after = await withScratchIndex(repo, (scratch) =>
+		let after = await readRef(git, `${base}/after`);
+		const stillRunning = live && after === null;
+		if (stillRunning) {
+			after = await withSnapshotIndex(repo, (scratch) =>
 				snapshotCommit(scratch, `superset chat turn ${turnId} live`),
 			);
 			await git.raw(["update-ref", `${base}/live`, after]);
-		} else {
-			after = await readRef(git, `${base}/after`);
 		}
 		if (!after) return null;
 		const heads = await snapshotHeads(git, before, after);
@@ -498,9 +540,9 @@ export const checkpointChangesTask = defineWorkerTask<
 			after,
 			files,
 			shared: message.includes(SHARED_TURN_TRAILER),
-			live,
+			live: stillRunning,
 			undone: undone !== null,
-			committed: live
+			committed: stillRunning
 				? []
 				: await committedPaths(
 						git,
@@ -511,6 +553,40 @@ export const checkpointChangesTask = defineWorkerTask<
 		};
 	},
 });
+
+/**
+ * What the turn staged for files Undo put back goes back to HEAD's version:
+ * an index entry holding the turn's result, or a removal the turn staged.
+ * Anything else in the user's index stays.
+ */
+async function unstageTurnResult(
+	git: SimpleGit,
+	paths: readonly string[],
+	original: Map<string, Entry>,
+	result: Map<string, Entry>,
+	head: string | null,
+): Promise<void> {
+	if (paths.length === 0) return;
+	const staged = new Map<string, Entry>();
+	for (const batch of batches(paths)) {
+		const output = await git.raw(["ls-files", "-s", "-z", "--", ...batch]);
+		for (const [path, entry] of entries(output, 1)) staged.set(path, entry);
+	}
+	const inHead = head ? await treeEntries(git, head, paths) : new Map();
+	const stagedByTurn = paths.filter((path) => {
+		const left = result.get(path);
+		const index = staged.get(path);
+		if (left) return index?.oid === left.oid && inHead.get(path)?.oid !== left.oid;
+		return !index && original.has(path) && inHead.has(path);
+	});
+	for (const batch of batches(stagedByTurn)) {
+		await git.raw(
+			head
+				? ["reset", "-q", head, "--", ...batch]
+				: ["rm", "--cached", "-q", "--ignore-unmatch", "--", ...batch],
+		);
+	}
+}
 
 async function kindAt(
 	path: string,
@@ -636,10 +712,10 @@ export const checkpointUndoTask = defineWorkerTask<
 		const recreate: string[] = [];
 		for (const path of candidates.filter((each) => original.has(each))) {
 			const kind = await kindAt(join(repo.root, path));
-			if (
-				(kind === null || kind === "file") &&
-				(await plainFolders(repo.root, path))
-			) {
+			// Git skips an ignored file it no longer tracks, so a file back on
+			// disk where the turn deleted one may be someone's, unseen above.
+			const expected = result.has(path) ? "file" : null;
+			if (kind === expected && (await plainFolders(repo.root, path))) {
 				recreate.push(path);
 			}
 		}
@@ -653,6 +729,7 @@ export const checkpointUndoTask = defineWorkerTask<
 			restored.push(...recreate);
 		}
 
+		await unstageTurnResult(git, restored, original, result, head);
 		await markUndone(git, base, before, anchors);
 		const done = new Set(restored);
 		return {

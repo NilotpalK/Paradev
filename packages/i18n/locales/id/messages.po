@@ -920,6 +920,9 @@ msgstr "{failing} dari {total} check gagal"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} dari {total} check gagal"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {# file berubah di workspace ini} other {# file berubah di workspace ini}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {Mengedit # file} other {Mengedit # file}}"
 
@@ -8466,6 +8469,9 @@ msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini, jadi edit lewat 
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi file yang hanya disentuh chat itu dicantumkan terpisah."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi sebagian perubahan ini mungkin milik chat itu."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter disembunyikan — beralih ke Markdown untuk mengeditnya"

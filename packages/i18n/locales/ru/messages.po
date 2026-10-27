@@ -920,6 +920,9 @@ msgstr "{failing} из {total} проверки не пройдена"
 msgid "{failing} of {total} checks failing"
 msgstr "{failing} из {total} проверок не пройдены"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {В этой рабочей области изменён # файл} few {В этой рабочей области изменены # файла} many {В этой рабочей области изменены # файлов} other {В этой рабочей области изменены # файла}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {Изменён # файл} few {Изменено # файла} many {Изменено # файлов} other {Изменено # файла}}"
 
@@ -8466,6 +8469,9 @@ msgstr "По снимкам worktree до и после этого хода, п�
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому файлы, которые менял только он, показаны отдельно."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому часть этих изменений может принадлежать ему."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter скрыт — переключитесь на Markdown, чтобы его изменить"

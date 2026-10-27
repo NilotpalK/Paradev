@@ -920,6 +920,9 @@ msgstr "{total} kontrolden {failing} tanesi başarısız"
 msgid "{failing} of {total} checks failing"
 msgstr "{total} kontrolden {failing} tanesi başarısız"
 
+msgid "{fileCount, plural, one {# file changed in this workspace} other {# files changed in this workspace}}"
+msgstr "{fileCount, plural, one {Bu çalışma alanında # dosya değişti} other {Bu çalışma alanında # dosya değişti}}"
+
 msgid "{fileCount, plural, one {Edited # file} other {Edited # files}}"
 msgstr "{fileCount, plural, one {# dosya düzenlendi} other {# dosya düzenlendi}}"
 
@@ -8466,6 +8469,9 @@ msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı
 
 msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
 msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden yalnızca onun dokunduğu dosyalar ayrı listelenir."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so some of these changes may be its own."
+msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden bu değişikliklerin bir kısmı ona ait olabilir."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter gizli — düzenlemek için Markdown'a geçin"

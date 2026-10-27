@@ -64,7 +64,7 @@ export function TurnChangesCard({
 	const [undoing, setUndoing] = useState(false);
 	const [outcome, setOutcome] = useState<UndoOutcome | null>(null);
 
-	const { files, others } = useMemo(
+	const { files, others, own } = useMemo(
 		() => cardFiles(toolFiles, changes, worktreePath),
 		[toolFiles, changes, worktreePath],
 	);
@@ -108,7 +108,7 @@ export function TurnChangesCard({
 	const review =
 		filter && openDiff ? (path?: string) => openDiff(filter, path) : undefined;
 	const canUndo = Boolean(
-		newest && turnChanges && changes && !changes.live && !changes.shared,
+		own && newest && turnChanges && changes && !changes.live && !changes.shared,
 	);
 	const undo = () => {
 		setConfirmingUndo(false);
@@ -167,10 +167,15 @@ export function TurnChangesCard({
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<span className="min-w-0 truncate text-foreground/90">
-							{plural(fileCount, {
-								one: "Edited # file",
-								other: "Edited # files",
-							})}
+							{own
+								? plural(fileCount, {
+										one: "Edited # file",
+										other: "Edited # files",
+									})
+								: plural(fileCount, {
+										one: "# file changed in this workspace",
+										other: "# files changed in this workspace",
+									})}
 						</span>
 					</TooltipTrigger>
 					<TooltipContent className="max-w-72">
@@ -179,6 +184,12 @@ export function TurnChangesCard({
 								Counted from the agent's file edits. Changes made by shell
 								commands, notebook or MCP tools, or subagents are not included,
 								and a file edited more than once can count a line twice.
+							</Trans>
+						) : !own ? (
+							<Trans>
+								From snapshots of the worktree before and after this turn.
+								Another chat worked here at the same time, so some of these
+								changes may be its own.
 							</Trans>
 						) : changes.shared ? (
 							<Trans>
