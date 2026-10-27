@@ -3704,6 +3704,9 @@ msgstr "Symbol ändern"
 msgid "Change location"
 msgstr "Speicherort ändern"
 
+msgid "Change model"
+msgstr "Modell wechseln"
+
 msgid "Change or add labels…"
 msgstr "Labels ändern oder hinzufügen…"
 
@@ -4937,6 +4940,9 @@ msgstr "Das Fortsetzen einer Agent-Sitzung erfordert einen angehefteten Workspac
 msgid "continuing the last session"
 msgstr "Fortsetzung der letzten Sitzung"
 
+msgid "Continuing…"
+msgstr "Wird fortgesetzt…"
+
 msgid "Contributions"
 msgstr "Beiträge"
 
@@ -5021,6 +5027,9 @@ msgstr "Kommentar kopieren"
 
 msgid "Copy comments"
 msgstr "Kommentare kopieren"
+
+msgid "Copy error"
+msgstr "Fehler kopieren"
 
 msgid "Copy error details"
 msgstr "Fehlerdetails kopieren"
@@ -5572,6 +5581,9 @@ msgstr "Antwort konnte nicht gesendet werden"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Cloud für {0} nicht erreichbar: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Modellanbieter nicht erreichbar"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Dieser Cloud-Workspace ist nicht erreichbar. Er wird möglicherweise noch aufgeweckt – versuche es erneut."
 
@@ -5650,6 +5662,9 @@ msgstr "Datei konnte nicht gestaged werden"
 
 msgid "Couldn't start a new agent session"
 msgstr "Es konnte keine neue Agenten-Sitzung gestartet werden"
+
+msgid "Couldn't start a new chat."
+msgstr "Neuer Chat konnte nicht gestartet werden."
 
 msgid "Couldn't start agent session"
 msgstr "Agenten-Sitzung konnte nicht gestartet werden"
@@ -9430,9 +9445,6 @@ msgstr "Keine Internetverbindung"
 
 msgid "Interrupt"
 msgstr "Unterbrechen"
-
-msgid "Interrupted"
-msgstr "Unterbrochen"
 
 msgid "Intro call"
 msgstr "Kennenlerngespräch"
@@ -15136,6 +15148,9 @@ msgstr "Agenten werden auf {accountLabel} neu gestartet."
 msgid "Restarting host services…"
 msgstr "Host-Dienste werden neu gestartet…"
 
+msgid "Restarting the agent…"
+msgstr "Agent wird neu gestartet…"
+
 msgid "Restarting…"
 msgstr "Wird neu gestartet…"
 
@@ -15501,6 +15516,9 @@ msgstr "Den Agenten im Terminal „Workspace Setup“ ausführen, sobald das Set
 
 msgid "Run this command?"
 msgstr "Diesen Befehl ausführen?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Führe das in einem Terminal aus und mach dann weiter:"
 
 msgid "Run workspace command"
 msgstr "Befehl des Arbeitsbereichs ausführen"
@@ -16662,11 +16680,17 @@ msgstr "Einmal anmelden. Paradev hält die Verbindung."
 msgid "Sign in to {0}"
 msgstr "Bei {0} anmelden"
 
+msgid "Sign in to continue"
+msgstr "Melde dich an, um fortzufahren"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Melde dich an, um zu Paradev zu gelangen"
 
 msgid "Sign in to get started"
 msgstr "Melde dich an, um loszulegen"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Melde dich in einem Terminal beim Agenten an und mach dann weiter."
 
 msgid "Sign in to view this page"
 msgstr "Melde dich an, um diese Seite zu sehen"
@@ -17251,6 +17275,9 @@ msgstr "Startet"
 msgid "Starting {agentLabel}"
 msgstr "{agentLabel} wird gestartet"
 
+msgid "Starting a new chat…"
+msgstr "Neuer Chat wird gestartet…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Arbeitsbereich für diesen Pull Request wird gestartet"
 
@@ -17714,6 +17741,9 @@ msgstr "Aufgabe"
 msgid "Task ID copied"
 msgstr "Aufgaben-ID kopiert"
 
+msgid "Task interrupted"
+msgstr "Aufgabe unterbrochen"
+
 msgid "Task key"
 msgstr "Aufgabenschlüssel"
 
@@ -17972,8 +18002,17 @@ msgstr "Der Agent klickt und tippt im selben Bereich, um die Änderung zu testen
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Der Agent kopiert die Unterhaltung; der Zweig öffnet sich in einem neuen Tab"
 
+msgid "The agent crashed"
+msgstr "Der Agent ist abgestürzt"
+
+msgid "The agent lost this conversation"
+msgstr "Der Agent hat diese Unterhaltung verloren"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Der Agent verantwortet eine Aufgabe vom Ticket bis zum Diff. Der Mensch reviewt das Ergebnis, nicht die Tastenanschläge. Die Aufmerksamkeit verlagert sich vom Schreiben von Code zum Spezifizieren und Beurteilen von Arbeit. Eine Ingenieurin betreibt mehrere Agenten gleichzeitig in isolierten Arbeitsbereichen."
+
+msgid "The agent stopped responding"
+msgstr "Der Agent reagiert nicht mehr"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Der Agent wurde beim Fortsetzen der Unterhaltung beendet."
@@ -18171,6 +18210,9 @@ msgstr "Der lokale Host-Dienst ist gerade hochgekommen. Die Verbindung wird jetz
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Die Mehrheit der gemergten Agenten-PRs braucht nur Review, ohne menschliche Bearbeitung."
+
+msgid "The model declined to continue"
+msgstr "Das Modell hat abgelehnt weiterzumachen"
 
 msgid "The name of your organization or team"
 msgstr "Der Name deiner Organisation oder deines Teams"
@@ -18430,6 +18472,9 @@ msgstr "Dieser Cloud-Arbeitsbereich kann nicht starten"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Dieser Cloud-Workspace wird gerade aufgeweckt. Nach Inaktivität kann das bis zu 30 Sekunden dauern."
 
+msgid "This conversation is too long for the model"
+msgstr "Diese Unterhaltung ist zu lang für das Modell"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Damit wird der gespeicherte Scrollback gelöscht, der für Neustart- und Absturzwiederherstellung genutzt wird."
 
@@ -18531,6 +18576,9 @@ msgstr "Dieser Microsoft-Tenant wurde bereits von {detail} verbunden. Bitte dies
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Dieser Microsoft-Tenant ist bereits mit einer anderen Paradev-Organisation verbunden."
+
+msgid "This model isn't available"
+msgstr "Dieses Modell ist nicht verfügbar"
 
 msgid "This month"
 msgstr "Diesen Monat"
@@ -19084,12 +19132,6 @@ msgstr "Tunnel aufgebaut"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Mach aus Routinearbeit Agenten, die nach Zeitplan oder bei einem Ereignis laufen: Issue-Triage, Changelog-Entwürfe, Dependency-Updates. Sie arbeiten selbstständig und öffnen PRs, die du prüfen kannst."
-
-msgid "Turn failed"
-msgstr "Durchlauf fehlgeschlagen"
-
-msgid "Turn failed: {message}"
-msgstr "Durchlauf fehlgeschlagen: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Aktiviere „Fernzugriff auf dieses Gerät über den Relay erlauben“"

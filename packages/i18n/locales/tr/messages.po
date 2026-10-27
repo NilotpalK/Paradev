@@ -3704,6 +3704,9 @@ msgstr "Simgeyi değiştir"
 msgid "Change location"
 msgstr "Konumu değiştir"
 
+msgid "Change model"
+msgstr "Modeli değiştir"
+
 msgid "Change or add labels…"
 msgstr "Etiketleri değiştir veya ekle…"
 
@@ -4937,6 +4940,9 @@ msgstr "Bir aracı oturumunu sürdürmek için sabitlenmiş bir çalışma alan�
 msgid "continuing the last session"
 msgstr "son oturumu sürdürerek"
 
+msgid "Continuing…"
+msgstr "Devam ediliyor…"
+
 msgid "Contributions"
 msgstr "Katkılar"
 
@@ -5021,6 +5027,9 @@ msgstr "Yorumu kopyala"
 
 msgid "Copy comments"
 msgstr "Yorumları kopyala"
+
+msgid "Copy error"
+msgstr "Hatayı kopyala"
 
 msgid "Copy error details"
 msgstr "Hata ayrıntılarını kopyala"
@@ -5572,6 +5581,9 @@ msgstr "Yanıt gönderilemedi"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "{0} için buluta erişilemedi: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Model sağlayıcısına ulaşılamadı"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Bu bulut çalışma alanına ulaşılamadı. Hâlâ uyandırılıyor olabilir — tekrar deneyin."
 
@@ -5650,6 +5662,9 @@ msgstr "Dosya hazırlanamadı"
 
 msgid "Couldn't start a new agent session"
 msgstr "Yeni bir ajan oturumu başlatılamadı"
+
+msgid "Couldn't start a new chat."
+msgstr "Yeni sohbet başlatılamadı."
 
 msgid "Couldn't start agent session"
 msgstr "Ajan oturumu başlatılamadı"
@@ -9430,9 +9445,6 @@ msgstr "İnternet bağlantısı kesildi"
 
 msgid "Interrupt"
 msgstr "Kes"
-
-msgid "Interrupted"
-msgstr "Kesildi"
 
 msgid "Intro call"
 msgstr "Tanışma görüşmesi"
@@ -15136,6 +15148,9 @@ msgstr "Ajanlar {accountLabel} üzerinde yeniden başlatılıyor."
 msgid "Restarting host services…"
 msgstr "Host hizmetleri yeniden başlatılıyor…"
 
+msgid "Restarting the agent…"
+msgstr "Ajan yeniden başlatılıyor…"
+
 msgid "Restarting…"
 msgstr "Yeniden başlatılıyor…"
 
@@ -15501,6 +15516,9 @@ msgstr "Yanında ikinci bir terminal başlatmak yerine, kurulum bittikten sonra 
 
 msgid "Run this command?"
 msgstr "Bu komut çalıştırılsın mı?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Bunu bir terminalde çalıştırın, ardından devam edin:"
 
 msgid "Run workspace command"
 msgstr "Çalışma alanı komutunu çalıştır"
@@ -16662,11 +16680,17 @@ msgstr "Bir kez oturum açın. Paradev bağlantıyı korur."
 msgid "Sign in to {0}"
 msgstr "{0} kuruluşunda oturum açın"
 
+msgid "Sign in to continue"
+msgstr "Devam etmek için oturum açın"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Paradev'e devam etmek için oturum açın"
 
 msgid "Sign in to get started"
 msgstr "Başlamak için oturum açın"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Bir terminalde ajana oturum açın, ardından devam edin."
 
 msgid "Sign in to view this page"
 msgstr "Bu sayfayı görmek için oturum açın"
@@ -17251,6 +17275,9 @@ msgstr "Başlatılıyor"
 msgid "Starting {agentLabel}"
 msgstr "{agentLabel} başlatılıyor"
 
+msgid "Starting a new chat…"
+msgstr "Yeni sohbet başlatılıyor…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Bu pull request için çalışma alanı başlatılıyor"
 
@@ -17714,6 +17741,9 @@ msgstr "Görev"
 msgid "Task ID copied"
 msgstr "Görev kimliği kopyalandı"
 
+msgid "Task interrupted"
+msgstr "Görev kesintiye uğradı"
+
 msgid "Task key"
 msgstr "Görev anahtarı"
 
@@ -17972,8 +18002,17 @@ msgstr "Ajan değişikliği test etmek için aynı bölmede tıklar ve yazar. Si
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Aracı konuşmayı kopyalar; çatal yeni bir sekmede açılır"
 
+msgid "The agent crashed"
+msgstr "Ajan çöktü"
+
+msgid "The agent lost this conversation"
+msgstr "Ajan bu konuşmayı kaybetti"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Ajan, bir görevi biletten farka kadar sahiplenir. İnsan tuş vuruşlarını değil, sonucu inceler. Dikkat, kod yazmaktan işi tanımlamaya ve değerlendirmeye kayar. Bir mühendis, yalıtılmış çalışma alanlarında aynı anda birkaç ajan çalıştırır."
+
+msgid "The agent stopped responding"
+msgstr "Ajan yanıt vermeyi bıraktı"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Ajan, konuşmayı sürdürürken durdu."
@@ -18171,6 +18210,9 @@ msgstr "Yerel host hizmeti yeni açıldı. Şimdi ona yeniden bağlanılıyor."
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Birleştirilen ajan PR'larının çoğu yalnızca inceleme gerektirir, hiç insan düzenlemesi olmaz."
+
+msgid "The model declined to continue"
+msgstr "Model devam etmeyi reddetti"
 
 msgid "The name of your organization or team"
 msgstr "Kuruluşunuzun veya takımınızın adı"
@@ -18430,6 +18472,9 @@ msgstr "Bu bulut çalışma alanı başlatılamıyor"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Bu bulut çalışma alanı uyandırılıyor; bir süre kullanılmadıysa bu işlem 30 saniyeye kadar sürebilir."
 
+msgid "This conversation is too long for the model"
+msgstr "Bu konuşma model için fazla uzun"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Bu işlem, yeniden başlatma/çökme kurtarma için saklanan kaydırma geçmişini siler."
 
@@ -18531,6 +18576,9 @@ msgstr "Bu Microsoft kiracısı {detail} tarafından zaten bağlanmış. Önce b
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Bu Microsoft kiracısı başka bir Paradev kuruluşu tarafından zaten bağlanmış."
+
+msgid "This model isn't available"
+msgstr "Bu model kullanılamıyor"
 
 msgid "This month"
 msgstr "Bu ay"
@@ -19084,12 +19132,6 @@ msgstr "Tünel kuruldu"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Rutin işleri zamanlamayla veya bir olay geldiğinde çalışan ajanlara dönüştürün: issue önceliklendirme, değişiklik günlüğü taslakları, bağımlılık güncellemeleri. Kendi başlarına çalışır ve incelemeniz için PR açarlar."
-
-msgid "Turn failed"
-msgstr "Tur başarısız"
-
-msgid "Turn failed: {message}"
-msgstr "Tur başarısız: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "“Bu cihaza röle üzerinden uzaktan erişime izin ver” seçeneğini açın"

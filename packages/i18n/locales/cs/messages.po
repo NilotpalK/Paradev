@@ -3704,6 +3704,9 @@ msgstr "Změnit ikonu"
 msgid "Change location"
 msgstr "Změnit umístění"
 
+msgid "Change model"
+msgstr "Změnit model"
+
 msgid "Change or add labels…"
 msgstr "Změnit nebo přidat štítky…"
 
@@ -4937,6 +4940,9 @@ msgstr "Pokračování v relaci agenta vyžaduje připnutý pracovní prostor"
 msgid "continuing the last session"
 msgstr "pokračováním v poslední relaci"
 
+msgid "Continuing…"
+msgstr "Pokračuje se…"
+
 msgid "Contributions"
 msgstr "Příspěvky"
 
@@ -5021,6 +5027,9 @@ msgstr "Kopírovat komentář"
 
 msgid "Copy comments"
 msgstr "Kopírovat komentáře"
+
+msgid "Copy error"
+msgstr "Kopírovat chybu"
 
 msgid "Copy error details"
 msgstr "Kopírovat podrobnosti o chybě"
@@ -5572,6 +5581,9 @@ msgstr "Nepodařilo se odeslat odpověď"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Nepodařilo se spojit s cloudem pro {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Nepodařilo se spojit s poskytovatelem modelu"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Nepodařilo se spojit s tímto cloudovým workspace. Možná se ještě probouzí – zkuste to znovu."
 
@@ -5650,6 +5662,9 @@ msgstr "Nepodařilo se připravit soubor"
 
 msgid "Couldn't start a new agent session"
 msgstr "Nepodařilo se spustit novou relaci agenta"
+
+msgid "Couldn't start a new chat."
+msgstr "Nový chat se nepodařilo zahájit."
 
 msgid "Couldn't start agent session"
 msgstr "Nepodařilo se spustit relaci agenta"
@@ -9430,9 +9445,6 @@ msgstr "Internet odpojen"
 
 msgid "Interrupt"
 msgstr "Přerušit"
-
-msgid "Interrupted"
-msgstr "Přerušeno"
 
 msgid "Intro call"
 msgstr "Úvodní hovor"
@@ -15136,6 +15148,9 @@ msgstr "Restartuji agenty na {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Restartuji služby hosta…"
 
+msgid "Restarting the agent…"
+msgstr "Restartuje se agent…"
+
 msgid "Restarting…"
 msgstr "Restartuje se…"
 
@@ -15501,6 +15516,9 @@ msgstr "Spustit agenta v terminálu Workspace Setup, jakmile setup doběhne, mí
 
 msgid "Run this command?"
 msgstr "Spustit tento příkaz?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Spusťte toto v terminálu a pak pokračujte:"
 
 msgid "Run workspace command"
 msgstr "Spustit příkaz pracovního prostoru"
@@ -16662,11 +16680,17 @@ msgstr "Přihlaste se jednou. Paradev udržuje připojení."
 msgid "Sign in to {0}"
 msgstr "Přihlaste se do {0}"
 
+msgid "Sign in to continue"
+msgstr "Pro pokračování se přihlaste"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Přihlaste se a pokračujte do Paradev"
 
 msgid "Sign in to get started"
 msgstr "Přihlaste se a můžete začít"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Přihlaste se k agentovi v terminálu a pak pokračujte."
 
 msgid "Sign in to view this page"
 msgstr "Přihlaste se, abyste zobrazili tuto stránku"
@@ -17251,6 +17275,9 @@ msgstr "Spouštím"
 msgid "Starting {agentLabel}"
 msgstr "Spouštím {agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "Zahajuje se nový chat…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Spouští se pracovní prostor pro tento pull request"
 
@@ -17714,6 +17741,9 @@ msgstr "Úkol"
 msgid "Task ID copied"
 msgstr "ID úkolu zkopírováno"
 
+msgid "Task interrupted"
+msgstr "Úloha přerušena"
+
 msgid "Task key"
 msgstr "Klíč úkolů"
 
@@ -17972,8 +18002,17 @@ msgstr "Agent kliká a píše ve stejném panelu, aby změnu otestoval. Vy se d�
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Agent zkopíruje konverzaci; větev se otevře na nové kartě"
 
+msgid "The agent crashed"
+msgstr "Agent spadl"
+
+msgid "The agent lost this conversation"
+msgstr "Agent tuto konverzaci ztratil"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent vlastní úkol od ticketu po diff. Člověk reviduje výsledek, ne úhozy. Pozornost se přesouvá od psaní kódu k zadávání práce a jejímu posuzování. Jeden inženýr běží několik agentů naráz v izolovaných pracovních prostorech."
+
+msgid "The agent stopped responding"
+msgstr "Agent přestal odpovídat"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Agent se zastavil při obnovování konverzace."
@@ -18171,6 +18210,9 @@ msgstr "Místní host service právě naběhla. Připojuji se k ní."
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Většina sloučených PR od agentů potřebuje jen revizi, bez jediné lidské úpravy."
+
+msgid "The model declined to continue"
+msgstr "Model odmítl pokračovat"
 
 msgid "The name of your organization or team"
 msgstr "Název vaší organizace nebo týmu"
@@ -18430,6 +18472,9 @@ msgstr "Tento cloudový pracovní prostor nelze spustit"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Tento cloudový workspace se probouzí, což může po nečinnosti trvat až 30 sekund."
 
+msgid "This conversation is too long for the model"
+msgstr "Tato konverzace je pro model příliš dlouhá"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Tímto se smaže uložený scrollback používaný k obnovení po restartu nebo pádu."
 
@@ -18531,6 +18576,9 @@ msgstr "Tento tenant Microsoftu už má připojený {detail}. Požádejte je, a�
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Tento tenant Microsoftu už má připojený jiná organizace Paradev."
+
+msgid "This model isn't available"
+msgstr "Tento model není dostupný"
 
 msgid "This month"
 msgstr "Tento měsíc"
@@ -19084,12 +19132,6 @@ msgstr "Tunel navázán"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Proměňte rutinní práci v agenty, kteří běží podle plánu nebo při události: třídění issues, koncepty changelogu, aktualizace závislostí. Pracují samostatně a otevírají PR, které zkontrolujete."
-
-msgid "Turn failed"
-msgstr "Tah selhal"
-
-msgid "Turn failed: {message}"
-msgstr "Tah selhal: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Zapněte „Povolit vzdálený přístup k tomuto zařízení přes relay“"

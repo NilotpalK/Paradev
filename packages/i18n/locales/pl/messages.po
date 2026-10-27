@@ -3704,6 +3704,9 @@ msgstr "Zmień ikonę"
 msgid "Change location"
 msgstr "Zmień lokalizację"
 
+msgid "Change model"
+msgstr "Zmień model"
+
 msgid "Change or add labels…"
 msgstr "Zmień lub dodaj etykiety…"
 
@@ -4937,6 +4940,9 @@ msgstr "Kontynuowanie sesji agenta wymaga przypiętego obszaru roboczego"
 msgid "continuing the last session"
 msgstr "kontynuując ostatnią sesję"
 
+msgid "Continuing…"
+msgstr "Kontynuowanie…"
+
 msgid "Contributions"
 msgstr "Wkład"
 
@@ -5021,6 +5027,9 @@ msgstr "Kopiuj komentarz"
 
 msgid "Copy comments"
 msgstr "Kopiuj komentarze"
+
+msgid "Copy error"
+msgstr "Kopiuj błąd"
 
 msgid "Copy error details"
 msgstr "Kopiuj szczegóły błędu"
@@ -5572,6 +5581,9 @@ msgstr "Nie udało się opublikować odpowiedzi"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Nie udało się połączyć z chmurą dla {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Nie udało się połączyć z dostawcą modelu"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Nie udało się połączyć z tym obszarem roboczym w chmurze. Może wciąż być wybudzany — spróbuj ponownie."
 
@@ -5650,6 +5662,9 @@ msgstr "Nie udało się dodać pliku do indeksu"
 
 msgid "Couldn't start a new agent session"
 msgstr "Nie udało się uruchomić nowej sesji agenta"
+
+msgid "Couldn't start a new chat."
+msgstr "Nie udało się rozpocząć nowego czatu."
 
 msgid "Couldn't start agent session"
 msgstr "Nie udało się uruchomić sesji agenta"
@@ -9430,9 +9445,6 @@ msgstr "Brak połączenia z internetem"
 
 msgid "Interrupt"
 msgstr "Przerwij"
-
-msgid "Interrupted"
-msgstr "Przerwano"
 
 msgid "Intro call"
 msgstr "Rozmowa wstępna"
@@ -15136,6 +15148,9 @@ msgstr "Ponowne uruchamianie agentów na {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Restartowanie usług hosta…"
 
+msgid "Restarting the agent…"
+msgstr "Ponowne uruchamianie agenta…"
+
 msgid "Restarting…"
 msgstr "Ponowne uruchamianie…"
 
@@ -15501,6 +15516,9 @@ msgstr "Uruchamiaj agenta w terminalu Konfiguracja obszaru roboczego po zakończ
 
 msgid "Run this command?"
 msgstr "Uruchomić to polecenie?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Uruchom to w terminalu, a potem kontynuuj:"
 
 msgid "Run workspace command"
 msgstr "Uruchom polecenie obszaru roboczego"
@@ -16662,11 +16680,17 @@ msgstr "Zaloguj się raz. Paradev utrzymuje połączenie."
 msgid "Sign in to {0}"
 msgstr "Zaloguj się do {0}"
 
+msgid "Sign in to continue"
+msgstr "Zaloguj się, aby kontynuować"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Zaloguj się, aby przejść do Paradev"
 
 msgid "Sign in to get started"
 msgstr "Zaloguj się, aby zacząć"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Zaloguj się do agenta w terminalu, a potem kontynuuj."
 
 msgid "Sign in to view this page"
 msgstr "Zaloguj się, aby zobaczyć tę stronę"
@@ -17251,6 +17275,9 @@ msgstr "Uruchamianie"
 msgid "Starting {agentLabel}"
 msgstr "Uruchamianie {agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "Rozpoczynanie nowego czatu…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Uruchamianie obszaru roboczego dla tego pull requesta"
 
@@ -17714,6 +17741,9 @@ msgstr "Zadanie"
 msgid "Task ID copied"
 msgstr "Skopiowano ID zadania"
 
+msgid "Task interrupted"
+msgstr "Zadanie przerwane"
+
 msgid "Task key"
 msgstr "Klucz zadań"
 
@@ -17972,8 +18002,17 @@ msgstr "Agent klika i pisze w tym samym panelu, aby przetestować zmianę. Ty to
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Agent kopiuje rozmowę; gałąź otworzy się w nowej karcie"
 
+msgid "The agent crashed"
+msgstr "Agent uległ awarii"
+
+msgid "The agent lost this conversation"
+msgstr "Agent utracił tę rozmowę"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Agent prowadzi zadanie od zgłoszenia do diffa. Człowiek przegląda wynik, a nie naciśnięcia klawiszy. Uwaga przenosi się z pisania kodu na opisywanie pracy i jej ocenę. Jeden inżynier prowadzi kilku agentów naraz w izolowanych obszarach roboczych."
+
+msgid "The agent stopped responding"
+msgstr "Agent przestał odpowiadać"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Agent zatrzymał się podczas wznawiania rozmowy."
@@ -18171,6 +18210,9 @@ msgstr "Lokalna usługa hosta właśnie wstała. Trwa ponowne łączenie."
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Większość scalonych PR-ów od agentów wymaga tylko przeglądu, bez żadnych poprawek człowieka."
+
+msgid "The model declined to continue"
+msgstr "Model odmówił kontynuowania"
 
 msgid "The name of your organization or team"
 msgstr "Nazwa organizacji lub zespołu"
@@ -18430,6 +18472,9 @@ msgstr "Nie można uruchomić tego obszaru roboczego w chmurze"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Ten obszar roboczy w chmurze jest wybudzany. Po okresie bezczynności może to potrwać do 30 sekund."
 
+msgid "This conversation is too long for the model"
+msgstr "Ta rozmowa jest za długa dla modelu"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Usuwa to zapisany bufor przewijania używany do odzyskiwania po restarcie lub awarii."
 
@@ -18531,6 +18576,9 @@ msgstr "Ten tenant Microsoft jest już połączony przez {detail}. Poproś o roz
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Ten tenant Microsoft jest już połączony z inną organizacją Paradev."
+
+msgid "This model isn't available"
+msgstr "Ten model jest niedostępny"
 
 msgid "This month"
 msgstr "W tym miesiącu"
@@ -19084,12 +19132,6 @@ msgstr "Tunel nawiązany"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Zamień rutynowe zadania w agentów, którzy działają według harmonogramu lub gdy nadejdzie zdarzenie: triaż zgłoszeń, szkice changelogu, aktualizacje zależności. Działają samodzielnie i otwierają PR do Twojego przeglądu."
-
-msgid "Turn failed"
-msgstr "Tura nie powiodła się"
-
-msgid "Turn failed: {message}"
-msgstr "Tura nie powiodła się: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Włącz „Zezwól na zdalny dostęp do tego urządzenia przez przekaźnik”"

@@ -3704,6 +3704,9 @@ msgstr "Pictogram wijzigen"
 msgid "Change location"
 msgstr "Locatie wijzigen"
 
+msgid "Change model"
+msgstr "Model wijzigen"
+
 msgid "Change or add labels…"
 msgstr "Labels wijzigen of toevoegen…"
 
@@ -4937,6 +4940,9 @@ msgstr "Een agentsessie voortzetten vereist een vastgezette workspace"
 msgid "continuing the last session"
 msgstr "de laatste sessie voortzetten"
 
+msgid "Continuing…"
+msgstr "Bezig met doorgaan…"
+
 msgid "Contributions"
 msgstr "Bijdragen"
 
@@ -5021,6 +5027,9 @@ msgstr "Opmerking kopiëren"
 
 msgid "Copy comments"
 msgstr "Opmerkingen kopiëren"
+
+msgid "Copy error"
+msgstr "Fout kopiëren"
 
 msgid "Copy error details"
 msgstr "Foutdetails kopiëren"
@@ -5572,6 +5581,9 @@ msgstr "Kan antwoord niet plaatsen"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Kan de cloud niet bereiken voor {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Kon de modelprovider niet bereiken"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Kan deze cloudwerkruimte niet bereiken. Mogelijk wordt deze nog gewekt — probeer het opnieuw."
 
@@ -5650,6 +5662,9 @@ msgstr "Kan bestand niet stagen"
 
 msgid "Couldn't start a new agent session"
 msgstr "Kan geen nieuwe agentsessie starten"
+
+msgid "Couldn't start a new chat."
+msgstr "Kon geen nieuwe chat starten."
 
 msgid "Couldn't start agent session"
 msgstr "Kan agentsessie niet starten"
@@ -9430,9 +9445,6 @@ msgstr "Geen internetverbinding"
 
 msgid "Interrupt"
 msgstr "Onderbreken"
-
-msgid "Interrupted"
-msgstr "Onderbroken"
 
 msgid "Intro call"
 msgstr "Kennismakingsgesprek"
@@ -15136,6 +15148,9 @@ msgstr "Agents worden herstart op {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Hostservices herstarten…"
 
+msgid "Restarting the agent…"
+msgstr "Agent wordt opnieuw gestart…"
+
 msgid "Restarting…"
 msgstr "Bezig met herstarten…"
 
@@ -15501,6 +15516,9 @@ msgstr "Draai de agent in de terminal van de werkruimte-setup zodra die klaar is
 
 msgid "Run this command?"
 msgstr "Deze opdracht uitvoeren?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Voer dit uit in een terminal en ga dan verder:"
 
 msgid "Run workspace command"
 msgstr "Werkruimtecommando uitvoeren"
@@ -16662,11 +16680,17 @@ msgstr "Eén keer inloggen. Paradev houdt de verbinding."
 msgid "Sign in to {0}"
 msgstr "Log in bij {0}"
 
+msgid "Sign in to continue"
+msgstr "Log in om verder te gaan"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Log in om verder te gaan naar Paradev"
 
 msgid "Sign in to get started"
 msgstr "Log in om te beginnen"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Log in een terminal in bij de agent en ga dan verder."
 
 msgid "Sign in to view this page"
 msgstr "Log in om deze pagina te bekijken"
@@ -17251,6 +17275,9 @@ msgstr "Starten"
 msgid "Starting {agentLabel}"
 msgstr "{agentLabel} starten"
 
+msgid "Starting a new chat…"
+msgstr "Nieuwe chat wordt gestart…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Werkruimte op deze pull request wordt gestart"
 
@@ -17714,6 +17741,9 @@ msgstr "Taak"
 msgid "Task ID copied"
 msgstr "Taak-ID gekopieerd"
 
+msgid "Task interrupted"
+msgstr "Taak onderbroken"
+
 msgid "Task key"
 msgstr "Taaksleutel"
 
@@ -17972,8 +18002,17 @@ msgstr "De agent klikt en typt in hetzelfde paneel om de wijziging te testen. Ji
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "De agent kopieert het gesprek; de aftakking opent in een nieuw tabblad"
 
+msgid "The agent crashed"
+msgstr "De agent is gecrasht"
+
+msgid "The agent lost this conversation"
+msgstr "De agent is dit gesprek kwijt"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "De agent bezit een taak van ticket tot diff. De mens reviewt het resultaat, niet de toetsaanslagen. De aandacht verschuift van code schrijven naar werk specificeren en beoordelen. Eén engineer laat meerdere agents tegelijk draaien in geïsoleerde werkruimtes."
+
+msgid "The agent stopped responding"
+msgstr "De agent reageert niet meer"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "De agent stopte tijdens het hervatten van het gesprek."
@@ -18171,6 +18210,9 @@ msgstr "De lokale hostservice is net gestart. Er wordt nu opnieuw verbinding mee
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "De meeste gemergede agent-PR's hoeven alleen gereviewd te worden, zonder menselijke bewerkingen."
+
+msgid "The model declined to continue"
+msgstr "Het model weigerde verder te gaan"
 
 msgid "The name of your organization or team"
 msgstr "De naam van je organisatie of team"
@@ -18430,6 +18472,9 @@ msgstr "Deze cloudwerkruimte kan niet starten"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Deze cloudwerkruimte wordt gewekt. Na inactiviteit kan dat tot 30 seconden duren."
 
+msgid "This conversation is too long for the model"
+msgstr "Dit gesprek is te lang voor het model"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Hiermee wordt de opgeslagen scrollback voor herstel na herstart of crash verwijderd."
 
@@ -18531,6 +18576,9 @@ msgstr "Deze Microsoft-tenant is al gekoppeld door {detail}. Vraag hen om eerst 
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Deze Microsoft-tenant is al gekoppeld door een andere Paradev-organisatie."
+
+msgid "This model isn't available"
+msgstr "Dit model is niet beschikbaar"
 
 msgid "This month"
 msgstr "Deze maand"
@@ -19084,12 +19132,6 @@ msgstr "Tunnel opgezet"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Maak van routineklussen agents die op een schema draaien of wanneer er een event binnenkomt: issue-triage, changelog-concepten, dependency-updates. Ze werken zelfstandig en openen PR's die jij kunt reviewen."
-
-msgid "Turn failed"
-msgstr "Beurt mislukt"
-
-msgid "Turn failed: {message}"
-msgstr "Beurt mislukt: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Zet “Externe toegang tot dit apparaat via de relay toestaan” aan"

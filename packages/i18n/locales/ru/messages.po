@@ -3704,6 +3704,9 @@ msgstr "Изменить значок"
 msgid "Change location"
 msgstr "Изменить расположение"
 
+msgid "Change model"
+msgstr "Сменить модель"
+
 msgid "Change or add labels…"
 msgstr "Изменить или добавить метки…"
 
@@ -4937,6 +4940,9 @@ msgstr "Для продолжения сессии агента нужно за�
 msgid "continuing the last session"
 msgstr "продолжая последнюю сессию"
 
+msgid "Continuing…"
+msgstr "Продолжаем…"
+
 msgid "Contributions"
 msgstr "Вклад"
 
@@ -5021,6 +5027,9 @@ msgstr "Скопировать комментарий"
 
 msgid "Copy comments"
 msgstr "Скопировать комментарии"
+
+msgid "Copy error"
+msgstr "Копировать ошибку"
 
 msgid "Copy error details"
 msgstr "Скопировать детали ошибки"
@@ -5572,6 +5581,9 @@ msgstr "Не удалось отправить ответ"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Не удалось связаться с облаком для {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Не удалось связаться с поставщиком модели"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Не удалось подключиться к этому облачному рабочему пространству. Возможно, оно ещё запускается — попробуйте снова."
 
@@ -5650,6 +5662,9 @@ msgstr "Не удалось проиндексировать файл"
 
 msgid "Couldn't start a new agent session"
 msgstr "Не удалось запустить новую сессию агента"
+
+msgid "Couldn't start a new chat."
+msgstr "Не удалось начать новый чат."
 
 msgid "Couldn't start agent session"
 msgstr "Не удалось запустить сессию агента"
@@ -9430,9 +9445,6 @@ msgstr "Нет подключения к интернету"
 
 msgid "Interrupt"
 msgstr "Прервать"
-
-msgid "Interrupted"
-msgstr "Прервано"
 
 msgid "Intro call"
 msgstr "Знакомство"
@@ -15136,6 +15148,9 @@ msgstr "Перезапускаем агентов на {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Перезапуск служб хоста…"
 
+msgid "Restarting the agent…"
+msgstr "Перезапуск агента…"
+
 msgid "Restarting…"
 msgstr "Перезапуск…"
 
@@ -15501,6 +15516,9 @@ msgstr "Запускать агента в терминале настройки
 
 msgid "Run this command?"
 msgstr "Выполнить эту команду?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Выполните это в терминале, затем продолжите:"
 
 msgid "Run workspace command"
 msgstr "Запустить команду рабочей области"
@@ -16662,11 +16680,17 @@ msgstr "Войдите один раз. Paradev держит подключен�
 msgid "Sign in to {0}"
 msgstr "Войдите в {0}"
 
+msgid "Sign in to continue"
+msgstr "Войдите, чтобы продолжить"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Войдите, чтобы продолжить в Paradev"
 
 msgid "Sign in to get started"
 msgstr "Войдите, чтобы начать"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Войдите в агент в терминале, затем продолжите."
 
 msgid "Sign in to view this page"
 msgstr "Войдите, чтобы открыть эту страницу"
@@ -17251,6 +17275,9 @@ msgstr "Запуск"
 msgid "Starting {agentLabel}"
 msgstr "Запуск {agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "Начинаем новый чат…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Запуск рабочей области для этого пул-реквеста"
 
@@ -17714,6 +17741,9 @@ msgstr "Задача"
 msgid "Task ID copied"
 msgstr "ID задачи скопирован"
 
+msgid "Task interrupted"
+msgstr "Задача прервана"
+
 msgid "Task key"
 msgstr "Ключ задач"
 
@@ -17972,8 +18002,17 @@ msgstr "Агент кликает и вводит текст в той же па
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "Агент копирует разговор; ветвь откроется в новой вкладке"
 
+msgid "The agent crashed"
+msgstr "Агент аварийно завершился"
+
+msgid "The agent lost this conversation"
+msgstr "Агент потерял этот разговор"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "Агент ведёт задачу от тикета до diff. Человек проверяет результат, а не нажатия клавиш. Внимание смещается с написания кода на постановку задач и оценку результата. Один инженер ведёт несколько агентов одновременно в изолированных рабочих областях."
+
+msgid "The agent stopped responding"
+msgstr "Агент перестал отвечать"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "Агент остановился при возобновлении разговора."
@@ -18171,6 +18210,9 @@ msgstr "Локальная служба хоста только что подн�
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "Большинству объединённых агентских PR нужно только ревью, без правок человека."
+
+msgid "The model declined to continue"
+msgstr "Модель отказалась продолжать"
 
 msgid "The name of your organization or team"
 msgstr "Название организации или команды"
@@ -18430,6 +18472,9 @@ msgstr "Не удаётся запустить эту облачную рабо�
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "Облачное рабочее пространство запускается. После простоя это может занять до 30 секунд."
 
+msgid "This conversation is too long for the model"
+msgstr "Этот разговор слишком длинный для модели"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "Это удалит сохранённую прокрутку, используемую для восстановления после перезагрузки или сбоя."
 
@@ -18531,6 +18576,9 @@ msgstr "Этот тенант Microsoft уже подключён пользов
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "Этот тенант Microsoft уже подключён другой организацией Paradev."
+
+msgid "This model isn't available"
+msgstr "Эта модель недоступна"
 
 msgid "This month"
 msgstr "В этом месяце"
@@ -19084,12 +19132,6 @@ msgstr "Туннель установлен"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Превратите рутину в агентов, которые запускаются по расписанию или при событии: разбор задач, черновики changelog, обновление зависимостей. Они работают сами и открывают PR, которые вы проверяете."
-
-msgid "Turn failed"
-msgstr "Ход завершился ошибкой"
-
-msgid "Turn failed: {message}"
-msgstr "Ход завершился ошибкой: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Включите «Разрешить удалённый доступ к этому устройству через реле»"

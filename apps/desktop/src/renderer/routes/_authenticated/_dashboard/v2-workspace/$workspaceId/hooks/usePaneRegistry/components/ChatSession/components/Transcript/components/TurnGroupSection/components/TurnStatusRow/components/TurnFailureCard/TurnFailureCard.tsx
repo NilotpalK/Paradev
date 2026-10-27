@@ -145,7 +145,7 @@ export function TurnFailureCard({
 								running === "new_chat" ? (
 									<Trans>Starting a new chat…</Trans>
 								) : (
-									<Trans>Start new chat</Trans>
+									<Trans>Start a new chat</Trans>
 								),
 							disabled: blocked || running === "new_chat",
 							onClick: () => startNewChat(newChat),

@@ -3704,6 +3704,9 @@ msgstr "Change icon"
 msgid "Change location"
 msgstr "Change location"
 
+msgid "Change model"
+msgstr "Change model"
+
 msgid "Change or add labels…"
 msgstr "Change or add labels…"
 
@@ -4937,6 +4940,9 @@ msgstr "Continuing an agent session requires a pinned workspace"
 msgid "continuing the last session"
 msgstr "continuing the last session"
 
+msgid "Continuing…"
+msgstr "Continuing…"
+
 msgid "Contributions"
 msgstr "Contributions"
 
@@ -5021,6 +5027,9 @@ msgstr "Copy comment"
 
 msgid "Copy comments"
 msgstr "Copy comments"
+
+msgid "Copy error"
+msgstr "Copy error"
 
 msgid "Copy error details"
 msgstr "Copy error details"
@@ -5572,6 +5581,9 @@ msgstr "Couldn't post reply"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "Couldn't reach cloud for {0}: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "Couldn't reach the model provider"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "Couldn't reach this cloud workspace. It may still be waking up — try again."
 
@@ -5650,6 +5662,9 @@ msgstr "Couldn't stage file"
 
 msgid "Couldn't start a new agent session"
 msgstr "Couldn't start a new agent session"
+
+msgid "Couldn't start a new chat."
+msgstr "Couldn't start a new chat."
 
 msgid "Couldn't start agent session"
 msgstr "Couldn't start agent session"
@@ -9430,9 +9445,6 @@ msgstr "Internet Disconnected"
 
 msgid "Interrupt"
 msgstr "Interrupt"
-
-msgid "Interrupted"
-msgstr "Interrupted"
 
 msgid "Intro call"
 msgstr "Intro call"
@@ -15136,6 +15148,9 @@ msgstr "Restarting agents on {accountLabel}."
 msgid "Restarting host services…"
 msgstr "Restarting host services…"
 
+msgid "Restarting the agent…"
+msgstr "Restarting the agent…"
+
 msgid "Restarting…"
 msgstr "Restarting…"
 
@@ -15501,6 +15516,9 @@ msgstr "Run the agent in the Workspace Setup terminal once setup finishes instea
 
 msgid "Run this command?"
 msgstr "Run this command?"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "Run this in a terminal, then continue:"
 
 msgid "Run workspace command"
 msgstr "Run workspace command"
@@ -16662,11 +16680,17 @@ msgstr "Sign in once. Paradev keeps the connection."
 msgid "Sign in to {0}"
 msgstr "Sign in to {0}"
 
+msgid "Sign in to continue"
+msgstr "Sign in to continue"
+
 msgid "Sign in to continue to Paradev"
 msgstr "Sign in to continue to Paradev"
 
 msgid "Sign in to get started"
 msgstr "Sign in to get started"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "Sign in to the agent in a terminal, then continue."
 
 msgid "Sign in to view this page"
 msgstr "Sign in to view this page"
@@ -17251,6 +17275,9 @@ msgstr "Starting"
 msgid "Starting {agentLabel}"
 msgstr "Starting {agentLabel}"
 
+msgid "Starting a new chat…"
+msgstr "Starting a new chat…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "Starting a workspace on this pull request"
 
@@ -17714,6 +17741,9 @@ msgstr "Task"
 msgid "Task ID copied"
 msgstr "Task ID copied"
 
+msgid "Task interrupted"
+msgstr "Task interrupted"
+
 msgid "Task key"
 msgstr "Task key"
 
@@ -17972,8 +18002,17 @@ msgstr "The agent clicks and types in the same pane to test the change. You watc
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "The agent copies the conversation; the branch opens in a new tab"
 
+msgid "The agent crashed"
+msgstr "The agent crashed"
+
+msgid "The agent lost this conversation"
+msgstr "The agent lost this conversation"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
+
+msgid "The agent stopped responding"
+msgstr "The agent stopped responding"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "The agent stopped while resuming the conversation."
@@ -18171,6 +18210,9 @@ msgstr "The local host service just came up. Reconnecting to it now."
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "The majority of merged agent PRs need review only, with zero human edits."
+
+msgid "The model declined to continue"
+msgstr "The model declined to continue"
 
 msgid "The name of your organization or team"
 msgstr "The name of your organization or team"
@@ -18430,6 +18472,9 @@ msgstr "This cloud workspace can't start"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 
+msgid "This conversation is too long for the model"
+msgstr "This conversation is too long for the model"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "This deletes the saved scrollback used for reboot/crash recovery."
 
@@ -18531,6 +18576,9 @@ msgstr "This Microsoft tenant is already connected by {detail}. Ask them to disc
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "This Microsoft tenant is already connected by another Paradev organization."
+
+msgid "This model isn't available"
+msgstr "This model isn't available"
 
 msgid "This month"
 msgstr "This month"
@@ -19084,12 +19132,6 @@ msgstr "Tunnel established"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
-
-msgid "Turn failed"
-msgstr "Turn failed"
-
-msgid "Turn failed: {message}"
-msgstr "Turn failed: {message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Turn on “Allow remote access to this device via relay”"

@@ -3704,6 +3704,9 @@ msgstr "アイコンを変更"
 msgid "Change location"
 msgstr "場所を変更"
 
+msgid "Change model"
+msgstr "モデルを変更"
+
 msgid "Change or add labels…"
 msgstr "ラベルを変更または追加…"
 
@@ -4937,6 +4940,9 @@ msgstr "エージェントセッションを継続するには、ワークスペ
 msgid "continuing the last session"
 msgstr "前回のセッションを継続"
 
+msgid "Continuing…"
+msgstr "続行しています…"
+
 msgid "Contributions"
 msgstr "コントリビューション"
 
@@ -5021,6 +5027,9 @@ msgstr "コメントをコピー"
 
 msgid "Copy comments"
 msgstr "コメントをコピー"
+
+msgid "Copy error"
+msgstr "エラーをコピー"
 
 msgid "Copy error details"
 msgstr "エラーの詳細をコピー"
@@ -5572,6 +5581,9 @@ msgstr "返信を投稿できませんでした"
 msgid "Couldn't reach cloud for {0}: {1}"
 msgstr "{0}のクラウドに接続できませんでした: {1}"
 
+msgid "Couldn't reach the model provider"
+msgstr "モデルのプロバイダーに接続できませんでした"
+
 msgid "Couldn't reach this cloud workspace. It may still be waking up — try again."
 msgstr "このクラウドワークスペースに接続できませんでした。まだ起動中の可能性があります。もう一度お試しください。"
 
@@ -5650,6 +5662,9 @@ msgstr "ファイルをステージできませんでした"
 
 msgid "Couldn't start a new agent session"
 msgstr "新しいエージェントセッションを開始できませんでした"
+
+msgid "Couldn't start a new chat."
+msgstr "新しいチャットを開始できませんでした。"
 
 msgid "Couldn't start agent session"
 msgstr "エージェントセッションを開始できませんでした"
@@ -9430,9 +9445,6 @@ msgstr "インターネットが切断されています"
 
 msgid "Interrupt"
 msgstr "中断"
-
-msgid "Interrupted"
-msgstr "中断されました"
 
 msgid "Intro call"
 msgstr "カジュアル面談"
@@ -15136,6 +15148,9 @@ msgstr "{accountLabel}でエージェントを再起動しています。"
 msgid "Restarting host services…"
 msgstr "ホストサービスを再起動中…"
 
+msgid "Restarting the agent…"
+msgstr "エージェントを再起動しています…"
+
 msgid "Restarting…"
 msgstr "再起動中…"
 
@@ -15501,6 +15516,9 @@ msgstr "2つ目のターミナルを並行して起動する代わりに、セ�
 
 msgid "Run this command?"
 msgstr "このコマンドを実行しますか？"
+
+msgid "Run this in a terminal, then continue:"
+msgstr "ターミナルでこれを実行してから続行してください:"
 
 msgid "Run workspace command"
 msgstr "ワークスペースのコマンドを実行"
@@ -16662,11 +16680,17 @@ msgstr "サインインは一度だけ。接続はParadevが保ちます。"
 msgid "Sign in to {0}"
 msgstr "{0}にサインイン"
 
+msgid "Sign in to continue"
+msgstr "続行するにはサインインしてください"
+
 msgid "Sign in to continue to Paradev"
 msgstr "サインインしてParadevに進む"
 
 msgid "Sign in to get started"
 msgstr "サインインして始めましょう"
+
+msgid "Sign in to the agent in a terminal, then continue."
+msgstr "ターミナルでエージェントにサインインしてから続行してください。"
 
 msgid "Sign in to view this page"
 msgstr "サインインしてこのページを表示"
@@ -17251,6 +17275,9 @@ msgstr "起動中"
 msgid "Starting {agentLabel}"
 msgstr "{agentLabel}を起動中"
 
+msgid "Starting a new chat…"
+msgstr "新しいチャットを開始しています…"
+
 msgid "Starting a workspace on this pull request"
 msgstr "このプルリクエストでワークスペースを開始しています"
 
@@ -17714,6 +17741,9 @@ msgstr "タスク"
 msgid "Task ID copied"
 msgstr "タスク ID をコピーしました"
 
+msgid "Task interrupted"
+msgstr "タスクが中断されました"
+
 msgid "Task key"
 msgstr "タスクキー"
 
@@ -17972,8 +18002,17 @@ msgstr "エージェントが同じペインでクリックや入力をして変
 msgid "The agent copies the conversation; the branch opens in a new tab"
 msgstr "エージェントが会話を複製し、分岐は新しいタブで開きます"
 
+msgid "The agent crashed"
+msgstr "エージェントがクラッシュしました"
+
+msgid "The agent lost this conversation"
+msgstr "エージェントがこの会話を失いました"
+
 msgid "The agent owns a task from ticket to diff. The human reviews the result, not the keystrokes. Attention shifts from writing code to specifying work and judging it. One engineer runs several agents at once in isolated workspaces."
 msgstr "エージェントがチケットから差分までタスクを引き受けます。人間はキー入力ではなく結果をレビューします。関心はコードを書くことから、作業を仕様化し判断することへ移ります。エンジニア1人が独立したワークスペースで複数のエージェントを同時に動かします。"
+
+msgid "The agent stopped responding"
+msgstr "エージェントが応答しなくなりました"
 
 msgid "The agent stopped while resuming the conversation."
 msgstr "会話の再開中にエージェントが停止しました。"
@@ -18171,6 +18210,9 @@ msgstr "ローカルのホストサービスが起動しました。今すぐ再
 
 msgid "The majority of merged agent PRs need review only, with zero human edits."
 msgstr "マージされたエージェントのPRの過半数が、レビューのみで済み、人間の編集がゼロである。"
+
+msgid "The model declined to continue"
+msgstr "モデルが続行を拒否しました"
 
 msgid "The name of your organization or team"
 msgstr "組織またはチームの名前"
@@ -18430,6 +18472,9 @@ msgstr "このクラウドワークスペースを起動できません"
 msgid "This cloud workspace is waking up, which can take up to 30 seconds after it has been idle."
 msgstr "このクラウドワークスペースを起動しています。しばらく使われていなかった場合は、最大30秒かかることがあります。"
 
+msgid "This conversation is too long for the model"
+msgstr "この会話はモデルには長すぎます"
+
 msgid "This deletes the saved scrollback used for reboot/crash recovery."
 msgstr "再起動やクラッシュからの復旧に使う保存済みスクロールバックを削除します。"
 
@@ -18531,6 +18576,9 @@ msgstr "このMicrosoftテナントは{detail}がすでに接続しています�
 
 msgid "This Microsoft tenant is already connected by another Paradev organization."
 msgstr "このMicrosoftテナントは別のParadev組織がすでに接続しています。"
+
+msgid "This model isn't available"
+msgstr "このモデルは利用できません"
 
 msgid "This month"
 msgstr "今月"
@@ -19084,12 +19132,6 @@ msgstr "トンネル確立"
 
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "定型作業を、スケジュールやイベントの発生で動くエージェントに任せましょう。Issueのトリアージ、Changelogの下書き、依存関係の更新など。エージェントは自律的に動き、レビュー用のPRを作成します。"
-
-msgid "Turn failed"
-msgstr "ターンが失敗しました"
-
-msgid "Turn failed: {message}"
-msgstr "ターンが失敗しました：{message}"
 
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "「リレー経由でこのデバイスへのリモートアクセスを許可」をオンにする"
