@@ -130,6 +130,9 @@ mock.module(
 	"../../usePaneRegistry/components/ChatSession/hooks/useSessionClient",
 	() => ({ useChatWiring: () => ({ transport }) }),
 );
+const { prependToDraft } = await import(
+	"../../usePaneRegistry/components/ChatSession/components/Composer/hooks/useComposerDraft"
+);
 const { useAutoAdoptChatSessions } = await import(
 	"../useAutoAdoptChatSessions"
 );
@@ -175,7 +178,7 @@ function show(
 		</QueryClientProvider>,
 	);
 }
-async function waitingPane(queued = true) {
+async function waitingPane(queued = true, draftId = "stable-draft") {
 	const store = createWorkspaceStore<PaneViewerData>();
 	const promptHash = await hashCloudAgentPrompt("initial prompt");
 	store.getState().addTab({
@@ -183,7 +186,7 @@ async function waitingPane(queued = true) {
 			{
 				kind: PENDING_CLOUD_CHAT_PANE_KIND,
 				data: {
-					draftId: "stable-draft",
+					draftId,
 					agentId: "claude",
 					promptHash,
 					...(queued
@@ -435,8 +438,8 @@ test("a terminal launch keeps what was typed by releasing the pane as a chat", a
 		}),
 	);
 	cleanup();
-	const drafted = await waitingPane(false);
-	localStorage.setItem("chat-v3-draft:stable-draft", "half a sentence");
+	const drafted = await waitingPane(false, "typed-draft");
+	prependToDraft("chat-v3-draft:typed-draft", ["half a sentence"]);
 	show(drafted.store, "terminal-draft-workspace");
 	await waitFor(() =>
 		expect(drafted.store.getState().tabs[0]?.panes[drafted.paneId]?.kind).toBe(
