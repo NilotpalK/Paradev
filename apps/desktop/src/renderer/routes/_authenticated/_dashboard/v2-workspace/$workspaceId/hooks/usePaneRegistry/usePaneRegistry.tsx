@@ -186,7 +186,11 @@ export function usePaneRegistry({
 	const { t } = useLingui();
 	const { workspace } = useWorkspace();
 	const workspaceId = workspace.id;
-	const closeChatWithUndo = useUndoableChatClose({ workspaceId, store });
+	const closeChatWithUndo = useUndoableChatClose({
+		workspaceId,
+		store,
+		linkedStores,
+	});
 	const host = useWorkspaceHostTarget(workspaceId);
 	const desktopUrl =
 		host.status === "ready" && host.kind === "sandbox" ? host.desktopUrl : null;

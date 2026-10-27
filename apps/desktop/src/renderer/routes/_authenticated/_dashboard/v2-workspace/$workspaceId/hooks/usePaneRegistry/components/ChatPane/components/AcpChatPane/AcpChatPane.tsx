@@ -35,6 +35,7 @@ import { readSavedChatMode } from "../../utils/savedChatMode";
 import { AcpRecovery } from "./components/AcpRecovery";
 import { DraftChat } from "./components/DraftChat";
 import { useChatSessionLiveness } from "./hooks/useChatSessionLiveness";
+import { useReplacementSession } from "./hooks/useReplacementSession";
 import { createWhenReachable } from "./utils/createWhenReachable";
 import {
 	isChatCreateWatched,
@@ -118,7 +119,15 @@ export function AcpChatPane({
 	)?.label;
 	const harness = acpHarnessForPreset(agent?.id);
 	const [failure, setFailure] = useState<string | null>(null);
-	const [replacement, setReplacement] = useState<string | null>(null);
+	const {
+		replacement,
+		hold: holdReplacement,
+		release: releaseReplacement,
+	} = useReplacementSession((orphan) => {
+		void wiring.transport
+			.closeSession({ sessionId: orphan })
+			.catch(() => undefined);
+	});
 
 	const { stored, checking } = useChatSessionLiveness({
 		hostUrl,
@@ -202,7 +211,7 @@ export function AcpChatPane({
 					},
 				);
 				if (!mounted.current) return false;
-				if (replacing) setReplacement(createdId);
+				if (replacing) holdReplacement(createdId);
 				else onSessionCreated(createdId);
 				return true;
 			} catch (error) {
@@ -218,6 +227,7 @@ export function AcpChatPane({
 			workspaceId,
 			terminalId,
 			onSessionCreated,
+			holdReplacement,
 			modelId,
 			modeId,
 			agent,
@@ -465,13 +475,13 @@ export function AcpChatPane({
 			const prompt = continueAfterRestart.current ?? undefined;
 			continueAfterRestart.current = null;
 			onSessionCreated(replacement, prompt);
-			setReplacement(null);
+			releaseReplacement();
 		};
 		const status = replacementState?.session?.status;
 		if (status === "dead") {
 			recoveryInFlight.current = false;
 			continueAfterRestart.current = null;
-			setReplacement(null);
+			releaseReplacement();
 			setFailure(
 				replacementState?.lastError ??
 					t({ message: "The agent stopped while resuming the conversation." }),
@@ -484,7 +494,7 @@ export function AcpChatPane({
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
-	}, [replacement, replacementState, onSessionCreated, t]);
+	}, [replacement, replacementState, onSessionCreated, releaseReplacement, t]);
 	const recovering =
 		replacement !== null ||
 		(recoverable && recoveries.current < MAX_RECOVERIES);
