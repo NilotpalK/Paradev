@@ -1,1 +1,4 @@
-export { useChatSessionLiveness } from "./useChatSessionLiveness";
+export {
+	markChatSessionLive,
+	useChatSessionLiveness,
+} from "./useChatSessionLiveness";

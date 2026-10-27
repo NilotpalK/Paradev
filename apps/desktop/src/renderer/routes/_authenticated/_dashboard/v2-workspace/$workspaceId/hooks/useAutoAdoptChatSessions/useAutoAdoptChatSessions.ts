@@ -3,6 +3,7 @@ import type { WorkspaceStore } from "@superset/panes";
 import { useWorkspaceClient } from "@superset/workspace-client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef } from "react";
+import { useTerminalAgentBindings } from "renderer/hooks/host-service/useTerminalAgentBindings";
 import { useWorkspaceConnectionRefresh } from "renderer/hooks/host-service/useWorkspaceConnectionRefresh";
 import { useWorkspaceEvent } from "renderer/hooks/host-service/useWorkspaceEvent";
 import { useAcpChatEnabled } from "renderer/hooks/useAcpChatEnabled";
@@ -23,6 +24,8 @@ import {
 	markChatSessionClosed,
 	reopenCloudChatLaunch,
 } from "../../utils/closedChatSessions";
+import { markChatSessionLive } from "../usePaneRegistry/components/ChatPane/components/AcpChatPane/hooks/useChatSessionLiveness";
+import { readComposerDraft } from "../usePaneRegistry/components/ChatSession/components/Composer/hooks/useComposerDraft";
 import { useChatWiring } from "../usePaneRegistry/components/ChatSession/hooks/useSessionClient";
 import { PENDING_CLOUD_CHAT_TIMEOUT_MS } from "./constants";
 import { initialCloudChatPromptHash } from "./utils/initialCloudChatPrompt";
@@ -66,6 +69,7 @@ export function useAutoAdoptChatSessions({
 	const { transport } = useChatWiring();
 	const queryClient = useQueryClient();
 	const tabs = useStore(store, (state) => state.tabs);
+	const terminalAgents = useTerminalAgentBindings(workspaceId, { enabled });
 	const waitingSince = useRef(new Map<string, number>());
 	const promptHashCache = useRef(new Map<string, string | null>());
 	const queryKey = useMemo(
@@ -178,6 +182,32 @@ export function useAutoAdoptChatSessions({
 			const since = waitingSince.current.get(pending.paneId) ?? now;
 			waitingSince.current.set(pending.paneId, since);
 			const deadline = since + pendingTimeoutMs;
+			const launchedInTerminal =
+				!session &&
+				[...terminalAgents.values()].some(
+					(binding) =>
+						binding.agentId === pending.data.agentId &&
+						!binding.chatSessionId &&
+						binding.endedAt === undefined,
+				);
+			if (launchedInTerminal) {
+				waitingSince.current.delete(pending.paneId);
+				const typed =
+					pending.data.queuedPrompts?.length ||
+					readComposerDraft(`chat-v3-draft:${pending.data.draftId}`);
+				if (typed) {
+					pending.store
+						.getState()
+						.replaceState((state) =>
+							releasePendingCloudChat(state, pending.paneId),
+						);
+				} else {
+					pending.store
+						.getState()
+						.closePane({ tabId: pending.tabId, paneId: pending.paneId });
+				}
+				continue;
+			}
 			if (!session && now >= deadline) {
 				const launched = forAgent.filter((candidate) => {
 					const hash = result.promptHashes[candidate.sessionId];
@@ -205,6 +235,7 @@ export function useAutoAdoptChatSessions({
 				.replaceState((state) =>
 					attachCloudChatSession(state, pending.paneId, session),
 				);
+			markChatSessionLive(queryClient, hostUrl, session.sessionId);
 			attached.add(session.sessionId);
 			if (session.terminalId) attached.add(session.terminalId);
 			reopenCloudChatLaunch(workspaceId, pending.data.promptHash);
@@ -268,6 +299,9 @@ export function useAutoAdoptChatSessions({
 		}
 		return () => clearTimeout(deadlineTimer);
 	}, [
+		queryClient,
+		hostUrl,
+		terminalAgents,
 		refresh,
 		pendingTimeoutMs,
 		enabled,

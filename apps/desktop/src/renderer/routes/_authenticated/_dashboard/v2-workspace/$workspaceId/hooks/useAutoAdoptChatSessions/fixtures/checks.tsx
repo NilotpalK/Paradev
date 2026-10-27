@@ -51,6 +51,14 @@ const changes = new Set<() => void>();
 const connectionListeners = new Set<() => void>();
 let refs = 0;
 let chatAvailability: "enabled" | "disabled" = "enabled";
+type Binding = {
+	terminalId: string;
+	agentId: string;
+	chatSessionId?: string;
+	endedAt?: number;
+};
+let terminalAgents = new Map<string, Binding>();
+const connectionStatus = { state: "open" };
 const transport = {
 	listSessions: async () => {
 		reads++;
@@ -88,7 +96,7 @@ mock.module("renderer/hooks/host-service/useWorkspaceHostUrl", () => ({
 }));
 mock.module("renderer/lib/host-event-bus", () => ({
 	getHostEventBus: () => ({
-		getConnectionStatus: () => ({ state: "open" }),
+		getConnectionStatus: () => connectionStatus,
 		subscribeConnectionStatus: (callback: () => void) => {
 			connectionListeners.add(callback);
 			return () => connectionListeners.delete(callback);
@@ -98,6 +106,9 @@ mock.module("renderer/lib/host-event-bus", () => ({
 			return () => refs--;
 		},
 	}),
+}));
+mock.module("renderer/hooks/host-service/useTerminalAgentBindings", () => ({
+	useTerminalAgentBindings: () => terminalAgents,
 }));
 mock.module("renderer/hooks/host-service/useWorkspaceEvent", () => ({
 	useWorkspaceEvent: (
@@ -164,7 +175,7 @@ function show(
 		</QueryClientProvider>,
 	);
 }
-async function waitingPane() {
+async function waitingPane(queued = true) {
 	const store = createWorkspaceStore<PaneViewerData>();
 	const promptHash = await hashCloudAgentPrompt("initial prompt");
 	store.getState().addTab({
@@ -175,7 +186,9 @@ async function waitingPane() {
 					draftId: "stable-draft",
 					agentId: "claude",
 					promptHash,
-					queuedPrompts: [[{ type: "text", text: "follow-up" }]],
+					...(queued
+						? { queuedPrompts: [[{ type: "text", text: "follow-up" }]] }
+						: {}),
 				},
 			},
 		],
@@ -227,6 +240,8 @@ afterEach(() => {
 	outlineReads = 0;
 	creates = 0;
 	chatAvailability = "enabled";
+	terminalAgents = new Map();
+	localStorage.clear();
 });
 afterAll(async () => {
 	if (!registered) await GlobalRegistrator.unregister();
@@ -378,4 +393,74 @@ test("a chat with no message yet backs off, and each first prompt is read once",
 	await changed();
 	await waitFor(() => expect(reads).toBeGreaterThanOrEqual(5));
 	expect(outlineReads).toBe(readsAfterResolve);
+});
+
+test("a launch the box ran in a terminal closes an untouched waiting pane at once", async () => {
+	const pending = await waitingPane(false);
+	terminalAgents = new Map([
+		[
+			"chat-term",
+			{ terminalId: "chat-term", agentId: "claude", chatSessionId: "other" },
+		],
+		["old-term", { terminalId: "old-term", agentId: "claude", endedAt: 1 }],
+		["codex-term", { terminalId: "codex-term", agentId: "codex" }],
+	]);
+	show(pending.store, "chat-binding-workspace");
+	await waitFor(() => expect(reads).toBe(1));
+	expect(pending.store.getState().tabs[0]?.panes[pending.paneId]?.kind).toBe(
+		PENDING_CLOUD_CHAT_PANE_KIND,
+	);
+	terminalAgents = new Map([
+		...terminalAgents,
+		["launch-term", { terminalId: "launch-term", agentId: "claude" }],
+	]);
+	await changed();
+	await waitFor(() => expect(pending.store.getState().tabs).toHaveLength(0));
+	expect(creates).toBe(0);
+});
+
+test("a terminal launch keeps what was typed by releasing the pane as a chat", async () => {
+	const queued = await waitingPane(true);
+	terminalAgents = new Map([
+		["launch-term", { terminalId: "launch-term", agentId: "claude" }],
+	]);
+	show(queued.store, "terminal-queued-workspace");
+	await waitFor(() =>
+		expect(
+			queued.store.getState().tabs[0]?.panes[queued.paneId]?.data,
+		).toMatchObject({
+			sessionId: null,
+			draftId: "stable-draft",
+			queuedPrompts: [[{ type: "text", text: "follow-up" }]],
+		}),
+	);
+	cleanup();
+	const drafted = await waitingPane(false);
+	localStorage.setItem("chat-v3-draft:stable-draft", "half a sentence");
+	show(drafted.store, "terminal-draft-workspace");
+	await waitFor(() =>
+		expect(drafted.store.getState().tabs[0]?.panes[drafted.paneId]?.kind).toBe(
+			"chat-v3",
+		),
+	);
+});
+
+test("an attached launch is already known live, so the chat does not show a resume notice", async () => {
+	const pending = await waitingPane();
+	sessions = [session("seeded")];
+	outlines.set("seeded", [message("superset-sessions", "initial prompt")]);
+	show(pending.store, "seeded-workspace");
+	await waitFor(() =>
+		expect(
+			pending.store.getState().tabs[0]?.panes[pending.paneId]?.data,
+		).toMatchObject({ sessionId: "seeded" }),
+	);
+	expect(
+		clients[0]?.getQueryData([
+			"acp-chat-session",
+			"seeded",
+			hostUrl,
+			connectionStatus,
+		]),
+	).toEqual({ live: true, session: null, cursor: null });
 });
