@@ -52,6 +52,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { isDropHandled, markDropHandled } from "../../../../utils/handledDrops";
+import { keepLineNavigationInEditor } from "../../../../utils/keepLineNavigationInEditor";
 import { AttachmentPills } from "../../../PromptInput/components/AttachmentPills";
 import { ContextButton } from "../../../PromptInput/components/ContextButton";
 import { DictationBar } from "../../../PromptInput/components/DictationBar";
@@ -220,6 +221,8 @@ export function MessageComposerBody({
 		editor.focus();
 		void entry.select(actionContextRef.current);
 	};
+
+	useEffect(() => keepLineNavigationInEditor(editor), [editor]);
 
 	// Typing "@" replaces browsing; the two menus never show together.
 	useEffect(() => {

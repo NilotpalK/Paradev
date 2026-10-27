@@ -53,6 +53,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { isDropHandled, markDropHandled } from "../../../../utils/handledDrops";
+import { keepLineNavigationInEditor } from "../../../../utils/keepLineNavigationInEditor";
 import { useComposerDropZone } from "../../../ComposerDropZone";
 import { useDictation } from "../../hooks/useDictation";
 import {
@@ -508,6 +509,7 @@ export function ComposerBody({
 		select: (option: CommandTypeaheadOption) => void;
 	} | null>(null);
 	const completingRef = useRef(false);
+	useEffect(() => keepLineNavigationInEditor(editor), [editor]);
 	useEffect(
 		() =>
 			editor.registerCommand<KeyboardEvent | null>(
