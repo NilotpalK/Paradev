@@ -3,7 +3,7 @@ import type {
 	BrowserWindow,
 	Notification as ElectronNotification,
 } from "electron";
-import { Notification } from "electron";
+import { app, Notification } from "electron";
 import { setBadgeCount } from "main/lib/dock-icon";
 import {
 	type AgentLifecycleEvent,
@@ -59,10 +59,12 @@ const showNativeInputSchema = z.object({
 		.optional(),
 	/** An app route the click opens, e.g. `/channels/<id>`. */
 	clickPath: z.string().startsWith("/").optional(),
+	group: z.string().min(1).optional(),
 });
 type ShowNativeInput = z.infer<typeof showNativeInputSchema>;
 
 const activeNativeNotifications = new Map<string, ElectronNotification>();
+const nativeNotificationGroups = new Map<string, string>();
 let nativeNotificationCounter = 0;
 
 function focusWindow(getWindow: () => BrowserWindow | null): void {
@@ -92,6 +94,7 @@ function trackNativeNotification(
 	const untrack = () => {
 		if (activeNativeNotifications.get(key) === notification) {
 			activeNativeNotifications.delete(key);
+			nativeNotificationGroups.delete(key);
 		}
 	};
 	notification.on("click", untrack);
@@ -120,6 +123,7 @@ export const createNotificationsRouter = (
 				});
 				const key = getNativeNotificationKey(input);
 				trackNativeNotification(key, notification);
+				if (input.group) nativeNotificationGroups.set(key, input.group);
 
 				notification.on("click", () => {
 					focusWindow(getWindow);
@@ -139,10 +143,36 @@ export const createNotificationsRouter = (
 				return { success: true as const };
 			}),
 
-		setDockBadge: publicProcedure
-			.input(z.object({ count: z.number().int().min(0) }))
+		closeGroup: publicProcedure
+			.input(z.object({ group: z.string().min(1) }))
 			.mutation(({ input }) => {
-				setBadgeCount(input.count);
+				for (const [key, group] of nativeNotificationGroups) {
+					if (group !== input.group) continue;
+					activeNativeNotifications.get(key)?.close();
+					activeNativeNotifications.delete(key);
+					nativeNotificationGroups.delete(key);
+				}
+				return { success: true as const };
+			}),
+
+		/** macOS only: once, or until the app is focused. */
+		bounceDock: publicProcedure
+			.input(z.object({ untilFocused: z.boolean() }))
+			.mutation(({ input }) => {
+				app.dock?.bounce(input.untilFocused ? "critical" : "informational");
+				return { success: true as const };
+			}),
+
+		setDockBadge: publicProcedure
+			.input(
+				z.object({
+					count: z.number().int().min(0),
+					/** A dot when the count is 0; macOS only. */
+					dot: z.boolean().optional(),
+				}),
+			)
+			.mutation(({ input }) => {
+				setBadgeCount(input.count, input.dot);
 				return { success: true as const };
 			}),
 

@@ -18,6 +18,7 @@ function message(
 		authorUserId,
 		body: "hi",
 		mentionedUserIds: [],
+		broadcast: null,
 		clientId: null,
 		replyCount: 0,
 		lastReplyAt: null,

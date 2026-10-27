@@ -36,6 +36,7 @@ import { MessageReactions } from "./components/MessageReactions";
 import { useMessageMenuItems } from "./hooks/useMessageMenuItems";
 import { toggleReaction } from "./utils/toggleReaction";
 
+const BROADCAST_ID_PREFIX = "broadcast:";
 export interface ChannelPerson {
 	id: string;
 	name: string;
@@ -149,10 +150,20 @@ export function ChannelMessageRow({
 	};
 
 	const markdown = useMemo(() => {
-		const mentioned = message.mentionedUserIds.flatMap((id) => {
-			const person = peopleById.get(id);
-			return person ? [person] : [];
-		});
+		const mentioned = [
+			...message.mentionedUserIds.flatMap((id) => {
+				const person = peopleById.get(id);
+				return person ? [person] : [];
+			}),
+			...(message.broadcast
+				? [
+						{
+							id: `${BROADCAST_ID_PREFIX}${message.broadcast}`,
+							name: message.broadcast,
+						},
+					]
+				: []),
+		];
 		const DefaultLink = chatMarkdownComponents.a;
 		const components: ChatMarkdownProps["components"] = {
 			a: (props: ComponentProps<typeof DefaultLink>) => {
@@ -166,6 +177,13 @@ export function ChannelMessageRow({
 				const id = props.href?.startsWith(MENTION_HREF_PREFIX)
 					? props.href.slice(MENTION_HREF_PREFIX.length)
 					: null;
+				if (id?.startsWith(BROADCAST_ID_PREFIX)) {
+					return (
+						<span className="rounded bg-primary/15 px-0.5 font-medium text-foreground">
+							{props.children}
+						</span>
+					);
+				}
 				const person = id ? peopleById.get(id) : undefined;
 				if (!person) return <DefaultLink {...props} />;
 				return (
@@ -179,16 +197,18 @@ export function ChannelMessageRow({
 				);
 			},
 		};
-		const remarkPlugins = [
-			...(mentioned.length > 0 ? [remarkMentions(mentioned)] : []),
-			...(message.editedAt ? [remarkEditedMark] : []),
-		];
+		const remarkPlugins: NonNullable<ChatMarkdownProps["remarkPlugins"]> = [];
+		if (mentioned.length > 0) {
+			remarkPlugins.push([remarkMentions, { people: mentioned }]);
+		}
+		if (message.editedAt) remarkPlugins.push(remarkEditedMark);
 		return {
 			components,
 			remarkPlugins: remarkPlugins.length > 0 ? remarkPlugins : undefined,
 		};
 	}, [
 		message.mentionedUserIds,
+		message.broadcast,
 		message.channelId,
 		message.editedAt,
 		peopleById,

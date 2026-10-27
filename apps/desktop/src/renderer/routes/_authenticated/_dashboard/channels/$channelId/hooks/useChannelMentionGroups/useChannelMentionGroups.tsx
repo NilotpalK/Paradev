@@ -2,13 +2,15 @@ import type { MessageMentionGroup } from "@superset/chat-ui/MessageComposer";
 import { useCallback, useMemo } from "react";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import type { ChannelPerson } from "../../components/ChannelMessageRow";
+import { MentionBroadcastRow } from "../../components/MentionBroadcastRow";
 import { MentionPersonRow } from "../../components/MentionPersonRow";
 import {
 	type MentionCandidate,
+	matchingBroadcasts,
 	rankMentionCandidates,
 } from "../../utils/mentionGroups";
 
-/** The @ menu for a channel: its members first, then everyone else in the org. */
+/** The @ menu for a channel: its members, everyone else in the org, then @channel and @here. */
 export function useChannelMentionGroups({
 	channelId,
 	people,
@@ -50,6 +52,18 @@ export function useChannelMentionGroups({
 			return [
 				{ id: "members", entries: inChannel.map((p) => toEntry(p, true)) },
 				{ id: "others", entries: others.map((p) => toEntry(p, false)) },
+				{
+					id: "broadcasts",
+					entries: matchingBroadcasts(query).map((broadcast) => ({
+						id: `broadcast:${broadcast}`,
+						chip: {
+							label: broadcast,
+							serialized: `@${broadcast}`,
+							data: { broadcast },
+						},
+						row: <MentionBroadcastRow broadcast={broadcast} />,
+					})),
+				},
 			];
 		},
 		[people, memberIds, currentUserId],
