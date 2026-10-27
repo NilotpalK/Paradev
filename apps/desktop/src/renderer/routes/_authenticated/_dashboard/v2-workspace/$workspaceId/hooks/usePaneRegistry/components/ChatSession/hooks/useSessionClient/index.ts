@@ -1,2 +1,6 @@
 export type { ChatWiring } from "./useSessionClient";
-export { useChatWiring, useSessionClient } from "./useSessionClient";
+export {
+	createChatSessionClient,
+	useChatWiring,
+	useSessionClient,
+} from "./useSessionClient";

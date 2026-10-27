@@ -76,14 +76,21 @@ export function useCarriedReaderPosition({
 		}
 		// After the scroller's own jump to the end for its first rows.
 		const frame = requestAnimationFrame(() => {
+			const content = viewport?.querySelector(
+				`[data-message-id="${CSS.escape(anchorId)}"]`,
+			)?.parentElement;
+			// The scroller aligns to the content's padding edge, not its border edge.
+			const contentPadding = content
+				? Number.parseFloat(getComputedStyle(content).paddingTop) || 0
+				: 0;
 			scrollerRef.current.scrollToMessage(anchorId, {
 				align: "start",
-				scrollMargin: -carried.offsetPx,
+				scrollMargin: -(carried.offsetPx + contentPadding),
 			});
 			setCarried(null);
 		});
 		return () => cancelAnimationFrame(frame);
-	}, [carried, hasRows, anchorId, scrollerRef]);
+	}, [carried, hasRows, anchorId, scrollerRef, viewport]);
 
 	return anchor?.key ?? null;
 }

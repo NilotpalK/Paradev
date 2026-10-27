@@ -43,6 +43,7 @@ import {
 	sharedChatCreate,
 	watchChatCreate,
 } from "./utils/sharedChatCreate";
+import { warmTranscript } from "./utils/warmTranscript";
 
 /**
  * A chat bridged to an agent session, resumed by its session id. `agent` comes
@@ -486,6 +487,9 @@ export function AcpChatPane({
 		refetchInterval: 500,
 		refetchIntervalInBackground: true,
 	});
+	const warmed = useRef<{ sessionId: string; done: Promise<void> } | null>(
+		null,
+	);
 	useEffect(() => {
 		if (!replacement) return;
 		const commit = () => {
@@ -508,8 +512,19 @@ export function AcpChatPane({
 			return;
 		}
 		if (replacementState?.live && status !== "starting") {
-			commit();
-			return;
+			if (warmed.current?.sessionId !== replacement) {
+				warmed.current = {
+					sessionId: replacement,
+					done: warmTranscript(replacement, wiring),
+				};
+			}
+			let current = true;
+			void warmed.current.done.then(() => {
+				if (current) commit();
+			});
+			return () => {
+				current = false;
+			};
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
@@ -517,6 +532,7 @@ export function AcpChatPane({
 		replacement,
 		replacementState,
 		sessionId,
+		wiring,
 		onSessionCreated,
 		releaseReplacement,
 		t,

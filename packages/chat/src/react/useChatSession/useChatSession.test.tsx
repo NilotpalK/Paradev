@@ -23,7 +23,12 @@ import { createManualWait } from "../../testing/manualWait";
 import { createMemoryStreamServer } from "../../testing/memoryStream";
 import { registerDom } from "../../testing/registerDom";
 import type { ChatSession, FrameScheduler } from "./useChatSession";
-import { DEFAULT_DELTAS, useChatSession } from "./useChatSession";
+import {
+	DEFAULT_DELTAS,
+	prefetchChatSession,
+	useChatSession,
+} from "./useChatSession";
+import { forgetSnapshot } from "./utils/snapshotCache";
 
 registerDom();
 const {
@@ -778,6 +783,39 @@ describe("useChatSession", () => {
 		expect([...session().snapshot.items.keys()]).toEqual(shown);
 		view.unmount();
 		again.close();
+		await stack.runtime.dispose();
+	});
+
+	test("shows a prefetched transcript at once on a session it never mounted", async () => {
+		const stack = await startStack();
+		const writer = stack.makeClient();
+		const writerView = render(<Probe client={writer} />);
+		await domWaitFor(() => expect(session().status).toBe("ready"));
+		act(() => {
+			session().sendPrompt([{ type: "text", text: "hello" }]);
+		});
+		await domWaitFor(() =>
+			expect(session().snapshot.session?.status).toBe("idle"),
+		);
+		const shown = [...session().snapshot.items.keys()];
+		writerView.unmount();
+		writer.close();
+		forgetSnapshot(stack.sessionId);
+
+		const prefetcher = stack.makeClient();
+		expect(await prefetchChatSession(prefetcher)).toBe(true);
+		prefetcher.close();
+
+		const host = heldUntilReleased(stack.transport);
+		const client = stack.makeClient({ transport: host.transport });
+		const view = render(<Probe client={client} />);
+		expect(session().status).toBe("loading");
+		expect([...session().snapshot.items.keys()]).toEqual(shown);
+
+		host.release();
+		await domWaitFor(() => expect(session().status).toBe("ready"));
+		view.unmount();
+		client.close();
 		await stack.runtime.dispose();
 	});
 
