@@ -102,16 +102,13 @@ export function CreateEnvironmentFlow({
 				scope: "personal",
 				...(projectId ? { projectId } : {}),
 			});
-			await Promise.all([
-				utils.environment.list.invalidate(),
-				utils.billing.environmentUsage.invalidate(),
-			]);
+			void utils.environment.list.invalidate();
+			void utils.billing.environmentUsage.invalidate();
 			const url = new URL(
 				`/environments/${environment.id}`,
 				env.NEXT_PUBLIC_WEB_URL,
 			).toString();
-			onOpenChange(false);
-			onStarted?.();
+			// Stays open, saying Starting…, until the session's page replaces this one.
 			await createSession(
 				setupPrompt({
 					environmentName: environment.name,
@@ -125,6 +122,8 @@ export function CreateEnvironmentFlow({
 					name: t({ message: `Set up ${environment.name}` }),
 				},
 			);
+			onOpenChange(false);
+			onStarted?.();
 		} catch (error) {
 			toast.error(errorMessage(error));
 		}
