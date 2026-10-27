@@ -1939,6 +1939,9 @@ msgstr "Aggiungi file, app e altro"
 msgid "Add files, apps, and more (@)"
 msgstr "Aggiungi file, app e altro (@)"
 
+msgid "Add instructions"
+msgstr "{'cs': 'Přidat pokyny', 'de': 'Anweisungen hinzufügen', 'es': 'Añadir instrucciones', 'fr': 'Ajouter des instructions', 'id': 'Tambahkan instruksi', 'it': 'Aggiungi istruzioni', 'ja': '指示を追加', 'ko': '지침 추가', 'nl': 'Instructies toevoegen', 'pl': 'Dodaj instrukcje', 'pt-BR': 'Adicionar instruções', 'ru': 'Добавить инструкции', 'tr': 'Talimat ekle', 'vi': 'Thêm hướng dẫn', 'zh-CN': '添加指示', 'zh-TW': '新增指示'}"
+
 #. placeholder {0}: issue.issueNumber
 msgid "Add issue #{0} to workspace"
 msgstr "Aggiungi la issue #{0} al workspace"
@@ -2042,6 +2045,9 @@ msgstr "Aggiungi alla barra laterale"
 msgid "Add to workspace"
 msgstr "Aggiungi al workspace"
 
+msgid "Add what it does"
+msgstr "{'cs': 'Přidat, co dělá', 'de': 'Beschreiben, was er macht', 'es': 'Añadir qué hace', 'fr': 'Ajouter ce qu’il fait', 'id': 'Tambahkan apa yang dilakukannya', 'it': 'Aggiungi cosa fa', 'ja': '役割を追加', 'ko': '하는 일 추가', 'nl': 'Toevoegen wat hij doet', 'pl': 'Dodaj, co robi', 'pt-BR': 'Adicionar o que ele faz', 'ru': 'Добавить, что он делает', 'tr': 'Ne yaptığını ekle', 'vi': 'Thêm việc nó làm', 'zh-CN': '添加它的用途', 'zh-TW': '新增它的用途'}"
+
 msgid "Add your own terminal agent to this device."
 msgstr "Aggiungi un tuo agente da terminale a questo dispositivo."
 
@@ -2132,6 +2138,9 @@ msgstr "L’agente sta lavorando"
 
 msgid "Agent launch configuration"
 msgstr "Configurazione di avvio dell'agente"
+
+msgid "Agent not found"
+msgstr "Agente non trovato"
 
 msgid "Agent picker (Claude, Codex, Cursor…) used by every session-creation flow"
 msgstr "Selettore di agente (Claude, Codex, Cursor…) usato da ogni flusso di creazione delle sessioni"
@@ -2753,6 +2762,9 @@ msgstr "apps/web/src/app/design/components/LayoutSection/LayoutSection.tsx"
 
 msgid "Archive"
 msgstr "Archivia"
+
+msgid "Archive {name}?"
+msgstr "Archiviare {name}?"
 
 #. placeholder {0}: channel.name
 msgid "Archive #{0}?"
@@ -3889,6 +3901,9 @@ msgstr "Sessione di chat non trovata"
 
 msgid "Chat surfaces: messages, reasoning, suggestions"
 msgstr "Superfici della chat: messaggi, ragionamento, suggerimenti"
+
+msgid "Chats"
+msgstr "Chat"
 
 msgid "Check again"
 msgstr "Controlla di nuovo"
@@ -5703,6 +5718,9 @@ msgstr "Impossibile salvare le modifiche"
 msgid "Couldn't save the change"
 msgstr "Impossibile salvare la modifica"
 
+msgid "Couldn't save the Dev"
+msgstr "Impossibile salvare il Dev"
+
 msgid "Couldn't send comment"
 msgstr "Impossibile inviare il commento"
 
@@ -5804,6 +5822,9 @@ msgstr "Crea \"{newLabel}\""
 
 msgid "Create a channel"
 msgstr "Crea un canale"
+
+msgid "Create a Dev"
+msgstr "Crea un Dev"
 
 msgid "Create a native provider fork with the same conversation context. The original session stays unchanged."
 msgstr "Crea un fork nativo del provider con lo stesso contesto della conversazione. La sessione originale resta invariata."
@@ -5971,6 +5992,9 @@ msgstr "Creata il {0} · Ultimo uso {1}"
 msgid "Created {ago}"
 msgstr "Creato {ago}"
 
+msgid "Created {created}"
+msgstr "Creato il {created}"
+
 msgid "Created {createdAgo}"
 msgstr "Creato {createdAgo}"
 
@@ -6134,6 +6158,12 @@ msgstr "Provider personalizzato"
 
 msgid "Custom themes"
 msgstr "Temi personalizzati"
+
+msgid "Customize"
+msgstr "Personalizza"
+
+msgid "Customize {devName}"
+msgstr "Personalizza {devName}"
 
 msgid "Customize commands"
 msgstr "Personalizza i comandi"
@@ -6575,6 +6605,9 @@ msgstr "I dettagli non sono disponibili qui, ma il link si apre comunque."
 msgid "Dev"
 msgstr "Dev"
 
+msgid "Dev options"
+msgstr "Opzioni del Dev"
+
 msgid "Dev sign in"
 msgstr "Accesso di sviluppo"
 
@@ -6601,6 +6634,9 @@ msgstr "Dispositivo: {selectedLabel}"
 
 msgid "Devices"
 msgstr "Dispositivi"
+
+msgid "Devs"
+msgstr "Devs"
 
 msgid "DevTools"
 msgstr "DevTools"
@@ -6646,6 +6682,12 @@ msgstr "diff in una nuova scheda"
 
 msgid "Digital Product Designer"
 msgstr "Designer di prodotti digitali"
+
+msgid "Direct message"
+msgstr "Messaggio diretto"
+
+msgid "Direct messages"
+msgstr "{'cs': 'Přímé zprávy', 'de': 'Direktnachrichten', 'es': 'Mensajes directos', 'fr': 'Messages directs', 'id': 'Pesan langsung', 'it': 'Messaggi diretti', 'ja': 'ダイレクトメッセージ', 'ko': '다이렉트 메시지', 'nl': 'Directe berichten', 'pl': 'Wiadomości bezpośrednie', 'pt-BR': 'Mensagens diretas', 'ru': 'Личные сообщения', 'tr': 'Doğrudan mesajlar', 'vi': 'Tin nhắn trực tiếp', 'zh-CN': '私信', 'zh-TW': '私訊'}"
 
 msgid "Direct mode"
 msgstr "Modalità diretta"
@@ -7511,6 +7553,9 @@ msgstr "Molto alto"
 msgid "Extra small"
 msgstr "Molto piccolo"
 
+msgid "Eyes"
+msgstr "Occhi"
+
 msgid "F4 gate · {F4_GATE_SHARE}%"
 msgstr "gate F4 · {F4_GATE_SHARE}%"
 
@@ -8225,8 +8270,8 @@ msgstr "Cerca nel terminale"
 msgid "Find in this chat"
 msgstr "Cerca in questa chat"
 
-msgid "Find people"
-msgstr "Trova persone"
+msgid "Find people and Devs"
+msgstr "{'cs': 'Najít lidi a Devy', 'de': 'Personen und Devs finden', 'es': 'Buscar personas y Devs', 'fr': 'Trouver des personnes et des Devs', 'id': 'Cari orang dan Dev', 'it': 'Trova persone e Dev', 'ja': 'メンバーと Dev を検索', 'ko': '사람 및 Dev 찾기', 'nl': 'Mensen en Devs zoeken', 'pl': 'Znajdź osoby i Devy', 'pt-BR': 'Encontrar pessoas e Devs', 'ru': 'Найти людей и Dev', 'tr': \"Kişileri ve Dev'leri bul\", 'vi': 'Tìm người và Dev', 'zh-CN': '查找成员和 Dev', 'zh-TW': '尋找成員和 Dev'}"
 
 msgid "Finder"
 msgstr "Finder"
@@ -9102,6 +9147,9 @@ msgstr "Come si aprono i comandi raggruppati."
 msgid "How is Paradev different from just running Claude Code in a terminal?"
 msgstr "In cosa Paradev è diverso dal semplice eseguire Claude Code in un terminale?"
 
+msgid "How it should work and what to avoid"
+msgstr "{'cs': 'Jak má pracovat a čemu se vyhnout', 'de': 'Wie er arbeiten soll und was er vermeiden soll', 'es': 'Cómo debe trabajar y qué evitar', 'fr': 'Comment il doit travailler et ce qu’il doit éviter', 'id': 'Cara kerjanya dan apa yang harus dihindari', 'it': 'Come deve lavorare e cosa evitare', 'ja': '作業の進め方と避けること', 'ko': '작업 방식과 피해야 할 것', 'nl': 'Hoe hij moet werken en wat hij moet vermijden', 'pl': 'Jak ma działać i czego unikać', 'pt-BR': 'Como ele deve trabalhar e o que evitar', 'ru': 'Как работать и чего избегать', 'tr': 'Nasıl çalışmalı ve nelerden kaçınmalı', 'vi': 'Cách làm việc và những điều cần tránh', 'zh-CN': '工作方式和需要避免的事项', 'zh-TW': '工作方式與需要避免的事項'}"
+
 msgid "How it works"
 msgstr "Come funziona"
 
@@ -9724,6 +9772,9 @@ msgstr "Non potrà essere recuperato."
 
 msgid "It keeps the title from your prompt."
 msgstr "Mantiene il titolo del tuo prompt."
+
+msgid "It loses all its access at once. Its chats and the work it made are kept."
+msgstr "Perde subito tutti gli accessi. Le chat e il lavoro che ha prodotto vengono conservati."
 
 msgid "It may be asleep"
 msgstr "Potrebbe essere in stop"
@@ -10396,6 +10447,9 @@ msgstr "Indicatori di caricamento e di attività in corso"
 msgid "Loading changes..."
 msgstr "Caricamento delle modifiche..."
 
+msgid "Loading chat"
+msgstr "Caricamento della chat"
+
 msgid "Loading comments…"
 msgstr "Caricamento dei commenti…"
 
@@ -10431,6 +10485,9 @@ msgstr "Caricamento delle issue..."
 
 msgid "Loading issues…"
 msgstr "Caricamento delle issue…"
+
+msgid "Loading link preview"
+msgstr "Caricamento dell’anteprima del link"
 
 msgid "Loading members..."
 msgstr "Caricamento dei membri..."
@@ -10839,6 +10896,9 @@ msgstr "Quota di memoria"
 msgid "Mention."
 msgstr "Menziona."
 
+msgid "Mentioned in a channel"
+msgstr "Menzionato in un canale"
+
 msgid "Menubar"
 msgstr "Menubar"
 
@@ -10899,6 +10959,9 @@ msgstr "Unione in corso…"
 
 msgid "Mesh Gradient"
 msgstr "Mesh Gradient"
+
+msgid "Message {name}"
+msgstr "Scrivi a {name}"
 
 msgid "Message {name}…"
 msgstr "Messaggio per {name}…"
@@ -11844,6 +11907,9 @@ msgstr "Nessun commento di revisione aperto."
 msgid "No organization selected"
 msgstr "Nessuna organizzazione selezionata"
 
+msgid "No other chats here"
+msgstr "Nessun'altra chat qui"
+
 msgid "No pages match"
 msgstr "Nessuna pagina corrisponde"
 
@@ -12257,6 +12323,9 @@ msgstr "Niente in esecuzione"
 msgid "Nothing was missed"
 msgstr "Non è stato perso nulla"
 
+msgid "Nothing yet"
+msgstr "{'cs': 'Zatím nic', 'de': 'Noch nichts', 'es': 'Nada todavía', 'fr': 'Rien pour l’instant', 'id': 'Belum ada', 'it': 'Ancora niente', 'ja': 'まだありません', 'ko': '아직 없음', 'nl': 'Nog niets', 'pl': 'Na razie nic', 'pt-BR': 'Nada ainda', 'ru': 'Пока ничего', 'tr': 'Henüz bir şey yok', 'vi': 'Chưa có gì', 'zh-CN': '暂无', 'zh-TW': '尚無'}"
+
 msgid "Notice"
 msgstr "Avviso"
 
@@ -12474,6 +12543,9 @@ msgstr "Solo i proprietari dell'host o i proprietari dell'organizzazione possono
 msgid "Only images can be attached to a comment"
 msgstr "A un commento si possono allegare solo immagini"
 
+msgid "Only its creator or an organization admin can change this agent"
+msgstr "Solo chi l'ha creato o un amministratore dell'organizzazione può modificare questo agente"
+
 msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
 msgstr "Solo su questo computer: ignorato da git e applicato a ogni worktree di questo repository. Ogni chiave impostata qui sostituisce quella condivisa."
 
@@ -12494,6 +12566,9 @@ msgstr "Solo i proprietari possono gestire la fatturazione"
 
 msgid "Only owners can update organization settings"
 msgstr "Solo i proprietari possono aggiornare le impostazioni dell'organizzazione"
+
+msgid "Only people can manage a channel"
+msgstr "Solo le persone possono gestire un canale"
 
 msgid "Only people in this organization can join"
 msgstr "Solo le persone di questa organizzazione possono unirsi"
@@ -13727,6 +13802,9 @@ msgstr "Scegli la cartella dei worktree su {hostName}."
 msgid "Pick your agent for a one-line install, or copy the config by hand. Every client, including OAuth and API key setup, is covered in the <0>full MCP server docs</0>."
 msgstr "Scegli il tuo agente per un'installazione in una riga, oppure copia la configurazione a mano. Ogni client, inclusa la configurazione di OAuth e delle chiavi API, è trattato nella <0>documentazione completa del server MCP</0>."
 
+msgid "Picked by the channel"
+msgstr "Scelto dal canale"
+
 msgid "PID"
 msgstr "PID"
 
@@ -14554,6 +14632,12 @@ msgstr "Lettura dell'utilizzo…"
 msgid "Reading your local usage…"
 msgstr "Lettura dell'utilizzo locale…"
 
+msgid "Reads and posts"
+msgstr "{'cs': 'Čte a píše', 'de': 'Liest und postet', 'es': 'Lee y publica', 'fr': 'Lit et publie', 'id': 'Membaca dan memposting', 'it': 'Legge e pubblica', 'ja': '閲覧・投稿', 'ko': '읽기 및 게시', 'nl': 'Leest en plaatst', 'pl': 'Czyta i publikuje', 'pt-BR': 'Lê e publica', 'ru': 'Читает и пишет', 'tr': 'Okur ve paylaşır', 'vi': 'Đọc và đăng', 'zh-CN': '可读可发', 'zh-TW': '可讀可發'}"
+
+msgid "Ready"
+msgstr "{'cs': 'Připraven', 'de': 'Bereit', 'es': 'Listo', 'fr': 'Prêt', 'id': 'Siap', 'it': 'Pronto', 'ja': '準備完了', 'ko': '준비됨', 'nl': 'Klaar', 'pl': 'Gotowy', 'pt-BR': 'Pronto', 'ru': 'Готов', 'tr': 'Hazır', 'vi': 'Sẵn sàng', 'zh-CN': '就绪', 'zh-TW': '就緒'}"
+
 msgid "Ready for review"
 msgstr "Pronto per la revisione"
 
@@ -14807,6 +14891,9 @@ msgstr "Rimuovi {label}"
 
 msgid "Remove {label}?"
 msgstr "Rimuovere {label}?"
+
+msgid "Remove {name}"
+msgstr "{'cs': 'Odebrat {name}', 'de': '{name} entfernen', 'es': 'Quitar a {name}', 'fr': 'Retirer {name}', 'id': 'Hapus {name}', 'it': 'Rimuovi {name}', 'ja': '{name} を削除', 'ko': '{name} 제거', 'nl': '{name} verwijderen', 'pl': 'Usuń {name}', 'pt-BR': 'Remover {name}', 'ru': 'Удалить {name}', 'tr': '{name} kaldır', 'vi': 'Xóa {name}', 'zh-CN': '移除 {name}', 'zh-TW': '移除 {name}'}"
 
 msgid "Remove {repositoryName}"
 msgstr "Rimuovi {repositoryName}"
@@ -16540,6 +16627,9 @@ msgstr "ricetta tooltip di shadcn/ui"
 msgid "Shade is relative to this developer's busiest day"
 msgstr "L'intensità è relativa al giorno più intenso di questo sviluppatore"
 
+msgid "Shape"
+msgstr "Forma"
+
 msgid "Share"
 msgstr "Condividi"
 
@@ -17678,6 +17768,9 @@ msgstr "Il limite di frequenza per il supporto non è configurato"
 msgid "Support the project with a GitHub star"
 msgstr "Sostieni il progetto con una star su GitHub"
 
+msgid "Surprise me"
+msgstr "Sorprendimi"
+
 msgid "Suspended"
 msgstr "Sospesa"
 
@@ -17868,6 +17961,9 @@ msgstr "Ci do un'occhiata…"
 
 msgid "Taking longer than usual. It keeps going if you leave."
 msgstr "Ci sta mettendo più del solito. Continua anche se esci."
+
+msgid "Talk to it"
+msgstr "{'cs': 'Jak s ním mluvit', 'de': 'Ansprechen', 'es': 'Hablar con él', 'fr': 'Lui parler', 'id': 'Bicara dengannya', 'it': 'Parlagli', 'ja': '話しかける', 'ko': '대화하기', 'nl': 'Ermee praten', 'pl': 'Rozmowa', 'pt-BR': 'Falar com ele', 'ru': 'Связаться', 'tr': 'Onunla konuş', 'vi': 'Trò chuyện', 'zh-CN': '与它交流', 'zh-TW': '與它交流'}"
 
 msgid "Talk to Paradev"
 msgstr "Parla con Paradev"
@@ -18607,6 +18703,12 @@ msgstr "Questo canale è archiviato"
 msgid "This chat has ended."
 msgstr "Questa chat è terminata."
 
+msgid "This chat is empty."
+msgstr "Questa chat è vuota."
+
+msgid "This chat may have been removed or you may not have access."
+msgstr "Questa chat potrebbe essere stata rimossa o potresti non avervi accesso."
+
 msgid "This chat stopped because the conversation continued in a terminal."
 msgstr "Questa chat si è interrotta perché la conversazione è proseguita in un terminale."
 
@@ -18973,6 +19075,9 @@ msgstr "Thread in #{channelName}"
 
 msgid "Thread not found"
 msgstr "Thread non trovato"
+
+msgid "Thread reply"
+msgstr "Risposta nel thread"
 
 msgid "Threads"
 msgstr "Thread"
@@ -20289,6 +20394,9 @@ msgstr "Cos'è Paradev Enterprise?"
 msgid "What is wrong?"
 msgstr "Qual è il problema?"
 
+msgid "What it does"
+msgstr "Cosa fa"
+
 msgid "What platforms does Paradev run on?"
 msgstr "Su quali piattaforme gira Paradev?"
 
@@ -20434,6 +20542,9 @@ msgstr "con o senza allegati"
 msgid "With the Paradev mobile app, I can address production issues from anywhere."
 msgstr "Con l’app mobile di Paradev posso risolvere i problemi in produzione ovunque mi trovi."
 
+msgid "Woke itself"
+msgstr "Si è svegliato da solo"
+
 msgid "Wordmark, black"
 msgstr "Logotipo, nero"
 
@@ -20480,6 +20591,9 @@ msgstr "Al lavoro da {0} min {1} s"
 
 msgid "Working for {seconds}s"
 msgstr "Al lavoro da {seconds} s"
+
+msgid "Working on"
+msgstr "{'cs': 'Pracuje na', 'de': 'Arbeitet an', 'es': 'Trabajando en', 'fr': 'En cours', 'id': 'Sedang dikerjakan', 'it': 'Sta lavorando a', 'ja': '作業中', 'ko': '작업 중', 'nl': 'Bezig met', 'pl': 'Pracuje nad', 'pt-BR': 'Trabalhando em', 'ru': 'В работе', 'tr': 'Üzerinde çalışıyor', 'vi': 'Đang làm', 'zh-CN': '正在处理', 'zh-TW': '正在處理'}"
 
 msgid "Working…"
 msgstr "In corso…"

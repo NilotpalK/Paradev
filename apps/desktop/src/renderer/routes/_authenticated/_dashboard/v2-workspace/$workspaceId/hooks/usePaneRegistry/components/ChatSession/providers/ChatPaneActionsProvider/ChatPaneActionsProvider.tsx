@@ -1,6 +1,6 @@
 import type { TurnChanges, TurnUndoResult } from "@superset/chat-runtime";
 import { createContext, type ReactNode, useContext, useMemo } from "react";
-import type { ModifierEvent } from "renderer/lib/clickPolicy";
+import type { LinkAction, ModifierEvent } from "renderer/lib/clickPolicy";
 import type { DiffPaneFilter, OpenFile } from "../../../../../../types";
 
 export type OpenPage = (url: string, event: ModifierEvent) => void;
@@ -23,9 +23,11 @@ export type TurnChangesSource = {
 	): Promise<TurnUndoResult | "unsupported">;
 };
 
+/** `action` overrides the click policy, as a context menu entry does. */
 export type OpenLink = (
 	href: string,
 	event: ModifierEvent & { clientX: number; clientY: number },
+	action?: LinkAction,
 ) => boolean;
 
 export type ChatPaneActions = {

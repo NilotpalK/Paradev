@@ -94,6 +94,8 @@ export interface PendingCloudChatPaneData {
 	draftId: string;
 	agentId: string;
 	promptHash: string;
+	/** What the user typed; shown until the box's transcript has it. */
+	launchPrompt?: string;
 	queuedPrompts?: UserContent[][];
 	chatModelId?: string;
 	chatModeId?: string;
@@ -114,10 +116,13 @@ export interface ChatPaneData {
 		mimeType: string;
 	}>;
 	queuedPrompts?: UserContent[][];
+	launchPrompt?: string;
 	chatModelId?: string;
 	chatModelLabel?: string;
 	chatModeId?: string;
 	chatTitle?: string;
+	/** A Paradev agent's session: the pane reads it from the agent session store, not the host. */
+	agentSession?: { id: string; agentName: string };
 }
 
 export interface DesktopPaneData {

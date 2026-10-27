@@ -11,6 +11,7 @@ import type {
 import { useLinkClickHint } from "../../hooks/useLinkClickHint";
 import type { OpenDiff } from "../ChatSession/providers/ChatPaneActionsProvider";
 import { AcpChatPane } from "./components/AcpChatPane";
+import { AgentChatPane } from "./components/AgentChatPane";
 import { useOpenChatLink } from "./hooks/useOpenChatLink";
 import { useOpenChatPage } from "./hooks/useOpenChatPage";
 import { openChatHistory } from "./utils/chatHistoryOpen";
@@ -87,6 +88,40 @@ export function ChatPane({
 		...(data.queuedPrompts ?? []),
 	];
 
+	const clearPendingPrompts = () => {
+		const {
+			pendingPrompt: _sent,
+			pendingAttachments: _attached,
+			queuedPrompts: _queued,
+			...rest
+		} = latest.current;
+		ctx.actions.updateData(rest);
+	};
+
+	if (data.agentSession) {
+		return (
+			<>
+				<AgentChatPane
+					agentSessionId={data.agentSession.id}
+					agentName={data.agentSession.agentName}
+					workspaceId={workspaceId}
+					isActive={ctx.isActive}
+					pendingPrompts={pendingPrompts}
+					onPendingPromptsSent={clearPendingPrompts}
+					onOpenFile={onOpenFile}
+					onOpenPage={openPage}
+					onOpenLink={openLink}
+					onOpenHistory={onOpenHistory}
+				/>
+				<LinkHoverHint
+					hoverLabel={null}
+					hoverPosition={null}
+					clickHint={hint}
+				/>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<AcpChatPane
@@ -94,15 +129,7 @@ export function ChatPane({
 				agent={data.agent}
 				draftId={data.draftId}
 				isActive={ctx.isActive}
-				onPendingPromptsSent={() => {
-					const {
-						pendingPrompt: _sent,
-						pendingAttachments: _attached,
-						queuedPrompts: _queued,
-						...rest
-					} = latest.current;
-					ctx.actions.updateData(rest);
-				}}
+				onPendingPromptsSent={clearPendingPrompts}
 				onQueuePrompt={(content) =>
 					ctx.actions.updateData({
 						...latest.current,
@@ -110,6 +137,7 @@ export function ChatPane({
 					})
 				}
 				pendingPrompts={pendingPrompts}
+				launchPrompt={data.launchPrompt}
 				modelId={data.chatModelId}
 				modelLabel={data.chatModelLabel}
 				modeId={data.chatModeId}

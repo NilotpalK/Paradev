@@ -235,6 +235,7 @@ export function createChatRouter(
 			.query(({ input }) =>
 				runtime.commands.listSessions({
 					limit: input.limit,
+					...(input.query === undefined ? {} : { query: input.query }),
 					...(input.workspaceId === undefined
 						? {}
 						: { scopeId: input.workspaceId }),
