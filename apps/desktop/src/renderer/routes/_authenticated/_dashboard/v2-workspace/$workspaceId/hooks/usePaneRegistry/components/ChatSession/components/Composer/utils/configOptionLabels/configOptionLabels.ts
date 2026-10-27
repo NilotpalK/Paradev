@@ -1,12 +1,5 @@
 import type { SessionConfigOption } from "@superset/chat/protocol";
-
-export function isToggle(option: SessionConfigOption) {
-	return (
-		option.options.length === 2 &&
-		option.options.some((entry) => entry.id === "on") &&
-		option.options.some((entry) => entry.id === "off")
-	);
-}
+import { fastOption } from "../toggleOption";
 
 export function currentLabel(option: SessionConfigOption | undefined) {
 	return option?.options.find((entry) => entry.id === option.currentValue)
@@ -20,9 +13,7 @@ export function configOptionLabels(configOptions: SessionConfigOption[]) {
 	const effort = configOptions.find(
 		(option) => option.category === "thought_level",
 	);
-	const fast = configOptions.find(
-		(option) => option.id === "fast" && isToggle(option),
-	);
+	const fast = fastOption(configOptions);
 	return {
 		model: currentLabel(model) ?? model?.label,
 		effort: currentLabel(effort),

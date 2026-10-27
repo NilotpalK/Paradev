@@ -1,5 +1,1 @@
-export {
-	configOptionLabels,
-	currentLabel,
-	isToggle,
-} from "./configOptionLabels";
+export { configOptionLabels, currentLabel } from "./configOptionLabels";

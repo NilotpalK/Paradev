@@ -69,6 +69,7 @@ export function AcpChatPane({
 	onOpenPage,
 	onOpenLink,
 	onOpenHistory,
+	onNewChat,
 	onModeChange,
 	onSessionCreated,
 	onSwitchAgent,
@@ -101,6 +102,8 @@ export function AcpChatPane({
 	onOpenLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
+	/** Opens a fresh chat with this pane's agent, titled with its label. */
+	onNewChat?: (label: string | undefined) => void;
 	onSwitchAgent?: (target: AgentSwitchTarget) => void;
 	onOpenAgentChat?: (target: AgentSwitchTarget) => void;
 	onOpenForkedChat?: (fork: { sessionId: string; terminalId: string }) => void;
@@ -298,6 +301,14 @@ export function AcpChatPane({
 			});
 		},
 		[forkHere, forkToWorktree, agent, agentLabel],
+	);
+
+	const presetLabel =
+		agentLabel ??
+		agentConfigs?.find((config) => config.presetId === agent?.id)?.label;
+	const newChat = useMemo(
+		() => (onNewChat ? () => onNewChat(presetLabel) : undefined),
+		[onNewChat, presetLabel],
 	);
 
 	const startFresh = useCallback(() => {
@@ -676,6 +687,7 @@ export function AcpChatPane({
 			openPage={onOpenPage}
 			openLink={onOpenLink}
 			onOpenHistory={onOpenHistory}
+			onNewChat={newChat}
 			onSessionState={(state) => {
 				// A resume that found no transcript lands on a different agent
 				// session. Keep the pane pointed at the live one, or the trip back

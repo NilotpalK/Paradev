@@ -92,6 +92,9 @@ msgstr "(tidak ada keluaran)"
 msgid "(you)"
 msgstr "(Anda)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# port aktif — sembunyikan detail} other {# port aktif — sembunyikan detail}}"
@@ -1344,6 +1347,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* jika ditagih pada tarif API penuh"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} tidak menerima argumen"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} tidak menerima lampiran"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1881,6 +1890,9 @@ msgstr "Tambah lampiran"
 msgid "Add Attachment"
 msgstr "Tambah Lampiran"
 
+msgid "Add back"
+msgstr "Tambahkan lagi"
+
 msgid "Add command"
 msgstr "Tambah perintah"
 
@@ -1983,6 +1995,9 @@ msgstr "Tambahkan tes untuk kode paling berisiko yang belum diuji…"
 
 msgid "Add tests where they're missing"
 msgstr "Tambahkan tes yang belum ada"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Tambahkan lagi prompt /automation ke pesan Anda?"
 
 msgid "Add them"
 msgstr "Tambahkan mereka"
@@ -3988,6 +4003,9 @@ msgstr "Pilih cara membuka path file saat Cmd+klik di terminal"
 msgid "Choose MCP servers for this message"
 msgstr "Pilih server MCP untuk pesan ini"
 
+msgid "Choose the model"
+msgstr "Pilih model"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Pilih apa yang ingin dibersihkan dari browser dalam aplikasi."
 
@@ -5806,6 +5824,9 @@ msgstr "Buat lagi"
 
 msgid "Create an account"
 msgstr "Buat akun"
+
+msgid "Create an automation from this prompt"
+msgstr "Buat otomatisasi dari prompt ini"
 
 msgid "Create environment"
 msgstr "Buat lingkungan"
@@ -7971,6 +7992,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Cepat"
 
+msgid "Fast mode off"
+msgstr "Mode cepat nonaktif"
+
+msgid "Fast mode on"
+msgstr "Mode cepat aktif"
+
 msgid "Fatal"
 msgstr "Fatal"
 
@@ -8162,6 +8189,9 @@ msgstr "Cari di halaman"
 
 msgid "Find in Terminal"
 msgstr "Cari di Terminal"
+
+msgid "Find in this chat"
+msgstr "Cari di chat ini"
 
 msgid "Find people"
 msgstr "Cari orang"
@@ -10070,6 +10100,9 @@ msgstr "Keluar dari organisasi?"
 
 msgid "Leave organization..."
 msgstr "Keluar dari organisasi..."
+
+msgid "Leave plan mode"
+msgstr "Keluar dari mode perencanaan"
 
 msgid "Leave team"
 msgstr "Keluar dari tim"
@@ -13668,7 +13701,7 @@ msgid "Plain text"
 msgstr "Teks polos"
 
 msgid "Plan"
-msgstr "Paket"
+msgstr "Rencana"
 
 msgctxt "billing"
 msgid "Plan"
@@ -19202,6 +19235,9 @@ msgstr "Tunnel tersambung"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Ubah pekerjaan rutin menjadi agen yang berjalan sesuai jadwal atau saat ada event: triase issue, draf changelog, pembaruan dependensi. Agen bekerja sendiri dan membuka PR untuk Anda tinjau."
 
+msgid "Turn Fast mode on or off"
+msgstr "Aktifkan atau nonaktifkan mode cepat"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Aktifkan “Izinkan akses jarak jauh ke perangkat ini melalui relay”"
 
@@ -19658,6 +19694,9 @@ msgstr "Bagian penggunaan"
 
 msgid "Usage unavailable."
 msgstr "Penggunaan tidak tersedia."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Penggunaan: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

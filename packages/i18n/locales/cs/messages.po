@@ -92,6 +92,9 @@ msgstr "(žádný výstup)"
 msgid "(you)"
 msgstr "(vy)"
 
+msgid "[prompt]"
+msgstr "[prompt]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# aktivní port — skrýt podrobnosti} few {# aktivní porty — skrýt podrobnosti} many {# aktivního portu — skrýt podrobnosti} other {# aktivních portů — skrýt podrobnosti}}"
@@ -1344,6 +1347,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* při účtování plnou sazbou API"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} nepřijímá argumenty"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} nepřijímá přílohy"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1881,6 +1890,9 @@ msgstr "Přidat přílohu"
 msgid "Add Attachment"
 msgstr "Přidat přílohu"
 
+msgid "Add back"
+msgstr "Přidat zpět"
+
 msgid "Add command"
 msgstr "Přidat příkaz"
 
@@ -1983,6 +1995,9 @@ msgstr "Doplň testy pro nejrizikovější netestovaný kód…"
 
 msgid "Add tests where they're missing"
 msgstr "Doplnit testy tam, kde chybí"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Přidat prompt /automation zpět do vaší zprávy?"
 
 msgid "Add them"
 msgstr "Přidat je"
@@ -3988,6 +4003,9 @@ msgstr "Zvolte, jak se otevírají cesty k souborům při Cmd+kliknutí v termin
 msgid "Choose MCP servers for this message"
 msgstr "Vyberte MCP servery pro tuto zprávu"
 
+msgid "Choose the model"
+msgstr "Vybrat model"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Vyberte, co se má z vestavěného prohlížeče vymazat."
 
@@ -5806,6 +5824,9 @@ msgstr "Vytvořit znovu"
 
 msgid "Create an account"
 msgstr "Vytvořit účet"
+
+msgid "Create an automation from this prompt"
+msgstr "Vytvořit automatizaci z tohoto promptu"
 
 msgid "Create environment"
 msgstr "Vytvořit prostředí"
@@ -7971,6 +7992,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Rychlý"
 
+msgid "Fast mode off"
+msgstr "Rychlý režim vypnut"
+
+msgid "Fast mode on"
+msgstr "Rychlý režim zapnut"
+
 msgid "Fatal"
 msgstr "Fatální"
 
@@ -8162,6 +8189,9 @@ msgstr "Najít na stránce"
 
 msgid "Find in Terminal"
 msgstr "Najít v terminálu"
+
+msgid "Find in this chat"
+msgstr "Najít v tomto chatu"
 
 msgid "Find people"
 msgstr "Najít lidi"
@@ -10070,6 +10100,9 @@ msgstr "Opustit organizaci?"
 
 msgid "Leave organization..."
 msgstr "Opustit organizaci..."
+
+msgid "Leave plan mode"
+msgstr "Ukončit režim plánování"
 
 msgid "Leave team"
 msgstr "Opustit tým"
@@ -13668,7 +13701,7 @@ msgid "Plain text"
 msgstr "Prostý text"
 
 msgid "Plan"
-msgstr "Tarif"
+msgstr "Plán"
 
 msgctxt "billing"
 msgid "Plan"
@@ -19202,6 +19235,9 @@ msgstr "Tunel navázán"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Proměňte rutinní práci v agenty, kteří běží podle plánu nebo při události: třídění issues, koncepty changelogu, aktualizace závislostí. Pracují samostatně a otevírají PR, které zkontrolujete."
 
+msgid "Turn Fast mode on or off"
+msgstr "Zapnout nebo vypnout rychlý režim"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Zapněte „Povolit vzdálený přístup k tomuto zařízení přes relay“"
 
@@ -19658,6 +19694,9 @@ msgstr "Sekce využití"
 
 msgid "Usage unavailable."
 msgstr "Využití není dostupné."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Použití: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"

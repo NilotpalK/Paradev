@@ -92,6 +92,9 @@ msgstr "(нет вывода)"
 msgid "(you)"
 msgstr "(вы)"
 
+msgid "[prompt]"
+msgstr "[промпт]"
+
 #. placeholder {0}: ports.length
 msgid "{0, plural, one {# active port — hide details} other {# active ports — hide details}}"
 msgstr "{0, plural, one {# активный порт — скрыть детали} few {# активных порта — скрыть детали} many {# активных портов — скрыть детали} other {# активных портов — скрыть детали}}"
@@ -1344,6 +1347,12 @@ msgstr "@superset"
 msgid "* if billed at full API rate"
 msgstr "* при оплате по полному тарифу API"
 
+msgid "/{name} doesn't take arguments"
+msgstr "/{name} не принимает аргументы"
+
+msgid "/{name} doesn't take attachments"
+msgstr "/{name} не принимает вложения"
+
 #. placeholder {0}: detail.pullRequest.number
 #. placeholder {1}: detail.pullRequest.title
 #. placeholder {2}: detail.pullRequest.baseBranch
@@ -1881,6 +1890,9 @@ msgstr "Добавить вложение"
 msgid "Add Attachment"
 msgstr "Добавить вложение"
 
+msgid "Add back"
+msgstr "Вернуть"
+
 msgid "Add command"
 msgstr "Добавить команду"
 
@@ -1983,6 +1995,9 @@ msgstr "Добавь тесты для самого рискованного н�
 
 msgid "Add tests where they're missing"
 msgstr "Добавить тесты там, где их нет"
+
+msgid "Add the /automation prompt back to your message?"
+msgstr "Вернуть промпт /automation в ваше сообщение?"
 
 msgid "Add them"
 msgstr "Добавить их"
@@ -3988,6 +4003,9 @@ msgstr "Выберите, как открывать пути файлов при
 msgid "Choose MCP servers for this message"
 msgstr "Выбрать серверы MCP для этого сообщения"
 
+msgid "Choose the model"
+msgstr "Выбрать модель"
+
 msgid "Choose what to clear from the in-app browser."
 msgstr "Выберите, что очистить во встроенном браузере."
 
@@ -5806,6 +5824,9 @@ msgstr "Создать заново"
 
 msgid "Create an account"
 msgstr "Создать аккаунт"
+
+msgid "Create an automation from this prompt"
+msgstr "Создать автоматизацию из этого промпта"
 
 msgid "Create environment"
 msgstr "Создать окружение"
@@ -7971,6 +7992,12 @@ msgstr "FAQ"
 msgid "Fast"
 msgstr "Быстрый"
 
+msgid "Fast mode off"
+msgstr "Быстрый режим выключен"
+
+msgid "Fast mode on"
+msgstr "Быстрый режим включён"
+
 msgid "Fatal"
 msgstr "Критическая"
 
@@ -8162,6 +8189,9 @@ msgstr "Найти на странице"
 
 msgid "Find in Terminal"
 msgstr "Найти в терминале"
+
+msgid "Find in this chat"
+msgstr "Найти в этом чате"
 
 msgid "Find people"
 msgstr "Найти людей"
@@ -10070,6 +10100,9 @@ msgstr "Покинуть организацию?"
 
 msgid "Leave organization..."
 msgstr "Покинуть организацию..."
+
+msgid "Leave plan mode"
+msgstr "Выйти из режима планирования"
 
 msgid "Leave team"
 msgstr "Покинуть команду"
@@ -19202,6 +19235,9 @@ msgstr "Туннель установлен"
 msgid "Turn chores into agents that run on a schedule or when an event comes in: issue triage, changelog drafts, dependency bumps. They run on their own and open PRs for you to review."
 msgstr "Превратите рутину в агентов, которые запускаются по расписанию или при событии: разбор задач, черновики changelog, обновление зависимостей. Они работают сами и открывают PR, которые вы проверяете."
 
+msgid "Turn Fast mode on or off"
+msgstr "Включить или выключить быстрый режим"
+
 msgid "Turn on “Allow remote access to this device via relay”"
 msgstr "Включите «Разрешить удалённый доступ к этому устройству через реле»"
 
@@ -19658,6 +19694,9 @@ msgstr "Разделы использования"
 
 msgid "Usage unavailable."
 msgstr "Данные об использовании недоступны."
+
+msgid "Usage: /{name} {hint}"
+msgstr "Использование: /{name} {hint}"
 
 #. placeholder {0}: search.trim()
 msgid "Use “{0}”"
