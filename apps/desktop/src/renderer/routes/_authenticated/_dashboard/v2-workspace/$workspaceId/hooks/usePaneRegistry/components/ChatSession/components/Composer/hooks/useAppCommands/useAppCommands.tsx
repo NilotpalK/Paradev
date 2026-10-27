@@ -213,7 +213,7 @@ export function useAppCommands({
 				const Icon = command.icon;
 				const row = {
 					title: `/${command.name}`,
-					icon: <Icon className="size-4" />,
+					icon: <Icon className="size-3.5" />,
 					group: COMPANY.NAME,
 					searchAliases: aliases,
 				};
