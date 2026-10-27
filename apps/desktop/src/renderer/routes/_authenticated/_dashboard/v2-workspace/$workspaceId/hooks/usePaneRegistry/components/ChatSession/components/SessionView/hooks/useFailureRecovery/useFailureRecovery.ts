@@ -21,7 +21,7 @@ export function useFailureRecovery({
 }: {
 	blocked: boolean;
 	configOptions: SessionConfigOption[] | undefined;
-	onRestartAndContinue?: ((content: UserContent[]) => void) | undefined;
+	onRestartAndContinue?: ((prompt: string) => void) | undefined;
 	onStartNewChat?: (() => Promise<boolean>) | undefined;
 	openModelPicker: () => void;
 	sendPrompt: (content: UserContent[]) => unknown;
@@ -78,7 +78,7 @@ export function useFailureRecovery({
 					}
 				: {}),
 			...(onRestartAndContinue
-				? { restartAndContinue: () => onRestartAndContinue(CONTINUE) }
+				? { restartAndContinue: () => onRestartAndContinue(CONTINUE_PROMPT) }
 				: {}),
 			...(onStartNewChat ? { startNewChat: onStartNewChat } : {}),
 			dismissed,

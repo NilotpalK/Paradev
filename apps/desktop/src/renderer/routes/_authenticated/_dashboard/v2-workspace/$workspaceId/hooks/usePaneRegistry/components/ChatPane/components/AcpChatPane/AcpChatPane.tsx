@@ -434,13 +434,19 @@ export function AcpChatPane({
 			.catch(() => undefined)
 			.then(() => start(harness, agentSessionId, true));
 	}, [harness, agentSessionId, sessionId, start, wiring.transport]);
-	const continueAfterRestart = useRef<UserContent[] | null>(null);
+	const continueAfterRestart = useRef<string | null>(null);
 	const restartAndContinue = useCallback(
-		(content: UserContent[]) => {
-			continueAfterRestart.current = content;
-			recover();
+		(prompt: string) => {
+			if (!sessionId) return;
+			continueAfterRestart.current = prompt;
+			void wiring.transport
+				.closeSession({ sessionId })
+				.catch((error: unknown) => {
+					continueAfterRestart.current = null;
+					console.warn("[acp-chat] could not restart the agent", error);
+				});
 		},
-		[recover],
+		[sessionId, wiring.transport],
 	);
 	const { data: replacementState } = useQuery({
 		enabled: replacement !== null,
@@ -456,10 +462,9 @@ export function AcpChatPane({
 		if (!replacement) return;
 		const commit = () => {
 			recoveryInFlight.current = false;
-			onSessionCreated(replacement);
-			const content = continueAfterRestart.current;
+			const prompt = continueAfterRestart.current ?? undefined;
 			continueAfterRestart.current = null;
-			if (content) onQueuePrompt(content);
+			onSessionCreated(replacement, prompt);
 			setReplacement(null);
 		};
 		const status = replacementState?.session?.status;
@@ -479,7 +484,7 @@ export function AcpChatPane({
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
-	}, [replacement, replacementState, onSessionCreated, onQueuePrompt, t]);
+	}, [replacement, replacementState, onSessionCreated, t]);
 	const recovering =
 		replacement !== null ||
 		(recoverable && recoveries.current < MAX_RECOVERIES);
