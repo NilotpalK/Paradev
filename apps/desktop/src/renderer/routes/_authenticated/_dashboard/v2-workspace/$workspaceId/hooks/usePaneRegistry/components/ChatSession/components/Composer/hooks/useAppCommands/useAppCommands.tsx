@@ -219,6 +219,7 @@ export function useAppCommands({
 	const commands = useMemo<PromptInputCommand[]>(
 		() =>
 			resolved.app.flatMap(({ command, aliases }) => {
+				if (command.listed && !command.listed(context)) return [];
 				const Icon = command.icon;
 				const row = {
 					title: `/${command.name}`,

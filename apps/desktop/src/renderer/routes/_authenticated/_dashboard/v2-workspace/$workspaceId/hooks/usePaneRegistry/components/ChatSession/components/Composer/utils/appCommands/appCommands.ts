@@ -49,6 +49,8 @@ export type AppCommand = {
 	/** One menu row per choice, each running the command with its argument. */
 	choices?: (context: AppCommandContext) => AppCommandChoice[];
 	available: (context: AppCommandContext) => boolean;
+	/** Whether the menu lists it right now; an unlisted command still runs when typed. */
+	listed?: (context: AppCommandContext) => boolean;
 	run: (
 		context: AppCommandContext,
 		args: string,
@@ -103,14 +105,16 @@ export const APP_COMMANDS: readonly AppCommand[] = [
 		name: "plan",
 		icon: NotebookPen,
 		description: msg({ message: "Read and plan without changing anything" }),
-		available: (context) => context.plan?.active === false,
+		available: (context) => context.plan !== undefined,
+		listed: (context) => context.plan?.active === false,
 		run: (context, args) => withoutArgs(args, context.plan?.enter),
 	},
 	{
 		name: "default",
 		icon: Undo2,
 		description: msg({ message: "Leave plan mode" }),
-		available: (context) => context.plan?.active === true,
+		available: (context) => context.plan !== undefined,
+		listed: (context) => context.plan?.active === true,
 		run: (context, args) => withoutArgs(args, context.plan?.leave),
 	},
 	{
@@ -172,6 +176,7 @@ export const APP_COMMANDS: readonly AppCommand[] = [
 		takesText: true,
 		available: (context) => context.createAutomation !== undefined,
 		run: (context, args) => {
+			if (!args) return "bad-args";
 			context.createAutomation?.(args);
 			return "done";
 		},

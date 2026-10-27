@@ -10,6 +10,13 @@ function availableNames(context: AppCommandContext): string[] {
 	);
 }
 
+function listedNames(context: AppCommandContext): string[] {
+	return APP_COMMANDS.filter(
+		(command) =>
+			command.available(context) && (command.listed?.(context) ?? true),
+	).map((command) => command.name);
+}
+
 function command(name: string) {
 	const found = APP_COMMANDS.find((entry) => entry.name === name);
 	if (!found) throw new Error(`no /${name}`);
@@ -27,7 +34,7 @@ describe("APP_COMMANDS", () => {
 	test("offers a command only when the chat can carry it out", () => {
 		expect(availableNames({})).toEqual(["attach"]);
 		expect(
-			availableNames({
+			listedNames({
 				newChat: NOOP,
 				openModelPicker: NOOP,
 				fast: { on: false, set: NOOP },
@@ -50,9 +57,9 @@ describe("APP_COMMANDS", () => {
 			"attach",
 			"automation",
 		]);
-		expect(
-			availableNames({ plan: { active: true, enter: NOOP, leave: NOOP } }),
-		).toEqual(["default", "attach"]);
+		const inPlan = { plan: { active: true, enter: NOOP, leave: NOOP } };
+		expect(availableNames(inPlan)).toEqual(["plan", "default", "attach"]);
+		expect(listedNames(inPlan)).toEqual(["default", "attach"]);
 	});
 
 	test("runs with parsed arguments and refuses ones it does not take", () => {
@@ -74,6 +81,7 @@ describe("APP_COMMANDS", () => {
 		);
 		expect(createAutomation).toHaveBeenLastCalledWith("check CI");
 		expect(command("new").run(context, "please", COMPOSER)).toBe("bad-args");
+		expect(command("automation").run(context, "", COMPOSER)).toBe("bad-args");
 		expect(command("fast").run(context, "faster", COMPOSER)).toBe("bad-args");
 	});
 });
