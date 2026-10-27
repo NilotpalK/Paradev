@@ -14,10 +14,12 @@ test("links mentioned names, longest first, and leaves code alone", () => {
 			},
 		],
 	};
-	remarkMentions([
-		{ id: "a1", name: "Avi" },
-		{ id: "a2", name: "Avi Peltz" },
-	])()(tree);
+	remarkMentions({
+		people: [
+			{ id: "a1", name: "Avi" },
+			{ id: "a2", name: "Avi Peltz" },
+		],
+	})(tree);
 	expect(tree.children[0]?.children as unknown[]).toEqual([
 		{ type: "text", value: "hi " },
 		{

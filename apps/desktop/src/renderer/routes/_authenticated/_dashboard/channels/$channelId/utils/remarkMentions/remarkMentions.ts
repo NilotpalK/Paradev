@@ -55,13 +55,19 @@ function visit(node: MdNode, pattern: RegExp, idByName: Map<string, string>) {
  * Turns `@Name` into a mention link for the people a message mentions. Only
  * those people: a stored message keeps mentions as their `@Name` text, so a
  * name typed by hand stays text. Code is left alone.
+ *
+ * Use it as `[remarkMentions, { people }]`: Streamdown caches its processor
+ * by plugin name plus options, so people passed any other way leak between
+ * messages.
  */
-export function remarkMentions(
-	people: readonly { id: string; name: string }[],
-) {
+export function remarkMentions({
+	people,
+}: {
+	people: readonly { id: string; name: string }[];
+}) {
 	const idByName = new Map(people.map((person) => [person.name, person.id]));
 	const names = [...idByName.keys()].sort((a, b) => b.length - a.length);
-	return () => (tree: MdNode) => {
+	return (tree: MdNode) => {
 		if (names.length === 0) return;
 		const pattern = new RegExp(
 			`@(${names.map(escapeRegExp).join("|")})(?![\\w])`,
