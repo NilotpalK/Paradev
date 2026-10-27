@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sections } from "@/app/(docs)/components/Sidebar/components/SidebarContent";
+import { resolveDocsPage } from "@/lib/resolve-docs-page";
 import { getPageImage, source } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 import {
@@ -13,8 +14,9 @@ import { LLMCopyButton, ViewOptions } from "./components/PageActions";
 
 export default async function Page(props: PageProps<"/[[...slug]]">) {
 	const params = await props.params;
-	const page = source.getPage(params.slug);
-	if (!page) notFound();
+	const resolved = await resolveDocsPage(params.slug);
+	if (!resolved) notFound();
+	const { page, contentPath } = resolved;
 
 	const MDX = page.data.body;
 	const section = sections.find((s) =>
@@ -32,7 +34,7 @@ export default async function Page(props: PageProps<"/[[...slug]]">) {
 			editOnGithub={{
 				owner: "paradevai",
 				repo: "paradev",
-				path: `apps/docs/content/docs/${page.path}`,
+				path: contentPath,
 			}}
 		>
 			{section ? (
@@ -55,7 +57,7 @@ export default async function Page(props: PageProps<"/[[...slug]]">) {
 				<LLMCopyButton markdownUrl={markdownUrl} />
 				<ViewOptions
 					markdownUrl={markdownUrl}
-					githubUrl={`https://github.com/paradevai/paradev/blob/main/apps/docs/content/docs/${page.path}`}
+					githubUrl={`https://github.com/paradevai/paradev/blob/main/${contentPath}`}
 				/>
 			</div>
 			<DocsBody>
@@ -73,8 +75,9 @@ export async function generateMetadata(
 	props: PageProps<"/[[...slug]]">,
 ): Promise<Metadata> {
 	const params = await props.params;
-	const page = source.getPage(params.slug);
-	if (!page) notFound();
+	const resolved = await resolveDocsPage(params.slug);
+	if (!resolved) notFound();
+	const { page } = resolved;
 
 	const pageImage = getPageImage(page).url;
 

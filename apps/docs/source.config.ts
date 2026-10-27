@@ -23,6 +23,24 @@ export const docs = defineDocs({
 	},
 });
 
+/**
+ * Pages written ahead of a launch. A draft replaces the published page at the
+ * same path while its PostHog `flag` is on; nothing else (search, sitemap,
+ * llms.txt) sees it until it moves to `content/docs`.
+ */
+export const drafts = defineDocs({
+	dir: "drafts",
+	docs: {
+		schema: frontmatterSchema.extend({
+			pro: z.boolean().optional(),
+			flag: z.string(),
+		}),
+	},
+	meta: {
+		schema: metaSchema,
+	},
+});
+
 export default defineConfig({
 	mdxOptions: {
 		// MDX options
