@@ -62,6 +62,7 @@ import {
 	type DevtoolsPaneData,
 	type FilePaneData,
 	type PagePaneData,
+	type PagesListPaneData,
 	type PaneViewerData,
 	PENDING_CLOUD_CHAT_PANE_KIND,
 	type PendingCloudChatPaneData,
@@ -105,6 +106,7 @@ import { PagePane } from "./components/PagePane";
 import { PagePaneHeaderExtras } from "./components/PagePaneHeaderExtras";
 import { PagePaneTitle } from "./components/PagePaneTitle";
 import { PagesListPane } from "./components/PagesListPane";
+import { PagesListPaneTitle } from "./components/PagesListPaneTitle";
 import { PendingCloudChatPane } from "./components/PendingCloudChatPane";
 import { PullRequestPane } from "./components/PullRequestPane";
 import { PullRequestPaneHeaderExtras } from "./components/PullRequestPane/components/PullRequestPaneHeaderExtras";
@@ -117,6 +119,7 @@ import { terminalContextMenuLinkStore } from "./components/TerminalPane/contextM
 import { useUndoableChatClose } from "./hooks/useUndoableChatClose";
 import { openInActions } from "./utils/openInActions";
 import { pagePaneLabel } from "./utils/pagePaneLabel";
+import { pagesListPageUiId } from "./utils/pagesListPageUiId";
 import { replaceEndedTerminal } from "./utils/replaceEndedTerminal";
 
 function getFileName(filePath: string): string {
@@ -790,7 +793,33 @@ export function usePaneRegistry({
 			},
 			"pages-list": {
 				getIcon: () => <FileText className="size-3.5" />,
-				getTitle: () => t({ message: "Pages" }),
+				getTitle: (pane) => {
+					const { page } = pane.data as PagesListPaneData;
+					return page ? pagePaneLabel(page) : t({ message: "Pages" });
+				},
+				renderTitle: (ctx: RendererContext<PaneViewerData>) => {
+					const { page } = ctx.pane.data as PagesListPaneData;
+					if (!page) return undefined;
+					return (
+						<PagesListPaneTitle
+							page={page}
+							pageUiId={pagesListPageUiId(ctx.pane.id, page)}
+							onBack={() => ctx.actions.updateData({ kind: "pages-list" })}
+						/>
+					);
+				},
+				renderHeaderExtras: (ctx: RendererContext<PaneViewerData>) => {
+					const { page } = ctx.pane.data as PagesListPaneData;
+					if (!page) return undefined;
+					return (
+						<PagePaneHeaderExtras
+							onCreateNewAgentSession={createNewAgentSession}
+							data={page}
+							paneId={pagesListPageUiId(ctx.pane.id, page)}
+							workspaceId={workspaceId}
+						/>
+					);
+				},
 				renderPane: (ctx: RendererContext<PaneViewerData>) => (
 					<PagesListPane
 						context={ctx}

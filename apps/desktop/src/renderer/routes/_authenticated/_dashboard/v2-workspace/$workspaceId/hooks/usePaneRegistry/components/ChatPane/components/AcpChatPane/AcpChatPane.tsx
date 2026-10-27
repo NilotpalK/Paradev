@@ -79,6 +79,7 @@ export function AcpChatPane({
 	onOpenForkedChat,
 	onRewound,
 	pendingPrompts,
+	launchPrompt,
 	sessionId,
 	terminalId,
 	workspaceId,
@@ -94,6 +95,8 @@ export function AcpChatPane({
 	isActive: boolean;
 	sessionId: string | null;
 	pendingPrompts: UserContent[][];
+	/** A cloud launch's first prompt, which the agent got before this pane. */
+	launchPrompt?: string;
 	onPendingPromptsSent: () => void;
 	onQueuePrompt: (content: UserContent[]) => void;
 	onSessionCreated: (sessionId: string, pendingPrompt?: string) => void;
@@ -693,6 +696,9 @@ export function AcpChatPane({
 							notice: <Trans>Resuming the conversation…</Trans>,
 							queued: pendingPrompts,
 							onQueue: onQueuePrompt,
+							...(launchPrompt
+								? { launched: [{ type: "text" as const, text: launchPrompt }] }
+								: {}),
 						},
 					}
 				: {})}
@@ -728,6 +734,7 @@ export function AcpChatPane({
 			}}
 			pendingPrompts={pendingPrompts}
 			preferredModelLabel={modelLabel}
+			terminalId={terminalId}
 			workspaceId={workspaceId}
 		/>
 	);

@@ -272,9 +272,12 @@ class FakeAcpAgent {
 			});
 	}
 
-	releasePrompts(stopReason: string): void {
+	releasePrompts(
+		stopReason: string,
+		extra: Record<string, unknown> = {},
+	): void {
 		for (const id of this.heldPrompts.splice(0)) {
-			this.respond(id, { stopReason });
+			this.respond(id, { stopReason, ...extra });
 		}
 	}
 
@@ -3231,6 +3234,191 @@ describe("AcpAdapter on protocol v2", () => {
 				: [],
 		);
 		expect(recorded.at(-1)).toBe("Hello there.");
+		await adapter.dispose();
+	});
+
+	it("reports context usage on the running turn as the agent streams it", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 12_000,
+			size: 200_000,
+		});
+		await flush();
+
+		const turns = events.flatMap((event) =>
+			event.kind === "turn" ? [event.turn] : [],
+		);
+		expect(turns.at(-1)).toMatchObject({
+			status: "running",
+			sessionUsage: { contextUsed: 12_000, contextSize: 200_000 },
+		});
+		await adapter.dispose();
+	});
+
+	it("ends a turn with its token usage and the session's cost so far", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 30_000,
+			size: 200_000,
+			cost: { amount: 0.42, currency: "USD" },
+		});
+		agent.releasePrompts("end_turn", {
+			usage: { inputTokens: 900, outputTokens: 120, cachedReadTokens: 28_000 },
+		});
+		await flush();
+
+		const turns = events.flatMap((event) =>
+			event.kind === "turn" ? [event.turn] : [],
+		);
+		expect(turns.at(-1)).toMatchObject({
+			status: "completed",
+			usage: {
+				inputTokens: 900,
+				cachedInputTokens: 28_000,
+				outputTokens: 120,
+				contextUsed: 30_000,
+				contextSize: 200_000,
+			},
+			sessionUsage: {
+				contextUsed: 30_000,
+				contextSize: 200_000,
+				costUsd: 0.42,
+			},
+		});
+		await adapter.dispose();
+	});
+
+	it("keeps the session cost current when the agent reports it after the turn", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 30_000,
+			size: 200_000,
+		});
+		agent.releasePrompts("end_turn");
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			cost: { amount: 0.5, currency: "USD" },
+		});
+		await flush();
+
+		const turns = events.flatMap((event) =>
+			event.kind === "turn" ? [event.turn] : [],
+		);
+		expect(turns.at(-1)).toMatchObject({
+			status: "completed",
+			sessionUsage: { contextUsed: 30_000, contextSize: 200_000, costUsd: 0.5 },
+		});
+		await adapter.dispose();
+	});
+
+	it("keeps a cost the agent reported before any context usage", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			cost: { amount: 0.2, currency: "USD" },
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 9_000,
+			size: 200_000,
+		});
+		await flush();
+
+		const turns = events.flatMap((event) =>
+			event.kind === "turn" ? [event.turn] : [],
+		);
+		expect(turns.at(-1)?.sessionUsage).toEqual({
+			contextUsed: 9_000,
+			contextSize: 200_000,
+			costUsd: 0.2,
+		});
+		await adapter.dispose();
+	});
+
+	it("sends usage again only when it changed", async () => {
+		const agent = new FakeAcpAgent();
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "read the readme" }]);
+		await flush();
+		const turnEvents = () =>
+			events.filter((event) => event.kind === "turn").length;
+		const before = turnEvents();
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 12_000,
+			size: 200_000,
+		});
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			used: 12_000,
+			size: 200_000,
+		});
+		await flush();
+
+		expect(turnEvents()).toBe(before + 1);
+		await adapter.dispose();
+	});
+
+	it("ends the agent's cycle on a cost-only usage update without reporting usage", async () => {
+		const agent = new FakeAcpAgent();
+		agent.steeringOutcome = "injected";
+		agent.holdPrompts = true;
+		const { adapter, events } = startAdapter(agent);
+		await flush();
+		adapter.prompt([{ type: "text", text: "spawn a helper" }]);
+		await flush();
+		agent.notify("sess-1", {
+			sessionUpdate: "subagent_spawned",
+			subagentSessionId: "child-1",
+			name: "Helper",
+			task: "Help",
+		});
+		await flush();
+		const turnsBefore = events.filter((event) => event.kind === "turn").length;
+
+		agent.notify("sess-1", {
+			sessionUpdate: "usage_update",
+			cost: { amount: 0.01, currency: "USD" },
+		});
+		await flush();
+
+		expect(
+			sessionsOf(events).some((session) => session.awaitingBackground),
+		).toBe(true);
+		expect(events.filter((event) => event.kind === "turn")).toHaveLength(
+			turnsBefore,
+		);
 		await adapter.dispose();
 	});
 

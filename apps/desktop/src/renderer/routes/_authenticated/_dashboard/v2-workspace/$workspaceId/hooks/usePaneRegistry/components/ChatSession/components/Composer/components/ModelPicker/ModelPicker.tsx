@@ -24,6 +24,7 @@ import {
 	PILL_TRIGGER_CLASS,
 } from "../../constants";
 import { useOptimisticSelections } from "../../hooks/useOptimisticSelections";
+import { currentLabel } from "../../utils/configOptionLabels";
 import { fastOption } from "../../utils/toggleOption";
 import { EffortSliderCard } from "./components/EffortSliderCard";
 import { ModelPanel } from "./components/ModelPanel";
@@ -43,11 +44,6 @@ const TRAIT_ROW_CLASS = cn(
 	MENU_ROW_CLASS,
 	"[&>svg:last-child]:size-3 [&>svg:last-child]:text-muted-foreground/70",
 );
-
-function currentLabel(option: SessionConfigOption | undefined) {
-	return option?.options.find((entry) => entry.id === option.currentValue)
-		?.label;
-}
 
 export function ModelPicker({
 	agentSwitcher,

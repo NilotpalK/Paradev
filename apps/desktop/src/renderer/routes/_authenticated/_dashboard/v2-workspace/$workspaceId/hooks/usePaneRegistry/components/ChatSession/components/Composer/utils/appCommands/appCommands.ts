@@ -5,6 +5,7 @@ import {
 	Brain,
 	CalendarClock,
 	History,
+	Info,
 	type LucideIcon,
 	MessageSquarePlus,
 	NotebookPen,
@@ -31,6 +32,7 @@ export type AppCommandContext = {
 	openHistory?: () => void;
 	openMcp?: (composer: ComposerActionContext) => void;
 	openFind?: () => void;
+	openStatus?: () => void;
 	createAutomation?: (prompt: string) => void;
 };
 
@@ -153,6 +155,13 @@ export const APP_COMMANDS: readonly AppCommand[] = [
 		available: (context) => context.openMcp !== undefined,
 		run: (context, args, composer) =>
 			withoutArgs(args, () => context.openMcp?.(composer)),
+	},
+	{
+		name: "status",
+		icon: Info,
+		description: msg({ message: "Session status" }),
+		available: (context) => context.openStatus !== undefined,
+		run: (context, args) => withoutArgs(args, context.openStatus),
 	},
 	{
 		name: "find",

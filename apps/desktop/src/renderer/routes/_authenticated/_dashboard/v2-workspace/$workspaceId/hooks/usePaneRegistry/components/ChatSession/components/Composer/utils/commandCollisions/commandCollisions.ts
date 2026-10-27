@@ -17,6 +17,7 @@ export const COLLISION_WINNERS: Readonly<Record<string, CollisionWinner>> = {
 	resume: "app",
 	continue: "app",
 	mcp: "app",
+	status: "app",
 	compact: "agent",
 	review: "agent",
 };

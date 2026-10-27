@@ -451,6 +451,10 @@ msgstr "{0} sudah ditetapkan untuk \"{1}\"."
 msgid "{0} is already used for tasks in this organization."
 msgstr "{0} sudah digunakan untuk tugas di organisasi ini."
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "{0} is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
+msgstr "{0} sedang membangun perangkat lunak yang memperbaiki dirinya sendiri. Dimulai dengan memberi engineer alat terbaik yang menyesuaikan diri dengan kebutuhan mereka seiring waktu. Kami bertiga mantan CTO YC yang membangun alat yang kami cintai."
+
 #. placeholder {0}: params?.repoFullName
 msgid "{0} is not a repository the GitHub App is installed on"
 msgstr "{0} bukan repositori tempat GitHub App terpasang"
@@ -1206,6 +1210,9 @@ msgstr "{reason}"
 msgid "{received} of {total}"
 msgstr "{received} dari {total}"
 
+msgid "{remaining} tokens left"
+msgstr "Sisa {remaining} token"
+
 msgid "{repositoryFullName} isn't on {installedAccountLogin}, where this organization's GitHub App is installed."
 msgstr "{repositoryFullName} tidak ada di {installedAccountLogin}, tempat GitHub App organisasi ini dipasang."
 
@@ -1304,6 +1311,9 @@ msgstr "{uploading, plural, other {Mengunggah # file…}}"
 msgid "{used} of {limit} environments"
 msgstr "{used} dari {limit} lingkungan"
 
+msgid "{used} of {size} tokens"
+msgstr "{used} dari {size} token"
+
 msgid "{used} used"
 msgstr "{used} terpakai"
 
@@ -1312,6 +1322,9 @@ msgstr "{vcpuCount} vCPU · {memory} GB"
 
 msgid "{waiting} Waiting"
 msgstr "{waiting} Menunggu"
+
+msgid "{windowLabel} limit {percent} used"
+msgstr "Batas {windowLabel}: {percent} terpakai"
 
 msgid "{workspaceName}: host is unavailable"
 msgstr "{workspaceName}: host tidak tersedia"
@@ -1908,6 +1921,9 @@ msgstr "Tambah file, aplikasi, dan lainnya"
 msgid "Add files, apps, and more (@)"
 msgstr "Tambah file, aplikasi, dan lainnya (@)"
 
+msgid "Add instructions"
+msgstr "{'cs': 'Přidat pokyny', 'de': 'Anweisungen hinzufügen', 'es': 'Añadir instrucciones', 'fr': 'Ajouter des instructions', 'id': 'Tambahkan instruksi', 'it': 'Aggiungi istruzioni', 'ja': '指示を追加', 'ko': '지침 추가', 'nl': 'Instructies toevoegen', 'pl': 'Dodaj instrukcje', 'pt-BR': 'Adicionar instruções', 'ru': 'Добавить инструкции', 'tr': 'Talimat ekle', 'vi': 'Thêm hướng dẫn', 'zh-CN': '添加指示', 'zh-TW': '新增指示'}"
+
 #. placeholder {0}: issue.issueNumber
 msgid "Add issue #{0} to workspace"
 msgstr "Tambahkan issue #{0} ke workspace"
@@ -2011,6 +2027,9 @@ msgstr "Tambahkan ke sidebar"
 msgid "Add to workspace"
 msgstr "Tambahkan ke workspace"
 
+msgid "Add what it does"
+msgstr "{'cs': 'Přidat, co dělá', 'de': 'Beschreiben, was er macht', 'es': 'Añadir qué hace', 'fr': 'Ajouter ce qu’il fait', 'id': 'Tambahkan apa yang dilakukannya', 'it': 'Aggiungi cosa fa', 'ja': '役割を追加', 'ko': '하는 일 추가', 'nl': 'Toevoegen wat hij doet', 'pl': 'Dodaj, co robi', 'pt-BR': 'Adicionar o que ele faz', 'ru': 'Добавить, что он делает', 'tr': 'Ne yaptığını ekle', 'vi': 'Thêm việc nó làm', 'zh-CN': '添加它的用途', 'zh-TW': '新增它的用途'}"
+
 msgid "Add your own terminal agent to this device."
 msgstr "Tambahkan agen terminal Anda sendiri ke perangkat ini."
 
@@ -2101,6 +2120,9 @@ msgstr "Agen sedang bekerja"
 
 msgid "Agent launch configuration"
 msgstr "Konfigurasi peluncuran agen"
+
+msgid "Agent not found"
+msgstr "Agen tidak ditemukan"
 
 msgid "Agent picker (Claude, Codex, Cursor…) used by every session-creation flow"
 msgstr "Pemilih agen (Claude, Codex, Cursor…) yang dipakai tiap alur pembuatan sesi"
@@ -2723,6 +2745,9 @@ msgstr "apps/web/src/app/design/components/LayoutSection/LayoutSection.tsx"
 msgid "Archive"
 msgstr "Arsipkan"
 
+msgid "Archive {name}?"
+msgstr "Arsipkan {name}?"
+
 #. placeholder {0}: channel.name
 msgid "Archive #{0}?"
 msgstr "Arsipkan #{0}?"
@@ -3053,6 +3078,9 @@ msgstr "Pipeline otonom dari tiket ke PR"
 
 msgid "Available"
 msgstr "Tersedia"
+
+msgid "Available when the agent is idle."
+msgstr "Tersedia saat agen tidak sedang bekerja."
 
 msgid "Avatar"
 msgstr "Avatar"
@@ -3844,6 +3872,9 @@ msgstr "Sesi chat tidak ditemukan"
 msgid "Chat surfaces: messages, reasoning, suggestions"
 msgstr "Permukaan chat: pesan, penalaran, saran"
 
+msgid "Chats"
+msgstr "Obrolan"
+
 msgid "Check again"
 msgstr "Periksa lagi"
 
@@ -4572,6 +4603,9 @@ msgstr "Komunikasi"
 msgid "Community"
 msgstr "Komunitas"
 
+msgid "Compact now"
+msgstr "Padatkan sekarang"
+
 msgid "Company"
 msgstr "Perusahaan"
 
@@ -4913,6 +4947,12 @@ msgstr "Konteks"
 
 msgid "Context Menu"
 msgstr "Menu Konteks"
+
+msgid "Context window"
+msgstr "Jendela konteks"
+
+msgid "Context window: {percent} used"
+msgstr "Jendela konteks: {percent} terpakai"
 
 msgid "Continue"
 msgstr "Lanjutkan"
@@ -5648,6 +5688,9 @@ msgstr "Tidak bisa menyimpan suntingan"
 msgid "Couldn't save the change"
 msgstr "Tidak dapat menyimpan perubahan"
 
+msgid "Couldn't save the Dev"
+msgstr "Tidak dapat menyimpan Dev"
+
 msgid "Couldn't send comment"
 msgstr "Tidak bisa mengirim komentar"
 
@@ -5743,6 +5786,9 @@ msgstr "Buat \"{newLabel}\""
 
 msgid "Create a channel"
 msgstr "Buat kanal"
+
+msgid "Create a Dev"
+msgstr "Buat Dev"
 
 msgid "Create a native provider fork with the same conversation context. The original session stays unchanged."
 msgstr "Membuat fork asli di penyedia dengan konteks percakapan yang sama. Sesi aslinya tidak berubah."
@@ -5910,6 +5956,9 @@ msgstr "Dibuat {0} · Terakhir dipakai {1}"
 msgid "Created {ago}"
 msgstr "Dibuat {ago}"
 
+msgid "Created {created}"
+msgstr "Dibuat {created}"
+
 msgid "Created {createdAgo}"
 msgstr "Dibuat {createdAgo}"
 
@@ -6073,6 +6122,12 @@ msgstr "Penyedia kustom"
 
 msgid "Custom themes"
 msgstr "Tema kustom"
+
+msgid "Customize"
+msgstr "Sesuaikan"
+
+msgid "Customize {devName}"
+msgstr "Sesuaikan {devName}"
 
 msgid "Customize commands"
 msgstr "Sesuaikan perintah"
@@ -6510,6 +6565,9 @@ msgstr "Detail tidak tersedia di sini, tetapi tautan tetap bisa dibuka."
 msgid "Dev"
 msgstr "Dev"
 
+msgid "Dev options"
+msgstr "Opsi Dev"
+
 msgid "Dev sign in"
 msgstr "Masuk dev"
 
@@ -6536,6 +6594,9 @@ msgstr "Perangkat: {selectedLabel}"
 
 msgid "Devices"
 msgstr "Perangkat"
+
+msgid "Devs"
+msgstr "Devs"
 
 msgid "DevTools"
 msgstr "DevTools"
@@ -6581,6 +6642,12 @@ msgstr "diff di tab baru"
 
 msgid "Digital Product Designer"
 msgstr "Desainer Produk Digital"
+
+msgid "Direct message"
+msgstr "Pesan langsung"
+
+msgid "Direct messages"
+msgstr "{'cs': 'Přímé zprávy', 'de': 'Direktnachrichten', 'es': 'Mensajes directos', 'fr': 'Messages directs', 'id': 'Pesan langsung', 'it': 'Messaggi diretti', 'ja': 'ダイレクトメッセージ', 'ko': '다이렉트 메시지', 'nl': 'Directe berichten', 'pl': 'Wiadomości bezpośrednie', 'pt-BR': 'Mensagens diretas', 'ru': 'Личные сообщения', 'tr': 'Doğrudan mesajlar', 'vi': 'Tin nhắn trực tiếp', 'zh-CN': '私信', 'zh-TW': '私訊'}"
 
 msgid "Direct mode"
 msgstr "Mode langsung"
@@ -7443,6 +7510,9 @@ msgstr "Sangat tinggi"
 msgid "Extra small"
 msgstr "Ekstra kecil"
 
+msgid "Eyes"
+msgstr "Mata"
+
 msgid "F4 gate · {F4_GATE_SHARE}%"
 msgstr "Gerbang F4 · {F4_GATE_SHARE}%"
 
@@ -8154,8 +8224,8 @@ msgstr "Cari di Terminal"
 msgid "Find in this chat"
 msgstr "Cari di chat ini"
 
-msgid "Find people"
-msgstr "Cari orang"
+msgid "Find people and Devs"
+msgstr "{'cs': 'Najít lidi a Devy', 'de': 'Personen und Devs finden', 'es': 'Buscar personas y Devs', 'fr': 'Trouver des personnes et des Devs', 'id': 'Cari orang dan Dev', 'it': 'Trova persone e Dev', 'ja': 'メンバーと Dev を検索', 'ko': '사람 및 Dev 찾기', 'nl': 'Mensen en Devs zoeken', 'pl': 'Znajdź osoby i Devy', 'pt-BR': 'Encontrar pessoas e Devs', 'ru': 'Найти людей и Dev', 'tr': \"Kişileri ve Dev'leri bul\", 'vi': 'Tìm người và Dev', 'zh-CN': '查找成员和 Dev', 'zh-TW': '尋找成員和 Dev'}"
 
 msgid "Finder"
 msgstr "Finder"
@@ -9022,6 +9092,9 @@ msgstr "Bagaimana perintah berkelompok dibuka."
 msgid "How is Paradev different from just running Claude Code in a terminal?"
 msgstr "Apa bedanya Paradev dengan sekadar menjalankan Claude Code di terminal?"
 
+msgid "How it should work and what to avoid"
+msgstr "{'cs': 'Jak má pracovat a čemu se vyhnout', 'de': 'Wie er arbeiten soll und was er vermeiden soll', 'es': 'Cómo debe trabajar y qué evitar', 'fr': 'Comment il doit travailler et ce qu’il doit éviter', 'id': 'Cara kerjanya dan apa yang harus dihindari', 'it': 'Come deve lavorare e cosa evitare', 'ja': '作業の進め方と避けること', 'ko': '작업 방식과 피해야 할 것', 'nl': 'Hoe hij moet werken en wat hij moet vermijden', 'pl': 'Jak ma działać i czego unikać', 'pt-BR': 'Como ele deve trabalhar e o que evitar', 'ru': 'Как работать и чего избегать', 'tr': 'Nasıl çalışmalı ve nelerden kaçınmalı', 'vi': 'Cách làm việc và những điều cần tránh', 'zh-CN': '工作方式和需要避免的事项', 'zh-TW': '工作方式與需要避免的事項'}"
+
 msgid "How it works"
 msgstr "Cara kerjanya"
 
@@ -9644,6 +9717,9 @@ msgstr "Komentar ini tidak bisa dikembalikan."
 
 msgid "It keeps the title from your prompt."
 msgstr "Judul dari prompt Anda tetap dipakai."
+
+msgid "It loses all its access at once. Its chats and the work it made are kept."
+msgstr "Semua aksesnya langsung dicabut. Obrolan dan hasil kerjanya tetap disimpan."
 
 msgid "It may be asleep"
 msgstr "Mungkin sedang tidur"
@@ -10313,6 +10389,9 @@ msgstr "Indikator pemuatan dan aktivitas yang sedang berjalan"
 msgid "Loading changes..."
 msgstr "Memuat perubahan..."
 
+msgid "Loading chat"
+msgstr "Memuat obrolan"
+
 msgid "Loading comments…"
 msgstr "Memuat komentar…"
 
@@ -10348,6 +10427,9 @@ msgstr "Memuat issue..."
 
 msgid "Loading issues…"
 msgstr "Memuat issue…"
+
+msgid "Loading link preview"
+msgstr "Memuat pratinjau tautan"
 
 msgid "Loading members..."
 msgstr "Memuat anggota..."
@@ -10756,6 +10838,9 @@ msgstr "Porsi memori"
 msgid "Mention."
 msgstr "Sebut."
 
+msgid "Mentioned in a channel"
+msgstr "Disebut di kanal"
+
 msgid "Menubar"
 msgstr "Menubar"
 
@@ -10816,6 +10901,9 @@ msgstr "Melakukan merge…"
 
 msgid "Mesh Gradient"
 msgstr "Mesh Gradient"
+
+msgid "Message {name}"
+msgstr "Kirim pesan ke {name}"
 
 msgid "Message {name}…"
 msgstr "Pesan untuk {name}…"
@@ -10915,6 +11003,9 @@ msgstr "Aplikasi mobile"
 
 msgid "Mobile App"
 msgstr "Aplikasi Mobile"
+
+msgid "Mode"
+msgstr "Mode"
 
 msgid "model"
 msgstr "model"
@@ -11754,6 +11845,9 @@ msgstr "Tidak ada komentar review yang terbuka."
 msgid "No organization selected"
 msgstr "Tidak ada organisasi yang dipilih"
 
+msgid "No other chats here"
+msgstr "Tidak ada obrolan lain di sini"
+
 msgid "No pages match"
 msgstr "Tidak ada halaman yang cocok"
 
@@ -12106,6 +12200,9 @@ msgstr "Tidak ada di versi ini"
 msgid "Not receiving events yet: Microsoft Graph refused the notification subscriptions. Check the app's admin consent and protected API approval, then reconnect."
 msgstr "Belum menerima event: Microsoft Graph menolak langganan notifikasi. Periksa persetujuan admin aplikasi dan persetujuan protected API, lalu hubungkan ulang."
 
+msgid "Not reported yet"
+msgstr "Belum dilaporkan"
+
 msgid "Not reviewed by you"
 msgstr "Belum Anda review"
 
@@ -12160,6 +12257,9 @@ msgstr "Tidak ada yang berjalan"
 
 msgid "Nothing was missed"
 msgstr "Tidak ada yang terlewat"
+
+msgid "Nothing yet"
+msgstr "{'cs': 'Zatím nic', 'de': 'Noch nichts', 'es': 'Nada todavía', 'fr': 'Rien pour l’instant', 'id': 'Belum ada', 'it': 'Ancora niente', 'ja': 'まだありません', 'ko': '아직 없음', 'nl': 'Nog niets', 'pl': 'Na razie nic', 'pt-BR': 'Nada ainda', 'ru': 'Пока ничего', 'tr': 'Henüz bir şey yok', 'vi': 'Chưa có gì', 'zh-CN': '暂无', 'zh-TW': '尚無'}"
 
 msgid "Notice"
 msgstr "Pemberitahuan"
@@ -12263,6 +12363,9 @@ msgstr "Mode offline / local-first"
 
 msgid "Older"
 msgstr "Lebih lama"
+
+msgid "On"
+msgstr "Nyala"
 
 msgid "on {offScopeHostName} — won't run here"
 msgstr "di {offScopeHostName} — tidak akan berjalan di sini"
@@ -12375,6 +12478,9 @@ msgstr "Hanya pemilik host atau pemilik organisasi yang bisa menghapus host ini"
 msgid "Only images can be attached to a comment"
 msgstr "Hanya gambar yang dapat dilampirkan ke komentar"
 
+msgid "Only its creator or an organization admin can change this agent"
+msgstr "Hanya pembuatnya atau admin organisasi yang dapat mengubah agen ini"
+
 msgid "Only on this machine: gitignored, and applied to every worktree of this repository. Any key set here replaces the shared one."
 msgstr "Hanya di mesin ini: diabaikan git dan diterapkan ke setiap worktree repositori ini. Setiap kunci yang diatur di sini menggantikan yang dibagikan."
 
@@ -12395,6 +12501,9 @@ msgstr "Hanya pemilik yang bisa mengelola penagihan"
 
 msgid "Only owners can update organization settings"
 msgstr "Hanya pemilik yang bisa memperbarui pengaturan organisasi"
+
+msgid "Only people can manage a channel"
+msgstr "Hanya orang yang dapat mengelola kanal"
 
 msgid "Only people in this organization can join"
 msgstr "Hanya orang di organisasi ini yang dapat bergabung"
@@ -13287,9 +13396,6 @@ msgstr "Paradev adalah aplikasi desktop. Masukkan email Anda dan kami akan mengi
 msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time."
 msgstr "Paradev sedang membangun perangkat lunak yang memperbaiki dirinya sendiri. Dimulai dengan memberi engineer alat terbaik yang menyesuaikan diri dengan kebutuhan mereka seiring waktu."
 
-msgid "Paradev is building self-improving software. It starts with giving engineers the best tools that adapt to their needs over time. We're 3 ex-YC CTOs building a tool that we love."
-msgstr "Paradev sedang membangun perangkat lunak yang memperbaiki dirinya sendiri. Dimulai dengan memberi engineer alat terbaik yang menyesuaikan diri dengan kebutuhan mereka seiring waktu. Kami bertiga mantan CTO YC yang membangun alat yang kami cintai."
-
 msgid "Paradev is built by a team based in San Francisco, California. For product support or account questions, email <0>{supportEmail}</0> and we'll get back to you within one business day. For partnerships, press, enterprise, or anything else, write to <1>{teamEmail}</1>."
 msgstr "Paradev dibangun oleh tim yang berbasis di San Francisco, California. Untuk dukungan produk atau pertanyaan akun, kirim email ke <0>{supportEmail}</0> dan kami akan membalas dalam satu hari kerja. Untuk kemitraan, media, enterprise, atau hal lainnya, tulis ke <1>{teamEmail}</1>."
 
@@ -13630,6 +13736,9 @@ msgstr "Pilih folder worktree di {hostName}."
 
 msgid "Pick your agent for a one-line install, or copy the config by hand. Every client, including OAuth and API key setup, is covered in the <0>full MCP server docs</0>."
 msgstr "Pilih agen Anda untuk pemasangan satu baris, atau salin konfigurasinya secara manual. Semua klien, termasuk penyiapan OAuth dan kunci API, dibahas di <0>dokumentasi lengkap server MCP</0>."
+
+msgid "Picked by the channel"
+msgstr "Dipilih oleh kanal"
 
 msgid "PID"
 msgstr "PID"
@@ -14362,6 +14471,9 @@ msgstr "Beri Nilai {appName}"
 msgid "Rate limit exceeded."
 msgstr "Batas laju terlampaui."
 
+msgid "Rate limits"
+msgstr "Batas penggunaan"
+
 msgid "Reach this Mac from anywhere via the Paradev relay, or spin up cloud workspaces. Connect from any client."
 msgstr "Jangkau Mac ini dari mana saja lewat relay Paradev, atau jalankan workspace cloud. Hubungkan dari klien mana pun."
 
@@ -14454,6 +14566,12 @@ msgstr "Membaca penggunaan…"
 
 msgid "Reading your local usage…"
 msgstr "Membaca penggunaan lokal Anda…"
+
+msgid "Reads and posts"
+msgstr "{'cs': 'Čte a píše', 'de': 'Liest und postet', 'es': 'Lee y publica', 'fr': 'Lit et publie', 'id': 'Membaca dan memposting', 'it': 'Legge e pubblica', 'ja': '閲覧・投稿', 'ko': '읽기 및 게시', 'nl': 'Leest en plaatst', 'pl': 'Czyta i publikuje', 'pt-BR': 'Lê e publica', 'ru': 'Читает и пишет', 'tr': 'Okur ve paylaşır', 'vi': 'Đọc và đăng', 'zh-CN': '可读可发', 'zh-TW': '可讀可發'}"
+
+msgid "Ready"
+msgstr "{'cs': 'Připraven', 'de': 'Bereit', 'es': 'Listo', 'fr': 'Prêt', 'id': 'Siap', 'it': 'Pronto', 'ja': '準備完了', 'ko': '준비됨', 'nl': 'Klaar', 'pl': 'Gotowy', 'pt-BR': 'Pronto', 'ru': 'Готов', 'tr': 'Hazır', 'vi': 'Sẵn sàng', 'zh-CN': '就绪', 'zh-TW': '就緒'}"
 
 msgid "Ready for review"
 msgstr "Siap direview"
@@ -14666,6 +14784,9 @@ msgstr "Pindahkan proyek?"
 msgid "Relocating…"
 msgstr "Memindahkan…"
 
+msgid "Remaining"
+msgstr "Tersisa"
+
 msgid "rematch"
 msgstr "tanding ulang"
 
@@ -14705,6 +14826,9 @@ msgstr "Hapus {label}"
 
 msgid "Remove {label}?"
 msgstr "Hapus {label}?"
+
+msgid "Remove {name}"
+msgstr "{'cs': 'Odebrat {name}', 'de': '{name} entfernen', 'es': 'Quitar a {name}', 'fr': 'Retirer {name}', 'id': 'Hapus {name}', 'it': 'Rimuovi {name}', 'ja': '{name} を削除', 'ko': '{name} 제거', 'nl': '{name} verwijderen', 'pl': 'Usuń {name}', 'pt-BR': 'Remover {name}', 'ru': 'Удалить {name}', 'tr': '{name} kaldır', 'vi': 'Xóa {name}', 'zh-CN': '移除 {name}', 'zh-TW': '移除 {name}'}"
 
 msgid "Remove {repositoryName}"
 msgstr "Hapus {repositoryName}"
@@ -16296,6 +16420,12 @@ msgstr "Sesi"
 msgid "Session {0}"
 msgstr "Sesi {0}"
 
+msgid "Session cost"
+msgstr "Biaya sesi"
+
+msgid "Session cost: {cost}"
+msgstr "Biaya sesi: {cost}"
+
 msgid "Session details"
 msgstr "Detail sesi"
 
@@ -16316,6 +16446,9 @@ msgstr "Nama sesi diganti menjadi {trimmed}"
 
 msgid "Session snapshots & revert"
 msgstr "Snapshot sesi & pengembalian"
+
+msgid "Session status"
+msgstr "Status sesi"
 
 msgid "Sessions"
 msgstr "Sesi"
@@ -16425,6 +16558,9 @@ msgstr "Resep tooltip shadcn/ui"
 
 msgid "Shade is relative to this developer's busiest day"
 msgstr "Kepekatan warna relatif terhadap hari tersibuk pengembang ini"
+
+msgid "Shape"
+msgstr "Bentuk"
 
 msgid "Share"
 msgstr "Bagikan"
@@ -17516,6 +17652,9 @@ msgstr "Jumlah CPU yang dipakai Paradev dan pohon proses terminal yang dipantau.
 msgid "Summarize the changes in this workspace"
 msgstr "Rangkum perubahan di workspace ini"
 
+msgid "Summarizes the chat to free up context."
+msgstr "Merangkum chat untuk mengosongkan konteks."
+
 msgid "Summary"
 msgstr "Ringkasan"
 
@@ -17554,6 +17693,9 @@ msgstr "Pembatasan laju dukungan belum dikonfigurasi"
 
 msgid "Support the project with a GitHub star"
 msgstr "Dukung proyek ini dengan star GitHub"
+
+msgid "Surprise me"
+msgstr "Kejutkan aku"
 
 msgid "Suspended"
 msgstr "Ditangguhkan"
@@ -17745,6 +17887,9 @@ msgstr "Sedang dilihat…"
 
 msgid "Taking longer than usual. It keeps going if you leave."
 msgstr "Lebih lama dari biasanya. Prosesnya tetap jalan kalau Anda keluar."
+
+msgid "Talk to it"
+msgstr "{'cs': 'Jak s ním mluvit', 'de': 'Ansprechen', 'es': 'Hablar con él', 'fr': 'Lui parler', 'id': 'Bicara dengannya', 'it': 'Parlagli', 'ja': '話しかける', 'ko': '대화하기', 'nl': 'Ermee praten', 'pl': 'Rozmowa', 'pt-BR': 'Falar com ele', 'ru': 'Связаться', 'tr': 'Onunla konuş', 'vi': 'Trò chuyện', 'zh-CN': '与它交流', 'zh-TW': '與它交流'}"
 
 msgid "Talk to Paradev"
 msgstr "Bicara dengan Paradev"
@@ -18481,6 +18626,12 @@ msgstr "Kanal ini diarsipkan"
 msgid "This chat has ended."
 msgstr "Chat ini telah berakhir."
 
+msgid "This chat is empty."
+msgstr "Obrolan ini kosong."
+
+msgid "This chat may have been removed or you may not have access."
+msgstr "Obrolan ini mungkin telah dihapus atau Anda tidak memiliki akses."
+
 msgid "This chat stopped because the conversation continued in a terminal."
 msgstr "Chat ini berhenti karena percakapan dilanjutkan di terminal."
 
@@ -18838,6 +18989,9 @@ msgstr "Utas di #{channelName}"
 
 msgid "Thread not found"
 msgstr "Thread tidak ditemukan"
+
+msgid "Thread reply"
+msgstr "Balasan utas"
 
 msgid "Threads"
 msgstr "Utas"
@@ -19696,6 +19850,9 @@ msgstr "Memakai transkripsi suara dan fitur push-to-talk."
 msgid "Use your existing agent subscriptions and API keys. Paradev never proxies model calls or locks your workflow to one provider."
 msgstr "Pakai langganan agen dan kunci API Anda yang sudah ada. Paradev tidak pernah mem-proxy panggilan model atau mengunci alur kerja Anda ke satu penyedia."
 
+msgid "Used"
+msgstr "Terpakai"
+
 msgid "Used in URLs and APIs."
 msgstr "Dipakai di URL dan API."
 
@@ -20108,6 +20265,10 @@ msgstr "Selamat datang di Paradev"
 msgid "Welcome to the new Paradev"
 msgstr "Selamat datang di Paradev baru"
 
+#. placeholder {0}: BRAND.INTRO_NAME
+msgid "What {0} is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
+msgstr "Apa itu {0}, siapa yang membangunnya, dan untuk siapa. Tim San Francisco yang dipimpin tiga mantan CTO YC, membangun ruang kerja untuk agen coding paralel."
+
 msgid "What are the benefits?"
 msgstr "Apa saja tunjangannya?"
 
@@ -20141,8 +20302,8 @@ msgstr "Apa itu Paradev Enterprise?"
 msgid "What is wrong?"
 msgstr "Apa masalahnya?"
 
-msgid "What Paradev is, who builds it, and who it's for. A San Francisco team, led by three ex-YC CTOs, building the workspace for parallel coding agents."
-msgstr "Apa itu Paradev, siapa yang membangunnya, dan untuk siapa. Tim San Francisco yang dipimpin tiga mantan CTO YC, membangun workspace untuk agen coding paralel."
+msgid "What it does"
+msgstr "Apa yang dikerjakan"
 
 msgid "What platforms does Paradev run on?"
 msgstr "Paradev berjalan di platform apa saja?"
@@ -20264,6 +20425,10 @@ msgstr "Lebar · sesi paralel"
 msgid "Window"
 msgstr "Jendela"
 
+msgctxt "context window size"
+msgid "Window"
+msgstr "Ukuran"
+
 msgid "With action"
 msgstr "Dengan aksi"
 
@@ -20284,6 +20449,9 @@ msgstr "dengan atau tanpa lampiran"
 
 msgid "With the Paradev mobile app, I can address production issues from anywhere."
 msgstr "Dengan aplikasi seluler Paradev, saya bisa menangani masalah produksi dari mana saja."
+
+msgid "Woke itself"
+msgstr "Bangun sendiri"
 
 msgid "Wordmark, black"
 msgstr "Wordmark, hitam"
@@ -20331,6 +20499,9 @@ msgstr "Bekerja selama {0} mnt {1} dtk"
 
 msgid "Working for {seconds}s"
 msgstr "Bekerja selama {seconds} dtk"
+
+msgid "Working on"
+msgstr "{'cs': 'Pracuje na', 'de': 'Arbeitet an', 'es': 'Trabajando en', 'fr': 'En cours', 'id': 'Sedang dikerjakan', 'it': 'Sta lavorando a', 'ja': '作業中', 'ko': '작업 중', 'nl': 'Bezig met', 'pl': 'Pracuje nad', 'pt-BR': 'Trabalhando em', 'ru': 'В работе', 'tr': 'Üzerinde çalışıyor', 'vi': 'Đang làm', 'zh-CN': '正在处理', 'zh-TW': '正在處理'}"
 
 msgid "Working…"
 msgstr "Sedang bekerja…"

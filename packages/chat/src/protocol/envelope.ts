@@ -121,11 +121,24 @@ export const turnSchema = z.looseObject({
 			costUsd: z.number().nonnegative().optional(),
 		})
 		.optional(),
+	/**
+	 * The agent's latest report on the whole session while this turn ran: how
+	 * full the context window is, and its running cost total, not this turn's.
+	 */
+	sessionUsage: z
+		.looseObject({
+			contextUsed: z.number().nonnegative(),
+			contextSize: z.number().positive(),
+			costUsd: z.number().nonnegative().optional(),
+		})
+		.optional()
+		.catch(undefined),
 	startedAtMs: z.number(),
 	completedAtMs: z.number().optional(),
 });
 export type Turn = z.infer<typeof turnSchema>;
 export type Usage = NonNullable<Turn["usage"]>;
+export type SessionUsage = NonNullable<Turn["sessionUsage"]>;
 
 export const durableEventSchema = z.discriminatedUnion("type", [
 	z.looseObject({
