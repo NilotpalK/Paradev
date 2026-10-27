@@ -125,10 +125,11 @@ export function compactDiff(content: Extract<ToolContent, { type: "diff" }>) {
 	);
 	const removed = before.slice(head, before.length - tail);
 	const added = after.slice(head, after.length - tail);
+	const start = (lines: string[]) => (lines.length > 0 ? head + 1 : head);
 	return [
-		`--- ${content.oldText === null ? "/dev/null" : `a/${content.path}`}`,
-		`+++ b/${content.path}`,
-		`@@ -${head + 1},${removed.length} +${head + 1},${added.length} @@`,
+		`--- ${content.oldText === null ? "/dev/null" : content.path}`,
+		`+++ ${content.path}`,
+		`@@ -${start(removed)},${removed.length} +${start(added)},${added.length} @@`,
 		...removed.map((line) => `-${line}`),
 		...added.map((line) => `+${line}`),
 	].join("\n");

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { strFromU8, unzipSync } from "fflate";
@@ -183,27 +183,33 @@ describe("sessions commands", () => {
 
 	test("export reads every page and writes a zip or a markdown transcript", async () => {
 		const dir = mkdtempSync(join(tmpdir(), "sessions-export-"));
-		const zipPath = join(dir, "chat.zip");
-		await runCommand(exportSessionCommand, {
-			session: SESSION_ID,
-			out: zipPath,
-		});
-		const files = unzipSync(readFileSync(zipPath));
-		const chat = JSON.parse(strFromU8(files["chat.json"] ?? new Uint8Array()));
-		expect(chat.chat.title).toBe("Fix tests");
-		expect(
-			chat.messages.map((message: { role: string }) => message.role),
-		).toEqual(["user", "assistant"]);
+		try {
+			const zipPath = join(dir, "chat.zip");
+			await runCommand(exportSessionCommand, {
+				session: SESSION_ID,
+				out: zipPath,
+			});
+			const files = unzipSync(readFileSync(zipPath));
+			const chat = JSON.parse(
+				strFromU8(files["chat.json"] ?? new Uint8Array()),
+			);
+			expect(chat.chat.title).toBe("Fix tests");
+			expect(
+				chat.messages.map((message: { role: string }) => message.role),
+			).toEqual(["user", "assistant"]);
 
-		const mdPath = join(dir, "chat.md");
-		await runCommand(exportSessionCommand, {
-			session: SESSION_ID,
-			out: mdPath,
-			format: "md",
-		});
-		expect(readFileSync(mdPath, "utf8")).toContain(
-			"## User `1970-01-01T00:00:01.000Z`\n\nFix the tests\n\n## Assistant `1970-01-01T00:00:02.000Z`\n\nFixed.",
-		);
+			const mdPath = join(dir, "chat.md");
+			await runCommand(exportSessionCommand, {
+				session: SESSION_ID,
+				out: mdPath,
+				format: "md",
+			});
+			expect(readFileSync(mdPath, "utf8")).toContain(
+				"## User `1970-01-01T00:00:01.000Z`\n\nFix the tests\n\n## Assistant `1970-01-01T00:00:02.000Z`\n\nFixed.",
+			);
+		} finally {
+			rmSync(dir, { recursive: true, force: true });
+		}
 	});
 
 	test("rename sends a trimmed title, nothing to regenerate, and rejects a blank one", async () => {

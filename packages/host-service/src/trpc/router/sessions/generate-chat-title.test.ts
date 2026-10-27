@@ -81,17 +81,23 @@ describe("regenerating a chat title", () => {
 		]);
 	});
 
-	test("a URL-only chat still gets a title when no model can name it", async () => {
-		const title = await generateChatTitle({
-			db,
-			agent: undefined,
-			envelopes: envelopes([
-				prompt("u1", [
-					{ type: "text", text: "https://github.com/acme/app/issues/42" },
-				]),
-			]),
-		});
-		expect(title).toBeTruthy();
+	test("without a model title, the first line of the first prompt names the chat", async () => {
+		const refuse = async () => null;
+		const named = (text: string) =>
+			generateChatTitle({
+				db,
+				agent: "claude",
+				name: refuse,
+				envelopes: envelopes([prompt("u1", [{ type: "text", text }])]),
+			});
+		expect(
+			await named(
+				"# Rename and export a chat in the ACP chat\n\nYou are in a cloud workspace.",
+			),
+		).toBe("Rename and export a chat in the ACP chat");
+		expect(await named("https://github.com/acme/app/issues/42")).toBe(
+			"https://github.com/acme/app/issues/42",
+		);
 	});
 
 	test("a chat with no prompt yet has nothing to name it from", async () => {

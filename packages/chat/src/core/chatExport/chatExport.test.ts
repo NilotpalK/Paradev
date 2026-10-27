@@ -104,7 +104,7 @@ describe("chat export", () => {
 				"",
 				"- Tool: Edit src/login.ts (completed)",
 				"",
-				"```diff\n--- a/src/login.ts\n+++ b/src/login.ts\n@@ -2,1 +2,1 @@\n-redirect('/')\n+redirect(next)\n```",
+				"```diff\n--- src/login.ts\n+++ src/login.ts\n@@ -2,1 +2,1 @@\n-redirect('/')\n+redirect(next)\n```",
 				"",
 				"## Assistant `2026-10-27T09:00:02.000Z`",
 				"",

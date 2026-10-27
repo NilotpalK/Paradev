@@ -2,6 +2,7 @@ import { presetForAcpHarness, readAllEnvelopes } from "@superset/chat/core";
 import { CHAT_TITLE_MAX, cursorSchema } from "@superset/chat/protocol";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { buildChatAgentEnv } from "../../../chat-v3/agentEnv";
 import { protectedProcedure, router } from "../../index";
 import { chatLaunchTarget } from "../agents/agents";
 import { seedDefaultsIfEmpty } from "../settings/agent-configs";
@@ -100,6 +101,12 @@ export const sessionsRouter = router({
 				(await generateChatTitle({
 					db: ctx.db,
 					agent: presetForAcpHarness(session.harness),
+					env: () =>
+						buildChatAgentEnv({
+							db: ctx.db,
+							cwd: requireSessionWorkspace(ctx, input.workspaceId).worktreePath,
+							workspaceId: input.workspaceId,
+						}),
 					envelopes: await readAllEnvelopes(async (before) =>
 						chat.commands.getItems({
 							sessionId: input.sessionId,
