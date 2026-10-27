@@ -5493,6 +5493,12 @@ msgstr "Không thể chỉnh sửa tin nhắn"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Không xóa xong các workspace"
 
+msgid "Couldn't fork into a chat"
+msgstr "Không thể fork sang chat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Không thể fork sang terminal"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Không thể giao việc này cho agent"
 
@@ -8349,11 +8355,20 @@ msgstr "Tham số fork"
 msgid "Fork conversation"
 msgstr "Tách cuộc trò chuyện"
 
+msgid "Fork into chat"
+msgstr "Fork sang chat"
+
+msgid "Fork into CLI"
+msgstr "Fork sang CLI"
+
 msgid "Fork session"
 msgstr "Fork phiên"
 
 msgid "Fork session…"
 msgstr "Fork phiên…"
+
+msgid "Forking into a chat…"
+msgstr "Đang fork sang chat…"
 
 msgid "Form controls and field composition"
 msgstr "Các điều khiển form và cách ghép trường"

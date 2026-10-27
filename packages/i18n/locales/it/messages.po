@@ -5493,6 +5493,12 @@ msgstr "Impossibile modificare il messaggio"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Impossibile completare l'eliminazione dei workspace"
 
+msgid "Couldn't fork into a chat"
+msgstr "Non è stato possibile biforcare in una chat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Non è stato possibile biforcare in un terminale"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Impossibile affidare questo a un agente"
 
@@ -8349,11 +8355,20 @@ msgstr "Argomenti di fork"
 msgid "Fork conversation"
 msgstr "Dirama conversazione"
 
+msgid "Fork into chat"
+msgstr "Biforca in una chat"
+
+msgid "Fork into CLI"
+msgstr "Biforca nella CLI"
+
 msgid "Fork session"
 msgstr "Biforca sessione"
 
 msgid "Fork session…"
 msgstr "Biforca sessione…"
+
+msgid "Forking into a chat…"
+msgstr "Biforcazione in una chat in corso…"
 
 msgid "Form controls and field composition"
 msgstr "Controlli dei form e composizione dei campi"

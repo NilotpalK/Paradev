@@ -5493,6 +5493,12 @@ msgstr "Tidak dapat mengedit pesan"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Tidak bisa menyelesaikan penghapusan workspace"
 
+msgid "Couldn't fork into a chat"
+msgstr "Tidak dapat melakukan fork ke chat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Tidak dapat melakukan fork ke terminal"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Tidak dapat menyerahkan ini ke agen"
 
@@ -8349,11 +8355,20 @@ msgstr "Argumen fork"
 msgid "Fork conversation"
 msgstr "Cabangkan percakapan"
 
+msgid "Fork into chat"
+msgstr "Fork ke chat"
+
+msgid "Fork into CLI"
+msgstr "Fork ke CLI"
+
 msgid "Fork session"
 msgstr "Fork sesi"
 
 msgid "Fork session…"
 msgstr "Fork sesi…"
+
+msgid "Forking into a chat…"
+msgstr "Melakukan fork ke chat…"
 
 msgid "Form controls and field composition"
 msgstr "Kontrol form dan komposisi field"

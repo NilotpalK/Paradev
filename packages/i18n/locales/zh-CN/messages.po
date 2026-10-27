@@ -5493,6 +5493,12 @@ msgstr "无法编辑该消息"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "没能完成工作区的删除"
 
+msgid "Couldn't fork into a chat"
+msgstr "无法分叉到聊天"
+
+msgid "Couldn't fork into a terminal"
+msgstr "无法分叉到终端"
+
 msgid "Couldn't hand this to an agent"
 msgstr "无法交给智能体处理"
 
@@ -8349,11 +8355,20 @@ msgstr "分叉参数"
 msgid "Fork conversation"
 msgstr "分叉对话"
 
+msgid "Fork into chat"
+msgstr "分叉到聊天"
+
+msgid "Fork into CLI"
+msgstr "分叉到CLI"
+
 msgid "Fork session"
 msgstr "分叉会话"
 
 msgid "Fork session…"
 msgstr "分叉会话…"
+
+msgid "Forking into a chat…"
+msgstr "正在分叉到聊天…"
 
 msgid "Form controls and field composition"
 msgstr "表单控件与字段组合"

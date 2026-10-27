@@ -5493,6 +5493,12 @@ msgstr "Impossible de modifier le message"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Impossible de terminer la suppression des espaces de travail"
 
+msgid "Couldn't fork into a chat"
+msgstr "Impossible de forker dans un chat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Impossible de forker dans un terminal"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Impossible de confier ceci à un agent"
 
@@ -8349,11 +8355,20 @@ msgstr "Arguments de fork"
 msgid "Fork conversation"
 msgstr "Dupliquer la conversation"
 
+msgid "Fork into chat"
+msgstr "Forker dans un chat"
+
+msgid "Fork into CLI"
+msgstr "Forker dans la CLI"
+
 msgid "Fork session"
 msgstr "Forker la session"
 
 msgid "Fork session…"
 msgstr "Forker la session…"
+
+msgid "Forking into a chat…"
+msgstr "Fork dans un chat en cours…"
 
 msgid "Form controls and field composition"
 msgstr "Contrôles de formulaire et composition des champs"

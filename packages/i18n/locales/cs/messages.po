@@ -5493,6 +5493,12 @@ msgstr "Zprávu se nepodařilo upravit"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Mazání pracovních prostorů se nepodařilo dokončit"
 
+msgid "Couldn't fork into a chat"
+msgstr "Do chatu se nepodařilo forkovat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Do terminálu se nepodařilo forkovat"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Nepodařilo se předat agentovi"
 
@@ -8349,11 +8355,20 @@ msgstr "Argumenty pro fork"
 msgid "Fork conversation"
 msgstr "Rozvětvit konverzaci"
 
+msgid "Fork into chat"
+msgstr "Forkovat do chatu"
+
+msgid "Fork into CLI"
+msgstr "Forkovat do CLI"
+
 msgid "Fork session"
 msgstr "Forkovat relaci"
 
 msgid "Fork session…"
 msgstr "Forkovat relaci…"
+
+msgid "Forking into a chat…"
+msgstr "Forkuji do chatu…"
 
 msgid "Form controls and field composition"
 msgstr "Prvky formuláře a skládání polí"

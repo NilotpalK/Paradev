@@ -5493,6 +5493,12 @@ msgstr "Nie udało się edytować wiadomości"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Nie udało się dokończyć usuwania obszarów roboczych"
 
+msgid "Couldn't fork into a chat"
+msgstr "Nie udało się sforkować do czatu"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Nie udało się sforkować do terminala"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Nie udało się przekazać tego agentowi"
 
@@ -8349,11 +8355,20 @@ msgstr "Argumenty forka"
 msgid "Fork conversation"
 msgstr "Rozgałęź rozmowę"
 
+msgid "Fork into chat"
+msgstr "Forkuj do czatu"
+
+msgid "Fork into CLI"
+msgstr "Forkuj do CLI"
+
 msgid "Fork session"
 msgstr "Forkuj sesję"
 
 msgid "Fork session…"
 msgstr "Forkuj sesję…"
+
+msgid "Forking into a chat…"
+msgstr "Forkowanie do czatu…"
 
 msgid "Form controls and field composition"
 msgstr "Kontrolki formularza i kompozycja pól"

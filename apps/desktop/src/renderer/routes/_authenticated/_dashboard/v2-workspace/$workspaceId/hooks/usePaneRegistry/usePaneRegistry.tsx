@@ -110,10 +110,12 @@ import { PullRequestPane } from "./components/PullRequestPane";
 import { PullRequestPaneHeaderExtras } from "./components/PullRequestPane/components/PullRequestPaneHeaderExtras";
 import { ReviewPane } from "./components/ReviewPane";
 import { SubagentPane } from "./components/SubagentPane";
+import { SurfaceForkButton } from "./components/SurfaceForkButton";
 import { TerminalPaneHeaderExtras } from "./components/TerminalPane/components/TerminalPaneHeaderExtras";
 import { TerminalPaneIcon } from "./components/TerminalPane/components/TerminalPaneIcon";
 import { TerminalSessionDropdown } from "./components/TerminalPane/components/TerminalSessionDropdown";
 import { terminalContextMenuLinkStore } from "./components/TerminalPane/contextMenuLinkStore";
+import { useSurfaceFork } from "./hooks/useSurfaceFork";
 import { useUndoableChatClose } from "./hooks/useUndoableChatClose";
 import { openInActions } from "./utils/openInActions";
 import { pagePaneLabel } from "./utils/pagePaneLabel";
@@ -191,6 +193,7 @@ export function usePaneRegistry({
 		store,
 		linkedStores,
 	});
+	const forkIntoOtherSurface = useSurfaceFork(workspaceId);
 	const host = useWorkspaceHostTarget(workspaceId);
 	const desktopUrl =
 		host.status === "ready" && host.kind === "sandbox" ? host.desktopUrl : null;
@@ -527,6 +530,11 @@ export function usePaneRegistry({
 								}
 								onCreateNewAgentSession={createNewAgentSession}
 								onOpenSubagent={onOpenSubagent}
+							/>
+							<SurfaceForkButton
+								pane={{ kind: "terminal", data }}
+								onFork={(source) => forkIntoOtherSurface(ctx, source)}
+								workspaceId={workspaceId}
 							/>
 						</div>
 					);
@@ -865,6 +873,11 @@ export function usePaneRegistry({
 								workspaceId={workspaceId}
 								terminalId={data.terminalId}
 							/>
+							<SurfaceForkButton
+								pane={{ kind: "chat", data }}
+								onFork={(source) => forkIntoOtherSurface(ctx, source)}
+								workspaceId={workspaceId}
+							/>
 						</div>
 					);
 				},
@@ -1041,6 +1054,7 @@ export function usePaneRegistry({
 			store,
 			linkedStores,
 			workspaceId,
+			forkIntoOtherSurface,
 			closeChatWithUndo,
 			clearWorkspaceRunTerminal,
 			clearShortcut,

@@ -5493,6 +5493,12 @@ msgstr "メッセージを編集できませんでした"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "ワークスペースの削除を完了できませんでした"
 
+msgid "Couldn't fork into a chat"
+msgstr "チャットにフォークできませんでした"
+
+msgid "Couldn't fork into a terminal"
+msgstr "ターミナルにフォークできませんでした"
+
 msgid "Couldn't hand this to an agent"
 msgstr "エージェントに引き渡せませんでした"
 
@@ -8349,11 +8355,20 @@ msgstr "フォーク引数"
 msgid "Fork conversation"
 msgstr "会話を分岐"
 
+msgid "Fork into chat"
+msgstr "チャットにフォーク"
+
+msgid "Fork into CLI"
+msgstr "CLIにフォーク"
+
 msgid "Fork session"
 msgstr "セッションをフォーク"
 
 msgid "Fork session…"
 msgstr "セッションをフォーク…"
+
+msgid "Forking into a chat…"
+msgstr "チャットにフォーク中…"
 
 msgid "Form controls and field composition"
 msgstr "フォームコントロールとフィールドの組み立て"

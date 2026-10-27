@@ -5493,6 +5493,12 @@ msgstr "Kan het bericht niet bewerken"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Kon het verwijderen van werkruimtes niet afronden"
 
+msgid "Couldn't fork into a chat"
+msgstr "Kon niet forken naar een chat"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Kon niet forken naar een terminal"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Kon dit niet aan een agent overdragen"
 
@@ -8349,11 +8355,20 @@ msgstr "Fork-argumenten"
 msgid "Fork conversation"
 msgstr "Gesprek afsplitsen"
 
+msgid "Fork into chat"
+msgstr "Forken naar chat"
+
+msgid "Fork into CLI"
+msgstr "Forken naar CLI"
+
 msgid "Fork session"
 msgstr "Sessie forken"
 
 msgid "Fork session…"
 msgstr "Sessie forken…"
+
+msgid "Forking into a chat…"
+msgstr "Forken naar een chat…"
 
 msgid "Form controls and field composition"
 msgstr "Formulierbesturing en veldsamenstelling"

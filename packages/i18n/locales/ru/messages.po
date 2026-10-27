@@ -5493,6 +5493,12 @@ msgstr "Не удалось изменить сообщение"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Не удалось завершить удаление рабочих областей"
 
+msgid "Couldn't fork into a chat"
+msgstr "Не удалось форкнуть в чат"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Не удалось форкнуть в терминал"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Не удалось передать агенту"
 
@@ -8349,11 +8355,20 @@ msgstr "Аргументы форка"
 msgid "Fork conversation"
 msgstr "Ответвить разговор"
 
+msgid "Fork into chat"
+msgstr "Форкнуть в чат"
+
+msgid "Fork into CLI"
+msgstr "Форкнуть в CLI"
+
 msgid "Fork session"
 msgstr "Форкнуть сессию"
 
 msgid "Fork session…"
 msgstr "Форкнуть сессию…"
+
+msgid "Forking into a chat…"
+msgstr "Создание форка в чате…"
 
 msgid "Form controls and field composition"
 msgstr "Элементы формы и композиция полей"

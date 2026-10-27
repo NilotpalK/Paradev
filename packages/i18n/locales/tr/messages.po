@@ -5493,6 +5493,12 @@ msgstr "Mesaj düzenlenemedi"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "Çalışma alanlarını silme işlemi tamamlanamadı"
 
+msgid "Couldn't fork into a chat"
+msgstr "Sohbete forklanamadı"
+
+msgid "Couldn't fork into a terminal"
+msgstr "Terminale forklanamadı"
+
 msgid "Couldn't hand this to an agent"
 msgstr "Bu bir ajana devredilemedi"
 
@@ -8349,11 +8355,20 @@ msgstr "Fork argümanları"
 msgid "Fork conversation"
 msgstr "Konuşmayı ayır"
 
+msgid "Fork into chat"
+msgstr "Sohbete forkla"
+
+msgid "Fork into CLI"
+msgstr "CLI'ye forkla"
+
 msgid "Fork session"
 msgstr "Oturumu forkla"
 
 msgid "Fork session…"
 msgstr "Oturumu forkla…"
+
+msgid "Forking into a chat…"
+msgstr "Sohbete forklanıyor…"
 
 msgid "Form controls and field composition"
 msgstr "Form denetimleri ve alan kompozisyonu"

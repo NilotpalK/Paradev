@@ -5493,6 +5493,12 @@ msgstr "메시지를 편집할 수 없습니다"
 msgid "Couldn’t finish deleting workspaces"
 msgstr "워크스페이스 삭제를 끝내지 못했습니다"
 
+msgid "Couldn't fork into a chat"
+msgstr "채팅으로 포크할 수 없습니다"
+
+msgid "Couldn't fork into a terminal"
+msgstr "터미널로 포크할 수 없습니다"
+
 msgid "Couldn't hand this to an agent"
 msgstr "에이전트에게 넘길 수 없습니다"
 
@@ -8349,11 +8355,20 @@ msgstr "포크 인자"
 msgid "Fork conversation"
 msgstr "대화 분기"
 
+msgid "Fork into chat"
+msgstr "채팅으로 포크"
+
+msgid "Fork into CLI"
+msgstr "CLI로 포크"
+
 msgid "Fork session"
 msgstr "세션 포크"
 
 msgid "Fork session…"
 msgstr "세션 포크…"
+
+msgid "Forking into a chat…"
+msgstr "채팅으로 포크하는 중…"
 
 msgid "Form controls and field composition"
 msgstr "폼 컨트롤과 필드 구성"
