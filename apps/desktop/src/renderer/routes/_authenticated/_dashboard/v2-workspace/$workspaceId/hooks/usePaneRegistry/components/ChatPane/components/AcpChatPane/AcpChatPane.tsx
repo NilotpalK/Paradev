@@ -515,7 +515,7 @@ export function AcpChatPane({
 			if (warmed.current?.sessionId !== replacement) {
 				warmed.current = {
 					sessionId: replacement,
-					done: warmTranscript(replacement, wiring),
+					done: warmTranscript(replacement, wiring).catch(() => undefined),
 				};
 			}
 			let current = true;

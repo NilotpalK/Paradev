@@ -93,7 +93,6 @@ async function fetchSeed(
 	};
 }
 
-/** Caches a session's transcript so a view that mounts on it is not empty while it loads. */
 export async function prefetchChatSession(
 	client: SessionClient,
 	pageSize?: number,
