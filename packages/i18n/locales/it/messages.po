@@ -3820,6 +3820,9 @@ msgstr "La chat è in fase di rifacimento"
 msgid "Chat Launch"
 msgstr "Avvio in chat"
 
+msgid "Chat mode"
+msgstr "Modalità chat"
+
 msgid "Chat session not found"
 msgstr "Sessione di chat non trovata"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI e SDK"
 
 msgid "CLI docs"
 msgstr "Documentazione CLI"
+
+msgid "CLI mode"
+msgstr "Modalità CLI"
 
 msgid "CLI reference"
 msgstr "Riferimento CLI"
@@ -8358,8 +8364,14 @@ msgstr "Dirama conversazione"
 msgid "Fork into chat"
 msgstr "Biforca in una chat"
 
+msgid "Fork into chat in a new tab"
+msgstr "Biforca in una chat in una nuova scheda"
+
 msgid "Fork into CLI"
 msgstr "Biforca nella CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Biforca nella CLI in una nuova scheda"
 
 msgid "Fork session"
 msgstr "Biforca sessione"
@@ -12913,6 +12925,9 @@ msgstr "Apertura del worktree..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Apre un workspace cloud in cui un agente installa ciò di cui il progetto ha bisogno e scrive il suo .superset/config.json"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Si apre accanto a questo pannello. Questo continua a funzionare."
+
 msgid "Opens on"
 msgstr "Si apre su"
 
@@ -15360,12 +15375,6 @@ msgstr "Revoca la chiave"
 
 msgid "Rewrote it and published version 2."
 msgstr "Riscritto e pubblicata la versione 2."
-
-msgid "Rich input"
-msgstr "Input avanzato"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Input avanzato ({hotkeyText})"
 
 msgid "right pane"
 msgstr "riquadro destro"

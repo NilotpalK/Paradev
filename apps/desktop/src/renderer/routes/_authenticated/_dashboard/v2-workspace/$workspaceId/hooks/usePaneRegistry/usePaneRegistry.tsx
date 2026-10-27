@@ -86,6 +86,7 @@ import { BrowserPane, BrowserPaneToolbar } from "./components/BrowserPane";
 import { ChangesListPane } from "./components/ChangesListPane";
 import { ChatPane } from "./components/ChatPane";
 import { ChatHistoryPicker } from "./components/ChatPane/components/ChatHistoryPicker";
+import { ChatModeMenu } from "./components/ChatPane/components/ChatModeMenu";
 import { ChatPaneTitle } from "./components/ChatPaneTitle";
 import { CommentPane } from "./components/CommentPane";
 import { CommentPaneHeaderExtras } from "./components/CommentPane/components/CommentPaneHeaderExtras";
@@ -110,7 +111,6 @@ import { PullRequestPane } from "./components/PullRequestPane";
 import { PullRequestPaneHeaderExtras } from "./components/PullRequestPane/components/PullRequestPaneHeaderExtras";
 import { ReviewPane } from "./components/ReviewPane";
 import { SubagentPane } from "./components/SubagentPane";
-import { SurfaceForkButton } from "./components/SurfaceForkButton";
 import { TerminalPaneHeaderExtras } from "./components/TerminalPane/components/TerminalPaneHeaderExtras";
 import { TerminalPaneIcon } from "./components/TerminalPane/components/TerminalPaneIcon";
 import { TerminalSessionDropdown } from "./components/TerminalPane/components/TerminalSessionDropdown";
@@ -529,12 +529,10 @@ export function usePaneRegistry({
 									})
 								}
 								onCreateNewAgentSession={createNewAgentSession}
+								onForkIntoOtherSurface={(source, placement) =>
+									void forkIntoOtherSurface(ctx, source, placement)
+								}
 								onOpenSubagent={onOpenSubagent}
-							/>
-							<SurfaceForkButton
-								pane={{ kind: "terminal", data }}
-								onFork={(source) => forkIntoOtherSurface(ctx, source)}
-								workspaceId={workspaceId}
 							/>
 						</div>
 					);
@@ -873,9 +871,11 @@ export function usePaneRegistry({
 								workspaceId={workspaceId}
 								terminalId={data.terminalId}
 							/>
-							<SurfaceForkButton
-								pane={{ kind: "chat", data }}
-								onFork={(source) => forkIntoOtherSurface(ctx, source)}
+							<ChatModeMenu
+								data={data}
+								onFork={(source, placement) =>
+									void forkIntoOtherSurface(ctx, source, placement)
+								}
 								workspaceId={workspaceId}
 							/>
 						</div>

@@ -3820,6 +3820,9 @@ msgstr "Sohbet yeniden düzenleniyor"
 msgid "Chat Launch"
 msgstr "Sohbet başlatma"
 
+msgid "Chat mode"
+msgstr "Sohbet modu"
+
 msgid "Chat session not found"
 msgstr "Sohbet oturumu bulunamadı"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI ve SDK"
 
 msgid "CLI docs"
 msgstr "CLI belgeleri"
+
+msgid "CLI mode"
+msgstr "CLI modu"
 
 msgid "CLI reference"
 msgstr "CLI referansı"
@@ -8358,8 +8364,14 @@ msgstr "Konuşmayı ayır"
 msgid "Fork into chat"
 msgstr "Sohbete forkla"
 
+msgid "Fork into chat in a new tab"
+msgstr "Yeni sekmede sohbete forkla"
+
 msgid "Fork into CLI"
 msgstr "CLI'ye forkla"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Yeni sekmede CLI'ye forkla"
 
 msgid "Fork session"
 msgstr "Oturumu forkla"
@@ -12913,6 +12925,9 @@ msgstr "Worktree açılıyor..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Bir ajanın projenin ihtiyaç duyduklarını kurup .superset/config.json dosyasını yazdığı bir bulut çalışma alanı açar"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Bu bölmenin yanında açılır. Bu bölme çalışmaya devam eder."
+
 msgid "Opens on"
 msgstr "Şurada açılır"
 
@@ -15360,12 +15375,6 @@ msgstr "Anahtarı iptal et"
 
 msgid "Rewrote it and published version 2."
 msgstr "Yeniden yazdım ve sürüm 2'yi yayınladım."
-
-msgid "Rich input"
-msgstr "Zengin giriş"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Zengin giriş ({hotkeyText})"
 
 msgid "right pane"
 msgstr "sağ panel"

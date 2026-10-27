@@ -3820,6 +3820,9 @@ msgstr "Чат перерабатывается"
 msgid "Chat Launch"
 msgstr "Запуск в чате"
 
+msgid "Chat mode"
+msgstr "Режим чата"
+
 msgid "Chat session not found"
 msgstr "Сессия чата не найдена"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI и SDK"
 
 msgid "CLI docs"
 msgstr "Документация CLI"
+
+msgid "CLI mode"
+msgstr "Режим CLI"
 
 msgid "CLI reference"
 msgstr "Справочник CLI"
@@ -8358,8 +8364,14 @@ msgstr "Ответвить разговор"
 msgid "Fork into chat"
 msgstr "Форкнуть в чат"
 
+msgid "Fork into chat in a new tab"
+msgstr "Форкнуть в чат в новой вкладке"
+
 msgid "Fork into CLI"
 msgstr "Форкнуть в CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Форкнуть в CLI в новой вкладке"
 
 msgid "Fork session"
 msgstr "Форкнуть сессию"
@@ -12913,6 +12925,9 @@ msgstr "Открытие worktree..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Открывает облачную рабочую область, где агент устанавливает всё нужное проекту и записывает его .superset/config.json"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Откроется рядом с этой панелью. Эта продолжит работать."
+
 msgid "Opens on"
 msgstr "Открывается в"
 
@@ -15360,12 +15375,6 @@ msgstr "Отозвать ключ"
 
 msgid "Rewrote it and published version 2."
 msgstr "Переписал и опубликовал версию 2."
-
-msgid "Rich input"
-msgstr "Расширенный ввод"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Расширенный ввод ({hotkeyText})"
 
 msgid "right pane"
 msgstr "правая панель"

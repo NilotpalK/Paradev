@@ -19,9 +19,12 @@ export type SurfaceForkSource =
 	| { into: "chat"; presetId: string; harnessSessionId: string }
 	| { into: "cli"; configId: string; harnessSessionId: string };
 
+export type SurfaceForkPlacement = "beside" | "tab";
+
 export type ForkIntoOtherSurface = (
 	ctx: RendererContext<PaneViewerData>,
 	source: SurfaceForkSource,
+	placement: SurfaceForkPlacement,
 ) => Promise<void>;
 
 export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
@@ -64,14 +67,20 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 	);
 
 	return useCallback<ForkIntoOtherSurface>(
-		async (ctx, source) => {
-			const splitBeside = (newPane: CreatePaneInput<PaneViewerData>) =>
-				ctx.store.getState().splitPane({
+		async (ctx, source, placement) => {
+			const place = (newPane: CreatePaneInput<PaneViewerData>) => {
+				const state = ctx.store.getState();
+				if (placement === "tab") {
+					state.addTab({ panes: [newPane] });
+					return;
+				}
+				state.splitPane({
 					tabId: ctx.tab.id,
 					paneId: ctx.pane.id,
 					position: "right",
 					newPane,
 				});
+			};
 
 			if (source.into === "cli") {
 				try {
@@ -86,7 +95,7 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 						toast.error(t({ message: "Couldn't fork into a terminal" }));
 						return;
 					}
-					splitBeside({
+					place({
 						kind: "terminal",
 						titleOverride: result.label,
 						data: { terminalId: result.sessionId } satisfies TerminalPaneData,
@@ -115,7 +124,7 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 					return;
 				}
 				toast.dismiss(toastId);
-				splitBeside({
+				place({
 					kind: "chat-v3",
 					...(ctx.pane.titleOverride
 						? { titleOverride: ctx.pane.titleOverride }

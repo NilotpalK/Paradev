@@ -3820,6 +3820,9 @@ msgstr "聊天功能正在重做"
 msgid "Chat Launch"
 msgstr "聊天启动"
 
+msgid "Chat mode"
+msgstr "聊天模式"
+
 msgid "Chat session not found"
 msgstr "未找到聊天会话"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI与SDK"
 
 msgid "CLI docs"
 msgstr "CLI文档"
+
+msgid "CLI mode"
+msgstr "CLI模式"
 
 msgid "CLI reference"
 msgstr "CLI 参考"
@@ -8358,8 +8364,14 @@ msgstr "分叉对话"
 msgid "Fork into chat"
 msgstr "分叉到聊天"
 
+msgid "Fork into chat in a new tab"
+msgstr "在新标签页中分叉到聊天"
+
 msgid "Fork into CLI"
 msgstr "分叉到CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "在新标签页中分叉到CLI"
 
 msgid "Fork session"
 msgstr "分叉会话"
@@ -12913,6 +12925,9 @@ msgstr "正在打开worktree..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "打开一个云端工作区，由代理安装项目所需内容并写入其 .superset/config.json"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "在此窗格旁打开。原窗格会继续运行。"
+
 msgid "Opens on"
 msgstr "打开于"
 
@@ -15360,12 +15375,6 @@ msgstr "吊销密钥"
 
 msgid "Rewrote it and published version 2."
 msgstr "已重写并发布版本 2。"
-
-msgid "Rich input"
-msgstr "富输入"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "富输入（{hotkeyText}）"
 
 msgid "right pane"
 msgstr "右侧面板"

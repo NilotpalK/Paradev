@@ -3820,6 +3820,9 @@ msgstr "チャットは再構築中です"
 msgid "Chat Launch"
 msgstr "チャット起動"
 
+msgid "Chat mode"
+msgstr "チャットモード"
+
 msgid "Chat session not found"
 msgstr "チャットセッションが見つかりません"
 
@@ -4093,6 +4096,9 @@ msgstr "CLIとSDK"
 
 msgid "CLI docs"
 msgstr "CLIドキュメント"
+
+msgid "CLI mode"
+msgstr "CLIモード"
 
 msgid "CLI reference"
 msgstr "CLIリファレンス"
@@ -8358,8 +8364,14 @@ msgstr "会話を分岐"
 msgid "Fork into chat"
 msgstr "チャットにフォーク"
 
+msgid "Fork into chat in a new tab"
+msgstr "新しいタブでチャットにフォーク"
+
 msgid "Fork into CLI"
 msgstr "CLIにフォーク"
+
+msgid "Fork into CLI in a new tab"
+msgstr "新しいタブでCLIにフォーク"
 
 msgid "Fork session"
 msgstr "セッションをフォーク"
@@ -12913,6 +12925,9 @@ msgstr "ワークツリーを開いています..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "クラウドワークスペースを開き、エージェントがプロジェクトに必要なものをインストールして .superset/config.json を書き込みます"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "このペインの横に開きます。元のペインは動作し続けます。"
+
 msgid "Opens on"
 msgstr "開くリポジトリ"
 
@@ -15360,12 +15375,6 @@ msgstr "キーを取り消す"
 
 msgid "Rewrote it and published version 2."
 msgstr "書き直してバージョン2を公開しました。"
-
-msgid "Rich input"
-msgstr "リッチ入力"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "リッチ入力 ({hotkeyText})"
 
 msgid "right pane"
 msgstr "右ペイン"

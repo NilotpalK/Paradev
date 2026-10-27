@@ -3820,6 +3820,9 @@ msgstr "Chat wordt herbouwd"
 msgid "Chat Launch"
 msgstr "Start via chat"
 
+msgid "Chat mode"
+msgstr "Chatmodus"
+
 msgid "Chat session not found"
 msgstr "Chatsessie niet gevonden"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI & SDK"
 
 msgid "CLI docs"
 msgstr "CLI-docs"
+
+msgid "CLI mode"
+msgstr "CLI-modus"
 
 msgid "CLI reference"
 msgstr "CLI-referentie"
@@ -8358,8 +8364,14 @@ msgstr "Gesprek afsplitsen"
 msgid "Fork into chat"
 msgstr "Forken naar chat"
 
+msgid "Fork into chat in a new tab"
+msgstr "Forken naar chat in een nieuw tabblad"
+
 msgid "Fork into CLI"
 msgstr "Forken naar CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Forken naar CLI in een nieuw tabblad"
 
 msgid "Fork session"
 msgstr "Sessie forken"
@@ -12913,6 +12925,9 @@ msgstr "Worktree openen..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Opent een cloudwerkruimte waarin een agent installeert wat het project nodig heeft en zijn .superset/config.json schrijft"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Opent naast dit paneel. Dit paneel blijft draaien."
+
 msgid "Opens on"
 msgstr "Opent in"
 
@@ -15360,12 +15375,6 @@ msgstr "Sleutel intrekken"
 
 msgid "Rewrote it and published version 2."
 msgstr "Herschreven en versie 2 gepubliceerd."
-
-msgid "Rich input"
-msgstr "Uitgebreide invoer"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Uitgebreide invoer ({hotkeyText})"
 
 msgid "right pane"
 msgstr "rechterpaneel"

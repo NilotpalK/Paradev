@@ -3820,6 +3820,9 @@ msgstr "Chat đang được làm lại"
 msgid "Chat Launch"
 msgstr "Khởi chạy chat"
 
+msgid "Chat mode"
+msgstr "Chế độ chat"
+
 msgid "Chat session not found"
 msgstr "Không tìm thấy phiên chat"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI & SDK"
 
 msgid "CLI docs"
 msgstr "Tài liệu CLI"
+
+msgid "CLI mode"
+msgstr "Chế độ CLI"
 
 msgid "CLI reference"
 msgstr "Tài liệu tham chiếu CLI"
@@ -8358,8 +8364,14 @@ msgstr "Tách cuộc trò chuyện"
 msgid "Fork into chat"
 msgstr "Fork sang chat"
 
+msgid "Fork into chat in a new tab"
+msgstr "Fork sang chat trong tab mới"
+
 msgid "Fork into CLI"
 msgstr "Fork sang CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Fork sang CLI trong tab mới"
 
 msgid "Fork session"
 msgstr "Fork phiên"
@@ -12913,6 +12925,9 @@ msgstr "Đang mở worktree..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Mở một workspace cloud để agent cài đặt những gì dự án cần và ghi .superset/config.json của nó"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Mở bên cạnh khung này. Khung này vẫn tiếp tục chạy."
+
 msgid "Opens on"
 msgstr "Mở tại"
 
@@ -15360,12 +15375,6 @@ msgstr "Thu hồi khóa"
 
 msgid "Rewrote it and published version 2."
 msgstr "Đã viết lại và xuất bản phiên bản 2."
-
-msgid "Rich input"
-msgstr "Nhập nâng cao"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Nhập nâng cao ({hotkeyText})"
 
 msgid "right pane"
 msgstr "ngăn bên phải"

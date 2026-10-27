@@ -3820,6 +3820,9 @@ msgstr "Chat se předělává"
 msgid "Chat Launch"
 msgstr "Spuštění chatu"
 
+msgid "Chat mode"
+msgstr "Režim chatu"
+
 msgid "Chat session not found"
 msgstr "Relace chatu nenalezena"
 
@@ -4093,6 +4096,9 @@ msgstr "CLI a SDK"
 
 msgid "CLI docs"
 msgstr "Dokumentace CLI"
+
+msgid "CLI mode"
+msgstr "Režim CLI"
 
 msgid "CLI reference"
 msgstr "Reference CLI"
@@ -8358,8 +8364,14 @@ msgstr "Rozvětvit konverzaci"
 msgid "Fork into chat"
 msgstr "Forkovat do chatu"
 
+msgid "Fork into chat in a new tab"
+msgstr "Forkovat do chatu v nové kartě"
+
 msgid "Fork into CLI"
 msgstr "Forkovat do CLI"
+
+msgid "Fork into CLI in a new tab"
+msgstr "Forkovat do CLI v nové kartě"
 
 msgid "Fork session"
 msgstr "Forkovat relaci"
@@ -12913,6 +12925,9 @@ msgstr "Otevírám worktree..."
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "Otevře cloudový pracovní prostor, kde agent nainstaluje vše, co projekt potřebuje, a zapíše jeho .superset/config.json"
 
+msgid "Opens beside this pane. This one keeps running."
+msgstr "Otevře se vedle tohoto panelu. Tento dál běží."
+
 msgid "Opens on"
 msgstr "Otevře se v"
 
@@ -15360,12 +15375,6 @@ msgstr "Zneplatnit klíč"
 
 msgid "Rewrote it and published version 2."
 msgstr "Přepsáno a publikována verze 2."
-
-msgid "Rich input"
-msgstr "Rozšířený vstup"
-
-msgid "Rich input ({hotkeyText})"
-msgstr "Rozšířený vstup ({hotkeyText})"
 
 msgid "right pane"
 msgstr "pravý panel"
