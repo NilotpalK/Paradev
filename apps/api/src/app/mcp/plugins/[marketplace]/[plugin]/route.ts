@@ -97,7 +97,7 @@ async function handle(
 	}
 
 	const connectionId = new URL(req.url).searchParams.get("connection");
-	if (connectionId !== null && !z.uuid().safeParse(connectionId).success) {
+	if (connectionId && !z.uuid().safeParse(connectionId).success) {
 		return withRateLimitHeaders(
 			errorResponse(
 				"INVALID_CONNECTION",
