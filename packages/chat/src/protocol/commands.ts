@@ -16,7 +16,13 @@ export const createSessionInputSchema = z.object({
 	harness: z.string().min(1),
 	modeId: z.string().optional(),
 	modelId: z.string().optional(),
-	resume: z.object({ harnessSessionId: z.string().min(1) }).optional(),
+	resume: z
+		.object({
+			harnessSessionId: z.string().min(1),
+			/** The stopped chat this one takes over; a failed last turn carries over. */
+			replacesSessionId: z.string().min(1).optional(),
+		})
+		.optional(),
 	terminalId: z.string().min(1).optional(),
 });
 export type CreateSessionInput = z.infer<typeof createSessionInputSchema>;

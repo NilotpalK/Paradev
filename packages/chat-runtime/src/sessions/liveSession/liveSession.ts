@@ -94,6 +94,7 @@ export class LiveSession {
 	private heldUntilStarted: UserContent[][] = [];
 	private heldPaused: UserContent[][] = [];
 	private onHeldReleased: (() => void) | null = null;
+	private carriedFailure: Turn | null = null;
 	/** Turns a user prompt started, and those of them that have shown anything yet. */
 	private readonly promptedTurns = new Set<string>();
 	private readonly turnsWithOutput = new Set<string>();
@@ -184,6 +185,16 @@ export class LiveSession {
 		this.heldPaused.push(...pausedPrompts);
 		this.onHeldReleased = onReleased ?? null;
 		this.releaseHeldPrompts();
+	}
+
+	/**
+	 * Shows `turn`, a failure that ended the chat this one replaces, once the
+	 * agent has started: after any history it replays, so it reads as the
+	 * latest turn.
+	 */
+	carryFailedTurn(turn: Turn): void {
+		this.carriedFailure = turn;
+		this.releaseCarriedFailure();
 	}
 
 	start(startOptions: HarnessStartOptions): void {
@@ -435,6 +446,7 @@ export class LiveSession {
 			case "session":
 				if (event.session.status === "dead") this.discardPending();
 				this.emitSession(event.session);
+				this.releaseCarriedFailure();
 				this.releaseHeldPrompts();
 				if (event.session.awaitingBackground) this.steerQueueIntoHeldTurn();
 				return;
@@ -447,6 +459,29 @@ export class LiveSession {
 				});
 				return;
 		}
+	}
+
+	private releaseCarriedFailure(): void {
+		const turn = this.carriedFailure;
+		if (!turn || this.sessionState.status === "starting") return;
+		this.carriedFailure = null;
+		const at = this.now();
+		this.appendDurable({
+			type: "turn",
+			turn: { ...turn, startedAtMs: at, completedAtMs: at },
+		});
+		this.appendDurable({
+			type: "item",
+			item: {
+				id: this.mintId(),
+				kind: "notice",
+				noticeKind: "error",
+				text: turn.error?.message ?? "",
+				startedAtMs: at,
+				completedAtMs: at,
+			},
+			turnId: turn.id,
+		});
 	}
 
 	private releaseHeldPrompts(): void {

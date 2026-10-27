@@ -1,11 +1,19 @@
 import { describe, expect, test } from "bun:test";
 import { randomUUID } from "node:crypto";
+import { deriveTimeline, emptySnapshot, reduceMany } from "@superset/chat/core";
 import { eq } from "drizzle-orm";
 import { chatJournal } from "../../db";
 import type { AdapterEvent, HarnessAdapter } from "../../harness";
+import { FakeHarness } from "../../harness/fake";
 import type { HarnessRegistry } from "../../sessions";
+import { agentMessage, turn } from "../../testing/fixtures";
 import { createTestRuntime } from "../../testing/testRuntime";
-import { FAKE_HARNESS, fakeHarnessRegistry } from "../../testing/testUtils";
+import {
+	FAKE_HARNESS,
+	fakeHarnessRegistry,
+	journalEnvelopes,
+	waitFor,
+} from "../../testing/testUtils";
 
 const HARNESS = "recovery-fake";
 
@@ -142,6 +150,88 @@ describe("epoch recovery", () => {
 			status: "starting",
 			title: null,
 			queuedCount: 0,
+		});
+
+		await runtime.dispose();
+	});
+});
+
+describe("replacing a chat whose agent died", () => {
+	test("the failure that ended it shows after the history the agent replays", async () => {
+		const crashed = turn("t1", {
+			status: "failed",
+			error: { message: "acp agent exited (code 1)", kind: "crashed" },
+			completedAtMs: 2,
+		});
+		const harnesses: HarnessRegistry = new Map([
+			[
+				FAKE_HARNESS,
+				() =>
+					new FakeHarness({
+						start: [
+							{
+								kind: "item",
+								item: agentMessage("replayed", "earlier reply"),
+								turnId: "history",
+							},
+							{ kind: "session", delayMs: 2, session: { status: "idle" } },
+						],
+						turns: [
+							[
+								{ kind: "turn", turn: turn("t1") },
+								{ kind: "turn", turn: crashed },
+							],
+						],
+					}),
+			],
+		]);
+		const runtime = createTestRuntime({ harnesses });
+		const create = (resume?: {
+			harnessSessionId: string;
+			replacesSessionId: string;
+		}) =>
+			runtime.commands.createSession({
+				commandId: randomUUID(),
+				scopeId: "workspace-1",
+				harness: FAKE_HARNESS,
+				cwd: "/tmp/workspace",
+				...(resume ? { resume } : {}),
+			});
+		const dead = create();
+		await waitFor(
+			() => runtime.live.get(dead.sessionId)?.state.status === "idle",
+		);
+		runtime.commands.prompt({
+			commandId: randomUUID(),
+			sessionId: dead.sessionId,
+			clientId: "client-1",
+			content: [{ type: "text", text: "build it" }],
+		});
+		await waitFor(
+			() => runtime.live.get(dead.sessionId)?.turn?.status === "failed",
+		);
+
+		const replacement = create({
+			harnessSessionId: "agent-1",
+			replacesSessionId: dead.sessionId,
+		});
+		await waitFor(() =>
+			journalEnvelopes(runtime, replacement.sessionId).some(
+				(envelope) =>
+					envelope.event.type === "turn" && envelope.event.turn.id === "t1",
+			),
+		);
+
+		const groups = deriveTimeline(
+			reduceMany(
+				emptySnapshot(),
+				journalEnvelopes(runtime, replacement.sessionId),
+			),
+		);
+		expect(groups.map((group) => group.turnId)).toEqual(["history", "t1"]);
+		expect(groups.at(-1)?.turn).toMatchObject({
+			status: "failed",
+			error: { message: "acp agent exited (code 1)", kind: "crashed" },
 		});
 
 		await runtime.dispose();
