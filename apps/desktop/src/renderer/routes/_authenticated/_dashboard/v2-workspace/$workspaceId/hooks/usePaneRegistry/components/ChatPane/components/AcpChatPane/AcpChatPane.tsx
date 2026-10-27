@@ -29,6 +29,7 @@ import type {
 	ChatEditRequest,
 	ChatForkTarget,
 } from "../../../ChatSession/types";
+import { carryReaderPosition } from "../../../ChatSession/utils/carriedReaderPosition";
 import { isUnrestrictedMode } from "../../../ChatSession/utils/isUnrestrictedMode";
 import { useForkChat } from "../../hooks/useForkChat";
 import { readSavedChatMode } from "../../utils/savedChatMode";
@@ -491,6 +492,7 @@ export function AcpChatPane({
 			recoveryInFlight.current = false;
 			const prompt = continueAfterRestart.current ?? undefined;
 			continueAfterRestart.current = null;
+			if (sessionId) carryReaderPosition(sessionId, replacement);
 			onSessionCreated(replacement, prompt);
 			releaseReplacement();
 		};
@@ -511,7 +513,14 @@ export function AcpChatPane({
 		}
 		const timer = setTimeout(commit, REPLACEMENT_TIMEOUT_MS);
 		return () => clearTimeout(timer);
-	}, [replacement, replacementState, onSessionCreated, releaseReplacement, t]);
+	}, [
+		replacement,
+		replacementState,
+		sessionId,
+		onSessionCreated,
+		releaseReplacement,
+		t,
+	]);
 	const recovering =
 		replacement !== null ||
 		(recoverable && recoveries.current < MAX_RECOVERIES);
