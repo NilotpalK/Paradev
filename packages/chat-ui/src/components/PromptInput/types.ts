@@ -84,6 +84,8 @@ export type PromptInputCommand = {
 	rightIcon?: ReactNode;
 	group?: string;
 	searchAliases?: string[];
+	// Tab inserts this chip in place of the typed command instead of selecting.
+	completion?: ComposerChip;
 	onSelect(ctx: ComposerActionContext): void | Promise<void>;
 };
 

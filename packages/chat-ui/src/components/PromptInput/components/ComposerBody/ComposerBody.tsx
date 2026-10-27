@@ -21,6 +21,7 @@ import {
 	$isTextNode,
 	$setSelection,
 	CLICK_COMMAND,
+	COMMAND_PRIORITY_CRITICAL,
 	COMMAND_PRIORITY_HIGH,
 	COMMAND_PRIORITY_LOW,
 	DROP_COMMAND,
@@ -28,6 +29,7 @@ import {
 	KEY_DELETE_COMMAND,
 	KEY_ENTER_COMMAND,
 	KEY_ESCAPE_COMMAND,
+	KEY_TAB_COMMAND,
 	type LexicalNode,
 	PASTE_COMMAND,
 } from "lexical";
@@ -474,6 +476,28 @@ export function ComposerBody({
 	const commandOptions = useMemo(
 		() => rankedCommands.map((command) => new CommandTypeaheadOption(command)),
 		[rankedCommands],
+	);
+	const commandMenuRef = useRef<{
+		option: CommandTypeaheadOption | undefined;
+		select: (option: CommandTypeaheadOption) => void;
+	} | null>(null);
+	const completingRef = useRef(false);
+	useEffect(
+		() =>
+			editor.registerCommand<KeyboardEvent | null>(
+				KEY_TAB_COMMAND,
+				(event) => {
+					const menu = commandMenuRef.current;
+					if (event?.shiftKey || !menu?.option?.command.completion)
+						return false;
+					event?.preventDefault();
+					completingRef.current = true;
+					menu.select(menu.option);
+					return true;
+				},
+				COMMAND_PRIORITY_CRITICAL,
+			),
+		[editor],
 	);
 
 	const selectMentionEntry = (
@@ -975,12 +999,20 @@ export function ComposerBody({
 				/>
 				<LexicalTypeaheadMenuPlugin<CommandTypeaheadOption>
 					onQueryChange={setCommandQuery}
+					onClose={() => {
+						commandMenuRef.current = null;
+					}}
 					onSelectOption={(option, nodeToReplace, closeMenu) => {
 						editor.update(() => {
 							nodeToReplace?.remove();
 							closeMenu();
 						});
-						void option.command.onSelect(actionContextRef.current);
+						const completion = completingRef.current
+							? option.command.completion
+							: undefined;
+						completingRef.current = false;
+						if (completion) actionContextRef.current.insertChip(completion);
+						else void option.command.onSelect(actionContextRef.current);
 					}}
 					options={commandOptions}
 					triggerFn={(text) => matchCommandToken(text)}
@@ -988,11 +1020,22 @@ export function ComposerBody({
 					menuRenderFn={(
 						anchorElementRef,
 						{ selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
-					) =>
-						anchorElementRef.current &&
-						menuSlot &&
-						!commandDismissed &&
-						rankedCommands.length > 0
+					) => {
+						const shown =
+							anchorElementRef.current &&
+							menuSlot &&
+							!commandDismissed &&
+							rankedCommands.length > 0;
+						commandMenuRef.current = shown
+							? {
+									option:
+										selectedIndex === null
+											? undefined
+											: commandOptions[selectedIndex],
+									select: selectOptionAndCleanUp,
+								}
+							: null;
+						return shown
 							? createPortal(
 									<CommandMenu
 										commands={rankedCommands}
@@ -1007,8 +1050,8 @@ export function ComposerBody({
 									/>,
 									menuSlot,
 								)
-							: null
-					}
+							: null;
+					}}
 				/>
 			</div>
 			<div
