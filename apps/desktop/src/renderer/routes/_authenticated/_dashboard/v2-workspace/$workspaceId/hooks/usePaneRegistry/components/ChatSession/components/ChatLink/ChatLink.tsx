@@ -5,15 +5,15 @@ import { type UseNavigateResult, useNavigate } from "@tanstack/react-router";
 import type { ComponentProps, MouseEvent } from "react";
 import { env } from "renderer/env.renderer";
 import { navigateToV2Workspace } from "renderer/routes/_authenticated/_dashboard/utils/workspace-navigation";
+import {
+	parseSupersetAppLink,
+	type SupersetAppLink,
+} from "renderer/lib/supersetAppLink";
 import { ChatLinkProvider } from "../../providers/ChatLinkProvider";
 import { useChatPaneActions } from "../../providers/ChatPaneActionsProvider";
 import { parseGithubWorkItemUrl } from "../../utils/githubWorkItem";
 import { unfurlLink } from "../../utils/linkUnfurl";
 import { LOCAL_PATH_PREFIX } from "../../utils/remarkLocalPathLinks";
-import {
-	parseSupersetAppLink,
-	type SupersetAppLink,
-} from "../../utils/supersetAppLink";
 import { ChatPreviewHoverCard } from "../ChatPreviewHoverCard";
 import { FileLinkMenu } from "../FileLinkMenu";
 import { GithubWorkItemHoverCard } from "../GithubWorkItemHoverCard";
@@ -42,6 +42,12 @@ function openInApp(
 			void navigate({
 				to: "/plugins/$pluginName",
 				params: { pluginName: link.pluginName },
+			});
+			return;
+		case "environment":
+			void navigate({
+				to: "/environments/$environmentId",
+				params: { environmentId: link.environmentId },
 			});
 			return;
 		case "workspace":
@@ -75,7 +81,7 @@ function withModifier(event: MouseEvent): boolean {
 
 export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 	const { t } = useLingui();
-	const { openPage, openLink, workspaceId } = useChatPaneActions();
+	const { openAppLink, openLink, workspaceId } = useChatPaneActions();
 	const navigate = useNavigate();
 	const isLocalPath = props.href?.startsWith(LOCAL_PATH_PREFIX) ?? false;
 	const href = isLocalPath
@@ -117,9 +123,11 @@ export function ChatLink(props: ComponentProps<typeof MarkdownLink>) {
 				unfurl && UNFURLED_LINK_CLASSNAME,
 			)}
 			onClick={(event) => {
-				if (appLink?.kind === "page" && openPage) {
+				const opensInPane =
+					appLink?.kind === "page" || appLink?.kind === "environment";
+				if (opensInPane && openAppLink) {
 					event.preventDefault();
-					openPage(href, event);
+					openAppLink(href, event);
 					return;
 				}
 				if (appLink && appLink.kind !== "page" && !withModifier(event)) {

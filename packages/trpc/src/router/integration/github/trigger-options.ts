@@ -1,19 +1,19 @@
 import { db } from "@superset/db/client";
-import { githubInstallations, githubRepositories } from "@superset/db/schema";
+import { githubRepositories } from "@superset/db/schema";
 import { findProviderIdentity } from "@superset/db/utils";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, inArray } from "drizzle-orm";
 import { installationOctokit } from "../../../lib/sandbox/clone-token";
 import type { TriggerOptionSource } from "../trigger-options";
+import { organizationInstallations } from "./installations";
 
 /** The synced repositories of the organization's installation, newest first. */
 export async function listGithubRepositories(organizationId: string) {
-	const installation = await db.query.githubInstallations.findFirst({
-		where: eq(githubInstallations.organizationId, organizationId),
-		columns: { id: true },
-	});
-	if (!installation) return [];
+	const installationIds = (await organizationInstallations(organizationId)).map(
+		(installation) => installation.id,
+	);
+	if (installationIds.length === 0) return [];
 	return db.query.githubRepositories.findMany({
-		where: eq(githubRepositories.installationId, installation.id),
+		where: inArray(githubRepositories.installationId, installationIds),
 		orderBy: [desc(githubRepositories.updatedAt)],
 	});
 }
@@ -64,53 +64,43 @@ function isPermissionError(error: unknown): boolean {
  * repositories, deduplicated.
  */
 const people: TriggerOptionSource = async ({ organizationId }) => {
-	const installation = await db.query.githubInstallations.findFirst({
-		where: eq(githubInstallations.organizationId, organizationId),
-		columns: {
-			id: true,
-			installationId: true,
-			accountLogin: true,
-			accountType: true,
-		},
-	});
-	if (!installation) return [];
-
-	const octokit = await installationOctokit(installation.installationId);
+	const installations = await organizationInstallations(organizationId);
 	const seen = new Map<string, string>();
-	try {
-		if (installation.accountType === "Organization") {
-			await collect(seen, (page) =>
-				octokit.request("GET /orgs/{org}/members", {
-					org: installation.accountLogin,
-					per_page: PER_PAGE,
-					page,
-				}),
-			);
-		} else {
-			const repositories = await db.query.githubRepositories.findMany({
-				where: eq(githubRepositories.installationId, installation.id),
-				columns: { owner: true, name: true },
-			});
-			for (const repository of repositories) {
-				if (seen.size >= MAX_PEOPLE) break;
+	for (const installation of installations) {
+		if (seen.size >= MAX_PEOPLE) break;
+		const octokit = await installationOctokit(installation.installationId);
+		try {
+			if (installation.accountType === "Organization") {
 				await collect(seen, (page) =>
-					octokit.request("GET /repos/{owner}/{repo}/collaborators", {
-						owner: repository.owner,
-						repo: repository.name,
+					octokit.request("GET /orgs/{org}/members", {
+						org: installation.accountLogin,
 						per_page: PER_PAGE,
 						page,
 					}),
 				);
+			} else {
+				const repositories = await db.query.githubRepositories.findMany({
+					where: eq(githubRepositories.installationId, installation.id),
+					columns: { owner: true, name: true },
+				});
+				for (const repository of repositories) {
+					if (seen.size >= MAX_PEOPLE) break;
+					await collect(seen, (page) =>
+						octokit.request("GET /repos/{owner}/{repo}/collaborators", {
+							owner: repository.owner,
+							repo: repository.name,
+							per_page: PER_PAGE,
+							page,
+						}),
+					);
+				}
 			}
-		}
-	} catch (error) {
-		// The App was installed without the members permission (or the
-		// repository is gone): an empty picker, not a red editor.
-		if (isPermissionError(error)) {
+		} catch (error) {
+			// The App was installed without the members permission (or the
+			// repository is gone): skip it rather than fail the picker.
+			if (!isPermissionError(error)) throw error;
 			console.warn("[integration.github] people refused:", error);
-			return [];
 		}
-		throw error;
 	}
 
 	return [...seen]

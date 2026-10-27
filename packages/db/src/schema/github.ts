@@ -52,7 +52,7 @@ export const githubInstallations = pgTable(
 			.$onUpdate(() => new Date()),
 	},
 	(table) => [
-		unique("github_installations_org_unique").on(table.organizationId),
+		index("github_installations_organization_id_idx").on(table.organizationId),
 		index("github_installations_installation_id_idx").on(table.installationId),
 	],
 );

@@ -215,10 +215,12 @@ export function toSandboxRepositories(
 }
 
 /**
- * One installation token scoped to exactly these repositories, minted fresh
- * so the firewall rule re-applied on every wake never carries one about to
- * expire. Null when the App is not configured or the installation is gone,
- * which public repositories survive (they clone unauthenticated).
+ * One installation token scoped to these repositories, minted fresh so the
+ * firewall rule re-applied on every wake never carries one about to expire.
+ * The box carries one GitHub token, so repositories on another installation
+ * than the first are left out; they need the creator's own GitHub connection.
+ * Null when the App is not configured or the installation is gone, which
+ * public repositories survive (they clone unauthenticated).
  */
 export async function installationTokenFor(
 	repositories: readonly RepositoryRow[],
@@ -234,7 +236,11 @@ export async function installationTokenFor(
 		const { token } = (await octokit.auth({
 			type: "installation",
 			refresh: true,
-			repositoryNames: repositories.map((repository) => repository.name),
+			repositoryNames: repositories
+				.filter(
+					(repository) => repository.installationId === first.installationId,
+				)
+				.map((repository) => repository.name),
 		})) as { token: string };
 		return token;
 	} catch (error) {

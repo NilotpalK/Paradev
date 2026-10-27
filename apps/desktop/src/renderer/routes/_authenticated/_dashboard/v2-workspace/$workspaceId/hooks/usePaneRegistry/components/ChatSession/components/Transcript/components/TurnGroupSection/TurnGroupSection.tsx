@@ -13,7 +13,7 @@ import { isImageAttachment } from "@superset/chat/protocol";
 import type { ReactNode } from "react";
 import type { ChatForkTarget } from "../../../../types";
 import type { PageLink } from "../../../../utils/pageLinks";
-import { PageLinkCard } from "../../../PageLinkCard";
+import { ChatLinkCard } from "../../../ChatLinkCard";
 import type { TranscriptRow } from "../../utils/transcriptRows";
 import { AttachmentRail, type RailImage } from "../AttachmentRail";
 import { ReplyFooter } from "../ReplyFooter";
@@ -34,12 +34,7 @@ function outboxMessage(entry: OutboxEntry): UserMessage {
 
 function pageCards(pages: readonly PageLink[] | undefined): ReactNode {
 	return pages?.map((page) => (
-		<PageLinkCard
-			className="mt-1 mb-1.5"
-			key={page.slug}
-			slug={page.slug}
-			url={page.url}
-		/>
+		<ChatLinkCard className="mt-1 mb-1.5" key={page.slug} link={page} />
 	));
 }
 

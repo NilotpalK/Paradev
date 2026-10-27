@@ -66,3 +66,17 @@ describe("pageLinkFinder", () => {
 		).toEqual([]);
 	});
 });
+
+describe("pageLinkFinder environments", () => {
+	test("finds an environment link beside a page link", () => {
+		const environment = `${WEB_URL}/environments/3f0c9a`;
+		expect(find(`Set up ${environment} and wrote ${REPORT}.`)).toEqual([
+			{
+				slug: "environment:3f0c9a",
+				url: environment,
+				environmentId: "3f0c9a",
+			},
+			{ slug: "quarterly-report-a3f9k", url: REPORT },
+		]);
+	});
+});

@@ -26,9 +26,16 @@ import {
 	FORM_PICKER_MENU_CLASS,
 	FormPickerTrigger,
 } from "../../PromptGroup/components/FormPickerTrigger";
+import { ReservedLabel } from "../../PromptGroup/components/ReservedLabel";
 import { useWorkspaceHostOptions } from "./hooks/useWorkspaceHostOptions";
 
-function OnlineDot({ online }: { online: boolean }) {
+function OnlineDot({
+	online,
+	className,
+}: {
+	online: boolean;
+	className?: string;
+}) {
 	const { t } = useLingui();
 	return (
 		<span
@@ -45,6 +52,7 @@ function OnlineDot({ online }: { online: boolean }) {
 			className={cn(
 				"inline-block size-1.5 shrink-0 rounded-full",
 				online ? "bg-emerald-500" : "bg-muted-foreground/60",
+				className,
 			)}
 		/>
 	);
@@ -127,16 +135,33 @@ export function DevicePicker({
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild disabled={disabled}>
 				<FormPickerTrigger
-					className={cn("max-w-[140px]", className)}
+					className={className}
 					aria-label={t({
 						message: `Device: ${selectedLabel}`,
 					})}
 					title={selectedLabel}
 				>
-					{getSelectedIcon(hostId, machineId)}
-					<span className="truncate">{selectedLabel}</span>
-					{selectedOnline !== null && <OnlineDot online={selectedOnline} />}
-					<HiChevronUpDown className="size-3 shrink-0" />
+					<ReservedLabel
+						leading={
+							<span className="relative flex shrink-0">
+								{getSelectedIcon(hostId, machineId)}
+								{selectedOnline !== null && (
+									<OnlineDot
+										className="absolute -right-0.5 -bottom-0.5 ring-2 ring-background"
+										online={selectedOnline}
+									/>
+								)}
+							</span>
+						}
+						trailing={<HiChevronUpDown className="size-3 shrink-0" />}
+						reserve={[
+							t({ message: "Cloud" }),
+							t({ message: "Local Device" }),
+							...(currentDeviceName ? [currentDeviceName] : []),
+						]}
+					>
+						{selectedLabel}
+					</ReservedLabel>
 				</FormPickerTrigger>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent

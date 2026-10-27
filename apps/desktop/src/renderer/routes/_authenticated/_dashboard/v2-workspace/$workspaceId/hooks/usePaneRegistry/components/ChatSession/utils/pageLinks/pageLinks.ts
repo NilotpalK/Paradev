@@ -1,18 +1,23 @@
-import { parseSupersetPageUrl } from "renderer/lib/parseSupersetPageUrl";
+import { parseSupersetAppLink } from "renderer/lib/supersetAppLink";
 
-export type PageLink = { slug: string; url: string };
+/**
+ * A Superset link the chat shows as a card. `slug` is the dedupe key; an
+ * environment's is prefixed so it can never match a page's.
+ */
+export type PageLink = { slug: string; url: string; environmentId?: string };
 
-/** Every Superset page a text links, once each, in the order it first names them. */
+/** Every Superset page or environment a text links, once each, in the order it first names them. */
 export type PageLinkFinder = (text: string) => PageLink[];
 
 const URL_PATTERN = /https?:\/\/[^\s\p{Cc}<>"'`()[\]{}\\|^]+/gu;
 const TRAILING_PUNCTUATION = /[.,;:!?*_~]+$/;
 
-function pageUrlPrefix(webUrl: string): string | null {
+function cardUrlPrefixes(webUrl: string): string[] {
 	try {
-		return `${new URL(webUrl).origin}/page/`;
+		const { origin } = new URL(webUrl);
+		return [`${origin}/page/`, `${origin}/environments/`];
 	} catch {
-		return null;
+		return [];
 	}
 }
 
@@ -21,15 +26,25 @@ function pageUrlPrefix(webUrl: string): string | null {
  * output on every update and most of them link no page at all.
  */
 export function pageLinkFinder(webUrl: string): PageLinkFinder {
-	const prefix = pageUrlPrefix(webUrl);
+	const prefixes = cardUrlPrefixes(webUrl);
 	return (text) => {
-		if (prefix === null || !text.includes(prefix)) return [];
+		if (!prefixes.some((prefix) => text.includes(prefix))) return [];
 		const links = new Map<string, PageLink>();
 		for (const [candidate] of text.matchAll(URL_PATTERN)) {
-			if (!candidate.startsWith(prefix)) continue;
+			if (!prefixes.some((prefix) => candidate.startsWith(prefix))) continue;
 			const url = candidate.replace(TRAILING_PUNCTUATION, "");
-			const slug = parseSupersetPageUrl(url, webUrl);
-			if (slug && !links.has(slug)) links.set(slug, { slug, url });
+			const link = parseSupersetAppLink(url, webUrl);
+			const card =
+				link?.kind === "page"
+					? { slug: link.slug, url }
+					: link?.kind === "environment"
+						? {
+								slug: `environment:${link.environmentId}`,
+								url,
+								environmentId: link.environmentId,
+							}
+						: null;
+			if (card && !links.has(card.slug)) links.set(card.slug, card);
 		}
 		return [...links.values()];
 	};

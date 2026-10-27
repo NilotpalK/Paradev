@@ -14,7 +14,7 @@ import {
 } from "@superset/ui/alert-dialog";
 import { Button } from "@superset/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Unplug } from "lucide-react";
+import { Plus, Unplug } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { env } from "@/env";
 import { useTRPC } from "@/trpc/react";
@@ -55,40 +55,46 @@ export function ConnectionControls({
 
 	if (isConnected) {
 		return (
-			<AlertDialog>
-				<AlertDialogTrigger asChild>
-					<Button variant="outline" disabled={disconnectMutation.isPending}>
-						<Unplug className="mr-2 size-4" />
-						{disconnectMutation.isPending ? (
-							<Trans>Disconnecting...</Trans>
-						) : (
-							<Trans>Disconnect</Trans>
-						)}
-					</Button>
-				</AlertDialogTrigger>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>
-							<Trans>Disconnect GitHub?</Trans>
-						</AlertDialogTitle>
-						<AlertDialogDescription>
-							<Trans>
-								This will disconnect GitHub from your organization. The GitHub
-								App will remain installed but will no longer sync data. You can
-								reconnect at any time.
-							</Trans>
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>
-							<Trans>Cancel</Trans>
-						</AlertDialogCancel>
-						<AlertDialogAction onClick={handleDisconnect}>
-							<Trans>Disconnect</Trans>
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+			<div className="flex items-center gap-2">
+				<Button onClick={handleConnect} variant="outline">
+					<Plus className="mr-2 size-4" />
+					<Trans>Connect another account</Trans>
+				</Button>
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button variant="outline" disabled={disconnectMutation.isPending}>
+							<Unplug className="mr-2 size-4" />
+							{disconnectMutation.isPending ? (
+								<Trans>Disconnecting...</Trans>
+							) : (
+								<Trans>Disconnect</Trans>
+							)}
+						</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>
+								<Trans>Disconnect GitHub?</Trans>
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								<Trans>
+									This will disconnect GitHub from your organization. The GitHub
+									App will remain installed but will no longer sync data. You
+									can reconnect at any time.
+								</Trans>
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>
+								<Trans>Cancel</Trans>
+							</AlertDialogCancel>
+							<AlertDialogAction onClick={handleDisconnect}>
+								<Trans>Disconnect</Trans>
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			</div>
 		);
 	}
 

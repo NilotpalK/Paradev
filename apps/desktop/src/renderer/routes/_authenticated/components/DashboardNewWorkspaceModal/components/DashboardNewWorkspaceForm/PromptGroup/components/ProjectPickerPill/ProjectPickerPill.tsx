@@ -37,6 +37,7 @@ import {
 	FORM_PICKER_MENU_CLASS,
 	FormPickerTrigger,
 } from "../FormPickerTrigger";
+import { ReservedLabel } from "../ReservedLabel";
 
 interface ProjectPickerPillProps {
 	selectedProject: ProjectOption | undefined;
@@ -131,18 +132,25 @@ export function ProjectPickerPill({
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				<FormPickerTrigger className="max-w-[140px]">
-					{selectedProject && (
-						<ProjectThumbnail
-							projectName={selectedProject.name}
-							iconUrl={selectedProject.iconUrl}
-							className="size-4"
-						/>
-					)}
-					{isSessionSelected && !selectedProject && (
-						<LuBox className="size-4 shrink-0 text-muted-foreground" />
-					)}
-					<span className="truncate">
+				<FormPickerTrigger>
+					<ReservedLabel
+						leading={
+							selectedProject ? (
+								<ProjectThumbnail
+									projectName={selectedProject.name}
+									iconUrl={selectedProject.iconUrl}
+									className="size-4"
+								/>
+							) : (
+								<LuBox className="size-4 shrink-0 text-muted-foreground" />
+							)
+						}
+						trailing={<HiChevronUpDown className="size-3 shrink-0" />}
+						reserve={[
+							t({ message: "Select project" }),
+							t({ message: "No project" }),
+						]}
+					>
 						{selectedProject?.name ??
 							(isSessionSelected
 								? t({
@@ -151,8 +159,7 @@ export function ProjectPickerPill({
 								: t({
 										message: "Select project",
 									}))}
-					</span>
-					<HiChevronUpDown className="size-3 shrink-0" />
+					</ReservedLabel>
 				</FormPickerTrigger>
 			</PopoverTrigger>
 			<PopoverContent

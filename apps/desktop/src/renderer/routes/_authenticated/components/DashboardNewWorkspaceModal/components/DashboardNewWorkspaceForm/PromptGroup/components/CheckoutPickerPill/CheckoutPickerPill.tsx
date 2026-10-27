@@ -13,6 +13,7 @@ import {
 	FORM_PICKER_MENU_CLASS,
 	FormPickerTrigger,
 } from "../FormPickerTrigger";
+import { ReservedLabel } from "../ReservedLabel";
 
 interface CheckoutPickerPillProps {
 	checkout: WorkspaceCheckout;
@@ -48,9 +49,14 @@ export function CheckoutPickerPill({
 					}
 					disabled={disabled}
 				>
-					<Icon className="size-3 shrink-0" />
-					<span className="truncate">{label}</span>
-					<HiChevronUpDown className="size-3 shrink-0" />
+					<ReservedLabel
+						leading={<Icon className="size-3 shrink-0" />}
+						leadingClassName="size-3"
+						trailing={<HiChevronUpDown className="size-3 shrink-0" />}
+						reserve={[t({ message: "Worktree" }), t({ message: "Local" })]}
+					>
+						{label}
+					</ReservedLabel>
 				</FormPickerTrigger>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent

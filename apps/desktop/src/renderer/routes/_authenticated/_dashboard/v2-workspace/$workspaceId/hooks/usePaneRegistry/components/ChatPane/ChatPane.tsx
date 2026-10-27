@@ -10,8 +10,8 @@ import type {
 import { useLinkClickHint } from "../../hooks/useLinkClickHint";
 import { AcpChatPane } from "./components/AcpChatPane";
 import { AgentChatPane } from "./components/AgentChatPane";
+import { useOpenChatAppLink } from "./hooks/useOpenChatAppLink";
 import { useOpenChatLink } from "./hooks/useOpenChatLink";
-import { useOpenChatPage } from "./hooks/useOpenChatPage";
 import { openChatHistory } from "./utils/chatHistoryOpen";
 import { restartedChatPaneData } from "./utils/restartedChatPaneData";
 import { saveChatMode } from "./utils/savedChatMode";
@@ -28,7 +28,7 @@ export function ChatPane({
 	onRevealPath: (path: string, options?: { isDirectory?: boolean }) => void;
 }) {
 	const data = ctx.pane.data as ChatPaneData;
-	const openPage = useOpenChatPage(ctx.store);
+	const openAppLink = useOpenChatAppLink(ctx.store);
 	const { hint, showHint } = useLinkClickHint();
 	const openLink = useOpenChatLink({
 		store: ctx.store,
@@ -100,7 +100,7 @@ export function ChatPane({
 					pendingPrompts={pendingPrompts}
 					onPendingPromptsSent={clearPendingPrompts}
 					onOpenFile={onOpenFile}
-					onOpenPage={openPage}
+					onOpenAppLink={openAppLink}
 					onOpenLink={openLink}
 					onOpenHistory={onOpenHistory}
 				/>
@@ -222,7 +222,7 @@ export function ChatPane({
 					})
 				}
 				onOpenFile={onOpenFile}
-				onOpenPage={openPage}
+				onOpenAppLink={openAppLink}
 				onOpenLink={openLink}
 				onOpenHistory={onOpenHistory}
 				onNewChat={agentId ? onNewChat : undefined}

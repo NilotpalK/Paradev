@@ -6,7 +6,7 @@ import type { OpenFile } from "../../../../../../types";
 import { SessionView } from "../../../ChatSession/components/SessionView";
 import type {
 	OpenLink,
-	OpenPage,
+	OpenAppLink,
 } from "../../../ChatSession/providers/ChatPaneActionsProvider";
 
 /** A Paradev agent's session on this workspace, in the same chat view as any other chat. */
@@ -18,7 +18,7 @@ export function AgentChatPane({
 	pendingPrompts,
 	onPendingPromptsSent,
 	onOpenFile,
-	onOpenPage,
+	onOpenAppLink,
 	onOpenLink,
 	onOpenHistory,
 }: {
@@ -29,7 +29,7 @@ export function AgentChatPane({
 	pendingPrompts: UserContent[][];
 	onPendingPromptsSent: () => void;
 	onOpenFile?: OpenFile;
-	onOpenPage?: OpenPage;
+	onOpenAppLink?: OpenAppLink;
 	onOpenLink?: OpenLink;
 	onOpenHistory?: () => void;
 }) {
@@ -62,7 +62,7 @@ export function AgentChatPane({
 			onPendingPromptsSent={onPendingPromptsSent}
 			agentLabel={agentName}
 			openFile={onOpenFile}
-			openPage={onOpenPage}
+			openAppLink={onOpenAppLink}
 			openLink={onOpenLink}
 			onOpenHistory={onOpenHistory}
 		/>

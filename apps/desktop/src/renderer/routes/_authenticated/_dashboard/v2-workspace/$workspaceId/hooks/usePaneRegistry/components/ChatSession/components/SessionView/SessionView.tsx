@@ -14,6 +14,7 @@ import type {
 	SessionConfigOption,
 	SessionState,
 	UserContent,
+	UserMessage,
 } from "@superset/chat/protocol";
 import {
 	useApprovals,
@@ -26,19 +27,21 @@ import { ChatHistorySidebarScroller } from "@superset/ui/chat-history-sidebar";
 import { toast } from "@superset/ui/sonner";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { env } from "renderer/env.renderer";
 import { usePluginMentionOptions } from "renderer/hooks/usePluginMentionOptions";
 import { useStableList } from "renderer/hooks/useStableList";
 import type { OpenFile } from "../../../../../../types";
 import {
 	ChatPaneActionsProvider,
+	type OpenAppLink,
 	type OpenLink,
-	type OpenPage,
 } from "../../providers/ChatPaneActionsProvider";
 import { TurnFailureActionsProvider } from "../../providers/TurnFailureActionsProvider";
 import type { ChatEditRequest, ChatForkTarget } from "../../types";
 import { buildChatHandoffTranscript } from "../../utils/chatHandoffTranscript";
 import { heldPromptQueue } from "../../utils/heldPromptQueue";
 import { editableMessageIds, rewindTranscript } from "../../utils/messageEdit";
+import { pageLinkFinder } from "../../utils/pageLinks";
 import { promptHistory } from "../../utils/promptHistory";
 import { railMessages } from "../../utils/railMessages";
 import {
@@ -50,6 +53,7 @@ import {
 } from "../Composer";
 import { ConnectionNotice } from "../ConnectionNotice";
 import { SessionHeader } from "../SessionHeader";
+import { SetupSessionHeader } from "../SetupSessionHeader";
 import { SubagentView } from "../SubagentView";
 import { Transcript, type TranscriptHandle } from "../Transcript";
 import { useChildrenByParent } from "../Transcript/hooks/useChildrenByParent";
@@ -68,6 +72,7 @@ import { useRestoreUnsentPrompts } from "./hooks/useRestoreUnsentPrompts";
 import { useSubagentNavigation } from "./hooks/useSubagentNavigation";
 import { useSubagentTarget } from "./hooks/useSubagentTarget";
 import { escapeBack } from "./utils/escapeBack";
+import { setupEnvironmentLink } from "./utils/setupEnvironmentLink";
 
 const RESUME_FOLLOW_PX = 24;
 const NO_COMMANDS: AvailableCommand[] = [];
@@ -79,6 +84,8 @@ const MODEL_OPTIONS_GRACE_MS = 1000;
 function contentText(content: UserContent[]): string {
 	return userMessageText({ content });
 }
+
+const findLinks = pageLinkFinder(env.NEXT_PUBLIC_WEB_URL);
 
 export function SessionView({
 	presetId,
@@ -102,7 +109,7 @@ export function SessionView({
 	onUserPrompt,
 	onSessionState,
 	openFile,
-	openPage,
+	openAppLink,
 	openLink,
 	onOpenHistory,
 	terminalId,
@@ -159,7 +166,7 @@ export function SessionView({
 		) => void;
 	};
 	openFile?: OpenFile;
-	openPage?: OpenPage;
+	openAppLink?: OpenAppLink;
 	openLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
@@ -269,6 +276,17 @@ export function SessionView({
 	);
 
 	const snapshotItems = session.snapshot.items;
+	const setupEnvironment = useMemo(() => {
+		for (const { item } of snapshotItems.values()) {
+			if (item.kind === "user_message") {
+				return setupEnvironmentLink(
+					userMessageText(item as UserMessage),
+					findLinks,
+				);
+			}
+		}
+		return null;
+	}, [snapshotItems]);
 	const queuedPrompts = useStableList(
 		useMemo(
 			() => deriveQueuedPrompts({ items: snapshotItems }),
@@ -536,7 +554,7 @@ export function SessionView({
 			editMessage={editMessage}
 			editableMessageIds={editableIds}
 			openFile={openFile}
-			openPage={openPage}
+			openAppLink={openAppLink}
 			openLink={openLink}
 			workspaceId={workspaceId}
 		>
@@ -553,6 +571,12 @@ export function SessionView({
 						connection={session.connection}
 						left={headerLeft}
 						session={session.snapshot.session}
+					/>
+				)}
+				{setupEnvironment?.environmentId && (
+					<SetupSessionHeader
+						environmentId={setupEnvironment.environmentId}
+						url={setupEnvironment.url}
 					/>
 				)}
 				<MessageScroller.Provider

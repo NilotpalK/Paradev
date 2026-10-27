@@ -17,14 +17,14 @@ export const PageLinkCard = memo(function PageLinkCard({
 	url: string;
 	className?: string;
 }) {
-	const { openPage } = useChatPaneActions();
+	const { openAppLink } = useChatPaneActions();
 	const { data } = cloudTrpc.page.preview.useQuery(
 		{ slug },
-		{ enabled: openPage !== undefined },
+		{ enabled: openAppLink !== undefined },
 	);
 	const knownAtMount = useRef(data !== undefined);
 
-	if (!openPage || data?.status !== "readable") return null;
+	if (!openAppLink || data?.status !== "readable") return null;
 	return (
 		<ChatPageCard
 			className={cn(
@@ -32,7 +32,7 @@ export const PageLinkCard = memo(function PageLinkCard({
 					"animate-block-fade motion-reduce:animate-none",
 				className,
 			)}
-			onOpen={(event) => openPage(url, event)}
+			onOpen={(event) => openAppLink(url, event)}
 			page={data.preview}
 		/>
 	);

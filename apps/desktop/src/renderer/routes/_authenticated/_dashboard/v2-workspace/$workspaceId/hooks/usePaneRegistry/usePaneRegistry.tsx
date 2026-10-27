@@ -29,6 +29,7 @@ import {
 	LuBot,
 	LuClipboard,
 	LuClipboardCopy,
+	LuContainer,
 	LuEraser,
 	LuExternalLink,
 	LuLink,
@@ -47,6 +48,7 @@ import { writeTerminalClipboard } from "renderer/lib/terminal/terminal-clipboard
 import { terminalRuntimeRegistry } from "renderer/lib/terminal/terminal-runtime-registry";
 import type { OpenFile } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/types";
 import { useWorkspace } from "renderer/routes/_authenticated/_dashboard/v2-workspace/providers/WorkspaceProvider";
+import { EnvironmentView } from "renderer/routes/_authenticated/components/EnvironmentView";
 import { useCollections } from "renderer/routes/_authenticated/providers/CollectionsProvider";
 import { getV2NotificationSourcesForPane } from "renderer/stores/v2-notifications";
 import type { StoreApi } from "zustand/vanilla";
@@ -60,6 +62,7 @@ import {
 	type ChatPaneData,
 	type CommentPaneData,
 	type DevtoolsPaneData,
+	type EnvironmentPaneData,
 	type FilePaneData,
 	type PagePaneData,
 	type PagesListPaneData,
@@ -1007,6 +1010,17 @@ export function usePaneRegistry({
 							);
 							if (!focused) focusOrAddTerminalPane(store, terminalId);
 						}}
+					/>
+				),
+			},
+			environment: {
+				getIcon: () => <LuContainer className="size-3.5" />,
+				getTitle: () => t({ message: "Environment" }),
+				renderPane: (ctx: RendererContext<PaneViewerData>) => (
+					<EnvironmentView
+						environmentId={(ctx.pane.data as EnvironmentPaneData).environmentId}
+						onArchived={() => ctx.actions.close()}
+						workspaceId={workspaceId}
 					/>
 				),
 			},
