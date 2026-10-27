@@ -514,7 +514,6 @@ function V2WorkspaceContent() {
 			switch (kind) {
 				case "files":
 				case "changes-list":
-				case "review":
 				case "pages-list":
 				case "desktop":
 				case "mobile":
@@ -622,6 +621,7 @@ function V2WorkspaceContent() {
 			isFullScreen={rightPaneMode === "expanded"}
 			onToggleFullScreen={toggleRightPaneAreaFullScreen}
 			onAdd={addRightPane}
+			onOpenPullRequest={openPullRequestPane}
 			gates={{ sandbox: isSandbox, mobilePane: isMobilePaneEnabled }}
 		/>
 	);

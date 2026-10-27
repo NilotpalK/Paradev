@@ -2,12 +2,7 @@ import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import type { IconType } from "react-icons";
 import { BsTerminalPlus } from "react-icons/bs";
-import {
-	LuFileDiff,
-	LuFileText,
-	LuFolderTree,
-	LuGitPullRequestArrow,
-} from "react-icons/lu";
+import { LuFileDiff, LuFileText, LuFolderTree } from "react-icons/lu";
 import { TbDeviceDesktop, TbDeviceMobile, TbWorld } from "react-icons/tb";
 import type { RightPaneKind } from "./types";
 
@@ -35,12 +30,6 @@ const RIGHT_PANE_OPTIONS: RightPaneOption[] = [
 		kind: "diff",
 		label: msg({ message: "Changes" }),
 		Icon: LuFileDiff,
-		group: "workspace",
-	},
-	{
-		kind: "review",
-		label: msg({ message: "Review" }),
-		Icon: LuGitPullRequestArrow,
 		group: "workspace",
 	},
 	{

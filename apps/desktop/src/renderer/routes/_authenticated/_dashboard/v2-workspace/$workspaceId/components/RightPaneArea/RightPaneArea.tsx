@@ -10,6 +10,7 @@ import {
 } from "@superset/panes";
 import { type ReactNode, useEffect } from "react";
 import { LuMaximize2, LuMinimize2 } from "react-icons/lu";
+import type { OpenPullRequestPane } from "renderer/lib/github/openPullRequestLink";
 import { reportRendererError } from "renderer/lib/report-renderer-error";
 import { RightPaneHeaderButton } from "renderer/routes/_authenticated/_dashboard/components/RightPaneHeaderButton";
 import { WindowChrome } from "renderer/routes/_authenticated/_dashboard/components/WindowChrome";
@@ -36,6 +37,7 @@ interface RightPaneAreaProps {
 	isFullScreen: boolean;
 	onToggleFullScreen: () => void;
 	onAdd: (kind: RightPaneKind) => void;
+	onOpenPullRequest: OpenPullRequestPane;
 	gates: RightPaneGates;
 }
 
@@ -50,6 +52,7 @@ export function RightPaneArea({
 	isFullScreen,
 	onToggleFullScreen,
 	onAdd,
+	onOpenPullRequest,
 	gates,
 }: RightPaneAreaProps) {
 	const { t } = useLingui();
@@ -102,7 +105,11 @@ export function RightPaneArea({
 					</div>
 				)}
 				renderEmptyState={() => (
-					<RightPaneEmptyState onAdd={onAdd} gates={gates} />
+					<RightPaneEmptyState
+						onAdd={onAdd}
+						onOpenPullRequest={onOpenPullRequest}
+						gates={gates}
+					/>
 				)}
 				onBeforeCloseTab={onBeforeCloseTab}
 				onInteractionStateChange={onInteractionStateChange}
