@@ -195,7 +195,7 @@ key.
 **A ChatGPT sign-in is a file and a session, not a key.** Codex on a ChatGPT
 plan reads `~/.codex/auth.json`, and its refresh token works once: two holders
 of one session sign each other out ("refresh token was already used"). The API
-runs Codex's device-code sign-in itself, so the session is Superset's own and
+runs Codex's device-code sign-in itself, so the session is Paradev's own and
 never the one on the person's laptop, and renews it under a row lock before
 the access token lapses. The box gets an `auth.json` of placeholders (an
 unsigned id token rebuilt from the claims, a last refresh far ahead so Codex

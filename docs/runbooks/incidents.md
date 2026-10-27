@@ -1,6 +1,6 @@
 # Incidents
 
-How to run an incident for Superset's hosted services, and how to keep status.superset.sh current
+How to run an incident for Paradev's hosted services, and how to keep status.superset.sh current
 while it happens. Agents: `.agents/skills/incident-triage/SKILL.md` does the first pass of the
 "Where to look first" section and drafts the status message. A human posts it.
 
@@ -49,7 +49,7 @@ the components and ongoing incidents as JSON.
 
 | Level | Meaning | Examples | Status page |
 |---|---|---|---|
-| **SEV1** | Most users cannot use Superset, or data is at risk. | API down; sign-in broken for everyone; relay down, so no remote host connects; a migration locks auth tables. | Required, in 15 minutes or less. |
+| **SEV1** | Most users cannot use Paradev, or data is at risk. | API down; sign-in broken for everyone; relay down, so no remote host connects; a migration locks auth tables. | Required, in 15 minutes or less. |
 | **SEV2** | One core feature is broken or much slower for many users, and a workaround exists or the rest works. | Remote access broken in one region; Linear or GitHub integrations stop syncing; web app errors on one page. | Required, in 30 minutes or less. |
 | **SEV3** | Small or partial effect. | One integration degraded; slow queries on a background job; a desktop release bug with a known fix. | Optional. Post if users report it. |
 
@@ -129,7 +129,7 @@ Rules for the text:
 ### Monitoring
 
 > We have applied a fix for **[what users see]**, and **[the service]** is working again. We are
-> monitoring the results. **[Action for users, if any, for example "If your host still shows offline, restart Superset."]**
+> monitoring the results. **[Action for users, if any, for example "If your host still shows offline, restart Paradev."]**
 
 ### Resolved
 
