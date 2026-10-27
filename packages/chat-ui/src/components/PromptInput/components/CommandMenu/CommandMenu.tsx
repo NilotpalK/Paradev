@@ -2,7 +2,7 @@
 
 import { cn } from "@superset/ui/utils";
 import { SlashSquareIcon } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import type { PromptInputCommand } from "../../types";
 
 export type CommandMenuProps = {
@@ -18,6 +18,14 @@ export function CommandMenu({
 	onHighlight,
 	onSelect,
 }: CommandMenuProps) {
+	const listRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (selectedIndex == null) return;
+		listRef.current
+			?.querySelector(`[data-index="${selectedIndex}"]`)
+			?.scrollIntoView({ block: "nearest" });
+	}, [selectedIndex]);
+
 	if (commands.length === 0) return null;
 	let previousGroup: string | null = null;
 	return (
@@ -25,7 +33,7 @@ export function CommandMenu({
 			role="listbox"
 			className="relative z-50 w-full overflow-hidden rounded-2xl border border-border bg-popover text-popover-foreground shadow-[0_6px_24px_-10px_rgba(0,0,0,0.3)]"
 		>
-			<div className="scroll-fade max-h-72 overflow-y-auto p-1">
+			<div ref={listRef} className="scroll-fade max-h-72 overflow-y-auto p-1">
 				{commands.map((command, index) => {
 					const group = command.group ?? null;
 					const startsGroup = group !== previousGroup;
@@ -45,9 +53,11 @@ export function CommandMenu({
 							{/* biome-ignore lint/a11y/useFocusableInteractive: focus stays in the editor; listbox is virtual */}
 							<div
 								role="option"
+								data-index={index}
 								aria-selected={selected}
 								className={cn(
 									"flex cursor-pointer select-none items-center gap-2 rounded-xl px-2 py-1 text-xs leading-[18px] transition-colors",
+									startsGroup && group && "scroll-mt-7",
 									selected && "bg-accent text-accent-foreground",
 								)}
 								onMouseEnter={() => onHighlight(index)}
