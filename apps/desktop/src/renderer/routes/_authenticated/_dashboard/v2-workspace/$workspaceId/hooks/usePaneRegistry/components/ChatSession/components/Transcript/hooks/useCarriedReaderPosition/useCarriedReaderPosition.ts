@@ -14,26 +14,23 @@ import {
 } from "../../../../utils/carriedReaderPosition";
 import { rowElement } from "../../utils/rowElement";
 import { rowMessageId, type TranscriptRow } from "../../utils/transcriptRows";
-import { anchorRow, rowText, userMessageRows } from "./utils/anchorRow";
+import { readerPositionAt, restoreTarget } from "./utils/readerAnchor";
 
 function readPosition(
 	viewport: HTMLElement,
 	rows: readonly TranscriptRow[],
 ): ReaderPosition | null {
 	const top = viewport.getBoundingClientRect().top;
-	const users = userMessageRows(rows);
-	for (let fromEnd = 0; fromEnd < users.length; fromEnd++) {
-		const row = users[users.length - 1 - fromEnd];
-		if (!row) continue;
-		const element = rowElement(viewport, rowMessageId(row));
-		if (!element) continue;
-		const elementTop = element.getBoundingClientRect().top;
-		if (elementTop > top) continue;
-		return {
-			userMessagesFromEnd: fromEnd,
-			messageText: rowText(row),
-			offsetPx: top - elementTop,
-		};
+	for (const element of viewport.querySelectorAll<HTMLElement>(
+		"[data-message-id]",
+	)) {
+		const rect = element.getBoundingClientRect();
+		if (rect.bottom <= top) continue;
+		const visibleIndex = rows.findIndex(
+			(row) => rowMessageId(row) === element.dataset.messageId,
+		);
+		if (visibleIndex === -1) return null;
+		return readerPositionAt(rows, visibleIndex, top - rect.top);
 	}
 	return null;
 }
@@ -66,8 +63,10 @@ export function useCarriedReaderPosition({
 	);
 	useLayoutEffect(() => forgetCarriedReaderPosition(sessionId), [sessionId]);
 
-	const anchor = carried && rows.length > 0 ? anchorRow(rows, carried) : null;
-	const anchorId = anchor ? rowMessageId(anchor) : null;
+	const target =
+		carried && rows.length > 0 ? restoreTarget(rows, carried) : null;
+	const anchorId = target ? rowMessageId(target.row) : null;
+	const offsetPx = target?.offsetPx ?? 0;
 	const hasRows = rows.length > 0;
 	useLayoutEffect(() => {
 		if (!carried || !hasRows || !viewport) return;
@@ -87,14 +86,14 @@ export function useCarriedReaderPosition({
 				: 0;
 			scrollerRef.current.scrollToMessage(anchorId, {
 				align: "start",
-				scrollMargin: -(carried.offsetPx + contentPadding),
+				scrollMargin: -(offsetPx + contentPadding),
 			});
 			setCarried(null);
 		});
 		return () => {
 			current = false;
 		};
-	}, [carried, hasRows, anchorId, scrollerRef, viewport]);
+	}, [carried, hasRows, anchorId, offsetPx, scrollerRef, viewport]);
 
-	return anchor?.key ?? null;
+	return target?.row.key ?? null;
 }

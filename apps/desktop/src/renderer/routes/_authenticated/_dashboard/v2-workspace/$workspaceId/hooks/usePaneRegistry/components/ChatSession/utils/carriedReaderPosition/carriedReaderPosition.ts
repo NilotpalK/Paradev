@@ -6,7 +6,9 @@
 export type ReaderPosition = {
 	userMessagesFromEnd: number;
 	messageText: string;
-	/** How far the viewport top is below the top of that message. */
+	/** The row at the viewport top, counted from that message. */
+	rowsAfterMessage: number;
+	/** How far the viewport top is below the top of that row. */
 	offsetPx: number;
 };
 

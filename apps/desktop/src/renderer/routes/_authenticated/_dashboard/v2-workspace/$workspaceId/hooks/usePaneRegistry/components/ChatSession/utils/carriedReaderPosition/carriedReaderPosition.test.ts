@@ -6,7 +6,12 @@ import {
 	trackReaderPosition,
 } from "./carriedReaderPosition";
 
-const position = { userMessagesFromEnd: 2, messageText: "hi", offsetPx: 40 };
+const position = {
+	userMessagesFromEnd: 2,
+	messageText: "hi",
+	rowsAfterMessage: 3,
+	offsetPx: 40,
+};
 
 test("carries the place read from the old session to its replacement", () => {
 	const untrack = trackReaderPosition("old", () => position);
