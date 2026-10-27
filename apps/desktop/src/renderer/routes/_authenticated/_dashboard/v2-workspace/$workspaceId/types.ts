@@ -73,10 +73,6 @@ export interface PullRequestPaneData {
 	number: number;
 }
 
-export interface EnvironmentPaneData {
-	environmentId: string;
-}
-
 export interface PagePaneData {
 	slug: string;
 	pageId?: string;
@@ -194,7 +190,6 @@ export type PaneViewerData =
 	| CommentPaneData
 	| PullRequestPaneData
 	| PagePaneData
-	| EnvironmentPaneData
 	| DesktopPaneData
 	| MobilePaneData
 	| FilesPaneData

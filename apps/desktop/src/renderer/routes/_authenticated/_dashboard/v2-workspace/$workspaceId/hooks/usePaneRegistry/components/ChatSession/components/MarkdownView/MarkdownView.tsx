@@ -8,7 +8,7 @@ import { env } from "renderer/env.renderer";
 import { CHAT_MARKDOWN_COMPONENTS, CHAT_REMARK_PLUGINS } from "../../constants";
 import { pageLinkFinder } from "../../utils/pageLinks";
 import { CODE_CARD_CLASSNAME } from "../ChatCodeBlock";
-import { ChatLinkCard } from "../ChatLinkCard";
+import { PageLinkCard } from "../PageLinkCard";
 import { pageLinksByBlock } from "./utils/pageLinksByBlock";
 import { planMarkdown } from "./utils/planMarkdown";
 
@@ -70,10 +70,11 @@ export function MarkdownView({
 	const pushCards = (blockIndex: number) => {
 		for (const link of cards[blockIndex] ?? []) {
 			blocks.push(
-				<ChatLinkCard
+				<PageLinkCard
 					className="-mt-2"
 					key={`page:${link.slug}`}
-					link={link}
+					slug={link.slug}
+					url={link.url}
 				/>,
 			);
 		}

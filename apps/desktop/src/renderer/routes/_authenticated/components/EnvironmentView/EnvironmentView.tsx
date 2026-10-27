@@ -19,7 +19,6 @@ import { LuArchive, LuContainer } from "react-icons/lu";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import { ArchiveEnvironmentDialog } from "../ArchiveEnvironmentDialog";
 import { EnvironmentPropertyRow } from "../EnvironmentPropertyRow";
-import { RefreshEnvironmentOnAgentTurn } from "../RefreshEnvironmentOnAgentTurn";
 import { EnvironmentProjectLinks } from "./components/EnvironmentProjectLinks";
 import { EnvironmentVariables } from "./components/EnvironmentVariables";
 
@@ -30,15 +29,12 @@ const ROW_CONTROL =
 
 interface EnvironmentViewProps {
 	environmentId: string;
-	/** The workspace showing it; its agent's turns refresh the view. */
-	workspaceId?: string;
 	onArchived?: () => void;
 }
 
 /** One environment as it stands: what it checks out, who can use it, and what is set. */
 export function EnvironmentView({
 	environmentId,
-	workspaceId,
 	onArchived,
 }: EnvironmentViewProps) {
 	const { t } = useLingui();
@@ -93,12 +89,6 @@ export function EnvironmentView({
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4">
-			{workspaceId && (
-				<RefreshEnvironmentOnAgentTurn
-					environmentId={environmentId}
-					workspaceId={workspaceId}
-				/>
-			)}
 			<div className="flex items-start gap-3">
 				<div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-border bg-background">
 					<LuContainer className="size-4" />

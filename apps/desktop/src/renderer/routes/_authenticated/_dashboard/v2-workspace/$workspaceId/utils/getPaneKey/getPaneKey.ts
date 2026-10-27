@@ -1,6 +1,5 @@
 import type { GetPaneKey } from "@superset/panes";
 import {
-	type EnvironmentPaneData,
 	type PagePaneData,
 	type PaneViewerData,
 	SUBAGENT_PANE_KIND,
@@ -13,8 +12,6 @@ export const getPaneKey: GetPaneKey<PaneViewerData> = ({ kind, data }) => {
 	switch (kind) {
 		case "page":
 			return `page:${(data as PagePaneData).slug}`;
-		case "environment":
-			return `environment:${(data as EnvironmentPaneData).environmentId}`;
 		case SUBAGENT_PANE_KIND: {
 			const { terminalId, subagentId } = data as SubagentPaneData;
 			return `subagent:${terminalId}:${subagentId}`;

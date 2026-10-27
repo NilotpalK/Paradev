@@ -1,1 +1,1 @@
-export { setupEnvironmentLink } from "./setupEnvironmentLink";
+export { setupEnvironmentId } from "./setupEnvironmentLink";

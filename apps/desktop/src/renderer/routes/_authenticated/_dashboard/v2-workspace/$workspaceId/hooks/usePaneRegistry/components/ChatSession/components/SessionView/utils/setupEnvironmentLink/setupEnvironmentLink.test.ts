@@ -1,20 +1,18 @@
 import { describe, expect, it } from "bun:test";
-import { pageLinkFinder } from "../../../../utils/pageLinks";
-import { setupEnvironmentLink } from "./setupEnvironmentLink";
+import { setupEnvironmentId } from "./setupEnvironmentLink";
 
 const WEB = "https://app.superset.sh";
-const find = pageLinkFinder(WEB);
 
-describe("setupEnvironmentLink", () => {
+describe("setupEnvironmentId", () => {
 	it("finds the environment a setup prompt links", () => {
 		const prompt = `Use the superset:environment skill to set up cloud environment api (e1): ${WEB}/environments/e1`;
-		expect(setupEnvironmentLink(prompt, find)?.environmentId).toBe("e1");
+		expect(setupEnvironmentId(prompt, WEB)).toBe("e1");
 	});
 
 	it("ignores an environment link in an ordinary first message", () => {
-		expect(
-			setupEnvironmentLink(`What is in ${WEB}/environments/e1?`, find),
-		).toBe(null);
-		expect(setupEnvironmentLink(null, find)).toBe(null);
+		expect(setupEnvironmentId(`What is in ${WEB}/environments/e1?`, WEB)).toBe(
+			null,
+		);
+		expect(setupEnvironmentId(null, WEB)).toBe(null);
 	});
 });

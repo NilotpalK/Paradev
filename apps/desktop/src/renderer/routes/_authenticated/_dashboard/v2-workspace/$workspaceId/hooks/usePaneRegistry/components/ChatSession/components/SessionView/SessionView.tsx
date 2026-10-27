@@ -41,7 +41,6 @@ import type { ChatEditRequest, ChatForkTarget } from "../../types";
 import { buildChatHandoffTranscript } from "../../utils/chatHandoffTranscript";
 import { heldPromptQueue } from "../../utils/heldPromptQueue";
 import { editableMessageIds, rewindTranscript } from "../../utils/messageEdit";
-import { pageLinkFinder } from "../../utils/pageLinks";
 import { promptHistory } from "../../utils/promptHistory";
 import { railMessages } from "../../utils/railMessages";
 import {
@@ -72,7 +71,7 @@ import { useRestoreUnsentPrompts } from "./hooks/useRestoreUnsentPrompts";
 import { useSubagentNavigation } from "./hooks/useSubagentNavigation";
 import { useSubagentTarget } from "./hooks/useSubagentTarget";
 import { escapeBack } from "./utils/escapeBack";
-import { setupEnvironmentLink } from "./utils/setupEnvironmentLink";
+import { setupEnvironmentId } from "./utils/setupEnvironmentLink";
 
 const RESUME_FOLLOW_PX = 24;
 const NO_COMMANDS: AvailableCommand[] = [];
@@ -84,8 +83,6 @@ const MODEL_OPTIONS_GRACE_MS = 1000;
 function contentText(content: UserContent[]): string {
 	return userMessageText({ content });
 }
-
-const findLinks = pageLinkFinder(env.NEXT_PUBLIC_WEB_URL);
 
 export function SessionView({
 	presetId,
@@ -279,9 +276,9 @@ export function SessionView({
 	const setupEnvironment = useMemo(() => {
 		for (const { item } of snapshotItems.values()) {
 			if (item.kind === "user_message") {
-				return setupEnvironmentLink(
+				return setupEnvironmentId(
 					userMessageText(item as UserMessage),
-					findLinks,
+					env.NEXT_PUBLIC_WEB_URL,
 				);
 			}
 		}
@@ -573,11 +570,8 @@ export function SessionView({
 						session={session.snapshot.session}
 					/>
 				)}
-				{setupEnvironment?.environmentId && (
-					<SetupSessionHeader
-						environmentId={setupEnvironment.environmentId}
-						url={setupEnvironment.url}
-					/>
+				{setupEnvironment && (
+					<SetupSessionHeader environmentId={setupEnvironment} />
 				)}
 				<MessageScroller.Provider
 					autoScroll

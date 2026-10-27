@@ -23,7 +23,7 @@ If you were given an environment ID, run `superset environments list --json` and
 superset environments create --name <name> --repo <owner/name> [--repo ...] --scope personal
 ```
 
-Share the URL the command prints (`…/environments/<id>`). In a Paradev chat it shows as a card that opens a live view of the environment.
+A new environment is named after its primary repository until you rename it in step 5.
 
 ## 1. Intake
 
@@ -88,8 +88,9 @@ The box must be `ready`. It comes back with the same ID; restart services you ne
 
 ## 5. Finish
 
-1. Set the visibility the user chose: `superset environments update <environment-id> --scope organization` (or leave it `personal`).
-2. Archive the setup box: `superset workspaces archive <workspace-id>`.
-3. Summarize what is installed, what `.superset/config.json` does, which variables are set, which are missing and who has to provide them, and how to start a workspace from the environment.
+1. Name it. Propose a short name from what you learned (what the project is, not the repository slug alone), ask the user to confirm or change it, then run `superset environments update <environment-id> --name "<name>"`.
+2. Set the visibility the user chose: `superset environments update <environment-id> --scope organization` (or leave it `personal`).
+3. Archive the setup box: `superset workspaces archive <workspace-id>`.
+4. Summarize what is installed, what `.superset/config.json` does, which variables are set, which are missing and who has to provide them, and how to start a workspace from the environment.
 
 If you stop early, say where things stand and what the next session should do first; the environment and its latest checkpoint are all it needs to continue.
