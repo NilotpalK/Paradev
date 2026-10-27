@@ -12,11 +12,11 @@ import { AgentChatPane } from "./components/AgentChatPane";
 import { useOpenChatLink } from "./hooks/useOpenChatLink";
 import { useOpenChatPage } from "./hooks/useOpenChatPage";
 import { openChatHistory } from "./utils/chatHistoryOpen";
-import { restartedChatPaneData } from "./utils/restartedChatPaneData";
 import {
 	pendingChatPrompts,
 	prependChatPrompts,
 } from "./utils/pendingChatPrompts";
+import { restartedChatPaneData } from "./utils/restartedChatPaneData";
 import { saveChatMode } from "./utils/savedChatMode";
 
 export function ChatPane({

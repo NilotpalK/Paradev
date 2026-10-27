@@ -104,7 +104,10 @@ describe("transcriptRows", () => {
 			"item",
 			"turn_status",
 		]);
-		expect(rows.at(-1)).toMatchObject({ status: "failed", message });
+		expect(rows.at(-1)).toMatchObject({
+			status: "failed",
+			error: { message },
+		});
 	});
 
 	test("an approval is after its target only when the target row is right above", () => {

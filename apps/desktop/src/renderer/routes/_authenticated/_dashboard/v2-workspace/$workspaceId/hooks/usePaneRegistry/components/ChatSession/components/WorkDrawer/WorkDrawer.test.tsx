@@ -11,8 +11,8 @@ import type {
 	DeltaEnvelope,
 	Item,
 	ToolCall,
-	UserMessage,
 	UserContent,
+	UserMessage,
 } from "@superset/chat/protocol";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { type ComponentProps, useRef } from "react";
@@ -516,7 +516,8 @@ test("e edits a queued prompt in place and keeps its attachments", () => {
 	fireEvent.change(editor, { target: { value: "first, revised" } });
 	fireEvent.keyDown(editor, { key: "Enter" });
 	expect(queue.update).toHaveBeenCalledTimes(1);
-	const [id, content] = (queue.update as ReturnType<typeof mock>).mock.calls[0] as [string, UserContent[]];
+	const [id, content] = (queue.update as ReturnType<typeof mock>).mock
+		.calls[0] as [string, UserContent[]];
 	expect(id).toBe("q1");
 	expect(content[0]).toEqual({ type: "text", text: "first, revised" });
 	expect(content.slice(1).map((part) => part.type)).toEqual(["attachment"]);
@@ -580,7 +581,7 @@ function renderComposer(drawer: Partial<DrawerProps> = {}) {
 		<ComposerWithDrawer
 			recallHistory={recallHistory}
 			drawerProps={{
-						onMoveToBackground: () => {},
+				onMoveToBackground: () => {},
 				onOpenSubagent: () => {},
 				onStop: () => {},
 				snapshot: snapshotOf([exploreItem]),

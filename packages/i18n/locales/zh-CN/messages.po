@@ -221,9 +221,7 @@ msgstr "{0, plural, one {云端#个结果} other {云端#个结果}}"
 msgid "{0, plural, one {# result on this host} other {# results on this host}}"
 msgstr "{0, plural, one {此主机上#个结果} other {此主机上#个结果}}"
 
-#. placeholder {0}: pullRequests.length
 #. placeholder {0}: results.length
-#. placeholder {0}: searchResults.length
 msgid "{0, plural, one {# result} other {# results}}"
 msgstr "{0, plural, one {#个结果} other {#个结果}}"
 
@@ -364,6 +362,11 @@ msgstr "{0}，设备离线"
 #. placeholder {0}: error.message
 msgid "{0} — try the Paradev tray menu > Host Service > Restart."
 msgstr "{0} — 请尝试Paradev托盘菜单 > 主机服务 > 重启。"
+
+#. placeholder {0}: window.label
+#. placeholder {1}: formatPercent(window.usedPercent / 100)
+msgid "{0} · {1} used"
+msgstr "{0} · 已用 {1}"
 
 #. placeholder {0}: host.version
 msgid "{0} · behind"
@@ -1029,9 +1032,6 @@ msgstr "{minutes} 分 {rest} 秒"
 msgid "{minutes}m ago"
 msgstr "{minutes}分钟前"
 
-msgid "{modKey}↵ to create"
-msgstr "{modKey}↵创建"
-
 msgid "{monthlyPrice} per user/mo billed monthly, or {yearlyPrice} billed yearly. Mobile, automations, priority support."
 msgstr "按月计费每用户每月 {monthlyPrice}，或按年计费 {yearlyPrice}。移动端、自动化、优先支持。"
 
@@ -1553,6 +1553,9 @@ msgstr "45 files · +82 −172"
 msgid "5 days"
 msgstr "5 天"
 
+msgid "5-hour limit reached"
+msgstr "已达到 5 小时限额"
+
 msgid "55 call sites pass {code}"
 msgstr "55处调用传入{code}"
 
@@ -1873,6 +1876,9 @@ msgstr "以后想发布智能体配置时，可以加到这里。"
 msgid "Add agents…"
 msgstr "添加智能体…"
 
+msgid "Add an account in Usage settings"
+msgstr "在用量设置中添加账户"
+
 msgid "add an agent"
 msgstr "添加智能体"
 
@@ -1884,9 +1890,6 @@ msgstr "连接其他账号，或断开不再使用的账号。"
 
 msgid "Add any machine as a host. Workspaces keep running when your laptop sleeps, and you can check in from wherever you are."
 msgstr "把任意机器添加为主机。笔记本休眠时工作区照常运行，你在哪儿都能查看进展。"
-
-msgid "Add attachment"
-msgstr "添加附件"
 
 msgid "Add Attachment"
 msgstr "添加附件"
@@ -2204,9 +2207,6 @@ msgstr "AI · 对话"
 
 msgid "AI · Status"
 msgstr "AI · 状态"
-
-msgid "AI authentication failed. Please check your AI settings."
-msgstr "AI认证失败。请检查你的AI设置。"
 
 msgid "Alert"
 msgstr "警告"
@@ -2866,9 +2866,6 @@ msgstr "已指派"
 msgid "Assigned to me"
 msgstr "分配给我"
 
-msgid "Assigned to you"
-msgstr "分配给你"
-
 msgid "Assignee"
 msgstr "负责人"
 
@@ -3003,9 +3000,6 @@ msgstr "自动保存"
 
 msgid "Auto top-up"
 msgstr "自动充值"
-
-msgid "auto-generated"
-msgstr "自动生成"
 
 msgid "Auto-run command"
 msgstr "自动运行命令"
@@ -3198,7 +3192,6 @@ msgstr "{selectedHostName}上新建worktree的基准目录。"
 msgid "Base URL"
 msgstr "基础URL"
 
-#. placeholder {0}: draft.linkedPR.prNumber
 #. placeholder {0}: linkedPR.prNumber
 msgid "based off PR #{0}"
 msgstr "基于PR #{0}"
@@ -3342,12 +3335,6 @@ msgstr "在新的 worktree 中分叉"
 
 msgid "Branch in this workspace"
 msgstr "在此工作区分叉"
-
-msgid "branch name"
-msgstr "分支名称"
-
-msgid "Branch name"
-msgstr "分支名称"
 
 msgid "Branch name copied"
 msgstr "已复制分支名"
@@ -3662,6 +3649,9 @@ msgstr "取消方案"
 
 msgid "Cancel reply"
 msgstr "取消回复"
+
+msgid "Cancel the automatic resume"
+msgstr "取消自动恢复"
 
 msgid "Canceled"
 msgstr "已取消"
@@ -4791,9 +4781,6 @@ msgstr "连接你的GitHub仓库并同步拉取请求。跟踪整个团队的CI�
 msgid "Connect your Linear account before tracking tasks in Linear."
 msgstr "请先连接你的 Linear 账户，再在 Linear 中管理任务。"
 
-msgid "Connect your Linear account in Settings → Integrations to link Linear issues."
-msgstr "请在 设置 → 集成 中连接你的Linear账号，以关联Linear议题。"
-
 msgid "Connect your Linear account to browse, update and start work on Linear issues from Paradev."
 msgstr "连接你的Linear账号后，即可在Paradev中浏览、更新Linear议题并开始工作。"
 
@@ -4968,6 +4955,12 @@ msgstr "在 iPhone 上继续同一个工作区"
 
 msgid "Continue the session the last run left"
 msgstr "继续上次运行留下的会话"
+
+msgid "Continue this chat on another login"
+msgstr "用另一个登录继续此对话"
+
+msgid "Continue this chat once the limit resets"
+msgstr "限额重置后继续此对话"
 
 #. placeholder {0}: connector.displayName
 msgid "Continue to {0}"
@@ -5583,14 +5576,8 @@ msgstr "无法加载贡献者，请直接输入用户名。"
 msgid "Couldn't load earlier messages. Retry"
 msgstr "无法加载更早的消息。重试"
 
-msgid "Couldn't load issues: {msg}"
-msgstr "无法加载议题：{msg}"
-
 msgid "Couldn't load pages"
 msgstr "无法加载页面"
-
-msgid "Couldn't load pull requests: {msg}"
-msgstr "无法加载拉取请求：{msg}"
 
 msgid "Couldn't load review comments"
 msgstr "无法加载审查评论"
@@ -5804,9 +5791,6 @@ msgstr "通过克隆仓库或本地路径来创建新项目。"
 
 msgid "Create a new task from the desktop tasks view."
 msgstr "在桌面端任务视图中创建新任务。"
-
-msgid "Create a new workspace"
-msgstr "创建新工作区"
 
 msgid "Create a project to group tasks and cloud workspaces."
 msgstr "创建项目，将任务和云工作区归到一起。"
@@ -6025,10 +6009,6 @@ msgstr "正在创建沙箱"
 
 msgid "Creating workspace"
 msgstr "正在创建工作区"
-
-#. placeholder {0}: linkedPR.prNumber
-msgid "Creating workspace from PR #{0}..."
-msgstr "正在从PR #{0}创建工作区..."
 
 msgid "Creating workspace: {name}"
 msgstr "正在创建工作区：{name}"
@@ -6773,6 +6753,9 @@ msgstr "忽略建议"
 msgid "Dismiss suggestions"
 msgstr "忽略建议"
 
+msgid "Dismiss the usage limit notice"
+msgstr "关闭用量限额提示"
+
 msgid "Dismissed"
 msgstr "已忽略"
 
@@ -7083,8 +7066,8 @@ msgstr "编辑名称"
 msgid "Edit on GitHub"
 msgstr "在GitHub上编辑"
 
-msgid "Edit prefix"
-msgstr "编辑前缀"
+msgid "Edit queued message"
+msgstr "编辑排队消息"
 
 msgid "Edit Run Script"
 msgstr "编辑运行脚本"
@@ -7106,6 +7089,10 @@ msgctxt "github release action"
 msgid "Edited"
 msgstr "已编辑"
 
+msgctxt "shell intent"
+msgid "Edited"
+msgstr "已编辑"
+
 msgid "Edited {ago}"
 msgstr "编辑于{ago}"
 
@@ -7113,6 +7100,10 @@ msgid "Editing"
 msgstr "编辑"
 
 msgctxt "file change"
+msgid "Editing"
+msgstr "编辑中"
+
+msgctxt "shell intent"
 msgid "Editing"
 msgstr "编辑中"
 
@@ -7480,9 +7471,6 @@ msgstr "探索中"
 msgid "Extended thinking: {activeLabel}"
 msgstr "扩展思考：{activeLabel}"
 
-msgid "external"
-msgstr "外部"
-
 msgid "External Application"
 msgstr "外部应用"
 
@@ -7509,6 +7497,9 @@ msgstr "极高"
 
 msgid "Extra small"
 msgstr "超小"
+
+msgid "Extra usage limit reached"
+msgstr "已达到额外用量上限"
 
 msgid "Eyes"
 msgstr "眼睛"
@@ -7658,9 +7649,6 @@ msgstr "创建讨论串失败"
 msgid "Failed to create workspace"
 msgstr "创建工作区失败"
 
-msgid "Failed to create workspace from PR"
-msgstr "从PR创建工作区失败"
-
 msgid "Failed to delete"
 msgstr "删除失败"
 
@@ -7779,17 +7767,8 @@ msgstr "打开新窗口失败：{0}"
 msgid "Failed to open new window: {message}"
 msgstr "打开新窗口失败：{message}"
 
-msgid "Failed to open project"
-msgstr "打开项目失败"
-
-msgid "Failed to open task"
-msgstr "打开任务失败"
-
 msgid "Failed to open the billing portal"
 msgstr "打开账单门户失败"
-
-msgid "Failed to open worktree"
-msgstr "打开worktree失败"
 
 #. placeholder {0}: error.message
 msgid "Failed to open: {0}"
@@ -7797,12 +7776,6 @@ msgstr "打开失败：{0}"
 
 msgid "Failed to post reply"
 msgstr "回复发送失败"
-
-msgid "Failed to prepare agent launch"
-msgstr "准备启动智能体失败"
-
-msgid "Failed to process attachments"
-msgstr "处理附件失败"
 
 msgid "Failed to push branch"
 msgstr "推送分支失败"
@@ -9336,6 +9309,10 @@ msgstr "改进智能体说明"
 msgid "Improved diff viewer"
 msgstr "更好的差异查看器"
 
+#. placeholder {0}: intent.path
+msgid "in {0}"
+msgstr "在 {0} 中"
+
 msgid "in a new session"
 msgstr "在新会话中"
 
@@ -10210,6 +10187,9 @@ msgstr "青柠色"
 msgid "Limit access"
 msgstr "限制访问"
 
+msgid "Limit has reset"
+msgstr "限额已重置"
+
 msgid "Limit to {organizationName}?"
 msgstr "限制为 {organizationName}？"
 
@@ -10253,6 +10233,9 @@ msgstr "Linear集成"
 msgid "Linear is limiting requests. Try again in a few minutes."
 msgstr "Linear正在限制请求，请几分钟后重试。"
 
+msgid "Linear issues"
+msgstr "Linear议题"
+
 #. placeholder {0}: m.startLine
 #. placeholder {0}: metadata.startLine
 #. placeholder {1}: m.endLine
@@ -10262,9 +10245,6 @@ msgstr "第{0}–{1}行"
 
 msgid "Link"
 msgstr "链接"
-
-msgid "Link ↵"
-msgstr "关联 ↵"
 
 msgid "Link a GitHub repository on the project first to enable cloning."
 msgstr "请先为项目关联GitHub仓库才能克隆。"
@@ -10277,15 +10257,6 @@ msgstr "链接已复制"
 
 msgid "Link copied"
 msgstr "链接已复制"
-
-msgid "Link GitHub issue"
-msgstr "关联GitHub议题"
-
-msgid "Link Linear issue"
-msgstr "关联Linear议题"
-
-msgid "Link pull request"
-msgstr "关联拉取请求"
 
 msgid "Link task"
 msgstr "关联任务"
@@ -10323,6 +10294,10 @@ msgstr "列出、创建、更新和删除主机上的工作区。"
 msgid "List, get, create, update, and delete tasks; track status."
 msgstr "列出、获取、创建、更新和删除任务；跟踪状态。"
 
+msgctxt "shell intent"
+msgid "Listed"
+msgstr "已列出"
+
 msgid "Listening"
 msgstr "正在聆听"
 
@@ -10334,6 +10309,10 @@ msgstr "正在监听频道消息和新建的频道。"
 
 msgid "Listening status unavailable"
 msgstr "监听状态不可用"
+
+msgctxt "shell intent"
+msgid "Listing"
+msgstr "正在列出"
 
 msgid "Listing sessions in {what}"
 msgstr "正在列出 {what} 的会话"
@@ -10422,9 +10401,6 @@ msgstr "正在加载分组…"
 msgid "Loading issue…"
 msgstr "正在加载议题…"
 
-msgid "Loading issues..."
-msgstr "正在加载议题..."
-
 msgid "Loading issues…"
 msgstr "正在加载议题…"
 
@@ -10448,9 +10424,6 @@ msgstr "正在加载项目…"
 
 msgid "Loading pull request…"
 msgstr "正在加载拉取请求…"
-
-msgid "Loading pull requests..."
-msgstr "正在加载拉取请求..."
 
 msgid "Loading pull requests…"
 msgstr "正在加载拉取请求…"
@@ -11003,6 +10976,9 @@ msgstr "移动应用"
 
 msgid "Mobile App"
 msgstr "移动应用"
+
+msgid "Mode"
+msgstr "模式"
 
 msgid "model"
 msgstr "模型"
@@ -11773,6 +11749,12 @@ msgstr "无匹配项"
 msgid "No matches"
 msgstr "没有匹配项"
 
+msgid "No matching issues"
+msgstr "没有匹配的议题"
+
+msgid "No matching Linear issues"
+msgstr "没有匹配的Linear议题"
+
 msgid "No matching MCP servers"
 msgstr "没有匹配的MCP服务器"
 
@@ -11785,8 +11767,14 @@ msgstr "没有匹配的组织成员。"
 msgid "No matching pages"
 msgstr "没有匹配的页面"
 
+msgid "No matching pull requests"
+msgstr "没有匹配的拉取请求"
+
 msgid "No matching repositories."
 msgstr "没有匹配的仓库。"
+
+msgid "No matching tasks"
+msgstr "没有匹配的任务"
 
 msgid "No MCP servers found"
 msgstr "未找到MCP服务器"
@@ -11824,14 +11812,8 @@ msgstr "没有匹配的成员"
 msgid "No one to mention"
 msgstr "没有可提及的人"
 
-msgid "No open issues found."
-msgstr "未找到打开的议题。"
-
 msgid "No open issues."
 msgstr "没有开启的议题。"
-
-msgid "No open pull requests found."
-msgstr "未找到打开的拉取请求。"
 
 msgid "No open pull requests."
 msgstr "没有打开的拉取请求。"
@@ -12847,9 +12829,6 @@ msgstr "在GitHub中打开议题"
 msgid "Open issue in Linear"
 msgstr "在Linear中打开议题"
 
-msgid "Open issues"
-msgstr "打开的议题"
-
 msgid "Open leaderboard"
 msgstr "打开排行榜"
 
@@ -12906,9 +12885,6 @@ msgstr "打开项目"
 msgid "Open Projects"
 msgstr "打开项目"
 
-msgid "Open PRs"
-msgstr "打开的PR"
-
 msgid "Open pull request"
 msgstr "打开拉取请求"
 
@@ -12922,9 +12898,6 @@ msgstr "打开拉取请求#{0}"
 
 msgid "Open pull request options"
 msgstr "打开拉取请求选项"
-
-msgid "Open pull requests"
-msgstr "打开的拉取请求"
 
 msgid "Open recent"
 msgstr "打开最近使用"
@@ -12949,9 +12922,6 @@ msgstr "打开发布选项"
 
 msgid "Open System Settings"
 msgstr "打开系统设置"
-
-msgid "Open task {title}"
-msgstr "打开任务{title}"
 
 msgid "Open Terminal"
 msgstr "打开终端"
@@ -13042,9 +13012,6 @@ msgstr "打开文件夹"
 
 msgid "Opening pages"
 msgstr "打开页面"
-
-msgid "Opening worktree..."
-msgstr "正在打开worktree..."
 
 msgid "Opens a cloud workspace where an agent installs what the project needs and writes its .superset/config.json"
 msgstr "打开一个云端工作区，由代理安装项目所需内容并写入其 .superset/config.json"
@@ -13925,9 +13892,6 @@ msgstr "PR链接"
 msgid "PR URL must match {repoMismatch}."
 msgstr "PR的URL必须匹配{repoMismatch}。"
 
-msgid "PR URL must match {selectedRepositoryLabel}."
-msgstr "PR的URL必须匹配{selectedRepositoryLabel}。"
-
 msgid "Prediction progress"
 msgstr "预测阅读进度"
 
@@ -14373,6 +14337,9 @@ msgstr "常见问题"
 msgid "Questions, feedback, support, or anything else. Send a note and we'll route it to the right person."
 msgstr "问题、反馈、支持，或者别的什么都行。写给我们，我们会转给合适的人。"
 
+msgid "Queue message"
+msgstr "将消息加入队列"
+
 msgid "Queue paused"
 msgstr "队列已暂停"
 
@@ -14381,6 +14348,9 @@ msgstr "由于你中断了操作，队列已暂停"
 
 msgid "Queue work for agents"
 msgstr "为智能体排队安排工作"
+
+msgid "Queue; ⌘↩ to steer the running turn"
+msgstr "加入队列；按⌘↩引导当前轮次"
 
 msgid "Queued"
 msgstr "排队中"
@@ -14498,6 +14468,10 @@ msgstr "正在重新激活…"
 msgid "Read"
 msgstr "已读取"
 
+msgctxt "shell intent"
+msgid "Read"
+msgstr "已读取"
+
 msgid "Read and plan without changing anything"
 msgstr "只读取和规划，不做任何更改"
 
@@ -14551,6 +14525,10 @@ msgstr "阅读设置指南"
 
 msgid "Read the source and every pull request."
 msgstr "阅读源代码和每一个拉取请求。"
+
+msgctxt "shell intent"
+msgid "Reading"
+msgstr "正在读取"
 
 msgid "Reading {what}"
 msgstr "正在读取 {what}"
@@ -14616,17 +14594,8 @@ msgstr "最近使用的应用"
 msgid "Recent invoices"
 msgstr "最近的账单"
 
-msgid "Recent issues"
-msgstr "最近的议题"
-
 msgid "Recent prompts"
 msgstr "最近的提示词"
-
-msgid "Recent PRs"
-msgstr "最近的PR"
-
-msgid "Recent pull requests"
-msgstr "最近的拉取请求"
 
 msgid "Recently deleted"
 msgstr "最近删除"
@@ -14856,12 +14825,6 @@ msgstr "移除图片"
 
 msgid "Remove link"
 msgstr "移除链接"
-
-msgid "Remove linked issue"
-msgstr "移除关联的议题"
-
-msgid "Remove linked PR"
-msgstr "移除关联的PR"
 
 msgid "Remove member"
 msgstr "移除成员"
@@ -15372,6 +15335,9 @@ msgstr "继续聊天"
 msgid "Resume args"
 msgstr "恢复参数"
 
+msgid "Resume at reset"
+msgstr "重置后恢复"
+
 msgid "Resume automation"
 msgstr "恢复自动化"
 
@@ -15381,6 +15347,9 @@ msgstr "恢复通知"
 #. placeholder {0}: candidate.agentLabel
 msgid "Resuming {0}…"
 msgstr "正在恢复{0}…"
+
+msgid "Resuming at reset"
+msgstr "将在重置后恢复"
 
 msgid "Resuming the conversation…"
 msgstr "正在继续对话…"
@@ -15652,9 +15621,6 @@ msgstr "按计划或事件运行、按需运行、暂停、恢复并查看日志
 
 msgid "Run script"
 msgstr "运行脚本"
-
-msgid "Run setup script"
-msgstr "运行设置脚本"
 
 msgid "Run setup script in each imported workspace"
 msgstr "在每个导入的工作区中运行初始化脚本"
@@ -15974,9 +15940,6 @@ msgstr "搜索历史"
 msgid "Search in {frameTitle}…"
 msgstr "在{frameTitle}中搜索…"
 
-msgid "Search issues..."
-msgstr "搜索议题..."
-
 msgid "Search labels..."
 msgstr "搜索标签..."
 
@@ -16018,9 +15981,6 @@ msgstr "搜索项目…"
 
 msgid "Search pull requests"
 msgstr "搜索拉取请求"
-
-msgid "Search pull requests..."
-msgstr "搜索拉取请求..."
 
 msgid "Search pull requests…"
 msgstr "搜索拉取请求…"
@@ -16082,17 +16042,19 @@ msgstr "搜索你的会议记录"
 msgid "Search..."
 msgstr "搜索..."
 
+msgctxt "shell intent"
+msgid "Searched"
+msgstr "已搜索"
+
 msgid "Searched for tooltip overrides"
 msgstr "搜索了tooltip的样式覆盖"
 
+msgctxt "shell intent"
+msgid "Searching"
+msgstr "正在搜索"
+
 msgid "Searching for Kbd usages"
 msgstr "正在搜索Kbd的使用处"
-
-msgid "Searching..."
-msgstr "正在搜索..."
-
-msgid "Searching…"
-msgstr "搜索中…"
 
 #. placeholder {0}: format(new Date(periodEnd), "MMMM d, yyyy")
 #. placeholder {0}: formatDate(periodEnd)
@@ -16672,9 +16634,6 @@ msgstr "显示边框"
 
 msgid "Show checks"
 msgstr "显示检查"
-
-msgid "Show closed"
-msgstr "显示已关闭"
 
 msgid "Show CPU and memory usage in the top bar"
 msgstr "在顶栏显示CPU和内存用量"
@@ -17567,6 +17526,9 @@ msgstr "已停止"
 
 msgid "Stopped"
 msgstr "已停止"
+
+msgid "Stopped by the usage limit"
+msgstr "已因用量限额停止"
 
 msgid "Stopping the agent in {what}"
 msgstr "正在停止 {what} 中的代理"
@@ -19774,8 +19736,14 @@ msgstr "用量"
 msgid "Usage is out of date"
 msgstr "用量数据已过时"
 
+msgid "Usage limit reached"
+msgstr "已达到用量上限"
+
 msgid "Usage sections"
 msgstr "用量分区"
+
+msgid "Usage settings"
+msgstr "用量设置"
 
 msgid "Usage unavailable."
 msgstr "无法获取用量。"
@@ -19892,12 +19860,6 @@ msgstr "user@example.com"
 
 msgid "user@host, ssh://user@host:2222, or an ssh config alias"
 msgstr "user@host、ssh://user@host:2222 或 ssh 配置中的别名"
-
-msgid "Using random branch name (AI generation timed out)"
-msgstr "使用随机分支名（AI生成超时）"
-
-msgid "Using random branch name (AI generation unavailable)"
-msgstr "使用随机分支名（AI生成不可用）"
 
 msgid "v2ProjectId does not match the workspace's project"
 msgstr "v2ProjectId与该工作区的项目不匹配"
@@ -20250,8 +20212,17 @@ msgstr "每周"
 msgid "Weekly at {time}"
 msgstr "每周{time}"
 
+msgid "Weekly limit reached"
+msgstr "已达到周限额"
+
+msgid "Weekly Opus limit reached"
+msgstr "已达到 Opus 周限额"
+
 msgid "Weekly release notes"
 msgstr "每周发布说明"
+
+msgid "Weekly Sonnet limit reached"
+msgstr "已达到 Sonnet 周限额"
 
 msgid "Welcome back"
 msgstr "欢迎回来"
@@ -20545,9 +20516,6 @@ msgstr "工作区配置"
 msgid "Workspace created"
 msgstr "工作区已创建"
 
-msgid "Workspace created from PR"
-msgstr "已从PR创建工作区"
-
 msgid "Workspace details"
 msgstr "工作区详情"
 
@@ -20559,9 +20527,6 @@ msgstr "工作区布局"
 
 msgid "Workspace name"
 msgstr "工作区名称"
-
-msgid "Workspace name (optional)"
-msgstr "工作区名称（可选）"
 
 msgid "Workspace not found"
 msgstr "未找到工作区"
@@ -20629,9 +20594,6 @@ msgstr "已更新worktree位置"
 msgid "Worktree missing"
 msgstr "worktree缺失"
 
-msgid "Worktree opened"
-msgstr "worktree已打开"
-
 msgid "Worktree out of sync"
 msgstr "worktree不同步"
 
@@ -20674,12 +20636,20 @@ msgstr "给大家最常问的那部分写文档…"
 msgid "Write once. Runs in every agent."
 msgstr "编写一次，在每个智能体中运行。"
 
+msgctxt "shell intent"
+msgid "Writing"
+msgstr "正在写入"
+
 msgid "Writing code is no longer where engineer hours go. Reading it is. Teams that adopted parallel agents in 2025 hit the wall first: ten agents can produce more diffs before lunch than a team can honestly review by Friday."
 msgstr "工程师的时间不再花在写代码上，而是花在读代码上。2025年就用上并行智能体的团队最先撞墙：十个智能体在午饭前产出的差异，一个团队到周五也认真审不完。"
 
 msgid "Writing file..."
 msgstr "正在写入文件..."
 
+msgid "Wrote"
+msgstr "已写入"
+
+msgctxt "shell intent"
 msgid "Wrote"
 msgstr "已写入"
 

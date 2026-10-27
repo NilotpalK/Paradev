@@ -1,6 +1,6 @@
 import type { ToolCall } from "@superset/chat/protocol";
-import { effectiveToolKind } from "../shellIntent";
 import { changedPaths } from "../fileChange";
+import { effectiveToolKind } from "../shellIntent";
 
 /**
  * What a run of tool calls amounted to, by the concept a reader cares about
