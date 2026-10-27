@@ -1,3 +1,4 @@
+import type { TurnChanges } from "@superset/chat-runtime";
 import { createContext, type ReactNode, useContext, useMemo } from "react";
 import type { ModifierEvent } from "renderer/lib/clickPolicy";
 import type { DiffPaneFilter, OpenFile } from "../../../../../../types";
@@ -6,6 +7,15 @@ export type OpenPage = (url: string, event: ModifierEvent) => void;
 
 /** Opens the diff pane narrowed to `filter`, at `path` when one is given. */
 export type OpenDiff = (filter: DiffPaneFilter, path?: string) => void;
+
+/** Reads what a turn changed from its worktree snapshots. */
+export type TurnChangesSource = {
+	sessionId: string;
+	load(
+		turnId: string,
+		live: boolean,
+	): Promise<TurnChanges | null | "unsupported">;
+};
 
 export type OpenLink = (
 	href: string,
@@ -17,6 +27,7 @@ export type ChatPaneActions = {
 	openFile?: OpenFile | undefined;
 	/** Absent where the chat has no workspace to show diffs in. */
 	openDiff?: OpenDiff | undefined;
+	turnChanges?: TurnChangesSource | undefined;
 	workspaceId?: string | undefined;
 	/** Absent where the chat has no workspace to open pages into. */
 	openPage?: OpenPage | undefined;
@@ -37,6 +48,7 @@ export function ChatPaneActionsProvider({
 	children,
 	openFile,
 	openDiff,
+	turnChanges,
 	workspaceId,
 	openPage,
 	openLink,
@@ -47,6 +59,7 @@ export function ChatPaneActionsProvider({
 		() => ({
 			openFile,
 			openDiff,
+			turnChanges,
 			workspaceId,
 			openPage,
 			openLink,
@@ -56,6 +69,7 @@ export function ChatPaneActionsProvider({
 		[
 			openFile,
 			openDiff,
+			turnChanges,
 			workspaceId,
 			openPage,
 			openLink,

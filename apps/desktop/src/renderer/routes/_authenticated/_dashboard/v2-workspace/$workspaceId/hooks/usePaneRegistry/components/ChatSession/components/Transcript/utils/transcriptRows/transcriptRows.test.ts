@@ -466,12 +466,27 @@ describe("the changed-files card", () => {
 		);
 	});
 
-	test("waits for the turn to settle, and needs a file the turn changed", () => {
+	test("waits for the turn to settle, and for an edit or a command that may have made one", () => {
+		const readOnly = (status: "completed" | "running"): TurnGroup => ({
+			turnId: "t2",
+			turn: { id: "t2", status, startedAtMs: 2 },
+			entries: [
+				{ kind: "item", item: prompt },
+				{ kind: "tool_run", items: [{ ...edit, status: "failed" }] },
+				{ kind: "item", item: reply },
+			],
+		});
+
 		expect(kinds([turnGroup("running", [edit])])).not.toContain(
 			"changed_files",
 		);
-		expect(
-			kinds([turnGroup("completed", [{ ...edit, status: "failed" }])]),
-		).not.toContain("changed_files");
+		expect(kinds([readOnly("completed")])).not.toContain("changed_files");
+		const commandOnly = transcriptRows(
+			[turnGroup("completed", [{ ...edit, status: "failed" }])],
+			[],
+			new Set(),
+			find,
+		).find((row) => row.kind === "changed_files");
+		expect(commandOnly).toMatchObject({ files: [] });
 	});
 });

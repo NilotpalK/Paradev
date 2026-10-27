@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {Zaostává za main o # commit, je potřeba re
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} z {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Změny · # soubor} few {Změny · # soubory} many {Změny · # souboru} other {Změny · # souborů}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {Zavřen # port} few {Zavřeny # porty} many {Zavřeno # portu} other {Zavřeno # portů}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Zadejte alespoň jeden repozitář.} channel 
 
 msgid "{openCount} open"
 msgstr "{openCount} otevřených"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {V tomto pracovním prostoru se změnil i # soubor} few {V tomto pracovním prostoru se změnily i # soubory} many {V tomto pracovním prostoru se změnilo i # souboru} other {V tomto pracovním prostoru se změnilo i # souborů}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} může vaším jménem číst a měnit data ve vašem účtu {pluginLabel}, a to i v budoucích verzích této stránky. Co načte, může odeslat na jiné weby. Povolte jen stránky, kterým důvěřujete."
@@ -8431,6 +8437,12 @@ msgstr "Z GitHubu"
 msgid "from main agent"
 msgstr "od hlavního agenta"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "Podle snímků worktree před tímto tahem a po něm, takže se počítají i změny z příkazů shellu."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "Podle snímků worktree před tímto tahem a po něm. Současně tu pracoval jiný chat, takže soubory, které měnil jen on, jsou uvedeny zvlášť."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter je skrytý — pro úpravy přepněte na Markdown"
 
@@ -15353,6 +15365,9 @@ msgstr "Zkontrolovat tyto běhy v sekci Všechny běhy"
 
 msgid "Review thread…"
 msgstr "Vlákno revize…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Zkontrolovat, co tento tah zatím změnil"
 
 msgid "reviewed"
 msgstr "zrevidoval(a)"

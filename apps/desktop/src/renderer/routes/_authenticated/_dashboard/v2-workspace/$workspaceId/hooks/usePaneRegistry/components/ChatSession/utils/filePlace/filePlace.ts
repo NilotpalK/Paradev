@@ -6,7 +6,10 @@ import {
 	toAbsoluteWorkspacePath,
 	toRelativeWorkspacePath,
 } from "shared/absolute-paths";
-import { directoryOf, fileName } from "../../../../../../utils/fileChange";
+import {
+	directoryOf,
+	fileName,
+} from "../../components/Transcript/utils/fileChange";
 
 export type FilePlace = {
 	absolutePath: string;
@@ -55,6 +58,17 @@ export function filePlace(path: string, worktreePath?: string): FilePlace {
 		absolutePath,
 		relativePath,
 		directory: directoryOf(shown, name),
+		name,
+	};
+}
+
+/** A path git reported relative to the repository root. */
+export function rootPlace(root: string, relativePath: string): FilePlace {
+	const name = fileName(relativePath);
+	return {
+		absolutePath: `${root.replace(/[\\/]+$/, "")}/${relativePath}`,
+		relativePath,
+		directory: directoryOf(relativePath, name),
 		name,
 	};
 }

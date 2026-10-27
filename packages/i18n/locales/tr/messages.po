@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {main dalının # commit gerisinde, rebase ger
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{totalBranches} içinden {branchPosition}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Değişiklikler · # dosya} other {Değişiklikler · # dosya}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {# port kapatıldı} other {# port kapatıldı}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {En az bir depo belirtin.} channel {En az bir 
 
 msgid "{openCount} open"
 msgstr "{openCount} açık"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Bu çalışma alanında ayrıca değişen: # dosya} other {Bu çalışma alanında ayrıca değişen: # dosya}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle}, sizin adınıza {pluginLabel} hesabınızdaki verileri okuyabilir ve değiştirebilir; bu, sayfanın gelecek sürümlerini de kapsar. Okuduklarını başka web sitelerine gönderebilir. Yalnızca güvendiğiniz sayfalara izin verin."
@@ -8431,6 +8437,12 @@ msgstr "GitHub'dan"
 msgid "from main agent"
 msgstr "ana ajandan"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı, bu yüzden kabuk komutlarıyla yapılan değişiklikler de sayılır."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "Bu turdan önceki ve sonraki worktree anlık görüntülerinden alındı. Aynı anda burada başka bir sohbet çalıştı, bu yüzden yalnızca onun dokunduğu dosyalar ayrı listelenir."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter gizli — düzenlemek için Markdown'a geçin"
 
@@ -15353,6 +15365,9 @@ msgstr "Bu çalıştırmaları Tüm çalıştırmalar'da incele"
 
 msgid "Review thread…"
 msgstr "İnceleme konusu…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Bu turun şimdiye kadar değiştirdiklerini incele"
 
 msgid "reviewed"
 msgstr "inceledi"

@@ -11,10 +11,10 @@ import { ArrowUpRight, FileText } from "lucide-react";
 import type { CSSProperties } from "react";
 import { FileIcon } from "renderer/lib/fileIcons";
 import { PathActionsMenuItems } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/components/PathActionsMenuItems";
+import type { FilePlace } from "../../../../../../../../utils/filePlace";
 import type { DiffStats } from "../../../../../../utils/diffStats";
 import type { FileChangeKind } from "../../../../../../utils/fileChange";
 import { TruncateStart } from "../../../../../TruncateStart";
-import type { FilePlace } from "../../utils/filePlace";
 
 /**
  * One file of a turn's changes: the name stays whole while its folder gives

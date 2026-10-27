@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {En retard de # commit sur main, rebase néces
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} sur {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Modifications · # fichier} other {Modifications · # fichiers}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {# port fermé} other {# ports fermés}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Indiquez au moins un dépôt.} channel {Indiq
 
 msgid "{openCount} open"
 msgstr "{openCount} ouvertes"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Aussi modifié dans cet espace de travail : # fichier} other {Aussi modifiés dans cet espace de travail : # fichiers}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} peut lire et modifier les données de votre compte {pluginLabel} en votre nom, y compris dans les futures versions de cette page. Elle peut envoyer ce qu’elle lit à d’autres sites web. N’autorisez que les pages de confiance."
@@ -8431,6 +8437,12 @@ msgstr "Depuis GitHub"
 msgid "from main agent"
 msgstr "de l'agent principal"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "D'après des instantanés du worktree avant et après ce tour, donc les modifications faites par des commandes shell comptent aussi."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "D'après des instantanés du worktree avant et après ce tour. Un autre chat a travaillé ici en même temps, donc les fichiers qu'il est seul à avoir modifiés sont listés à part."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter masqué — passez en Markdown pour le modifier"
 
@@ -15353,6 +15365,9 @@ msgstr "Examiner ces exécutions dans Toutes les exécutions"
 
 msgid "Review thread…"
 msgstr "Fil de revue…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Examiner ce que ce tour a modifié jusqu'ici"
 
 msgid "reviewed"
 msgstr "a relu"

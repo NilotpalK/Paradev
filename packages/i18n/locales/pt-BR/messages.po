@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {# commit atrás da main, precisa de rebase} o
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} de {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Alterações · # arquivo} other {Alterações · # arquivos}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {# porta fechada} other {# portas fechadas}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Especifique pelo menos um repositório.} chan
 
 msgid "{openCount} open"
 msgstr "{openCount} abertos"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Também alterado nesta área de trabalho: # arquivo} other {Também alterados nesta área de trabalho: # arquivos}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} pode ler e alterar dados da sua conta do {pluginLabel} em seu nome, inclusive em versões futuras desta página. Ela pode enviar o que ler para outros sites. Permita apenas páginas em que você confia."
@@ -5718,7 +5724,7 @@ msgid "Couldn’t verify"
 msgstr "Não foi possível verificar"
 
 msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
-msgstr "Contado a partir das edições de arquivos do agente. Mudanças feitas por comandos de shell, ferramentas de notebook ou MCP, ou subagentes não estão incluídas, e um arquivo editado mais de uma vez pode contar uma linha duas vezes."
+msgstr "Contado a partir das edições de arquivos do agente. Alterações feitas por comandos de shell, ferramentas de notebook ou MCP, ou subagentes não estão incluídas, e um arquivo editado mais de uma vez pode contar uma linha duas vezes."
 
 msgid "CPU"
 msgstr "CPU"
@@ -8430,6 +8436,12 @@ msgstr "Do GitHub"
 
 msgid "from main agent"
 msgstr "do agente principal"
+
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "A partir de snapshots da worktree antes e depois deste turno, então edições feitas por comandos de shell também contam."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "A partir de snapshots da worktree antes e depois deste turno. Outro chat trabalhou aqui ao mesmo tempo, então os arquivos que só ele tocou aparecem à parte."
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter oculto — mude para Markdown para editá-lo"
@@ -12028,7 +12040,7 @@ msgid "None"
 msgstr "Nenhum"
 
 msgid "None of this turn's files have changes here"
-msgstr "Nenhum arquivo deste turno tem mudanças aqui"
+msgstr "Nenhum arquivo deste turno tem alterações aqui"
 
 msgid "None. This is the floor."
 msgstr "Nenhum. Este é o piso."
@@ -15354,6 +15366,9 @@ msgstr "Revisar estas execuções em Todas as execuções"
 msgid "Review thread…"
 msgstr "Thread de revisão…"
 
+msgid "Review what this turn has changed so far"
+msgstr "Revisar o que este turno alterou até agora"
+
 msgid "reviewed"
 msgstr "revisou"
 
@@ -16513,7 +16528,7 @@ msgid "Show all {count}"
 msgstr "Mostrar todos os {count}"
 
 msgid "Show all changes"
-msgstr "Mostrar todas as mudanças"
+msgstr "Mostrar todas as alterações"
 
 msgid "Show all comments"
 msgstr "Mostrar todos os comentários"

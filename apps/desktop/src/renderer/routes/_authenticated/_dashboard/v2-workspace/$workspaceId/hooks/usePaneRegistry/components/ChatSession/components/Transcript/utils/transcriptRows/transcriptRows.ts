@@ -109,6 +109,12 @@ function withNoticeDetail(
 	return { ...error, detail: noticeDetail };
 }
 
+/** A shell command or a subagent can change files no diff shows; only a snapshot sees them. */
+function editsUnseen(call: ToolCall): boolean {
+	if (call.status === "running" || call.status === "declined") return false;
+	return call.toolKind === "execute" || call.subagent === true;
+}
+
 export function transcriptRows(
 	groups: readonly TurnGroup[],
 	outbox: readonly OutboxEntry[],
@@ -265,7 +271,7 @@ export function transcriptRows(
 		if (turn?.status === "running" && run && rows.at(-1) === run)
 			run.active = true;
 		const files = turnSettled ? turnChangedFiles(calls) : [];
-		if (files.length > 0) {
+		if (files.length > 0 || (turnSettled && calls.some(editsUnseen))) {
 			const card: TranscriptRow = {
 				kind: "changed_files",
 				key: `changed_files:${group.turnId}`,

@@ -33,6 +33,7 @@ import {
 	type OpenDiff,
 	type OpenLink,
 	type OpenPage,
+	type TurnChangesSource,
 } from "../../providers/ChatPaneActionsProvider";
 import { TurnFailureActionsProvider } from "../../providers/TurnFailureActionsProvider";
 import type { ChatEditRequest, ChatForkTarget } from "../../types";
@@ -60,6 +61,7 @@ import {
 	WorkDrawer,
 	type WorkDrawerHandle,
 } from "../WorkDrawer";
+import { LiveChangesPill } from "./components/LiveChangesPill";
 import { useFailureRecovery } from "./hooks/useFailureRecovery";
 import { useMainSend } from "./hooks/useMainSend";
 import { useMoveToBackground } from "./hooks/useMoveToBackground";
@@ -68,6 +70,7 @@ import { useRestoreUnsentPrompts } from "./hooks/useRestoreUnsentPrompts";
 import { useSubagentNavigation } from "./hooks/useSubagentNavigation";
 import { useSubagentTarget } from "./hooks/useSubagentTarget";
 import { escapeBack } from "./utils/escapeBack";
+import { settledToolCalls } from "./utils/settledToolCalls";
 
 const RESUME_FOLLOW_PX = 24;
 const NO_COMMANDS: AvailableCommand[] = [];
@@ -257,6 +260,21 @@ export function SessionView({
 	const runningTurnId = useMemo(
 		() => findRunningTurnId(session.snapshot.turns),
 		[session.snapshot.turns],
+	);
+	const liveRefreshKey = useMemo(
+		() =>
+			settledToolCalls(
+				timeline.find((group) => group.turnId === runningTurnId),
+			),
+		[timeline, runningTurnId],
+	);
+	const turnChanges = useMemo<TurnChangesSource>(
+		() => ({
+			sessionId: client.sessionId,
+			load: (turnId, live) =>
+				client.getTurnChanges({ workspaceId, turnId, live }),
+		}),
+		[client, workspaceId],
 	);
 
 	const snapshotItems = session.snapshot.items;
@@ -519,6 +537,7 @@ export function SessionView({
 			editMessage={editMessage}
 			editableMessageIds={editableIds}
 			openDiff={openDiff}
+			turnChanges={turnChanges}
 			openFile={openFile}
 			openPage={openPage}
 			openLink={openLink}
@@ -595,6 +614,9 @@ export function SessionView({
 							<Trans>Starting the agent…</Trans>
 						</ConnectionNotice>
 					)
+				)}
+				{runningTurnId && !focusedSubagentId && (
+					<LiveChangesPill refreshKey={liveRefreshKey} turnId={runningTurnId} />
 				)}
 				<WorkDrawer
 					approvals={approvals}

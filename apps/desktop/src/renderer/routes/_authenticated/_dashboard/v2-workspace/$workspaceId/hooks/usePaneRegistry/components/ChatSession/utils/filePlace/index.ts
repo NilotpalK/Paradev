@@ -1,1 +1,6 @@
-export { type FilePlace, filePlace, reviewFilter } from "./filePlace";
+export {
+	type FilePlace,
+	filePlace,
+	reviewFilter,
+	rootPlace,
+} from "./filePlace";

@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {落后main #个提交，需要变基} other {
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition}/{totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {更改 · # 个文件} other {更改 · # 个文件}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {已关闭#个端口} other {已关闭#个端口}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {请至少指定一个仓库。} channel {请�
 
 msgid "{openCount} open"
 msgstr "{openCount}项已开启"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {此工作区中还有更改：# 个文件} other {此工作区中还有更改：# 个文件}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} 可以以你的身份读取和更改你的 {pluginLabel} 账户中的数据，包括此页面的未来版本。它可以把读取的内容发送到其他网站。只允许你信任的页面。"
@@ -8431,6 +8437,12 @@ msgstr "来自 GitHub"
 msgid "from main agent"
 msgstr "来自主智能体"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "根据本轮前后的 worktree 快照统计，因此 shell 命令所做的编辑也会计入。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "根据本轮前后的 worktree 快照统计。另一个聊天同时在此工作，因此只有它修改过的文件会单独列出。"
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "已隐藏front matter，切换到Markdown可编辑"
 
@@ -15353,6 +15365,9 @@ msgstr "在“所有运行”中查看这些运行"
 
 msgid "Review thread…"
 msgstr "审查讨论…"
+
+msgid "Review what this turn has changed so far"
+msgstr "查看本轮到目前为止的更改"
 
 msgid "reviewed"
 msgstr "进行了评审"

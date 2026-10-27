@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {Za main o # commit, wymaga rebase} few {Za ma
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} z {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Zmiany · # plik} few {Zmiany · # pliki} many {Zmiany · # plików} other {Zmiany · # pliku}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {Zamknięto # port} few {Zamknięto # porty} many {Zamknięto # portów} other {Zamknięto # portu}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Podaj co najmniej jedno repozytorium.} channe
 
 msgid "{openCount} open"
 msgstr "{openCount} otwartych"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Zmieniono też w tym obszarze roboczym: # plik} few {Zmieniono też w tym obszarze roboczym: # pliki} many {Zmieniono też w tym obszarze roboczym: # plików} other {Zmieniono też w tym obszarze roboczym: # pliku}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} może w Twoim imieniu odczytywać i zmieniać dane na Twoim koncie {pluginLabel}, także w przyszłych wersjach tej strony. To, co odczyta, może wysłać do innych witryn. Zezwalaj tylko stronom, którym ufasz."
@@ -8431,6 +8437,12 @@ msgstr "Z GitHuba"
 msgid "from main agent"
 msgstr "od głównego agenta"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "Na podstawie migawek worktree przed tą turą i po niej, więc liczą się też zmiany z poleceń powłoki."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "Na podstawie migawek worktree przed tą turą i po niej. W tym samym czasie pracował tu inny czat, więc pliki zmienione tylko przez niego są wymienione osobno."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter ukryty — przełącz na Markdown, aby go edytować"
 
@@ -15353,6 +15365,9 @@ msgstr "Przejrzyj te uruchomienia w sekcji Wszystkie uruchomienia"
 
 msgid "Review thread…"
 msgstr "Wątek przeglądu…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Przejrzyj, co ta tura zmieniła do tej pory"
 
 msgid "reviewed"
 msgstr "zrecenzował(a)"

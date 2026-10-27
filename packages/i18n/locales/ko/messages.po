@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {main보다 커밋 #개 뒤처짐, 리베이�
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{totalBranches}개 중 {branchPosition}번째"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {변경 · 파일 #개} other {변경 · 파일 #개}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {포트 #개를 닫았습니다} other {포트 #개를 닫았습니다}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {리포지토리를 하나 이상 지정하세
 
 msgid "{openCount} open"
 msgstr "{openCount}개 열림"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {이 워크스페이스에서 함께 변경됨: 파일 #개} other {이 워크스페이스에서 함께 변경됨: 파일 #개}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle}은(는) 사용자 본인으로서 {pluginLabel} 계정의 데이터를 읽고 변경할 수 있으며, 이 페이지의 향후 버전에도 적용됩니다. 읽은 내용을 다른 웹사이트로 보낼 수 있습니다. 신뢰하는 페이지만 허용하세요."
@@ -8431,6 +8437,12 @@ msgstr "GitHub에서"
 msgid "from main agent"
 msgstr "메인 에이전트에서"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "이 턴 전후의 worktree 스냅샷을 기준으로 하므로 셸 명령으로 한 편집도 포함됩니다."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "이 턴 전후의 worktree 스냅샷을 기준으로 합니다. 같은 시간에 다른 채팅이 여기서 작업했으므로, 그 채팅만 변경한 파일은 따로 표시됩니다."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "프런트매터 숨김 — 편집하려면 Markdown으로 전환하세요"
 
@@ -15353,6 +15365,9 @@ msgstr "'모든 실행'에서 이 실행들을 검토"
 
 msgid "Review thread…"
 msgstr "리뷰 스레드…"
+
+msgid "Review what this turn has changed so far"
+msgstr "이 턴이 지금까지 변경한 내용 검토"
 
 msgid "reviewed"
 msgstr "리뷰함"

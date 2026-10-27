@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {Отстаёт от main на # коммит,
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} из {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Изменения · # файл} few {Изменения · # файла} many {Изменения · # файлов} other {Изменения · # файла}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {Закрыт # порт} few {Закрыто # порта} many {Закрыто # портов} other {Закрыто # порта}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Укажите хотя бы один реп�
 
 msgid "{openCount} open"
 msgstr "{openCount} открыто"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Также изменён в этой рабочей области: # файл} few {Также изменены в этой рабочей области: # файла} many {Также изменены в этой рабочей области: # файлов} other {Также изменены в этой рабочей области: # файла}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} может от вашего имени читать и изменять данные в вашем аккаунте {pluginLabel}, в том числе в будущих версиях этой страницы. Прочитанное она может отправить на другие сайты. Разрешайте только страницам, которым доверяете."
@@ -8431,6 +8437,12 @@ msgstr "Из GitHub"
 msgid "from main agent"
 msgstr "от основного агента"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "По снимкам worktree до и после этого хода, поэтому учитываются и правки через команды оболочки."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "По снимкам worktree до и после этого хода. Одновременно здесь работал другой чат, поэтому файлы, которые менял только он, показаны отдельно."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter скрыт — переключитесь на Markdown, чтобы его изменить"
 
@@ -15353,6 +15365,9 @@ msgstr "Просмотреть эти запуски в разделе «Все 
 
 msgid "Review thread…"
 msgstr "Ветка обсуждения ревью…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Посмотреть, что этот ход уже изменил"
 
 msgid "reviewed"
 msgstr "провёл(а) ревью"

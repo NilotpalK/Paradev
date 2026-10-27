@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {Tertinggal # commit dari main, perlu rebase} 
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} dari {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Perubahan · # file} other {Perubahan · # file}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {Menutup # port} other {Menutup # port}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Tentukan minimal satu repositori.} channel {T
 
 msgid "{openCount} open"
 msgstr "{openCount} terbuka"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {Juga berubah di workspace ini: # file} other {Juga berubah di workspace ini: # file}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} dapat membaca dan mengubah data di akun {pluginLabel} Anda atas nama Anda, termasuk di versi halaman ini yang akan datang. Halaman ini dapat mengirim apa yang dibacanya ke situs web lain. Izinkan hanya halaman yang Anda percayai."
@@ -8431,6 +8437,12 @@ msgstr "Dari GitHub"
 msgid "from main agent"
 msgstr "dari agen utama"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini, jadi edit lewat perintah shell juga terhitung."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "Dari snapshot worktree sebelum dan sesudah giliran ini. Chat lain bekerja di sini pada saat yang sama, jadi file yang hanya disentuh chat itu dicantumkan terpisah."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter disembunyikan — beralih ke Markdown untuk mengeditnya"
 
@@ -15353,6 +15365,9 @@ msgstr "Tinjau run ini di Semua run"
 
 msgid "Review thread…"
 msgstr "Thread review…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Tinjau apa yang sudah diubah giliran ini"
 
 msgid "reviewed"
 msgstr "mengulas"

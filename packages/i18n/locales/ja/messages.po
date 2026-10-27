@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {mainより#コミット遅れています。�
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{totalBranches}件中{branchPosition}件目"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {変更 · #件のファイル} other {変更 · #件のファイル}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {#個のポートを閉じました} other {#個のポートを閉じました}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {リポジトリを1つ以上指定してく�
 
 msgid "{openCount} open"
 msgstr "{openCount}件通過"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {このワークスペースで他にも変更: #件のファイル} other {このワークスペースで他にも変更: #件のファイル}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} は、あなたとして {pluginLabel} アカウントのデータを読み取り、変更できます。このページの今後のバージョンも含みます。読み取った内容を他のウェブサイトに送信できます。信頼できるページだけを許可してください。"
@@ -8431,6 +8437,12 @@ msgstr "GitHub から"
 msgid "from main agent"
 msgstr "メインエージェントから"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "このターンの前後のワークツリーのスナップショットから集計しているため、シェルコマンドによる編集も含まれます。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "このターンの前後のワークツリーのスナップショットから集計しています。同時に別のチャットがここで作業していたため、そのチャットだけが変更したファイルは別に表示されます。"
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "フロントマターは非表示です — 編集するにはMarkdownに切り替えてください"
 
@@ -15353,6 +15365,9 @@ msgstr "「すべての実行」でこれらの実行を確認"
 
 msgid "Review thread…"
 msgstr "レビュースレッド…"
+
+msgid "Review what this turn has changed so far"
+msgstr "このターンでこれまでに変更された内容を確認"
 
 msgid "reviewed"
 msgstr "がレビューしました"

@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {# commit por detrás de main, necesita rebase
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition} de {totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {Cambios · # archivo} other {Cambios · # archivos}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {# puerto cerrado} other {# puertos cerrados}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {Especifica al menos un repositorio.} channel 
 
 msgid "{openCount} open"
 msgstr "{openCount} abiertas"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {También cambió en este espacio de trabajo: # archivo} other {También cambiaron en este espacio de trabajo: # archivos}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} puede leer y cambiar datos de tu cuenta de {pluginLabel} en tu nombre, también en futuras versiones de esta página. Puede enviar lo que lea a otros sitios web. Permite solo páginas en las que confíes."
@@ -8431,6 +8437,12 @@ msgstr "Desde GitHub"
 msgid "from main agent"
 msgstr "del agente principal"
 
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "A partir de instantáneas del worktree antes y después de este turno, así que también cuentan las ediciones hechas con comandos de shell."
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "A partir de instantáneas del worktree antes y después de este turno. Otro chat trabajó aquí al mismo tiempo, así que los archivos que solo tocó él aparecen aparte."
+
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "Front matter oculto — cambiar a Markdown para editarlo"
 
@@ -15353,6 +15365,9 @@ msgstr "Revisar estas ejecuciones en Todas las ejecuciones"
 
 msgid "Review thread…"
 msgstr "Hilo de revisión…"
+
+msgid "Review what this turn has changed so far"
+msgstr "Revisar lo que este turno ha cambiado hasta ahora"
 
 msgid "reviewed"
 msgstr "revisó"

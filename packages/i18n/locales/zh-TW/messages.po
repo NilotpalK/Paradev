@@ -750,6 +750,9 @@ msgstr "{behindCount, plural, one {落後main #個提交，需要變基} other {
 msgid "{branchPosition} of {totalBranches}"
 msgstr "{branchPosition}/{totalBranches}"
 
+msgid "{changedCount, plural, one {Changes · # file} other {Changes · # files}}"
+msgstr "{changedCount, plural, one {更改 · # 個檔案} other {更改 · # 個檔案}}"
+
 msgid "{closedCount, plural, one {Closed # port} other {Closed # ports}}"
 msgstr "{closedCount, plural, one {已關閉#個埠} other {已關閉#個埠}}"
 
@@ -1096,6 +1099,9 @@ msgstr "{noun, select, repository {請至少指定一個倉庫。} channel {請�
 
 msgid "{openCount} open"
 msgstr "{openCount}項已開啟"
+
+msgid "{othersCount, plural, one {Also changed in this workspace: # file} other {Also changed in this workspace: # files}}"
+msgstr "{othersCount, plural, one {此工作區中還有更改：# 個檔案} other {此工作區中還有更改：# 個檔案}}"
 
 msgid "{pageTitle} can read and change data in your {pluginLabel} account as you, including in future versions of this page. It can send what it reads to other websites. Only allow pages you trust."
 msgstr "{pageTitle} 可以以你的身分讀取和變更你的 {pluginLabel} 帳戶中的資料，包括此頁面的未來版本。它可以把讀取的內容傳送到其他網站。只允許你信任的頁面。"
@@ -5718,7 +5724,7 @@ msgid "Couldn’t verify"
 msgstr "無法確認"
 
 msgid "Counted from the agent's file edits. Changes made by shell commands, notebook or MCP tools, or subagents are not included, and a file edited more than once can count a line twice."
-msgstr "根據代理程式的檔案編輯統計。不包括透過 shell 指令、notebook 或 MCP 工具以及子代理程式所做的變更，多次編輯的檔案中同一行可能被計算兩次。"
+msgstr "根據代理程式的檔案編輯統計。不包括透過 shell 指令、notebook 或 MCP 工具以及子代理程式所做的更改，多次編輯的檔案中同一行可能被計算兩次。"
 
 msgid "CPU"
 msgstr "CPU"
@@ -8430,6 +8436,12 @@ msgstr "來自 GitHub"
 
 msgid "from main agent"
 msgstr "來自主代理程式"
+
+msgid "From snapshots of the worktree before and after this turn, so edits made by shell commands count too."
+msgstr "根據本輪前後的 worktree 快照統計，因此 shell 指令所做的編輯也會計入。"
+
+msgid "From snapshots of the worktree before and after this turn. Another chat worked here at the same time, so files only it touched are listed apart."
+msgstr "根據本輪前後的 worktree 快照統計。另一個聊天同時在此工作，因此只有它修改過的檔案會另外列出。"
 
 msgid "Front matter hidden — switch to Markdown to edit it"
 msgstr "已隱藏front matter，切換到Markdown可編輯"
@@ -12028,7 +12040,7 @@ msgid "None"
 msgstr "無"
 
 msgid "None of this turn's files have changes here"
-msgstr "本輪的檔案在此處都沒有變更"
+msgstr "本輪的檔案在此處都沒有更改"
 
 msgid "None. This is the floor."
 msgstr "沒有。這是起點。"
@@ -15354,6 +15366,9 @@ msgstr "在「所有執行」中檢視這些執行"
 msgid "Review thread…"
 msgstr "審查討論…"
 
+msgid "Review what this turn has changed so far"
+msgstr "查看本輪到目前為止的更改"
+
 msgid "reviewed"
 msgstr "已審查"
 
@@ -16513,7 +16528,7 @@ msgid "Show all {count}"
 msgstr "顯示全部{count}條"
 
 msgid "Show all changes"
-msgstr "顯示所有變更"
+msgstr "顯示所有更改"
 
 msgid "Show all comments"
 msgstr "顯示所有評論"

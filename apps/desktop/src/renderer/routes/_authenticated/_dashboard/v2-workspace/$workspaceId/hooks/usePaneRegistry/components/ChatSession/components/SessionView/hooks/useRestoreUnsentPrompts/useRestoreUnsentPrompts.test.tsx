@@ -45,6 +45,7 @@ test("stopped-session replacement preserves unsent text without flushing on tran
 		},
 		getItems: async () => ({ ok: true, envelopes: [], nextBefore: null }),
 		getItemBodies: async () => ({ ok: true, items: [] }),
+		getTurnChanges: async () => "unsupported",
 		prompt: async () => {
 			prompts++;
 			if (sessionId === "old" && !oldLive) throw new Error("session stopped");
