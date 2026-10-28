@@ -48,13 +48,6 @@ export interface TerminalSubagent {
 	endedAt?: number;
 }
 
-export interface ChatPullRequestLink {
-	url: string;
-	owner: string;
-	repo: string;
-	number: number;
-}
-
 export interface TerminalAgentBinding {
 	launchId?: string;
 	account?: import("../trpc/router/usage/session-account/session-account").SessionAccount;
@@ -73,6 +66,4 @@ export interface TerminalAgentBinding {
 	chatSessionId?: string;
 	backgroundTasks?: BackgroundTask[];
 	queuedPrompts?: number;
-	/** Pull request links seen in this chat's tool output, oldest first. */
-	pullRequests?: ChatPullRequestLink[];
 }

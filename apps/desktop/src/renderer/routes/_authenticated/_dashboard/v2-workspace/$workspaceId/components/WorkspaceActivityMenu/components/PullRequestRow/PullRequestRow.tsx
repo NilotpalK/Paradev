@@ -16,11 +16,9 @@ export type PullRequestEntry = {
 
 export function PullRequestRow({
 	pullRequest,
-	source,
 	onOpen,
 }: {
 	pullRequest: PullRequestEntry;
-	source?: string;
 	onOpen: (pullRequest: PullRequestEntry, event: MouseEvent) => void;
 }) {
 	const state =
@@ -41,18 +39,12 @@ export function PullRequestRow({
 						#{pullRequest.number}
 					</span>
 					<span className="min-w-0 truncate text-foreground">
-						{pullRequest.title ||
-							`${pullRequest.repoOwner}/${pullRequest.repoName}`}
+						{pullRequest.title}
 					</span>
 				</span>
 				<span className="min-w-0 truncate text-[11px] text-muted-foreground/70">
-					{[
-						source,
-						`${pullRequest.repoOwner}/${pullRequest.repoName}`,
-						pullRequest.headBranch,
-					]
-						.filter(Boolean)
-						.join(" · ")}
+					{pullRequest.repoOwner}/{pullRequest.repoName} ·{" "}
+					{pullRequest.headBranch}
 				</span>
 			</span>
 			{live && (

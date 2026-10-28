@@ -9,7 +9,6 @@ import {
 import type { SubagentTranscript } from "./subagent-transcript";
 import { isTrustedTranscriptPath } from "./transcript-path";
 import type {
-	ChatPullRequestLink,
 	TerminalAgentBinding,
 	TerminalAgentEndReason,
 	TerminalAgentId,
@@ -281,7 +280,6 @@ export class TerminalAgentStore extends EventEmitter {
 						...(prior.queuedPrompts
 							? { queuedPrompts: prior.queuedPrompts }
 							: {}),
-						...(prior.pullRequests ? { pullRequests: prior.pullRequests } : {}),
 					}
 				: {}),
 		});
@@ -291,18 +289,13 @@ export class TerminalAgentStore extends EventEmitter {
 
 	updateChat(
 		terminalId: string,
-		patch: {
-			backgroundTasks?: BackgroundTask[];
-			queuedPrompts?: number;
-			pullRequests?: ChatPullRequestLink[];
-		},
+		patch: { backgroundTasks?: BackgroundTask[]; queuedPrompts?: number },
 	): void {
 		const prior = this.chatByTerminal.get(terminalId);
 		if (!prior) return;
 		const next: TerminalAgentBinding = { ...prior, ...patch };
 		if (next.backgroundTasks?.length === 0) delete next.backgroundTasks;
 		if (next.queuedPrompts === 0) delete next.queuedPrompts;
-		if (next.pullRequests?.length === 0) delete next.pullRequests;
 		this.chatByTerminal.set(terminalId, next);
 		this.emit("change", prior.workspaceId);
 	}

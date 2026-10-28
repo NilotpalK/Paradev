@@ -76,7 +76,6 @@ import {
 import { PANEL_MAX_HEIGHT_PX } from "./constants";
 import { useAgentWork } from "./hooks/useAgentWork";
 import { useAgentWorkActions } from "./hooks/useAgentWorkActions";
-import { useChatPullRequests } from "./hooks/useChatPullRequests";
 import { useWorkspacePullRequests } from "./hooks/useWorkspacePullRequests";
 import { useActivityPanelStore } from "./stores/activityPanelStore";
 import {
@@ -88,7 +87,6 @@ import {
 	type BackgroundWork,
 	collectBackgroundWork,
 } from "./utils/collectBackgroundWork";
-import { pullRequestKey } from "./utils/collectChatPullRequests";
 import { paneSourceTitle } from "./utils/paneSourceTitle";
 import { type MenuPage, selectMenuPages } from "./utils/selectMenuPages";
 
@@ -249,28 +247,14 @@ export function WorkspaceActivityMenu({
 		[detachedTerminals],
 	);
 	const agentWork = useAgentWork(workspaceId);
-	const linkedPullRequests = useWorkspacePullRequests(workspaceId, {
+	const pullRequests = useWorkspacePullRequests(workspaceId, {
 		enabled: open,
 	});
-	const knownPullRequests = useMemo(
-		() => new Set(linkedPullRequests.map(pullRequestKey)),
-		[linkedPullRequests],
-	);
-	const chatPullRequests = useChatPullRequests(workspaceId, {
-		enabled: open,
-		known: knownPullRequests,
-	});
-	const pullRequests = [...linkedPullRequests, ...chatPullRequests];
 	const pullRequestLinkPolicy = usePullRequestLinkPolicy();
-	const pullRequestRow = (
-		pullRequest: PullRequestEntry & { terminalId?: string },
-	) => (
+	const pullRequestRow = (pullRequest: PullRequestEntry) => (
 		<PullRequestRow
-			key={pullRequestKey(pullRequest)}
+			key={`${pullRequest.repoOwner}/${pullRequest.repoName}#${pullRequest.number}`}
 			pullRequest={pullRequest}
-			source={
-				pullRequest.terminalId ? sourceOf(pullRequest.terminalId) : undefined
-			}
 			onOpen={(target, event) =>
 				openPullRequestLink(
 					target.url,
