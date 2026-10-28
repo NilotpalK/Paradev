@@ -1178,6 +1178,9 @@ msgstr "{productName} pro média"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName} už používá každá osmá společnost z žebříčku Fortune 500."
 
+msgid "{productName} in the press"
+msgstr "{productName} v médiích"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName} celosvětově používají inženýři ze společností Netflix, Microsoft, NVIDIA, DoorDash, Wix a Mistral AI a v Asii ze společností ByteDance, Toss, Kakao, Grab, LINE a Rakuten."
 
@@ -2800,6 +2803,9 @@ msgstr "Argumenty"
 msgid "Argv used to launch the agent."
 msgstr "Argv použité ke spuštění agenta."
 
+msgid "Articles and coverage about {productName}."
+msgstr "Články a reportáže o {productName}."
+
 msgid "Artifact"
 msgstr "Artefakt"
 
@@ -2808,6 +2814,9 @@ msgstr "Podle posledního hlášení. Hostitel musí být online, aby se mohl ak
 
 msgid "ascending"
 msgstr "vzestupně"
+
+msgid "Asia"
+msgstr "Asie"
 
 msgid "Ask a member to add you to this channel"
 msgstr "Požádejte člena, aby vás do kanálu přidal"
@@ -6123,6 +6132,9 @@ msgstr "Vlastní poskytovatel"
 msgid "Custom themes"
 msgstr "Vlastní motivy"
 
+msgid "Customers"
+msgstr "Zákazníci"
+
 msgid "Customize"
 msgstr "Přizpůsobit"
 
@@ -8544,6 +8556,9 @@ msgstr "Plná autonomie"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "Kompletní zdrojový kód je na GitHubu pod licencí Elastic License 2.0 (ELv2). Prohlédněte si ho, zauditujte ho a přispějte. Žádné černé skříňky, žádné skryté funkce."
+
+msgid "Funding"
+msgstr "Financování"
 
 msgid "Future home for reusable agent configs."
 msgstr "Budoucí domov pro znovupoužitelné konfigurace agentů."
@@ -12950,6 +12965,9 @@ msgstr "Otevřít sheet"
 msgid "Open ship options"
 msgstr "Otevřít možnosti odeslání"
 
+msgid "Open source"
+msgstr "Open source"
+
 msgid "Open System Settings"
 msgstr "Otevřít Nastavení systému"
 
@@ -13957,6 +13975,9 @@ msgstr "Zachová historii commitů"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "Média"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "Zavřete stiskem <0>Esc</0>"

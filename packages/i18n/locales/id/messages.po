@@ -1178,6 +1178,9 @@ msgstr "{productName} untuk pers"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName} telah digunakan oleh satu dari delapan perusahaan Fortune 500."
 
+msgid "{productName} in the press"
+msgstr "{productName} di media"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName} digunakan oleh engineer di Netflix, Microsoft, NVIDIA, DoorDash, Wix, dan Mistral AI secara global, serta di Asia oleh ByteDance, Toss, Kakao, Grab, LINE, dan Rakuten."
 
@@ -2800,6 +2803,9 @@ msgstr "Argumen"
 msgid "Argv used to launch the agent."
 msgstr "Argv yang dipakai untuk menjalankan agen."
 
+msgid "Articles and coverage about {productName}."
+msgstr "Artikel dan liputan tentang {productName}."
+
 msgid "Artifact"
 msgstr "Artifact"
 
@@ -2808,6 +2814,9 @@ msgstr "Sesuai laporan terakhir. Host harus online untuk memperbarui."
 
 msgid "ascending"
 msgstr "menaik"
+
+msgid "Asia"
+msgstr "Asia"
 
 msgid "Ask a member to add you to this channel"
 msgstr "Minta anggota untuk menambahkan Anda ke kanal ini"
@@ -6123,6 +6132,9 @@ msgstr "Penyedia kustom"
 msgid "Custom themes"
 msgstr "Tema kustom"
 
+msgid "Customers"
+msgstr "Pelanggan"
+
 msgid "Customize"
 msgstr "Sesuaikan"
 
@@ -8544,6 +8556,9 @@ msgstr "Full self-driving"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "Sumber lengkap tersedia di GitHub dengan Elastic License 2.0 (ELv2). Periksa, audit, dan berkontribusi ke kodenya. Tanpa kotak hitam, tanpa fungsi tersembunyi."
+
+msgid "Funding"
+msgstr "Pendanaan"
 
 msgid "Future home for reusable agent configs."
 msgstr "Rumah masa depan untuk konfigurasi agen yang bisa dipakai ulang."
@@ -12950,6 +12965,9 @@ msgstr "Buka sheet"
 msgid "Open ship options"
 msgstr "Buka opsi pengiriman"
 
+msgid "Open source"
+msgstr "Sumber terbuka"
+
 msgid "Open System Settings"
 msgstr "Buka System Settings"
 
@@ -13957,6 +13975,9 @@ msgstr "Pertahankan riwayat commit"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "Pers"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "Tekan <0>Esc</0> untuk menutup"

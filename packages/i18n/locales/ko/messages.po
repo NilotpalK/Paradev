@@ -1178,6 +1178,9 @@ msgstr "언론을 위한 {productName}"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName}의 사용 기업에는 Fortune 500 기업 8곳 중 1곳이 포함됩니다."
 
+msgid "{productName} in the press"
+msgstr "언론 속 {productName}"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName}의 사용자로는 전 세계적으로 Netflix, Microsoft, NVIDIA, DoorDash, Wix, Mistral AI의 엔지니어가, 아시아에서는 ByteDance, 토스, 카카오, Grab, LINE, Rakuten의 엔지니어가 있습니다."
 
@@ -2800,6 +2803,9 @@ msgstr "인수"
 msgid "Argv used to launch the agent."
 msgstr "에이전트를 실행할 때 사용하는 argv입니다."
 
+msgid "Articles and coverage about {productName}."
+msgstr "{productName}에 관한 기사와 보도."
+
 msgid "Artifact"
 msgstr "아티팩트"
 
@@ -2808,6 +2814,9 @@ msgstr "마지막으로 보고된 값입니다. 업데이트하려면 호스트�
 
 msgid "ascending"
 msgstr "오름차순"
+
+msgid "Asia"
+msgstr "아시아"
 
 msgid "Ask a member to add you to this channel"
 msgstr "멤버에게 이 채널에 추가해 달라고 요청하세요"
@@ -6123,6 +6132,9 @@ msgstr "사용자 지정 제공사"
 msgid "Custom themes"
 msgstr "사용자 지정 테마"
 
+msgid "Customers"
+msgstr "고객"
+
 msgid "Customize"
 msgstr "사용자 지정"
 
@@ -8544,6 +8556,9 @@ msgstr "완전 자율 주행"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "전체 소스가 Elastic License 2.0(ELv2)으로 GitHub에 공개되어 있습니다. 코드를 확인하고, 감사하고, 기여하세요. 블랙박스도, 숨겨진 기능도 없습니다."
+
+msgid "Funding"
+msgstr "투자 유치"
 
 msgid "Future home for reusable agent configs."
 msgstr "재사용 가능한 에이전트 설정이 앞으로 들어올 자리입니다."
@@ -12950,6 +12965,9 @@ msgstr "시트 열기"
 msgid "Open ship options"
 msgstr "배포 옵션 열기"
 
+msgid "Open source"
+msgstr "오픈 소스"
+
 msgid "Open System Settings"
 msgstr "시스템 설정 열기"
 
@@ -13957,6 +13975,9 @@ msgstr "커밋 기록 유지"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "보도"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "닫으려면 <0>Esc</0>를 누르세요"

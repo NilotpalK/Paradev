@@ -1178,6 +1178,9 @@ msgstr "{productName} для прессы"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName} использовала каждая восьмая компания из списка Fortune 500."
 
+msgid "{productName} in the press"
+msgstr "{productName} в прессе"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName} пользуются инженеры Netflix, Microsoft, NVIDIA, DoorDash, Wix и Mistral AI по всему миру, а в Азии — ByteDance, Toss, Kakao, Grab, LINE и Rakuten."
 
@@ -2800,6 +2803,9 @@ msgstr "Аргументы"
 msgid "Argv used to launch the agent."
 msgstr "Argv для запуска агента."
 
+msgid "Articles and coverage about {productName}."
+msgstr "Статьи и публикации о {productName}."
+
 msgid "Artifact"
 msgstr "Артефакт"
 
@@ -2808,6 +2814,9 @@ msgstr "По последним данным. Для обновления хос
 
 msgid "ascending"
 msgstr "по возрастанию"
+
+msgid "Asia"
+msgstr "Азия"
 
 msgid "Ask a member to add you to this channel"
 msgstr "Попросите участника добавить вас в этот канал"
@@ -6123,6 +6132,9 @@ msgstr "Свой провайдер"
 msgid "Custom themes"
 msgstr "Свои темы"
 
+msgid "Customers"
+msgstr "Клиенты"
+
 msgid "Customize"
 msgstr "Настроить"
 
@@ -8544,6 +8556,9 @@ msgstr "Полная автономность"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "Полный исходный код доступен на GitHub под Elastic License 2.0 (ELv2). Изучайте, проверяйте и вносите вклад. Никаких чёрных ящиков и скрытой функциональности."
+
+msgid "Funding"
+msgstr "Финансирование"
 
 msgid "Future home for reusable agent configs."
 msgstr "Будущее место для переиспользуемых конфигураций агентов."
@@ -12950,6 +12965,9 @@ msgstr "Открыть панель"
 msgid "Open ship options"
 msgstr "Открыть параметры отправки"
 
+msgid "Open source"
+msgstr "Открытый код"
+
 msgid "Open System Settings"
 msgstr "Открыть Системные настройки"
 
@@ -13957,6 +13975,9 @@ msgstr "Сохранить историю коммитов"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "Пресса"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "Нажмите <0>Esc</0>, чтобы закрыть"

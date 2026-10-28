@@ -1178,6 +1178,9 @@ msgstr "{productName} pour la presse"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName} a été utilisé par une entreprise du Fortune 500 sur huit."
 
+msgid "{productName} in the press"
+msgstr "{productName} dans la presse"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName} est utilisé par des ingénieurs de Netflix, Microsoft, NVIDIA, DoorDash, Wix et Mistral AI dans le monde, et en Asie chez ByteDance, Toss, Kakao, Grab, LINE et Rakuten."
 
@@ -2800,6 +2803,9 @@ msgstr "Arguments"
 msgid "Argv used to launch the agent."
 msgstr "Argv utilisé pour lancer l'agent."
 
+msgid "Articles and coverage about {productName}."
+msgstr "Articles et couverture médiatique sur {productName}."
+
 msgid "Artifact"
 msgstr "Artifact"
 
@@ -2808,6 +2814,9 @@ msgstr "Dernière valeur signalée. L'hôte doit être en ligne pour être mis �
 
 msgid "ascending"
 msgstr "croissant"
+
+msgid "Asia"
+msgstr "Asie"
 
 msgid "Ask a member to add you to this channel"
 msgstr "Demandez à un membre de vous ajouter à ce canal"
@@ -6123,6 +6132,9 @@ msgstr "Fournisseur personnalisé"
 msgid "Custom themes"
 msgstr "Thèmes personnalisés"
 
+msgid "Customers"
+msgstr "Clients"
+
 msgid "Customize"
 msgstr "Personnaliser"
 
@@ -8544,6 +8556,9 @@ msgstr "Autonomie complète"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "Code source complet disponible sur GitHub sous Elastic License 2.0 (ELv2). Inspectez, auditez et contribuez au code. Aucune boîte noire, aucune fonctionnalité cachée."
+
+msgid "Funding"
+msgstr "Financement"
 
 msgid "Future home for reusable agent configs."
 msgstr "Futur foyer des configurations d'agents réutilisables."
@@ -12950,6 +12965,9 @@ msgstr "Ouvrir le panneau"
 msgid "Open ship options"
 msgstr "Ouvrir les options d'envoi"
 
+msgid "Open source"
+msgstr "Open source"
+
 msgid "Open System Settings"
 msgstr "Ouvrir les Réglages Système"
 
@@ -13957,6 +13975,9 @@ msgstr "Conserver l'historique des commits"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "Presse"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "Appuyez sur <0>Esc</0> pour fermer"

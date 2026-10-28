@@ -10,7 +10,16 @@ export interface PressArticle {
 	url: string;
 	/** Publication date, YYYY-MM-DD. */
 	date: string;
+	/** Shown at the top, with its preview image. Keep this to four to six articles. */
+	featured?: boolean;
 }
+
+export const PRESS_DATE_FORMAT = {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+	timeZone: "UTC",
+} as const;
 
 /** Newest first. Titles are the outlet's own, in the language it published in. */
 export const PRESS_ARTICLES: PressArticle[] = [
@@ -23,6 +32,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://thebridge.jp/2026/10/paradev-superset-yc-parallel-coding-agents-seed-funding",
 		titleLang: "ja",
 		date: "2026-10-27",
+		featured: true,
 	},
 	{
 		outlet: "Automater News",
@@ -42,6 +52,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://www.founderland.ai/articles/paradev-raises-115m-to-run-coding-agents-in-parallel-mvqwfak4",
 		titleLang: "en",
 		date: "2026-10-27",
+		featured: true,
 	},
 	{
 		outlet: "Union Square Ventures",
@@ -51,6 +62,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://www.usv.com/writing/paradev",
 		titleLang: "en",
 		date: "2026-10-26",
+		featured: true,
 	},
 	{
 		outlet: "Agentic Weekly",
@@ -61,6 +73,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://theagenticweekly.com/news/superset-renamed-paradev-desktop-2-0-seed",
 		titleLang: "en",
 		date: "2026-10-26",
+		featured: true,
 	},
 	{
 		outlet: "MakeUseOf",
@@ -71,6 +84,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://www.makeuseof.com/stopped-running-one-coding-agent-trying-weird-new-ide/",
 		titleLang: "en",
 		date: "2026-09-30",
+		featured: true,
 	},
 	{
 		outlet: "TechCrunch",
@@ -80,6 +94,7 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		url: "https://techcrunch.com/2026/06/18/the-11-standout-startups-from-ycs-demo-day-according-to-vcs/",
 		titleLang: "en",
 		date: "2026-06-18",
+		featured: true,
 	},
 	{
 		outlet: "Contentedge",

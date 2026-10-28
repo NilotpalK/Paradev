@@ -1178,6 +1178,9 @@ msgstr "{productName} dành cho báo chí"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "{productName} đã được một trong tám công ty Fortune 500 sử dụng."
 
+msgid "{productName} in the press"
+msgstr "{productName} trên báo chí"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "{productName} được các kỹ sư tại Netflix, Microsoft, NVIDIA, DoorDash, Wix và Mistral AI sử dụng trên toàn cầu, và tại châu Á là ByteDance, Toss, Kakao, Grab, LINE và Rakuten."
 
@@ -2800,6 +2803,9 @@ msgstr "Đối số"
 msgid "Argv used to launch the agent."
 msgstr "Argv dùng để khởi chạy agent."
 
+msgid "Articles and coverage about {productName}."
+msgstr "Các bài viết và tin tức về {productName}."
+
 msgid "Artifact"
 msgstr "Artifact"
 
@@ -2808,6 +2814,9 @@ msgstr "Theo báo cáo gần nhất. Máy chủ phải trực tuyến để cậ
 
 msgid "ascending"
 msgstr "tăng dần"
+
+msgid "Asia"
+msgstr "Châu Á"
 
 msgid "Ask a member to add you to this channel"
 msgstr "Hãy nhờ một thành viên thêm bạn vào kênh này"
@@ -6123,6 +6132,9 @@ msgstr "Nhà cung cấp tùy chỉnh"
 msgid "Custom themes"
 msgstr "Theme tùy chỉnh"
 
+msgid "Customers"
+msgstr "Khách hàng"
+
 msgid "Customize"
 msgstr "Tùy chỉnh"
 
@@ -8544,6 +8556,9 @@ msgstr "Tự vận hành hoàn toàn"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "Toàn bộ mã nguồn có trên GitHub theo Elastic License 2.0 (ELv2). Xem, kiểm tra và đóng góp cho mã nguồn. Không hộp đen, không chức năng ẩn."
+
+msgid "Funding"
+msgstr "Gọi vốn"
 
 msgid "Future home for reusable agent configs."
 msgstr "Nơi sẽ chứa các cấu hình agent dùng lại được."
@@ -12950,6 +12965,9 @@ msgstr "Mở sheet"
 msgid "Open ship options"
 msgstr "Mở tùy chọn gửi"
 
+msgid "Open source"
+msgstr "Mã nguồn mở"
+
 msgid "Open System Settings"
 msgstr "Mở System Settings"
 
@@ -13957,6 +13975,9 @@ msgstr "Giữ nguyên lịch sử commit"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "Báo chí"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "Nhấn <0>Esc</0> để đóng"

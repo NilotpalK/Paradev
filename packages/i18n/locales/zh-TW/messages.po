@@ -1178,6 +1178,9 @@ msgstr "給媒體的 {productName} 資訊"
 msgid "{productName} has been used by one in eight Fortune 500 companies."
 msgstr "八分之一的 Fortune 500 公司使用過 {productName}。"
 
+msgid "{productName} in the press"
+msgstr "媒體眼中的 {productName}"
+
 msgid "{productName} is used by engineers at Netflix, Microsoft, NVIDIA, DoorDash, Wix, and Mistral AI globally, and across Asia at ByteDance, Toss, Kakao, Grab, LINE, and Rakuten."
 msgstr "在全球，Netflix、Microsoft、NVIDIA、DoorDash、Wix 與 Mistral AI 的工程師都在使用 {productName}；在亞洲，ByteDance、Toss、Kakao、Grab、LINE 與 Rakuten 的工程師也在使用。"
 
@@ -2800,6 +2803,9 @@ msgstr "引數"
 msgid "Argv used to launch the agent."
 msgstr "用於啟動代理程式的argv。"
 
+msgid "Articles and coverage about {productName}."
+msgstr "關於 {productName} 的文章與報導。"
+
 msgid "Artifact"
 msgstr "Artifact"
 
@@ -2808,6 +2814,9 @@ msgstr "上次回報的版本。主機必須在線上才能更新。"
 
 msgid "ascending"
 msgstr "升序"
+
+msgid "Asia"
+msgstr "亞洲"
 
 msgid "Ask a member to add you to this channel"
 msgstr "請讓成員將你加入此頻道"
@@ -6123,6 +6132,9 @@ msgstr "自訂提供商"
 msgid "Custom themes"
 msgstr "自訂主題"
 
+msgid "Customers"
+msgstr "客戶"
+
 msgid "Customize"
 msgstr "自訂"
 
@@ -8544,6 +8556,9 @@ msgstr "完全自動駕駛"
 
 msgid "Full source available on GitHub under Elastic License 2.0 (ELv2). Inspect, audit, and contribute to the code. No black boxes, no hidden functionality."
 msgstr "完整原始碼在GitHub上以Elastic License 2.0（ELv2）提供。可查閱、審計並參與貢獻。沒有黑箱，沒有隱藏功能。"
+
+msgid "Funding"
+msgstr "融資"
 
 msgid "Future home for reusable agent configs."
 msgstr "可複用代理程式配置的未來歸處。"
@@ -12950,6 +12965,9 @@ msgstr "開啟側邊面板"
 msgid "Open ship options"
 msgstr "開啟發布選項"
 
+msgid "Open source"
+msgstr "開源"
+
 msgid "Open System Settings"
 msgstr "開啟系統設定"
 
@@ -13957,6 +13975,9 @@ msgstr "保留提交歷史"
 
 msgid "PresetsBar.tsx"
 msgstr "PresetsBar.tsx"
+
+msgid "Press"
+msgstr "媒體報導"
 
 msgid "Press <0>Esc</0> to close"
 msgstr "按<0>Esc</0>關閉"
