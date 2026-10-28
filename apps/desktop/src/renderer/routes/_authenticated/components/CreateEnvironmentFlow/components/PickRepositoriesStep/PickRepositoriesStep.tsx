@@ -22,12 +22,11 @@ import { HiCheck } from "react-icons/hi2";
 import { LuRefreshCw } from "react-icons/lu";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import { githubAppSettingsUrl } from "renderer/lib/github/githubAppSettingsUrl";
-import { RepositorySourcePicker } from "./components/RepositorySourcePicker";
 import type { GitHubInstallationOption } from "./types";
 
 interface PickRepositoriesStepProps {
 	organizationId: string;
-	installations: readonly GitHubInstallationOption[];
+	installation: GitHubInstallationOption | null;
 	accountLogin: string | null;
 	isStarting: boolean;
 	reachedLimit?: number | null;
@@ -38,13 +37,12 @@ interface PickRepositoriesStepProps {
 	onContinue: (
 		repositories: ReadonlyArray<{ id: string; name: string; fullName: string }>,
 	) => void;
-	onConnectOrg: () => void;
 	onCancel: () => void;
 }
 
 export function PickRepositoriesStep({
 	organizationId,
-	installations,
+	installation,
 	accountLogin,
 	isStarting,
 	reachedLimit = null,
@@ -52,7 +50,6 @@ export function PickRepositoriesStep({
 	onUpgrade,
 	initialSelectedIds = [],
 	onContinue,
-	onConnectOrg,
 	onCancel,
 }: PickRepositoriesStepProps) {
 	const { t } = useLingui();
@@ -68,25 +65,21 @@ export function PickRepositoriesStep({
 		},
 		onError: (error) => toast.error(errorMessage(error)),
 	});
-	const [sourceId, setSourceId] = useState<string | null>(null);
 	const [selectedIds, setSelectedIds] = useState<string[]>([
 		...initialSelectedIds,
 	]);
 
 	// Picked repositories lead, in the order picked, so the primary stays in view.
 	const shown = useMemo(() => {
-		const inSource = (repositories.data ?? []).filter(
-			(repository) =>
-				sourceId === null || repository.installationId === sourceId,
-		);
+		const all = repositories.data ?? [];
 		const picked = selectedIds
-			.map((id) => inSource.find((repository) => repository.id === id))
+			.map((id) => all.find((repository) => repository.id === id))
 			.filter((repository) => repository !== undefined);
 		return [
 			...picked,
-			...inSource.filter((repository) => !selectedIds.includes(repository.id)),
+			...all.filter((repository) => !selectedIds.includes(repository.id)),
 		];
-	}, [repositories.data, sourceId, selectedIds]);
+	}, [repositories.data, selectedIds]);
 	const selected = selectedIds
 		.map((id) => repositories.data?.find((repository) => repository.id === id))
 		.filter((repository) => repository !== undefined);
@@ -94,9 +87,6 @@ export function PickRepositoriesStep({
 		setSelectedIds((ids) =>
 			ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id],
 		);
-	const configurable =
-		installations.find((installation) => installation.id === sourceId) ??
-		installations[0];
 
 	return (
 		<>
@@ -118,17 +108,9 @@ export function PickRepositoriesStep({
 				)}
 			</DialogHeader>
 			<div className="flex flex-col gap-2 px-5 pb-5">
-				<div className="flex items-center justify-between">
-					<span className="text-xs font-medium">
-						<Trans>Repositories</Trans>
-					</span>
-					<RepositorySourcePicker
-						installations={installations}
-						onConnectOrg={onConnectOrg}
-						onSelect={setSourceId}
-						selectedId={sourceId}
-					/>
-				</div>
+				<span className="text-xs font-medium">
+					<Trans>Repositories</Trans>
+				</span>
 				<div className="overflow-hidden rounded-md border">
 					<Command>
 						<CommandInput
@@ -167,13 +149,13 @@ export function PickRepositoriesStep({
 					</Command>
 				</div>
 				<div className="flex items-center justify-between text-xs text-muted-foreground">
-					{configurable ? (
+					{installation ? (
 						<span>
 							<Trans>Missing a repository?</Trans>{" "}
 							<button
 								className="text-foreground underline underline-offset-2"
 								onClick={() =>
-									window.open(githubAppSettingsUrl(configurable), "_blank")
+									window.open(githubAppSettingsUrl(installation), "_blank")
 								}
 								type="button"
 							>

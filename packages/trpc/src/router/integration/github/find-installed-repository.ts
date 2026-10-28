@@ -1,15 +1,16 @@
 import { db } from "@superset/db/client";
-import { githubRepositories } from "@superset/db/schema";
-import { and, inArray, sql } from "drizzle-orm";
+import { githubInstallations, githubRepositories } from "@superset/db/schema";
+import { and, eq, sql } from "drizzle-orm";
 import { userError } from "../../../trpc";
-import { organizationInstallations } from "./installations";
 
 export async function findInstalledRepository(
 	organizationId: string,
 	repoFullName: string,
 ) {
-	const installations = await organizationInstallations(organizationId);
-	if (installations.length === 0)
+	const installation = await db.query.githubInstallations.findFirst({
+		where: eq(githubInstallations.organizationId, organizationId),
+	});
+	if (!installation)
 		throw userError({
 			code: "PRECONDITION_FAILED",
 			message: "GitHub installation not found",
@@ -17,18 +18,12 @@ export async function findInstalledRepository(
 		});
 	const repo = await db.query.githubRepositories.findFirst({
 		where: and(
-			inArray(
-				githubRepositories.installationId,
-				installations.map((installation) => installation.id),
-			),
+			eq(githubRepositories.installationId, installation.id),
 			sql`lower(${githubRepositories.fullName}) = ${repoFullName.toLowerCase()}`,
 		),
-		columns: { id: true, fullName: true, installationId: true },
+		columns: { id: true, fullName: true },
 	});
-	const installation = installations.find(
-		(candidate) => candidate.id === repo?.installationId,
-	);
-	if (!repo || !installation)
+	if (!repo)
 		throw userError({
 			code: "NOT_FOUND",
 			message: `${repoFullName} is not a repository the GitHub App is installed on`,

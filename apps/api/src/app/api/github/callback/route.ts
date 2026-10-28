@@ -90,9 +90,10 @@ export async function GET(request: Request) {
 				permissions: installation.permissions as Record<string, string>,
 			})
 			.onConflictDoUpdate({
-				target: [githubInstallations.installationId],
+				target: [githubInstallations.organizationId],
 				set: {
 					connectedByUserId: userId,
+					installationId: String(installation.id),
 					accountLogin,
 					accountType,
 					permissions: installation.permissions as Record<string, string>,

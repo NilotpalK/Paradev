@@ -1,5 +1,5 @@
 {
-  "id": "d4f8e5af-1136-470f-94eb-94fa9730026c",
+  "id": "fb799070-8811-450b-980b-a479c066bf7b",
   "prevId": "f8e9a924-ee02-4534-bad1-b8645afa43c2",
   "version": "7",
   "dialect": "postgresql",
@@ -3622,21 +3622,6 @@
         }
       },
       "indexes": {
-        "github_installations_organization_id_idx": {
-          "name": "github_installations_organization_id_idx",
-          "columns": [
-            {
-              "expression": "organization_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "github_installations_installation_id_idx": {
           "name": "github_installations_installation_id_idx",
           "columns": [
@@ -3690,6 +3675,13 @@
           "nullsNotDistinct": false,
           "columns": [
             "installation_id"
+          ]
+        },
+        "github_installations_org_unique": {
+          "name": "github_installations_org_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "organization_id"
           ]
         }
       },

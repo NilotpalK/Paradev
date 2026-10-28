@@ -31,7 +31,7 @@ export function CreateEnvironmentFlow({
 	const utils = cloudTrpc.useUtils();
 	// Both connections finish in the browser; coming back to the window is
 	// when they appear.
-	const installations = cloudTrpc.integration.github.listInstallations.useQuery(
+	const installation = cloudTrpc.integration.github.getInstallation.useQuery(
 		{ organizationId },
 		{ enabled: open, refetchOnWindowFocus: "always" },
 	);
@@ -54,13 +54,14 @@ export function CreateEnvironmentFlow({
 	const create = cloudTrpc.environment.create.useMutation();
 	const { createSession, isPending: isLaunching } = useCreateAgentSession();
 
-	const activeInstallations = (installations.data ?? []).filter(
-		(installation) => !installation.suspended,
-	);
-	const appInstalled = activeInstallations.length > 0;
+	const activeInstallation =
+		installation.data && !installation.data.suspended
+			? installation.data
+			: null;
+	const appInstalled = activeInstallation !== null;
 	const accountConnected = !!githubUser.data?.connection;
 	const accountAvailable = githubUser.data?.available !== false;
-	const isLoading = installations.isPending || githubUser.isPending;
+	const isLoading = installation.isPending || githubUser.isPending;
 	const needsConnecting =
 		!appInstalled || (accountAvailable && !accountConnected && !skippedAccount);
 
@@ -128,13 +129,7 @@ export function CreateEnvironmentFlow({
 					<ConnectGitHubStep
 						accountAvailable={accountAvailable}
 						accountLogin={githubUser.data?.connection?.login ?? null}
-						appAccountLogin={
-							appInstalled
-								? activeInstallations
-										.map((installation) => installation.accountLogin)
-										.join(", ")
-								: null
-						}
+						appAccountLogin={activeInstallation?.accountLogin ?? null}
 						isLoading={isLoading}
 						onCancel={() => onOpenChange(false)}
 						onContinue={() => setSkippedAccount(true)}
@@ -151,7 +146,7 @@ export function CreateEnvironmentFlow({
 					<PickRepositoriesStep
 						initialSelectedIds={pickedIds}
 						accountLogin={githubUser.data?.connection?.login ?? null}
-						installations={activeInstallations}
+						installation={activeInstallation}
 						isStarting={create.isPending || isLaunching}
 						reachedLimit={reachedLimit}
 						onManageEnvironments={() => {
@@ -163,7 +158,6 @@ export function CreateEnvironmentFlow({
 							void navigate({ to: "/settings/billing/plans" });
 						}}
 						onCancel={() => onOpenChange(false)}
-						onConnectOrg={openGitHubIntegration}
 						onContinue={(repositories) => {
 							setPickedIds(repositories.map((repository) => repository.id));
 							if (repositories.length > 1) setPicked(repositories);
