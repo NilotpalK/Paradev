@@ -171,7 +171,9 @@ export function readPullRequestThreads(
 	return firstAnswer<PullRequestThreads>(
 		[
 			reachesCloud(target) &&
-				asViewer(() => deps.cloud().getPullRequestThreads.query(cloudInput(target))),
+				asViewer(() =>
+					deps.cloud().getPullRequestThreads.query(cloudInput(target)),
+				),
 			host &&
 				projectId &&
 				(() =>
@@ -190,7 +192,9 @@ export function readPullRequestDiff(
 	return firstAnswer<PullRequestDiff>(
 		[
 			reachesCloud(target) &&
-				asViewer(() => deps.cloud().getPullRequestDiff.query(cloudInput(target))),
+				asViewer(() =>
+					deps.cloud().getPullRequestDiff.query(cloudInput(target)),
+				),
 			host &&
 				projectId &&
 				(() => deps.host(host.hostUrl).getDiff.query({ projectId, prNumber })),
