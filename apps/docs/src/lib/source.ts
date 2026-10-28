@@ -10,7 +10,7 @@ export const source = loader({
 	plugins: [lucideIconsPlugin()],
 });
 
-export function getPageImage(page: { slugs: string[] }) {
+export function getPageImage(page: InferPageType<typeof source>) {
 	const segments = [...page.slugs, "image.png"];
 
 	return {
