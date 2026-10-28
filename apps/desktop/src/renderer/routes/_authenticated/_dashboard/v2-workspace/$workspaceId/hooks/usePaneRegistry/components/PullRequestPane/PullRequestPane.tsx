@@ -79,8 +79,11 @@ export function PullRequestPane({
 		PullRequestActivityThreads | undefined
 	>(() => {
 		if (!canActOnPullRequest(target)) return undefined;
+		// The conversation comes with the pull request itself; only review threads are added here.
 		const comments = threads.data
-			? normalizeThreadsToComments(threads.data, prUrl)
+			? normalizeThreadsToComments(threads.data, prUrl).filter(
+					(comment) => comment.kind === "review",
+				)
 			: [];
 		return {
 			entries: buildReviewThreadEntries({

@@ -9,18 +9,19 @@ import {
 import { Skeleton } from "@superset/ui/skeleton";
 import { toast } from "@superset/ui/sonner";
 import { cn } from "@superset/ui/utils";
-import { workspaceTrpc } from "@superset/workspace-client";
 import { CheckCheck, LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LuCheck, LuCopy } from "react-icons/lu";
 import { VscChevronRight } from "react-icons/vsc";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
+import { useReviewThreadActions } from "renderer/routes/_authenticated/_dashboard/pull-requests/hooks/useReviewThreadActions";
+import type { PullRequestTarget } from "renderer/routes/_authenticated/_dashboard/pull-requests/utils/pullRequestClient";
 import type { CommentPaneData, DiffFocusSide } from "../../types";
 import { CommentRow } from "./components/CommentRow";
 import type { NormalizedComment } from "./types";
 
 interface CommentsSectionProps {
-	workspaceId: string;
+	pullRequest: PullRequestTarget | null;
 	comments: NormalizedComment[];
 	isLoading: boolean;
 	onOpenComment?: (comment: CommentPaneData) => void;
@@ -33,7 +34,7 @@ interface CommentsSectionProps {
 }
 
 export function CommentsSection({
-	workspaceId,
+	pullRequest,
 	comments,
 	isLoading,
 	onOpenComment,
@@ -47,9 +48,7 @@ export function CommentsSection({
 	const [isResolvingAll, setIsResolvingAll] = useState(false);
 	const copiedResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const isMountedRef = useRef(true);
-	const utils = workspaceTrpc.useUtils();
-	const setReviewThreadResolution =
-		workspaceTrpc.git.setReviewThreadResolution.useMutation();
+	const threadActions = useReviewThreadActions(pullRequest);
 
 	const copyToClipboard = useCallback(
 		(text: string) => electronTrpcClient.external.copyText.mutate(text),
@@ -144,17 +143,9 @@ export function CommentsSection({
 		try {
 			const results = await Promise.allSettled(
 				resolvableThreadIds.map((threadId) =>
-					setReviewThreadResolution.mutateAsync({
-						workspaceId,
-						threadId,
-						resolved: true,
-					}),
+					threadActions.setResolved(threadId, true),
 				),
 			);
-
-			if (results.some((result) => result.status === "fulfilled")) {
-				await utils.git.getPullRequestThreads.invalidate({ workspaceId });
-			}
 
 			const failedCount = results.filter(
 				(result) => result.status === "rejected",
@@ -173,13 +164,7 @@ export function CommentsSection({
 		} finally {
 			if (isMountedRef.current) setIsResolvingAll(false);
 		}
-	}, [
-		resolvableThreadIds,
-		setReviewThreadResolution,
-		utils.git.getPullRequestThreads,
-		workspaceId,
-		t,
-	]);
+	}, [resolvableThreadIds, threadActions, t]);
 
 	const conversationCommentsCountLabel = isLoading
 		? "..."

@@ -75,6 +75,7 @@ describe("pullRequestOnGithub", () => {
 		);
 		expect(await github.threads()).toEqual({
 			reviewThreads: [],
+			conversationComments: [],
 			fetchFailed: true,
 		});
 	});
@@ -93,4 +94,53 @@ test("GitHub's answers map to the codes clients branch on", () => {
 		"NOT_FOUND",
 	);
 	expect(githubErrorCode(new Error("boom"))).toBe("INTERNAL_SERVER_ERROR");
+});
+
+test("threads come back with the conversation, minus empty comments", async () => {
+	const github = pullRequestOnGithub(
+		{
+			graphql: async <T>() =>
+				({
+					repository: {
+						pullRequest: {
+							reviewThreads: { nodes: [] },
+							comments: {
+								nodes: [
+									{
+										databaseId: 9,
+										body: " LGTM ",
+										createdAt: "2026-10-01T00:00:00Z",
+										url: "https://github.com/acme/widgets/pull/7#issuecomment-9",
+										author: { login: "maya", avatarUrl: "a" },
+									},
+									{
+										databaseId: 10,
+										body: "  ",
+										createdAt: "x",
+										url: "y",
+										author: null,
+									},
+									null,
+								],
+							},
+						},
+					},
+				}) as T,
+			request: async () => ({ data: {} }),
+		},
+		pr,
+	);
+	expect(await github.threads()).toEqual({
+		reviewThreads: [],
+		conversationComments: [
+			{
+				id: 9,
+				user: { login: "maya", avatarUrl: "a" },
+				body: "LGTM",
+				createdAt: "2026-10-01T00:00:00Z",
+				htmlUrl: "https://github.com/acme/widgets/pull/7#issuecomment-9",
+			},
+		],
+		fetchFailed: false,
+	});
 });

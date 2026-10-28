@@ -1,7 +1,6 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Button } from "@superset/ui/button";
 import { toast } from "@superset/ui/sonner";
-import { workspaceTrpc } from "@superset/workspace-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
@@ -62,19 +61,14 @@ export function PullRequestCommentCard({
 	}
 	const collapsed = foldable && !expanded;
 	const queryClient = useQueryClient();
-	const utils = workspaceTrpc.useUtils();
 	const resolve = useMutation({
 		mutationFn: (thread: { threadId: string; resolved: boolean }) =>
 			setPullRequestThreadResolution(target, thread),
-		// Returned so the button stays pending until the refetched thread shows
-		// the new state; the workspace's diff annotations read the same threads.
+		// Returned so the button stays pending until the refetched thread shows the new state.
 		onSuccess: () =>
-			Promise.all([
-				queryClient.invalidateQueries({
-					queryKey: pullRequestThreadsQueryKey(target),
-				}),
-				utils.git.getPullRequestThreads.invalidate(),
-			]),
+			queryClient.invalidateQueries({
+				queryKey: pullRequestThreadsQueryKey(target),
+			}),
 		onError: () => {
 			toast.error(t({ message: "Couldn't update thread" }));
 		},

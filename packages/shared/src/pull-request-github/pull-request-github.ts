@@ -10,9 +10,12 @@ import {
 	type PullRequestDiff,
 } from "../pull-request-diff";
 import {
+	type ConversationQueryResult,
+	type PullRequestIssueComment,
 	type PullRequestReviewThread,
+	parseConversationComments,
 	parseReviewThreads,
-	REVIEW_THREADS_QUERY,
+	REVIEW_THREADS_AND_CONVERSATION_QUERY,
 	type ReviewThreadsQueryResult,
 } from "../pull-request-threads";
 
@@ -39,6 +42,7 @@ export type PullRequestMergeMethod = "merge" | "squash" | "rebase";
 
 export interface PullRequestThreads {
 	reviewThreads: PullRequestReviewThread[];
+	conversationComments: PullRequestIssueComment[];
 	/** True when GitHub failed the read; an empty list then means "unknown", not "none". */
 	fetchFailed: boolean;
 }
@@ -81,18 +85,26 @@ export function pullRequestOnGithub(
 
 		threads: async (): Promise<PullRequestThreads> => {
 			try {
-				const result = await client.graphql<ReviewThreadsQueryResult>(
-					REVIEW_THREADS_QUERY,
-					{ owner: pr.owner, name: pr.repo, prNumber: pr.number },
-				);
+				const result = await client.graphql<
+					ReviewThreadsQueryResult & ConversationQueryResult
+				>(REVIEW_THREADS_AND_CONVERSATION_QUERY, {
+					owner: pr.owner,
+					name: pr.repo,
+					prNumber: pr.number,
+				});
 				return {
 					reviewThreads: parseReviewThreads(result),
+					conversationComments: parseConversationComments(result),
 					fetchFailed: false,
 				};
 			} catch {
 				// Empty rather than an error, so the diff still shows when only
 				// its comments failed.
-				return { reviewThreads: [], fetchFailed: true };
+				return {
+					reviewThreads: [],
+					conversationComments: [],
+					fetchFailed: true,
+				};
 			}
 		},
 
