@@ -122,6 +122,44 @@ describe("createChatAgentBridge", () => {
 		bridge.stopped("chat-1");
 	});
 
+	it("lists pull requests seen in finished tool output on the chat's binding", () => {
+		const { bridge, terminalAgentStore, start, publish, bindingsChanged } =
+			setup();
+		start("chat-1");
+		const toolCall = (status: string, output: string) =>
+			publish("chat-1", {
+				type: "item",
+				turnId: "turn-1",
+				item: {
+					id: "tool-1",
+					kind: "tool_call",
+					title: "gh pr create",
+					toolKind: "execute",
+					toolName: "Bash",
+					status,
+					content: [
+						{ type: "content", content: { type: "text", text: output } },
+					],
+					startedAtMs: 0,
+				},
+			});
+		toolCall("running", "https://github.com/acme/web/pull/41");
+		expect(terminalAgentStore.getChat(TERMINAL)?.pullRequests).toBeUndefined();
+		const broadcasts = bindingsChanged.mock.calls.length;
+		toolCall("completed", "https://github.com/acme/web/pull/42");
+		toolCall("completed", "https://github.com/acme/web/pull/42");
+		expect(terminalAgentStore.getChat(TERMINAL)?.pullRequests).toEqual([
+			{
+				url: "https://github.com/acme/web/pull/42",
+				owner: "acme",
+				repo: "web",
+				number: 42,
+			},
+		]);
+		expect(bindingsChanged.mock.calls.length).toBe(broadcasts + 1);
+		bridge.stopped("chat-1");
+	});
+
 	it("lists the chat's background tasks on its binding", () => {
 		const { bridge, terminalAgentStore, start, publish } = setup();
 		start("chat-1");

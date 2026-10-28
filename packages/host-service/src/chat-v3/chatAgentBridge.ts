@@ -15,10 +15,15 @@ import {
 } from "@superset/shared/agent-catalog";
 import type { AgentLifecycleEventType } from "../events";
 import { chatPortTerminalIds, portManager } from "../ports/port-manager";
+import type { ChatPullRequestLink } from "../terminal-agents/types";
 import { fanOutAgentLifecycle } from "../trpc/router/notifications/fan-out-agent-lifecycle";
 import type { SessionAccount } from "../trpc/router/usage/session-account/session-account";
 import type { HostServiceContext } from "../types";
 import { ACP_HARNESSES } from "./acpCatalogue";
+import {
+	findPullRequestLinks,
+	mergePullRequestLinks,
+} from "./pullRequestLinks";
 
 const LIFECYCLE_BY_STATUS: Partial<
 	Record<SessionStatus, AgentLifecycleEventType>
@@ -41,6 +46,7 @@ type BoundChat = {
 	lastEventType?: AgentLifecycleEventType;
 	lastReply?: string;
 	backgroundTasks?: BackgroundTask[];
+	pullRequests?: ChatPullRequestLink[];
 	queuedPrompts: number;
 	pid?: number;
 	established?: true;
@@ -242,6 +248,21 @@ export function createChatAgentBridge(
 			if (event.type === "item") {
 				ctx.terminalAgentStore.noteActivity(chat.workspaceId);
 				const { kind, text, parentItemId } = event.item;
+				if (kind === "tool_call" && event.item.status !== "running") {
+					const pullRequests = mergePullRequestLinks(
+						chat.pullRequests,
+						findPullRequestLinks(
+							JSON.stringify([event.item.content, event.item.rawOutput]),
+						),
+					);
+					if (pullRequests) {
+						chat.pullRequests = pullRequests;
+						ctx.terminalAgentStore.updateChat(chat.terminalId, {
+							pullRequests,
+						});
+						bindingsChanged(chat.workspaceId);
+					}
+				}
 				if (
 					kind === "agent_message" &&
 					typeof text === "string" &&
@@ -298,6 +319,9 @@ export function createChatAgentBridge(
 				ctx.terminalAgentStore.updateChat(previousChat.terminalId, {
 					...(previousChat.backgroundTasks
 						? { backgroundTasks: previousChat.backgroundTasks }
+						: {}),
+					...(previousChat.pullRequests
+						? { pullRequests: previousChat.pullRequests }
 						: {}),
 					queuedPrompts: previousChat.queuedPrompts,
 				});
