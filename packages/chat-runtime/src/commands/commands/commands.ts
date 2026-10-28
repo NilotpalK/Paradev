@@ -1,4 +1,6 @@
 import { randomUUID } from "node:crypto";
+import { realpath } from "node:fs/promises";
+import { resolve } from "node:path";
 import {
 	deriveTimeline,
 	emptySnapshot,
@@ -713,14 +715,24 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 
 		listSessions,
 
-		discoverSessions(input) {
+		async discoverSessions(input) {
 			const parsed = discoverSessionsCommandSchema.parse(input);
-			return options.live.discoverSessions({
-				harness: parsed.harness,
-				scopeId: parsed.scopeId,
-				cwd: parsed.cwd,
-				...(parsed.cursor ? { cursor: parsed.cursor } : {}),
-			});
+			const [page, cwds] = await Promise.all([
+				options.live.discoverSessions({
+					harness: parsed.harness,
+					scopeId: parsed.scopeId,
+					cwd: parsed.cwd,
+					...(parsed.cursor ? { cursor: parsed.cursor } : {}),
+				}),
+				equivalentPaths(parsed.cwd),
+			]);
+			// Claude lists the sessions of every git worktree of the repo, and each worktree is a different workspace.
+			return {
+				...page,
+				sessions: page.sessions.filter((session) =>
+					cwds.has(resolve(session.cwd)),
+				),
+			};
 		},
 
 		getItems(input) {
@@ -774,4 +786,11 @@ export function createCommands(options: CommandsOptions): ChatCommands {
 			};
 		},
 	};
+}
+
+async function equivalentPaths(path: string): Promise<Set<string>> {
+	const paths = new Set([resolve(path)]);
+	const real = await realpath(path).catch(() => null);
+	if (real) paths.add(real);
+	return paths;
 }

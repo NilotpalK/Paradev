@@ -75,6 +75,27 @@ describe("discoverSessions", () => {
 		}
 	});
 
+	test("drops sessions from other worktrees of the same repository", async () => {
+		const { runtime } = probedRuntime({
+			supported: true,
+			sessions: [
+				{ sessionId: "here", cwd: "/work/repo" },
+				{ sessionId: "here-trailing-slash", cwd: "/work/repo/" },
+				{ sessionId: "sibling", cwd: "/work/repo-feature" },
+			],
+			nextCursor: "page-2",
+		});
+
+		const page = await runtime.commands.discoverSessions(query);
+
+		expect(page.sessions.map((session) => session.sessionId)).toEqual([
+			"here",
+			"here-trailing-slash",
+		]);
+		expect(page.nextCursor).toBe("page-2");
+		await runtime.dispose();
+	});
+
 	test("reuses a live adapter in the same scope only", async () => {
 		const { runtime, probe } = probedRuntime({ supported: true, sessions: [] });
 		runtime.commands.createSession({ commandId: randomUUID(), ...query });
