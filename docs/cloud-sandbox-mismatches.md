@@ -279,11 +279,13 @@ afterwards. The durable fix is for `getToolEnvironment()` to carry `GH_TOKEN`
 (and `GITHUB_TOKEN`) through from the host-service process when the shell did
 not provide one. Since 2026-10-23 the PR pane, the workspace PR badge, the diff
 pane's review threads, the Review tab and mobile no longer use a host's GitHub
-access at all. They act as the person looking:
-the desktop with the GitHub login on that person's own machine (the
-`viewerGithub` router in the main process), and otherwise, or on mobile,
-through the API's `integration.github.*PullRequest*` procedures with their
-Superset connection (`githubUserTokenFor`).
+access at all. Writes always act as the person looking: the desktop with the
+GitHub login on that person's own machine (the `viewerGithub` router in the
+main process), otherwise and on mobile through the API's
+`integration.github.*PullRequest*` procedures with their Superset connection
+(`githubUserTokenFor`). Reads take the same path, except that a person with
+neither may still read through the organization's GitHub App installation;
+anything the App cannot see asks them to connect GitHub.
 
 ## Runtime environment
 

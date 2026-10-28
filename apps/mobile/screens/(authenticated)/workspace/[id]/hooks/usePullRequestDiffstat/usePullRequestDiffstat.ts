@@ -29,13 +29,11 @@ export function usePullRequestDiffstat({
 		networkMode: "always" as const,
 		queryFn: async () => {
 			if (!organizationId || !pullRequest) return null;
-			const { pullRequest: pr } =
-				await apiClient.integration.github.getPullRequestDetail.query({
-					organizationId,
-					repoFullName: `${pullRequest.repoOwner}/${pullRequest.repoName}`,
-					number: pullRequest.prNumber,
-				});
-			return { additions: pr.additions, deletions: pr.deletions };
+			return apiClient.integration.github.getPullRequestDiffstat.query({
+				organizationId,
+				repoFullName: `${pullRequest.repoOwner}/${pullRequest.repoName}`,
+				number: pullRequest.prNumber,
+			});
 		},
 	});
 	return data ?? null;

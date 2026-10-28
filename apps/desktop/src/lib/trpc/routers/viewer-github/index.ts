@@ -79,7 +79,14 @@ export function createViewerGithubRouter(
 		getPullRequestThreads: publicProcedure
 			.input(pullRequestInput)
 			.query(({ input }) =>
-				onGithub(input, "Failed to read review threads", (pr) => pr.threads()),
+				onGithub(input, "Failed to read review threads", (pr) =>
+					pr.threads((error) =>
+						console.warn(
+							`[viewerGithub.getPullRequestThreads] ${input.repoFullName}#${input.number}:`,
+							error instanceof Error ? error.message : error,
+						),
+					),
+				),
 			),
 
 		getPullRequestDiff: publicProcedure

@@ -5530,6 +5530,9 @@ msgstr "새 worktree로 분기할 수 없습니다"
 msgid "Couldn't branch the conversation"
 msgstr "대화를 분기할 수 없습니다"
 
+msgid "Couldn't check"
+msgstr "확인할 수 없음"
+
 msgid "Couldn't check what removing this member affects"
 msgstr "이 멤버 제거의 영향을 확인할 수 없습니다"
 

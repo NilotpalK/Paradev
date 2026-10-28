@@ -4753,13 +4753,13 @@ msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Koppel GitHub in Integraties om {repositoryFullName} toe te voegen."
 
 msgid "Connect GitHub in Settings to act on pull requests as yourself"
-msgstr "Koppel GitHub in Instellingen om als jezelf op pull requests te handelen"
+msgstr "Koppel GitHub in Instellingen om pull requests met je eigen account te beheren"
 
 msgid "Connect GitHub to continue"
 msgstr "Koppel GitHub om verder te gaan"
 
 msgid "Connect GitHub to see review comments as yourself."
-msgstr "Koppel GitHub om reviewopmerkingen als jezelf te zien."
+msgstr "Koppel GitHub om reviewopmerkingen met je eigen account te zien."
 
 msgid "Connect GitHub…"
 msgstr "GitHub koppelen…"
@@ -4795,13 +4795,13 @@ msgid "Connect this computer"
 msgstr "Verbind deze computer"
 
 msgid "Connect to act on pull requests as yourself instead of as the workspace."
-msgstr "Koppel om als jezelf op pull requests te handelen in plaats van als de workspace."
+msgstr "Koppel om pull requests met je eigen account te beheren in plaats van via de workspace."
 
 msgid "Connect your {pluginLabel} account, then reload this page."
 msgstr "Verbind je {pluginLabel}-account en laad deze pagina daarna opnieuw."
 
 msgid "Connect your GitHub account to load this pull request as you."
-msgstr "Koppel je GitHub-account om deze pull request als jezelf te laden."
+msgstr "Koppel je GitHub-account om deze pull request met je eigen account te laden."
 
 msgid "Connect your GitHub repositories and sync pull requests. Track CI status and reviews across your team."
 msgstr "Koppel je GitHub-repository's en synchroniseer pull requests. Volg CI-status en reviews in je hele team."
@@ -5529,6 +5529,9 @@ msgstr "Kon niet afsplitsen naar een nieuwe worktree"
 
 msgid "Couldn't branch the conversation"
 msgstr "Kon het gesprek niet afsplitsen"
+
+msgid "Couldn't check"
+msgstr "Kon niet controleren"
 
 msgid "Couldn't check what removing this member affects"
 msgstr "Kon niet controleren wat het verwijderen van dit lid beïnvloedt"
@@ -18858,7 +18861,7 @@ msgid "This project's host is offline"
 msgstr "De host van dit project is offline"
 
 msgid "This pull request has no GitHub access to act through."
-msgstr "Er is geen GitHub-toegang om op deze pull request te handelen."
+msgstr "Er is geen GitHub-toegang beschikbaar om deze pull request te beheren."
 
 msgid "This pull request has no host to act through"
 msgstr "Deze pull request heeft geen host om via te handelen"

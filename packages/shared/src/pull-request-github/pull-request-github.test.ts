@@ -40,6 +40,7 @@ describe("pullRequestOnGithub", () => {
 		await github.merge({ mergeMethod: "squash" });
 		await github.setState("closed");
 		await github.setDraft(true);
+		await github.diffstat();
 		expect(calls).toEqual([
 			[
 				"POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
@@ -60,10 +61,14 @@ describe("pullRequestOnGithub", () => {
 			],
 			["node-id", { owner: "acme", name: "widgets", number: 7 }],
 			["graphql", { id: "PR_node" }],
+			[
+				"GET /repos/{owner}/{repo}/pulls/{pull_number}",
+				{ owner: "acme", repo: "widgets", pull_number: 7 },
+			],
 		]);
 	});
 
-	test("a failed threads read is reported, not mistaken for no comments", async () => {
+	test("a failed threads read is reported, not mistaken for no comments, and its cause is handed back", async () => {
 		const github = pullRequestOnGithub(
 			{
 				graphql: async () => {
@@ -73,11 +78,13 @@ describe("pullRequestOnGithub", () => {
 			},
 			pr,
 		);
-		expect(await github.threads()).toEqual({
+		const causes: unknown[] = [];
+		expect(await github.threads((error) => causes.push(error))).toEqual({
 			reviewThreads: [],
 			conversationComments: [],
 			fetchFailed: true,
 		});
+		expect(causes.map(String)).toEqual(["Error: rate limited"]);
 	});
 });
 

@@ -40,6 +40,8 @@ export function useGithubConnection() {
 		available: status.data?.available ?? null,
 		connection: status.data?.connection ?? null,
 		isLoading: status.isPending,
+		/** The status could not be read; "not connected" would be a guess. */
+		isError: status.isError,
 		connect,
 		disconnect,
 	};

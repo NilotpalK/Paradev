@@ -4753,13 +4753,13 @@ msgid "Connect GitHub in Integrations to add {repositoryFullName}."
 msgstr "Połącz GitHub w Integracjach, aby dodać {repositoryFullName}."
 
 msgid "Connect GitHub in Settings to act on pull requests as yourself"
-msgstr "Połącz GitHub w Ustawieniach, aby działać na pull requestach jako Ty"
+msgstr "Połącz GitHub w Ustawieniach, aby wykonywać działania dotyczące pull requestów z Twojego konta."
 
 msgid "Connect GitHub to continue"
 msgstr "Połącz GitHub, aby kontynuować"
 
 msgid "Connect GitHub to see review comments as yourself."
-msgstr "Połącz GitHub, aby widzieć komentarze z przeglądu jako Ty."
+msgstr "Połącz GitHub, aby widzieć komentarze z przeglądu z Twojego konta."
 
 msgid "Connect GitHub…"
 msgstr "Połącz GitHub…"
@@ -4795,13 +4795,13 @@ msgid "Connect this computer"
 msgstr "Połącz ten komputer"
 
 msgid "Connect to act on pull requests as yourself instead of as the workspace."
-msgstr "Połącz, aby działać na pull requestach jako Ty, a nie jako obszar roboczy."
+msgstr "Połącz, aby działania dotyczące pull requestów były wykonywane z Twojego konta, a nie przez obszar roboczy."
 
 msgid "Connect your {pluginLabel} account, then reload this page."
 msgstr "Połącz swoje konto {pluginLabel}, a następnie odśwież tę stronę."
 
 msgid "Connect your GitHub account to load this pull request as you."
-msgstr "Połącz swoje konto GitHub, aby wczytać ten pull request jako Ty."
+msgstr "Połącz swoje konto GitHub, aby wczytać ten pull request z Twojego konta."
 
 msgid "Connect your GitHub repositories and sync pull requests. Track CI status and reviews across your team."
 msgstr "Podłącz swoje repozytoria GitHub i synchronizuj pull requesty. Śledź status CI i przeglądy w całym zespole."
@@ -5529,6 +5529,9 @@ msgstr "Nie udało się rozgałęzić do nowego worktree"
 
 msgid "Couldn't branch the conversation"
 msgstr "Nie udało się rozgałęzić rozmowy"
+
+msgid "Couldn't check"
+msgstr "Nie udało się sprawdzić"
 
 msgid "Couldn't check what removing this member affects"
 msgstr "Nie udało się sprawdzić, na co wpłynie usunięcie tego członka"
@@ -18858,7 +18861,7 @@ msgid "This project's host is offline"
 msgstr "Host tego projektu jest offline"
 
 msgid "This pull request has no GitHub access to act through."
-msgstr "Brak dostępu do GitHuba, aby działać na tym pull requeście."
+msgstr "Brak dostępu do GitHuba, przez który można wykonać działania na tym pull requeście."
 
 msgid "This pull request has no host to act through"
 msgstr "Ten pull request nie ma hosta, przez który można działać"

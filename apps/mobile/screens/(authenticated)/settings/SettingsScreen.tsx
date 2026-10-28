@@ -286,12 +286,16 @@ export function SettingsScreen() {
 								value={
 									github.isLoading
 										? ""
-										: (github.connection?.login ??
-											t({ message: "Not connected" }))
+										: github.isError
+											? t({ message: "Couldn't check" })
+											: (github.connection?.login ??
+												t({ message: "Not connected" }))
 								}
 							/>
 						}
-						onPress={github.isLoading ? undefined : handleGithub}
+						onPress={
+							github.isLoading || github.isError ? undefined : handleGithub
+						}
 						isLast
 					/>
 				</SettingsSection>

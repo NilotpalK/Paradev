@@ -2,8 +2,12 @@ import type { PullRequestDetailRead } from "@superset/shared/pull-request-detail
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure } from "../../../trpc";
-import { githubRequestError } from "./github-request-error";
-import { asViewer } from "./viewer-octokit";
+import { githubRequestError, hiddenFromApp } from "./github-request-error";
+import {
+	asViewer,
+	notConnectedError,
+	type ViewerPullRequest,
+} from "./viewer-octokit";
 
 const pullRequestInput = z.object({
 	organizationId: z.string().uuid(),
@@ -24,6 +28,20 @@ async function onGithub<T>(
 	}
 }
 
+async function readAs<T>(
+	pr: ViewerPullRequest,
+	fallback: string,
+	run: () => Promise<T>,
+): Promise<T> {
+	try {
+		return await run();
+	} catch (error) {
+		throw hiddenFromApp(pr.actsAsViewer, error)
+			? notConnectedError()
+			: githubRequestError(error, fallback);
+	}
+}
+
 /**
  * A pull request by its own identity, read and written as the person asking.
  * The work is `@superset/shared/pull-request-github`, which the desktop also
@@ -35,16 +53,33 @@ export const pullRequestProcedures = {
 		.input(pullRequestInput.extend({ activity: z.boolean().optional() }))
 		.query(async ({ ctx, input }): Promise<PullRequestDetailRead> => {
 			const pr = await asViewer(ctx.session.user.id, input, "read");
-			return onGithub(`Failed to read pull request #${pr.number}`, () =>
+			return readAs(pr, `Failed to read pull request #${pr.number}`, () =>
 				pr.detail({ activity: input.activity }),
 			);
 		}),
 
 	getPullRequestThreads: protectedProcedure
 		.input(pullRequestInput)
-		.query(async ({ ctx, input }) =>
-			(await asViewer(ctx.session.user.id, input, "read")).threads(),
-		),
+		.query(async ({ ctx, input }) => {
+			const pr = await asViewer(ctx.session.user.id, input, "read");
+			return pr.threads((error) => {
+				if (hiddenFromApp(pr.actsAsViewer, error)) throw notConnectedError();
+				console.warn(
+					`[github.getPullRequestThreads] ${input.repoFullName}#${input.number}:`,
+					error instanceof Error ? error.message : error,
+				);
+			});
+		}),
+
+	/** Additions and deletions alone, for a row in a list. */
+	getPullRequestDiffstat: protectedProcedure
+		.input(pullRequestInput)
+		.query(async ({ ctx, input }) => {
+			const pr = await asViewer(ctx.session.user.id, input, "read");
+			return readAs(pr, `Failed to read pull request #${pr.number}`, () =>
+				pr.diffstat(),
+			);
+		}),
 
 	addPullRequestComment: protectedProcedure
 		.input(pullRequestInput.extend({ body }))
