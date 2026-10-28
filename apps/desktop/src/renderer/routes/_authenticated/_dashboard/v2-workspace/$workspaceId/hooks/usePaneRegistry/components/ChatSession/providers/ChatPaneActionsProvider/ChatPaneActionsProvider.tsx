@@ -2,7 +2,7 @@ import { createContext, type ReactNode, useContext, useMemo } from "react";
 import type { LinkAction, ModifierEvent } from "renderer/lib/clickPolicy";
 import type { OpenFile } from "../../../../../../types";
 
-export type OpenAppLink = (url: string, event: ModifierEvent) => void;
+export type OpenPage = (url: string, event: ModifierEvent) => void;
 
 /** `action` overrides the click policy, as a context menu entry does. */
 export type OpenLink = (
@@ -15,8 +15,8 @@ export type ChatPaneActions = {
 	/** Absent where the chat has no workspace to open files into. */
 	openFile?: OpenFile | undefined;
 	workspaceId?: string | undefined;
-	/** Absent where the chat has no workspace to open pages and environments into. */
-	openAppLink?: OpenAppLink | undefined;
+	/** Absent where the chat has no workspace to open pages into. */
+	openPage?: OpenPage | undefined;
 	openLink?: OpenLink | undefined;
 	/** Absent where messages can't be edited, such as while the chat resumes. */
 	editMessage?: ((itemId: string, text: string) => void) | undefined;
@@ -34,7 +34,7 @@ export function ChatPaneActionsProvider({
 	children,
 	openFile,
 	workspaceId,
-	openAppLink,
+	openPage,
 	openLink,
 	editMessage,
 	editableMessageIds,
@@ -43,7 +43,7 @@ export function ChatPaneActionsProvider({
 		() => ({
 			openFile,
 			workspaceId,
-			openAppLink,
+			openPage,
 			openLink,
 			editMessage,
 			editableMessageIds,
@@ -51,7 +51,7 @@ export function ChatPaneActionsProvider({
 		[
 			openFile,
 			workspaceId,
-			openAppLink,
+			openPage,
 			openLink,
 			editMessage,
 			editableMessageIds,

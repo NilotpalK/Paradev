@@ -466,39 +466,6 @@ export const serverErrorMessages: Record<
 				message: "Could not record environment",
 			}),
 		),
-	"serverError.environment.environmentNotFound": () =>
-		i18n._(
-			msg({
-				message: "Environment not found",
-			}),
-		),
-	"serverError.environment.personalNotCreator": () =>
-		i18n._(
-			msg({
-				message:
-					"Only the person who created this environment can make it personal",
-			}),
-		),
-	"serverError.environment.workspaceNotReady": () =>
-		i18n._(
-			msg({
-				message: "Only a ready workspace can become an environment",
-			}),
-		),
-	"serverError.environment.organizationMismatch": () =>
-		i18n._(
-			msg({
-				message:
-					"The workspace and the environment are in different organizations",
-			}),
-		),
-	"serverError.environment.changedDuringPromote": () =>
-		i18n._(
-			msg({
-				message:
-					"The environment changed while this workspace was being saved; run it again",
-			}),
-		),
 	"serverError.task.notFound": () =>
 		i18n._(
 			msg({

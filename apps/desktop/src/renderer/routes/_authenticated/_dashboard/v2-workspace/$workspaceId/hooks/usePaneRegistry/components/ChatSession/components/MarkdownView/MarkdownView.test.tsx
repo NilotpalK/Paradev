@@ -55,7 +55,7 @@ test("find skips page cards while matching settled and streaming Markdown blocks
 	const message = (text: string) => (
 		<cloudTrpc.Provider client={client} queryClient={queryClient}>
 			<RouterContextProvider router={router}>
-				<ChatPaneActionsProvider openAppLink={() => {}}>
+				<ChatPaneActionsProvider openPage={() => {}}>
 					<MarkdownView findItemId="message-1" pageCards text={text} />
 				</ChatPaneActionsProvider>
 			</RouterContextProvider>

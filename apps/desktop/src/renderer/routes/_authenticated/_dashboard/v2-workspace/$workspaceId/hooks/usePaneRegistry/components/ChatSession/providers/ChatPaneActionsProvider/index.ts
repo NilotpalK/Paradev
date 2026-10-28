@@ -1,6 +1,6 @@
 export {
 	ChatPaneActionsProvider,
-	type OpenAppLink,
 	type OpenLink,
+	type OpenPage,
 	useChatPaneActions,
 } from "./ChatPaneActionsProvider";

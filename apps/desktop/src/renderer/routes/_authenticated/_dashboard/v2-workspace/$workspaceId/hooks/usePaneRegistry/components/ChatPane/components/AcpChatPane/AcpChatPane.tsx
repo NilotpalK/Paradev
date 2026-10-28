@@ -22,8 +22,8 @@ import { saveLastChatAgent } from "../../../../../../utils/lastChatAgent";
 import { SessionView } from "../../../ChatSession/components/SessionView";
 import { useSessionClient } from "../../../ChatSession/hooks/useSessionClient";
 import type {
-	OpenAppLink,
 	OpenLink,
+	OpenPage,
 } from "../../../ChatSession/providers/ChatPaneActionsProvider";
 import type {
 	ChatEditRequest,
@@ -68,7 +68,7 @@ export function AcpChatPane({
 	onPendingPromptsSent,
 	onQueuePrompt,
 	onOpenFile,
-	onOpenAppLink,
+	onOpenPage,
 	onOpenLink,
 	onOpenHistory,
 	onNewChat,
@@ -103,7 +103,7 @@ export function AcpChatPane({
 	onModeChange?: (modeId: string) => void;
 	onSessionInfo: (info: { harnessSessionId?: string; title?: string }) => void;
 	onOpenFile?: OpenFile;
-	onOpenAppLink?: OpenAppLink;
+	onOpenPage?: OpenPage;
 	onOpenLink?: OpenLink;
 	/** Opens the pane header's chat history picker, as `/resume` does. */
 	onOpenHistory?: () => void;
@@ -715,7 +715,7 @@ export function AcpChatPane({
 			onStartNewChat={harness ? startNewChat : undefined}
 			onUserPrompt={agent ? () => saveLastChatAgent(agent.id) : undefined}
 			openFile={onOpenFile}
-			openAppLink={onOpenAppLink}
+			openPage={onOpenPage}
 			openLink={onOpenLink}
 			onOpenHistory={onOpenHistory}
 			onNewChat={newChat}

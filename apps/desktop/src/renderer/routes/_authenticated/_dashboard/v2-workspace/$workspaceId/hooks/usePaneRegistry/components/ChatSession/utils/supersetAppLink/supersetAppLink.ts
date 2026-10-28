@@ -3,7 +3,6 @@ import { parseSupersetPageUrl } from "renderer/lib/parseSupersetPageUrl";
 
 export type SupersetAppLink =
 	| { kind: "page"; slug: string }
-	| { kind: "environment"; environmentId: string }
 	| { kind: "task"; taskId: string }
 	| { kind: "automation"; automationId: string }
 	| { kind: "plugin"; pluginName: string }
@@ -11,10 +10,6 @@ export type SupersetAppLink =
 	| { kind: "chat"; workspaceId: string; sessionId: string };
 
 const ROUTES: [RegExp, (id: string) => SupersetAppLink][] = [
-	[
-		/^\/environments\/([^/]+)\/?$/,
-		(environmentId) => ({ kind: "environment", environmentId }),
-	],
 	[/^\/tasks\/([^/]+)\/?$/, (taskId) => ({ kind: "task", taskId })],
 	[
 		/^\/automations\/([^/]+)\/?$/,

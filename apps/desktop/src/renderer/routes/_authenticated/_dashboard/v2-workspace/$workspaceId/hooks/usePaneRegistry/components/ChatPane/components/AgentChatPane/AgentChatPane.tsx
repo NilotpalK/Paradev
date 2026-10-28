@@ -5,8 +5,8 @@ import { apiTrpcClient } from "renderer/lib/api-trpc-client";
 import type { OpenFile } from "../../../../../../types";
 import { SessionView } from "../../../ChatSession/components/SessionView";
 import type {
-	OpenAppLink,
 	OpenLink,
+	OpenPage,
 } from "../../../ChatSession/providers/ChatPaneActionsProvider";
 
 /** A Paradev agent's session on this workspace, in the same chat view as any other chat. */
@@ -18,7 +18,7 @@ export function AgentChatPane({
 	pendingPrompts,
 	onPendingPromptsSent,
 	onOpenFile,
-	onOpenAppLink,
+	onOpenPage,
 	onOpenLink,
 	onOpenHistory,
 }: {
@@ -29,7 +29,7 @@ export function AgentChatPane({
 	pendingPrompts: UserContent[][];
 	onPendingPromptsSent: () => void;
 	onOpenFile?: OpenFile;
-	onOpenAppLink?: OpenAppLink;
+	onOpenPage?: OpenPage;
 	onOpenLink?: OpenLink;
 	onOpenHistory?: () => void;
 }) {
@@ -62,7 +62,7 @@ export function AgentChatPane({
 			onPendingPromptsSent={onPendingPromptsSent}
 			agentLabel={agentName}
 			openFile={onOpenFile}
-			openAppLink={onOpenAppLink}
+			openPage={onOpenPage}
 			openLink={onOpenLink}
 			onOpenHistory={onOpenHistory}
 		/>

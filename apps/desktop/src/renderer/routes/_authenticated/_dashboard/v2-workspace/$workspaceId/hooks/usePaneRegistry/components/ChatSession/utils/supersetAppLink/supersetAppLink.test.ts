@@ -22,10 +22,6 @@ describe("parseSupersetAppLink", () => {
 			"https://app.superset.sh/workspaces/w1?tab=chat",
 			{ kind: "workspace", workspaceId: "w1" },
 		],
-		[
-			"https://app.superset.sh/environments/e1",
-			{ kind: "environment", environmentId: "e1" },
-		],
 	])("%s", (href, expected) => {
 		expect(parseSupersetAppLink(href, WEB)).toEqual(expected as never);
 	});

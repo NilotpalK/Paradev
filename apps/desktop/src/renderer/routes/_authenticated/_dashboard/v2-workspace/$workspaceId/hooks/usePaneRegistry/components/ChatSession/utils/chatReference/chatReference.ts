@@ -1,12 +1,12 @@
 import type { ComposerChip } from "@superset/chat-ui/PromptInput";
 import { BRAND } from "@superset/shared/brand";
 import { getPluginIconUrl } from "renderer/components/PluginIcon";
+import { linkOfChip } from "../linkChip";
 import {
 	chatReferenceUrl,
 	isPlainId,
 	parseSupersetAppLink,
-} from "renderer/lib/supersetAppLink";
-import { linkOfChip } from "../linkChip";
+} from "../supersetAppLink";
 
 const MAX_LABEL_LENGTH = 48;
 const MAX_AGENT_TITLE_LENGTH = 80;

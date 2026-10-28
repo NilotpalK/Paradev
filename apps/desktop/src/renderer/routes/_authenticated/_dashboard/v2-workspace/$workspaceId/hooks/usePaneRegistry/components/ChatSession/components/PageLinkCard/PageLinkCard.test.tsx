@@ -16,8 +16,7 @@ const { cloudTrpc } = await import("renderer/lib/cloud-trpc");
 const { ChatPaneActionsProvider } = await import(
 	"../../providers/ChatPaneActionsProvider"
 );
-type OpenAppLink =
-	import("../../providers/ChatPaneActionsProvider").OpenAppLink;
+type OpenPage = import("../../providers/ChatPaneActionsProvider").OpenPage;
 const { PageLinkCard } = await import("./PageLinkCard");
 
 afterEach(cleanup);
@@ -39,7 +38,7 @@ const readable = {
 
 function renderLink(
 	answer: () => unknown,
-	actions: { openAppLink?: OpenAppLink } = { openAppLink: () => {} },
+	actions: { openPage?: OpenPage } = { openPage: () => {} },
 ) {
 	const asked: string[] = [];
 	const link: TRPCLink<AppRouter> = () => (call) =>
@@ -60,7 +59,7 @@ function renderLink(
 			client={cloudTrpc.createClient({ links: [link] })}
 			queryClient={queryClient}
 		>
-			<ChatPaneActionsProvider openAppLink={actions.openAppLink}>
+			<ChatPaneActionsProvider openPage={actions.openPage}>
 				<PageLinkCard slug="quarterly-report-a3f9k" url={PAGE_URL} />
 			</ChatPaneActionsProvider>
 		</cloudTrpc.Provider>,
@@ -75,8 +74,8 @@ function renderLink(
 
 describe("PageLinkCard", () => {
 	test("shows the card for a page the reader can open, and opens it on click", async () => {
-		const openAppLink = mock<OpenAppLink>(() => {});
-		const { asked, view } = renderLink(() => readable, { openAppLink });
+		const openPage = mock<OpenPage>(() => {});
+		const { asked, view } = renderLink(() => readable, { openPage });
 		expect(view.container.innerHTML).toBe("");
 
 		const card = await view.findByRole("button");
@@ -84,9 +83,9 @@ describe("PageLinkCard", () => {
 		expect(asked).toEqual(["page.preview"]);
 
 		fireEvent.click(card, { metaKey: true });
-		expect(openAppLink).toHaveBeenCalledTimes(1);
-		expect(openAppLink.mock.calls[0]?.[0]).toBe(PAGE_URL);
-		expect(openAppLink.mock.calls[0]?.[1]).toHaveProperty("metaKey", true);
+		expect(openPage).toHaveBeenCalledTimes(1);
+		expect(openPage.mock.calls[0]?.[0]).toBe(PAGE_URL);
+		expect(openPage.mock.calls[0]?.[1]).toHaveProperty("metaKey", true);
 	});
 
 	test.each([

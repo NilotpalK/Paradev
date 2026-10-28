@@ -1,6 +1,6 @@
-import { parseSupersetAppLink } from "renderer/lib/supersetAppLink";
 import { parseGithubWorkItemUrl } from "../githubWorkItem";
 import { stripLocation } from "../pathText";
+import { parseSupersetAppLink } from "../supersetAppLink";
 
 export type LinkUnfurl = {
 	icon: { kind: "plugin"; name: string } | { kind: "file"; fileName: string };

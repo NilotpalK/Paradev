@@ -4,16 +4,16 @@ import { tierFor, useUrlLinkAction } from "renderer/lib/clickPolicy";
 import { useRightPaneLinkTarget } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/providers/RightPaneLinkTargetProvider";
 import type { PaneViewerData } from "renderer/routes/_authenticated/_dashboard/v2-workspace/$workspaceId/types";
 import { runUrlLinkAction } from "../../../../utils/runTerminalLinkAction";
-import type { OpenAppLink } from "../../../ChatSession/providers/ChatPaneActionsProvider";
+import type { OpenPage } from "../../../ChatSession/providers/ChatPaneActionsProvider";
 
 /**
- * A click on a Superset page or environment link in the chat. Modifiers follow the page link click
- * policy; an unbound plain click opens it in a pane, because a card that
+ * A click on a page card in the chat. Modifiers follow the page link click
+ * policy; an unbound plain click opens the page in a pane, because a card that
  * ignores a plain click reads as broken. An unbound modifier tier does nothing.
  */
-export function useOpenChatAppLink(
+export function useOpenChatPage(
 	store: RendererContext<PaneViewerData>["store"],
-): OpenAppLink {
+): OpenPage {
 	const getUrlAction = useUrlLinkAction("2-tier");
 	const rightPane = useRightPaneLinkTarget();
 	return useCallback(
