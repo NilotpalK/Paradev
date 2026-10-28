@@ -25,6 +25,16 @@ export const PRESS_ARTICLES: PressArticle[] = [
 		date: "2026-10-27",
 	},
 	{
+		outlet: "Automater News",
+		icon: "/media/press/automater.png",
+		image: "/media/press/previews/automater.jpg",
+		title:
+			"Superset Rebrands to Paradev, Raises $11.5M to Scale Parallel Coding-Agent Fleets",
+		url: "https://automater.ai/news/paradev-superset-rebrand-11-5m-seed-parallel-coding-agents/",
+		titleLang: "en",
+		date: "2026-10-27",
+	},
+	{
 		outlet: "Founderland",
 		icon: "/media/press/founderland.png",
 		image: "/media/press/previews/founderland.jpg",
