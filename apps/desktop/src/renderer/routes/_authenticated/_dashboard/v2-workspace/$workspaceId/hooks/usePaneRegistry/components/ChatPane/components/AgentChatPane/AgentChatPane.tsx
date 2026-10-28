@@ -5,8 +5,8 @@ import { apiTrpcClient } from "renderer/lib/api-trpc-client";
 import type { OpenFile } from "../../../../../../types";
 import { SessionView } from "../../../ChatSession/components/SessionView";
 import type {
-	OpenLink,
 	OpenAppLink,
+	OpenLink,
 } from "../../../ChatSession/providers/ChatPaneActionsProvider";
 
 /** A Paradev agent's session on this workspace, in the same chat view as any other chat. */
