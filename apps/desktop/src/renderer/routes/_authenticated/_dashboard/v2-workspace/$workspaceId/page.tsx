@@ -29,6 +29,7 @@ import { useWorkspace } from "../providers/WorkspaceProvider";
 import { AddTabMenu } from "./components/AddTabMenu";
 import { ChangesControl } from "./components/ChangesControl";
 import { CloudWorkspaceTabBarControls } from "./components/CloudWorkspaceTabBarControls";
+import { HostConnectionPill } from "./components/HostConnectionPill";
 import { RightPaneArea, type RightPaneKind } from "./components/RightPaneArea";
 import { MIN_RIGHT_PANE_AREA_WIDTH } from "./components/RightPaneArea/constants";
 import { V2NotificationStatusIndicator } from "./components/V2NotificationStatusIndicator";
@@ -653,7 +654,10 @@ function V2WorkspaceContent() {
 						keepMounted={isRightPaneAreaEnabled}
 						side={
 							isRightPaneAreaEnabled ? (
-								rightPaneArea
+								<>
+									{rightPaneArea}
+									{rightPaneMode === "expanded" && <HostConnectionPill />}
+								</>
 							) : (
 								<WorkspaceSidebar
 									workspaceId={workspaceId}
@@ -671,10 +675,11 @@ function V2WorkspaceContent() {
 						}
 					>
 						<div
-							className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
+							className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
 							data-workspace-id={workspaceId}
 							data-pane-area="center"
 						>
+							{rightPaneMode !== "expanded" && <HostConnectionPill />}
 							{
 								<Workspace<PaneViewerData>
 									key={workspaceId}
