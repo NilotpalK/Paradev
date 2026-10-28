@@ -19,14 +19,22 @@ import { createPortal } from "react-dom";
 import { env } from "renderer/env.renderer";
 import { useWorkspaceEvent } from "renderer/hooks/host-service/useWorkspaceEvent";
 import { useDebouncedValue } from "renderer/hooks/useDebouncedValue";
-import { usePagePolicy } from "renderer/lib/clickPolicy";
+import {
+	usePagePolicy,
+	usePullRequestLinkPolicy,
+} from "renderer/lib/clickPolicy";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
+import {
+	type OpenPullRequestPane,
+	openPullRequestLink,
+} from "renderer/lib/github/openPullRequestLink";
 import { clearTerminalBackgroundMarker } from "renderer/lib/terminal/terminal-background-intents";
 import { electronTrpcClient } from "renderer/lib/trpc-client";
 import { usePageFavorites } from "renderer/routes/_authenticated/_dashboard/hooks/usePageFavorites";
 import { usePagesList } from "renderer/routes/_authenticated/_dashboard/hooks/usePagesList";
 import { pagesListInput } from "renderer/routes/_authenticated/_dashboard/utils/pagesListInput";
 import { useWorkspace } from "renderer/routes/_authenticated/_dashboard/v2-workspace/providers/WorkspaceProvider";
+import { PRIcon, type PRState } from "renderer/screens/main/components/PRIcon";
 import type { StoreApi } from "zustand/vanilla";
 import type { CreateNewAgentSession } from "../../hooks/useAgentSessionLauncher";
 import { usePRFlowState } from "../../hooks/usePRFlowState";
@@ -42,6 +50,7 @@ import {
 	parseAttachedTerminalIdsKey,
 } from "../../utils/backgroundTerminals";
 import { changesPillStats } from "../../utils/changesPillStats";
+import { computeChecksRollup } from "../../utils/computeChecksStatus";
 import { focusOrAddTerminalPane } from "../../utils/focusTerminalPane";
 import { getShipMenuActions } from "../../utils/getShipMenuActions";
 import { openPagePaneInStore } from "../../utils/openPagePaneInStore";
@@ -49,6 +58,7 @@ import { ChangesStats } from "../ChangesStats";
 import { CommitForm } from "../CommitForm";
 import { CreatePrForm } from "../CreatePrForm";
 import { NewPageComposer } from "../NewPageComposer";
+import { PRStatusIndicators } from "../PRStatusIndicators";
 import {
 	ActivityMenuHeader,
 	type ShipView,
@@ -59,9 +69,15 @@ import { ChangesMenuRow } from "./components/ChangesMenuRow";
 import { FinishedSubagentRow } from "./components/FinishedSubagentRow";
 import { MenuGroup } from "./components/MenuGroup";
 import { PagesMenuRow } from "./components/PagesMenuRow";
+import {
+	type PullRequestEntry,
+	PullRequestRow,
+} from "./components/PullRequestRow";
 import { PANEL_MAX_HEIGHT_PX } from "./constants";
 import { useAgentWork } from "./hooks/useAgentWork";
 import { useAgentWorkActions } from "./hooks/useAgentWorkActions";
+import { useChatPullRequests } from "./hooks/useChatPullRequests";
+import { useWorkspacePullRequests } from "./hooks/useWorkspacePullRequests";
 import { useActivityPanelStore } from "./stores/activityPanelStore";
 import {
 	usePagesMenuSeenAt,
@@ -72,6 +88,7 @@ import {
 	type BackgroundWork,
 	collectBackgroundWork,
 } from "./utils/collectBackgroundWork";
+import { pullRequestKey } from "./utils/collectChatPullRequests";
 import { paneSourceTitle } from "./utils/paneSourceTitle";
 import { type MenuPage, selectMenuPages } from "./utils/selectMenuPages";
 
@@ -86,6 +103,7 @@ interface WorkspaceActivityMenuProps {
 	onOpenPage: (page: PagePaneData, placement: "split" | "tab") => void;
 	onCreateNewAgentSession: CreateNewAgentSession;
 	onFocusAgentTerminal: (terminalId: string) => void;
+	onOpenPullRequest: OpenPullRequestPane;
 	changes?: { isOpen: boolean; onToggle: () => void };
 }
 
@@ -97,6 +115,7 @@ export function WorkspaceActivityMenu({
 	onOpenPage,
 	onCreateNewAgentSession,
 	onFocusAgentTerminal,
+	onOpenPullRequest,
 	changes,
 }: WorkspaceActivityMenuProps) {
 	const { t } = useLingui();
@@ -108,7 +127,9 @@ export function WorkspaceActivityMenu({
 		[gitStatus.data],
 	);
 	const triggerChangesStats =
-		changes && changesStats && changesStats.fileCount > 0 ? changesStats : null;
+		paneAreaStyle && changesStats && changesStats.fileCount > 0
+			? changesStats
+			: null;
 	const { workspace: currentWorkspace } = useWorkspace();
 	const [shipView, setShipView] = useState<ShipView | null>(null);
 	const panelPinned = useActivityPanelStore(
@@ -125,8 +146,23 @@ export function WorkspaceActivityMenu({
 		sync: branchSync,
 		onRetry: refreshFlowState,
 	} = usePRFlowState(workspaceId, {
-		enabled: paneAreaStyle && open,
+		enabled: paneAreaStyle,
 	});
+	const currentPr =
+		flowState.kind === "pr-exists" ||
+		flowState.kind === "busy" ||
+		flowState.kind === "error"
+			? flowState.pr
+			: null;
+	const currentPrState: PRState | null = currentPr
+		? currentPr.isDraft
+			? "draft"
+			: currentPr.state
+		: null;
+	const currentPrChecks = useMemo(
+		() => (currentPr ? computeChecksRollup(currentPr.checks) : null),
+		[currentPr],
+	);
 	const shipActions = useShipActions({
 		workspaceId,
 		onRefresh: refreshFlowState,
@@ -213,6 +249,37 @@ export function WorkspaceActivityMenu({
 		[detachedTerminals],
 	);
 	const agentWork = useAgentWork(workspaceId);
+	const linkedPullRequests = useWorkspacePullRequests(workspaceId, {
+		enabled: open,
+	});
+	const knownPullRequests = useMemo(
+		() => new Set(linkedPullRequests.map(pullRequestKey)),
+		[linkedPullRequests],
+	);
+	const chatPullRequests = useChatPullRequests(workspaceId, {
+		enabled: open,
+		known: knownPullRequests,
+	});
+	const pullRequests = [...linkedPullRequests, ...chatPullRequests];
+	const pullRequestLinkPolicy = usePullRequestLinkPolicy();
+	const pullRequestRow = (
+		pullRequest: PullRequestEntry & { terminalId?: string },
+	) => (
+		<PullRequestRow
+			key={pullRequestKey(pullRequest)}
+			pullRequest={pullRequest}
+			source={
+				pullRequest.terminalId ? sourceOf(pullRequest.terminalId) : undefined
+			}
+			onOpen={(target, event) =>
+				openPullRequestLink(
+					target.url,
+					pullRequestLinkPolicy.getAction(event),
+					onOpenPullRequest,
+				)
+			}
+		/>
+	);
 	const paneStores = useMemo(
 		() => [store, ...linkedStores],
 		[store, linkedStores],
@@ -429,14 +496,27 @@ export function WorkspaceActivityMenu({
 								<span className="tabular-nums">{workspace.length}</span>
 							)
 						)}
-						{triggerChangesStats && (
+						{changes && currentPr && currentPrState ? (
 							<>
 								<span className="h-3.5 w-px shrink-0 bg-border" />
-								<GitCompareArrows className="size-3.5 shrink-0" />
-								<span className="flex items-center gap-1">
-									<ChangesStats stats={triggerChangesStats} />
-								</span>
+								<PRIcon state={currentPrState} className="size-3.5 shrink-0" />
+								<span className="tabular-nums">#{currentPr.number}</span>
+								{currentPrChecks &&
+									(currentPrState === "open" ||
+										currentPrState === "queued") && (
+										<PRStatusIndicators checks={currentPrChecks} />
+									)}
 							</>
+						) : (
+							triggerChangesStats && (
+								<>
+									<span className="h-3.5 w-px shrink-0 bg-border" />
+									<GitCompareArrows className="size-3.5 shrink-0" />
+									<span className="flex items-center gap-1">
+										<ChangesStats stats={triggerChangesStats} />
+									</span>
+								</>
+							)
 						)}
 						{hasNew && (
 							<>
@@ -534,7 +614,7 @@ export function WorkspaceActivityMenu({
 							</>
 						) : (
 							<div className="divide-y divide-border">
-								{changes && (
+								{changes && !currentPr && (
 									<section className="py-1">
 										<ActivityMenuHeader
 											title={currentWorkspace.name}
@@ -561,11 +641,17 @@ export function WorkspaceActivityMenu({
 										<ChangesMenuRow
 											stats={changesStats}
 											isOpen={changes.isOpen}
-											onToggle={() => {
-												changes.onToggle();
-											}}
+											onToggle={changes.onToggle}
 										/>
 									</section>
+								)}
+								{pullRequests.length > 0 && (
+									<MenuGroup
+										title={<Trans>Pull requests</Trans>}
+										count={pullRequests.length}
+									>
+										<div>{pullRequests.map(pullRequestRow)}</div>
+									</MenuGroup>
 								)}
 								<MenuGroup
 									title={<Trans>Subagents</Trans>}

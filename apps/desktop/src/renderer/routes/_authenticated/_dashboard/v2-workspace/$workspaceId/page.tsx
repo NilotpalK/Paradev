@@ -585,10 +585,6 @@ function V2WorkspaceContent() {
 	const renderWorkspaceToolbar = (isRightPaneOpen: boolean) => (
 		<WorkspaceToolbar
 			run={workspaceRun}
-			showChanges={isLayoutReady}
-			isChangesOpen={isChangesOpen}
-			onToggleChanges={toggleChanges}
-			onOpenPullRequest={openPullRequestPane}
 			isRightPaneOpen={isRightPaneOpen}
 			onToggleRightPane={toggleRightSidebar}
 			showWindowControls={!isMac}
@@ -604,6 +600,7 @@ function V2WorkspaceContent() {
 			onOpenPage={openPagePane}
 			onCreateNewAgentSession={createNewAgentSession}
 			onFocusAgentTerminal={focusAgentTerminal}
+			onOpenPullRequest={openPullRequestPane}
 			changes={
 				isRightPaneAreaEnabled
 					? { isOpen: isChangesOpen, onToggle: toggleChanges }
