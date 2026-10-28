@@ -4758,6 +4758,9 @@ msgstr "Hubungkan GitHub di Pengaturan untuk bertindak pada pull request atas na
 msgid "Connect GitHub to continue"
 msgstr "Hubungkan GitHub untuk melanjutkan"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Hubungkan GitHub untuk melihat komentar review atas nama Anda sendiri."
+
 msgid "Connect GitHub…"
 msgstr "Hubungkan GitHub…"
 

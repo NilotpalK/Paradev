@@ -4758,6 +4758,9 @@ msgstr "Collega GitHub nelle Impostazioni per agire sulle pull request a tuo nom
 msgid "Connect GitHub to continue"
 msgstr "Collega GitHub per continuare"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Collega GitHub per vedere i commenti di revisione a tuo nome."
+
 msgid "Connect GitHub…"
 msgstr "Collega GitHub…"
 

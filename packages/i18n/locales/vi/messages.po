@@ -4758,6 +4758,9 @@ msgstr "Kết nối GitHub trong Cài đặt để thao tác với pull request 
 msgid "Connect GitHub to continue"
 msgstr "Kết nối GitHub để tiếp tục"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Kết nối GitHub để xem bình luận review dưới tên của bạn."
+
 msgid "Connect GitHub…"
 msgstr "Kết nối GitHub…"
 

@@ -33,6 +33,22 @@ export function useReviewThreadActions(target: PullRequestTarget | null) {
 				});
 				await refresh();
 			},
+			/** Resolves every thread, then reads the list once rather than once per thread. */
+			resolveAll: async (threadIds: readonly string[]) => {
+				const pullRequest = requireTarget();
+				const results = await Promise.allSettled(
+					threadIds.map((threadId) =>
+						setPullRequestThreadResolution(pullRequest, {
+							threadId,
+							resolved: true,
+						}),
+					),
+				);
+				if (results.some((result) => result.status === "fulfilled")) {
+					await refresh();
+				}
+				return results;
+			},
 		};
 	}, [target, queryClient]);
 }

@@ -4758,6 +4758,9 @@ msgstr "Připojte GitHub v Nastavení, abyste s pull requesty pracovali sami za 
 msgid "Connect GitHub to continue"
 msgstr "Pro pokračování připojte GitHub"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Připojte GitHub, abyste viděli komentáře z revize pod svým jménem."
+
 msgid "Connect GitHub…"
 msgstr "Připojit GitHub…"
 

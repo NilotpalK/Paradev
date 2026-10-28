@@ -4758,6 +4758,9 @@ msgstr "Pull request'lerde kendi adınıza işlem yapmak için Ayarlar'dan GitHu
 msgid "Connect GitHub to continue"
 msgstr "Devam etmek için GitHub'ı bağlayın"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "İnceleme yorumlarını kendi adınıza görmek için GitHub'ı bağlayın."
+
 msgid "Connect GitHub…"
 msgstr "GitHub'ı bağla…"
 

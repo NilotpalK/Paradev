@@ -4758,6 +4758,9 @@ msgstr "Conecte o GitHub em Configurações para agir nos pull requests como voc
 msgid "Connect GitHub to continue"
 msgstr "Conecte o GitHub para continuar"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Conecte o GitHub para ver os comentários de revisão como você mesmo."
+
 msgid "Connect GitHub…"
 msgstr "Conectar GitHub…"
 

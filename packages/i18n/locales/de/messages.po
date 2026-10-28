@@ -4758,6 +4758,9 @@ msgstr "Verbinde GitHub in den Einstellungen, um Pull Requests als du selbst zu 
 msgid "Connect GitHub to continue"
 msgstr "Verbinde GitHub, um fortzufahren"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Verbinde GitHub, um Review-Kommentare als du selbst zu sehen."
+
 msgid "Connect GitHub…"
 msgstr "GitHub verbinden…"
 

@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { LuMessageSquare } from "react-icons/lu";
 import type { OpenPullRequestPane } from "renderer/lib/github/openPullRequestLink";
 import { usePullRequestThreads } from "renderer/routes/_authenticated/_dashboard/pull-requests/hooks/usePullRequestThreads";
+import { needsGithubConnection } from "renderer/routes/_authenticated/_dashboard/pull-requests/utils/pullRequestClient";
 import { useLinkedPullRequest } from "../../../../hooks/useLinkedPullRequest";
 import type { CommentPaneData, DiffFocusSide } from "../../../../types";
 import {
@@ -73,6 +74,13 @@ export function useReviewTab({
 		<ReviewTabContent
 			workspaceId={workspaceId}
 			pullRequest={target}
+			commentsUnavailable={
+				needsGithubConnection(threadsQuery.error)
+					? "needs-github"
+					: threadsQuery.isError || threadsQuery.data?.fetchFailed
+						? "failed"
+						: null
+			}
 			pr={pr}
 			comments={comments}
 			isLoading={prQuery.isLoading}

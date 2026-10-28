@@ -4758,6 +4758,9 @@ msgstr "在設定中連接 GitHub，以你自己的身分處理拉取請求"
 msgid "Connect GitHub to continue"
 msgstr "連接 GitHub 以繼續"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "連接 GitHub，以你自己的身分查看審查留言。"
+
 msgid "Connect GitHub…"
 msgstr "連結 GitHub…"
 

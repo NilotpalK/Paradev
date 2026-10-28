@@ -3,7 +3,10 @@ import { memo } from "react";
 import type { OpenPullRequestPane } from "renderer/lib/github/openPullRequestLink";
 import type { PullRequestTarget } from "renderer/routes/_authenticated/_dashboard/pull-requests/utils/pullRequestClient";
 import type { CommentPaneData, DiffFocusSide } from "../../../../../../types";
-import { CommentsSection } from "../../../../../CommentsSection";
+import {
+	CommentsSection,
+	type CommentsUnavailable,
+} from "../../../../../CommentsSection";
 import type { NormalizedComment, NormalizedPR } from "../../types";
 import { ChecksSection } from "../ChecksSection";
 import { PRHeader } from "../PRHeader";
@@ -11,6 +14,7 @@ import { PRHeader } from "../PRHeader";
 interface ReviewTabContentProps {
 	workspaceId: string;
 	pullRequest: PullRequestTarget | null;
+	commentsUnavailable: CommentsUnavailable;
 	pr: NormalizedPR | null;
 	comments: NormalizedComment[];
 	isLoading: boolean;
@@ -29,6 +33,7 @@ interface ReviewTabContentProps {
 export const ReviewTabContent = memo(function ReviewTabContent({
 	workspaceId,
 	pullRequest,
+	commentsUnavailable,
 	pr,
 	comments,
 	isLoading,
@@ -81,6 +86,7 @@ export const ReviewTabContent = memo(function ReviewTabContent({
 
 			<CommentsSection
 				pullRequest={pullRequest}
+				unavailable={commentsUnavailable}
 				comments={comments}
 				isLoading={isCommentsLoading}
 				onOpenComment={onOpenComment}

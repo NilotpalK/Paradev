@@ -4758,6 +4758,9 @@ msgstr "Подключите GitHub в настройках, чтобы рабо
 msgid "Connect GitHub to continue"
 msgstr "Подключите GitHub, чтобы продолжить"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Подключите GitHub, чтобы видеть комментарии ревью от своего имени."
+
 msgid "Connect GitHub…"
 msgstr "Подключить GitHub…"
 

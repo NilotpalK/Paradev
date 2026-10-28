@@ -4758,6 +4758,9 @@ msgstr "Koppel GitHub in Instellingen om als jezelf op pull requests te handelen
 msgid "Connect GitHub to continue"
 msgstr "Koppel GitHub om verder te gaan"
 
+msgid "Connect GitHub to see review comments as yourself."
+msgstr "Koppel GitHub om reviewopmerkingen als jezelf te zien."
+
 msgid "Connect GitHub…"
 msgstr "GitHub koppelen…"
 
