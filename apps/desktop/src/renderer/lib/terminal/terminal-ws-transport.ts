@@ -474,10 +474,8 @@ function forceReconnect(transport: TerminalTransport) {
 	if (transport._terminated) return;
 	const socket = transport._socket;
 	if (!socket) return;
-	// Failures counted while suspended may be artifacts, so the budget starts
-	// fresh — unless the outage was already surfaced in a visible window. That
-	// outage keeps its diagnosis and telemetry latch: a window focus must not
-	// hide the cause for another full budget or report the outage again.
+	// Failures counted while suspended may be artifacts; an outage already
+	// surfaced in a visible window keeps its diagnosis and telemetry latch.
 	if (!transport._diagnosisLogged) {
 		transport.lastDiagnosis = null;
 		resetAttachRetryState(transport._attachRetry);
