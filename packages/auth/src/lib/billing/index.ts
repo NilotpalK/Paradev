@@ -4,7 +4,6 @@ export {
 	ensureAutumnCustomer,
 	organizationForStripeCustomer,
 	paidAutumnPlanId,
-	setAutumnSeats,
 } from "./autumn/customer";
 export {
 	ACTIVE_CPU_MINUTES_FEATURE_ID,
@@ -24,6 +23,7 @@ export {
 	syncOrganizationSubscription,
 } from "./autumn/projection";
 export { autumnBillingRoutes } from "./autumn/routes";
+export { setAutumnSeats } from "./autumn/seats";
 export { seatItem } from "./autumn/subscription-row";
 export { withAutumnBilling } from "./legacy/stripe-routes-shim";
 export { autumnBillingDeps } from "./legacy/stripe-routes-shim-deps";

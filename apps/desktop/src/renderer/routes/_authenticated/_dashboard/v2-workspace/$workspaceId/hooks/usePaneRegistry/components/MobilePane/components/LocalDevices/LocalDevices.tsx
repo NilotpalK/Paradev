@@ -99,6 +99,7 @@ export function LocalDevices({ workspaceId }: LocalDevicesProps) {
 				key={`${deviceKey(selected)}:${selected.id}`}
 				hubUrl={hubUrl}
 				hubToken={hubToken}
+				workspaceId={workspaceId}
 				device={selected}
 				picker={picker}
 			/>

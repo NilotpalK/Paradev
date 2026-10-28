@@ -4,7 +4,6 @@ import { useActiveOrganizationId } from "renderer/hooks/useActiveOrganizationId"
 import { useCloudWorkspaces } from "renderer/hooks/useCloudWorkspaces";
 import { useStableList } from "renderer/hooks/useStableList";
 import { authClient } from "renderer/lib/auth-client";
-import { useNewDashboardSidebarEnabled } from "renderer/routes/_authenticated/_dashboard/components/DashboardSidebar/hooks/useNewDashboardSidebarEnabled";
 import {
 	EMPTY_CLOUD_SIDEBAR,
 	useCloudSidebarStore,
@@ -74,10 +73,6 @@ export function TagFolderWorkspacesProvider({
 	} = useHostWorkspaces();
 	const { workspaces: cloudWorkspaces, isLoading: cloudWorkspacesLoading } =
 		useCloudWorkspaces();
-	// Only the cloud rows the sidebar files inline carry tags into folders: a
-	// row taken out of the sidebar, or every row while the inline sidebar is
-	// off, must not leave an empty folder behind.
-	const inlineCloudWorkspaces = useNewDashboardSidebarEnabled();
 	const organizationId = useActiveOrganizationId();
 	const { data: session } = authClient.useSession();
 	const userId = session?.user?.id ?? null;
@@ -86,14 +81,14 @@ export function TagFolderWorkspacesProvider({
 			? (state.byOrganization[organizationId] ?? EMPTY_CLOUD_SIDEBAR).entries
 			: EMPTY_CLOUD_SIDEBAR.entries,
 	);
+	// Only the cloud rows in the sidebar carry tags into folders: a row taken
+	// out of the sidebar must not leave an empty folder behind.
 	const shownCloudWorkspaces = useMemo(
 		() =>
-			inlineCloudWorkspaces
-				? (cloudWorkspaces ?? []).filter((row) =>
-						isInCloudSidebar(row, cloudSidebarEntries[row.id], userId),
-					)
-				: [],
-		[inlineCloudWorkspaces, cloudWorkspaces, cloudSidebarEntries, userId],
+			(cloudWorkspaces ?? []).filter((row) =>
+				isInCloudSidebar(row, cloudSidebarEntries[row.id], userId),
+			),
+		[cloudWorkspaces, cloudSidebarEntries, userId],
 	);
 	// A cloud row's project is the one its placement row filed it under.
 	const { data: placements = [], isReady: placementsReady } = useLiveQuery(

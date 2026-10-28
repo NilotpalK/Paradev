@@ -19,7 +19,7 @@ export function MobilePane({ workspaceId }: MobilePaneProps) {
 	if (backend === "eas") {
 		return (
 			<div className="size-full bg-background">
-				<CloudSimulator />
+				<CloudSimulator workspaceId={workspaceId} />
 			</div>
 		);
 	}

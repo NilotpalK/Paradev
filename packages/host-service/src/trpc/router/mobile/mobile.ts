@@ -156,10 +156,12 @@ function startLocalServer(): LocalServer {
 		const port = await getFreePort();
 		abort.signal.throwIfAborted();
 		const androidSdk = findAndroidSdk();
+		const cli = await deviceHubCli(hubStateDir());
+		abort.signal.throwIfAborted();
 		const spawned = spawn(
 			process.execPath,
 			[
-				deviceHubCli(),
+				cli,
 				"--port",
 				String(port),
 				// Without it any local process, or a page in a browser pane, can

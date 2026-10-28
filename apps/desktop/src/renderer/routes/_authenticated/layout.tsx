@@ -26,10 +26,12 @@ import { electronTrpc } from "renderer/lib/electron-trpc";
 import { terminalRuntimeRegistry } from "renderer/lib/terminal/terminal-runtime-registry";
 import { showWorkspaceAutoNameWarningToast } from "renderer/lib/workspaces/showWorkspaceAutoNameWarningToast";
 import { InitGitDialog } from "renderer/react-query/projects/InitGitDialog";
+import { ChannelsRealtime } from "renderer/routes/_authenticated/components/ChannelsRealtime";
 import { DaemonAutoUpdateFailureDialog } from "renderer/routes/_authenticated/components/DaemonAutoUpdateFailureDialog";
 import { DiffThemeSync } from "renderer/routes/_authenticated/components/DiffThemeSync";
 import { LeaderboardAutoPublish } from "renderer/routes/_authenticated/components/LeaderboardAutoPublish";
 import { PendingDeletionScreen } from "renderer/routes/_authenticated/components/PendingDeletionScreen";
+import { PostHogPlanFlags } from "renderer/routes/_authenticated/components/PostHogPlanFlags";
 import { RealtimeNudges } from "renderer/routes/_authenticated/components/RealtimeNudges";
 import { StarNagObserver } from "renderer/routes/_authenticated/components/StarNagObserver";
 import {
@@ -231,7 +233,7 @@ function AuthenticatedLayout() {
 								Still restoring your session
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Superset can't confirm your sign-in with the server.
+								Paradev can't confirm your sign-in with the server.
 							</p>
 						</div>
 						<div className="flex gap-2">
@@ -307,6 +309,7 @@ function AuthenticatedLayout() {
 		<DndProvider manager={dragDropManager}>
 			<CollectionsProvider>
 				<WindowTitle />
+				<PostHogPlanFlags />
 				<GlobalBrowserLifecycle />
 				<GlobalPaneLayoutRequests />
 				<FileAutoSave />
@@ -331,6 +334,7 @@ function AuthenticatedLayout() {
 									<StarNagObserver />
 									<LeaderboardAutoPublish />
 									<RealtimeNudges />
+									<ChannelsRealtime />
 									<DaemonAutoUpdateFailureDialog />
 									<Outlet />
 									<V1ImportModal />

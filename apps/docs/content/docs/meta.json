@@ -21,6 +21,7 @@
 		"orchestration",
 		"---Core Features---",
 		"workspaces",
+		"cloud-workspaces",
 		"multiple-windows",
 		"diff-viewer",
 		"editor",

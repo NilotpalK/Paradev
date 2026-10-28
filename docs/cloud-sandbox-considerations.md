@@ -39,6 +39,8 @@ in the Upstash console and watched by a Sentry cron monitor) finalizes each
 running box's memory GB-minutes and takes the next lock; a box whose next lock
 is refused is stopped. Stopping, archiving or deleting a box settles the rest.
 Environment builds are not billed. Prices and limits live in Autumn, not here.
+Each paid seat adds its plan's GB-minutes to one team pool through Autumn
+seat licenses; see [Seats and cloud hours in Autumn](autumn-seat-licenses.md).
 Still owed: our own idle stop (boxes run until Vercel's session timeout, and
 every minute is billed), per-member billing for Teams, and confirming Autumn's
 lock behaviour (retried and expired finalize) in its sandbox.
@@ -76,7 +78,8 @@ environment's. Fixed (2026-09-25).** A sandbox's Anthropic or OpenAI credential
 comes from the creator's sign-in (Settings › Agents, per user,
 `agent_credentials`), brokered at the firewall by a rule that fires only on the
 placeholder the agent presents. An environment variable by one of those names
-(`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `CLAUDE_CODE_OAUTH_TOKEN`) is ignored:
+(`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `CLAUDE_CODE_OAUTH_TOKEN`,
+`CODEX_ACCESS_TOKEN`, `CODEX_API_KEY`) is ignored:
 it never reaches the box, so nothing that runs there, a launched agent, a
 hand-typed `claude`, a headless `claude -p`, `codex`, the app itself, can bill
 it; the environment sheet and `secrets set` say so. Measured on Claude Code
@@ -233,8 +236,8 @@ older than a few minutes and tears down any sandbox they name, plus the same
 teardown on the paths that can't currently reach it. One row from that incident
 had to be cleared by hand.
 
-**The Superset CLI is offered but not installed. Open.** A cloud workspace's
-agent row includes "Superset CLI" alongside Claude, Codex and Copilot, and
+**The Paradev CLI is offered but not installed. Open.** A cloud workspace's
+agent row includes "Paradev CLI" alongside Claude, Codex and Copilot, and
 picking it fails with command-not-found: the image installs the agent CLIs but
 not ours. It also matters beyond the picker — the CLI is how an agent spawns
 workspaces and other agents, so a sandbox without it can't orchestrate. Install

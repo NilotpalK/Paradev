@@ -1,6 +1,5 @@
 import type { DeviceClient } from "@expo/hub-client";
 import { useLingui } from "@lingui/react/macro";
-import { toast } from "@superset/ui/sonner";
 import {
 	TbArrowBackUp,
 	TbCamera,
@@ -9,36 +8,22 @@ import {
 	TbRotateClockwise2,
 	TbSquare,
 } from "react-icons/tb";
-import { useCopyImageToClipboard } from "renderer/routes/_authenticated/hooks/useCopyImageToClipboard";
 import { DeviceControlButton } from "../../../DeviceControlButton";
 import { FloatingBar } from "../../../FloatingBar";
 
 interface DeviceControlsProps {
 	client: DeviceClient;
 	onRotate: () => void;
+	onScreenshot: () => void;
 }
 
-export function DeviceControls({ client, onRotate }: DeviceControlsProps) {
+export function DeviceControls({
+	client,
+	onRotate,
+	onScreenshot,
+}: DeviceControlsProps) {
 	const { t } = useLingui();
 	const disconnected = client.status !== "streaming";
-	const copyImage = useCopyImageToClipboard();
-
-	const copyScreenshot = async () => {
-		const capture = await client.screenshot().catch(() => null);
-		if (!capture) {
-			toast.error(t({ message: "Couldn't take a screenshot" }));
-			return;
-		}
-		const url = URL.createObjectURL(capture.blob);
-		try {
-			await copyImage(url);
-			toast.success(t({ message: "Screenshot copied" }));
-		} catch {
-			toast.error(t({ message: "Couldn't copy the screenshot" }));
-		} finally {
-			URL.revokeObjectURL(url);
-		}
-	};
 	const isAndroid = client.platform === "android";
 
 	return (
@@ -82,10 +67,10 @@ export function DeviceControls({ client, onRotate }: DeviceControlsProps) {
 				</DeviceControlButton>
 			)}
 			<DeviceControlButton
-				label={t({ message: "Copy screenshot" })}
+				label={t({ message: "Take screenshot" })}
 				side="top"
 				disabled={disconnected}
-				onClick={() => void copyScreenshot()}
+				onClick={onScreenshot}
 			>
 				<TbCamera className="size-4" />
 			</DeviceControlButton>

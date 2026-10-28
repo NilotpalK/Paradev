@@ -83,8 +83,8 @@ export async function loadVisibleWorkspace(
 		where: eq(cloudWorkspaces.id, id),
 	});
 	if (!row) throw notFound();
-	await assertCloudAccess(ctx);
 	assertMember(ctx.organizationIds, row.organizationId);
+	await assertCloudAccess(ctx, row.organizationId);
 	if (!(await canOpenWorkspace(row, ctx.userId))) throw notFound();
 	return row;
 }
