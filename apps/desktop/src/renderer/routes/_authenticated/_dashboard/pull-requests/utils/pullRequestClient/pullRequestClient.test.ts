@@ -122,22 +122,26 @@ describe("reads", () => {
 		expect(cloud.getPullRequestDetail.query).not.toHaveBeenCalled();
 	});
 
-	test("a quiet cloud miss is dropped from the error; two real failures are both reported", async () => {
+	test("a quiet cloud miss is dropped from the error when the host fails too", async () => {
 		cloud.getPullRequestDetail.query.mockRejectedValueOnce(cannotAct);
 		host.getContent.query.mockRejectedValueOnce(new Error("gh offline"));
 		host.getContentByRepo.query.mockRejectedValueOnce(new Error("gh offline"));
 		await expect(readPullRequestContent(target, deps)).rejects.toThrow(
 			"gh offline",
 		);
+	});
 
-		cloud.getPullRequestDetail.query.mockRejectedValueOnce(
-			new Error("Access denied"),
-		);
-		host.getContent.query.mockRejectedValueOnce(new Error("gh offline"));
-		host.getContentByRepo.query.mockRejectedValueOnce(new Error("gh offline"));
-		const error = await readPullRequestContent(target, deps).catch((e) => e);
-		expect(error).toBeInstanceOf(AggregateError);
-		expect(error.message).toBe("Access denied\ngh offline\ngh offline");
+	test("GitHub refusing the viewer is final: the host's gh is not asked to read it", async () => {
+		const forbidden = Object.assign(new Error("Resource not accessible"), {
+			data: { code: "FORBIDDEN" },
+		});
+		cloud.getPullRequestDetail.query.mockRejectedValueOnce(forbidden);
+		cloud.getPullRequestThreads.query.mockRejectedValueOnce(forbidden);
+		cloud.getPullRequestDiff.query.mockRejectedValueOnce(forbidden);
+		await expect(readPullRequestContent(target, deps)).rejects.toBe(forbidden);
+		await expect(readPullRequestThreads(target, deps)).rejects.toBe(forbidden);
+		await expect(readPullRequestDiff(target, deps)).rejects.toBe(forbidden);
+		expect(hostFor).not.toHaveBeenCalled();
 	});
 
 	test("nothing to read from is an error, not empty content", async () => {

@@ -94,6 +94,21 @@ function cloudInput(target: PullRequestTarget) {
 
 type Attempt<T> = (() => Promise<T>) | null | false | undefined | "";
 
+class Refused {
+	constructor(readonly error: unknown) {}
+}
+
+/** GitHub's answer to the viewer is final; only an API that could not act at all lets the host try. */
+function asViewer<T>(read: () => Promise<T>): () => Promise<T> {
+	return async () => {
+		try {
+			return await read();
+		} catch (error) {
+			throw cloudCannotAct(error) ? error : new Refused(error);
+		}
+	};
+}
+
 async function firstAnswer<T>(
 	attempts: Attempt<T>[],
 	none: string,
@@ -104,6 +119,7 @@ async function firstAnswer<T>(
 		try {
 			return await attempt();
 		} catch (error) {
+			if (error instanceof Refused) throw error.error;
 			errors.push(error);
 		}
 	}
@@ -120,7 +136,7 @@ export function readPullRequestContent(
 	return firstAnswer<PullRequestDetail>(
 		[
 			reachesCloud(target) &&
-				(() => {
+				asViewer(() => {
 					const input = cloudInput(target);
 					return deps
 						.cloud()
@@ -155,7 +171,7 @@ export function readPullRequestThreads(
 	return firstAnswer<PullRequestThreads>(
 		[
 			reachesCloud(target) &&
-				(() => deps.cloud().getPullRequestThreads.query(cloudInput(target))),
+				asViewer(() => deps.cloud().getPullRequestThreads.query(cloudInput(target))),
 			host &&
 				projectId &&
 				(() =>
@@ -174,7 +190,7 @@ export function readPullRequestDiff(
 	return firstAnswer<PullRequestDiff>(
 		[
 			reachesCloud(target) &&
-				(() => deps.cloud().getPullRequestDiff.query(cloudInput(target))),
+				asViewer(() => deps.cloud().getPullRequestDiff.query(cloudInput(target))),
 			host &&
 				projectId &&
 				(() => deps.host(host.hostUrl).getDiff.query({ projectId, prNumber })),
