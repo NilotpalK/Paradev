@@ -1,6 +1,10 @@
 import type { MouseEvent } from "react";
 import { PRIcon, type PRState } from "renderer/screens/main/components/PRIcon";
 import { PRStatusIndicators } from "../../../PRStatusIndicators";
+import {
+	pullRequestDisplayState,
+	showsChecks,
+} from "../../utils/pullRequestDisplayState";
 
 export type PullRequestEntry = {
 	repoOwner: string;
@@ -21,11 +25,7 @@ export function PullRequestRow({
 	pullRequest: PullRequestEntry;
 	onOpen: (pullRequest: PullRequestEntry, event: MouseEvent) => void;
 }) {
-	const state =
-		pullRequest.state === "open" && pullRequest.isDraft
-			? "draft"
-			: pullRequest.state;
-	const live = state === "open" || state === "draft" || state === "queued";
+	const state = pullRequestDisplayState(pullRequest);
 	return (
 		<button
 			type="button"
@@ -47,7 +47,7 @@ export function PullRequestRow({
 					{pullRequest.headBranch}
 				</span>
 			</span>
-			{live && (
+			{showsChecks(state) && (
 				<PRStatusIndicators checks={{ overall: pullRequest.checksStatus }} />
 			)}
 		</button>

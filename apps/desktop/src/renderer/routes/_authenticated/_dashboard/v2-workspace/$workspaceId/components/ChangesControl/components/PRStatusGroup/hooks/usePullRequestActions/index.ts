@@ -1,4 +1,1 @@
-export {
-	type MergeMethod,
-	usePullRequestActions,
-} from "./usePullRequestActions";
+export { usePullRequestActions } from "./usePullRequestActions";

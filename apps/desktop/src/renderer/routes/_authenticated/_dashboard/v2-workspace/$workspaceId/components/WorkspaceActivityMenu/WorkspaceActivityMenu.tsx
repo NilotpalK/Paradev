@@ -34,7 +34,7 @@ import { usePageFavorites } from "renderer/routes/_authenticated/_dashboard/hook
 import { usePagesList } from "renderer/routes/_authenticated/_dashboard/hooks/usePagesList";
 import { pagesListInput } from "renderer/routes/_authenticated/_dashboard/utils/pagesListInput";
 import { useWorkspace } from "renderer/routes/_authenticated/_dashboard/v2-workspace/providers/WorkspaceProvider";
-import { PRIcon, type PRState } from "renderer/screens/main/components/PRIcon";
+import { PRIcon } from "renderer/screens/main/components/PRIcon";
 import type { StoreApi } from "zustand/vanilla";
 import type { CreateNewAgentSession } from "../../hooks/useAgentSessionLauncher";
 import { usePRFlowState } from "../../hooks/usePRFlowState";
@@ -88,6 +88,10 @@ import {
 	collectBackgroundWork,
 } from "./utils/collectBackgroundWork";
 import { paneSourceTitle } from "./utils/paneSourceTitle";
+import {
+	pullRequestDisplayState,
+	showsChecks,
+} from "./utils/pullRequestDisplayState";
 import { type MenuPage, selectMenuPages } from "./utils/selectMenuPages";
 
 const MENU_PAGE_LIMIT = 200;
@@ -152,11 +156,7 @@ export function WorkspaceActivityMenu({
 		flowState.kind === "error"
 			? flowState.pr
 			: null;
-	const currentPrState: PRState | null = currentPr
-		? currentPr.isDraft
-			? "draft"
-			: currentPr.state
-		: null;
+	const currentPrState = currentPr ? pullRequestDisplayState(currentPr) : null;
 	const currentPrChecks = useMemo(
 		() => (currentPr ? computeChecksRollup(currentPr.checks) : null),
 		[currentPr],
@@ -247,9 +247,33 @@ export function WorkspaceActivityMenu({
 		[detachedTerminals],
 	);
 	const agentWork = useAgentWork(workspaceId);
-	const pullRequests = useWorkspacePullRequests(workspaceId, {
+	const linkedPullRequests = useWorkspacePullRequests(workspaceId, {
 		enabled: open,
 	});
+	const pullRequests: PullRequestEntry[] =
+		changes &&
+		currentPr &&
+		!linkedPullRequests.some(
+			(pullRequest) =>
+				pullRequest.number === currentPr.number &&
+				pullRequest.repoOwner === currentPr.repoOwner &&
+				pullRequest.repoName === currentPr.repoName,
+		)
+			? [
+					{
+						repoOwner: currentPr.repoOwner,
+						repoName: currentPr.repoName,
+						number: currentPr.number,
+						url: currentPr.url,
+						title: currentPr.title,
+						state: currentPr.state,
+						isDraft: currentPr.isDraft,
+						headBranch: currentPr.headRefName,
+						checksStatus: currentPrChecks?.overall ?? "none",
+					},
+					...linkedPullRequests,
+				]
+			: linkedPullRequests;
 	const pullRequestLinkPolicy = usePullRequestLinkPolicy();
 	const pullRequestRow = (pullRequest: PullRequestEntry) => (
 		<PullRequestRow
@@ -454,7 +478,13 @@ export function WorkspaceActivityMenu({
 					<button
 						type="button"
 						onClick={togglePanel}
-						aria-label={t({ message: "Workspace activity" })}
+						aria-label={
+							changes && currentPr
+								? t({
+										message: `Workspace activity, pull request #${currentPr.number}`,
+									})
+								: t({ message: "Workspace activity" })
+						}
 						aria-pressed={panelPinned}
 						aria-controls={
 							open ? `workspace-activity-${workspaceId}` : undefined
@@ -485,11 +515,9 @@ export function WorkspaceActivityMenu({
 								<span className="h-3.5 w-px shrink-0 bg-border" />
 								<PRIcon state={currentPrState} className="size-3.5 shrink-0" />
 								<span className="tabular-nums">#{currentPr.number}</span>
-								{currentPrChecks &&
-									(currentPrState === "open" ||
-										currentPrState === "queued") && (
-										<PRStatusIndicators checks={currentPrChecks} />
-									)}
+								{currentPrChecks && showsChecks(currentPrState) && (
+									<PRStatusIndicators checks={currentPrChecks} />
+								)}
 							</>
 						) : (
 							triggerChangesStats && (

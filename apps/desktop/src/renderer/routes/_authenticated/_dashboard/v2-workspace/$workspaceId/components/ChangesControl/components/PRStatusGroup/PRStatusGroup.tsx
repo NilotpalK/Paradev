@@ -44,15 +44,14 @@ interface PRStatusGroupProps {
 	workspaceId: string;
 	onRefresh?: () => void;
 	/** Whether a Changes pane is in view — the face reads as pressed. */
-	isChangesOpen?: boolean;
+	isChangesOpen: boolean;
 	/** Accessible name for the face's toggle ("Open changes" / "Close changes"). */
-	toggleLabel?: string;
+	toggleLabel: string;
 	/**
 	 * Toggles the Changes pane — the badge's main click, since it replaced
-	 * the diff-stat pill as the control's face once a PR exists. Without it
-	 * the badge opens the pull request.
+	 * the diff-stat pill as the control's face once a PR exists.
 	 */
-	onToggleChanges?: () => void;
+	onToggleChanges: () => void;
 	/** Opens the PR's summary pane in the workspace (the menu's "Open pull request"). */
 	onOpenPullRequest: OpenPullRequestPane;
 }
@@ -62,9 +61,7 @@ interface PRStatusGroupProps {
  * with a dropdown for committing and pushing work the PR doesn't have yet,
  * merge actions (open, non-draft PRs), marking a draft ready for review, the
  * PR summary pane, and a GitHub link.
- * Clicking the badge toggles the Changes pane when `onToggleChanges` is
- * given, and opens the PR pane otherwise; session workspaces open GitHub,
- * since the PR content query is project-scoped. Hovering surfaces a rich detail popover (title,
+ * Clicking the badge toggles the Changes pane. Hovering surfaces a rich detail popover (title,
  * branch, CI summary, last activity).
  *
  * Indicators are suppressed past `open`/`queued` since post-merge CI/review
@@ -74,7 +71,7 @@ export function PRStatusGroup({
 	state,
 	workspaceId,
 	onRefresh,
-	isChangesOpen = false,
+	isChangesOpen,
 	toggleLabel,
 	onToggleChanges,
 	onOpenPullRequest,
@@ -92,7 +89,6 @@ export function PRStatusGroup({
 
 	const prActions = usePullRequestActions({ workspaceId, onRefresh });
 
-	const opensPullRequest = onToggleChanges == null && !isSession;
 	const sync = state.kind === "pr-exists" ? state.sync : null;
 	const canCommit = sync?.hasUncommitted === true;
 	const canPush = sync != null && (!sync.hasUpstream || sync.pushCount > 0);
@@ -139,8 +135,6 @@ export function PRStatusGroup({
 		shipActions.isCommitting ||
 		shipActions.isPushing;
 	const tint = stateTintClasses(linkState);
-	const menuItemClass = "text-xs";
-	const menuIconClass = "size-3.5";
 
 	const badgeContent = (
 		<>
@@ -150,9 +144,7 @@ export function PRStatusGroup({
 			<span
 				className={cn(
 					"font-mono text-xs",
-					isChangesOpen || opensPullRequest
-						? "text-foreground"
-						: "text-muted-foreground",
+					isChangesOpen ? "text-foreground" : "text-muted-foreground",
 				)}
 			>
 				#{pr.number}
@@ -161,8 +153,7 @@ export function PRStatusGroup({
 		</>
 	);
 	const badgeClass = cn(
-		"flex h-full items-center outline-none transition-colors",
-		"gap-1 px-1.5",
+		"flex h-full items-center gap-1 px-1.5 outline-none transition-colors",
 		tint.hover,
 		isChangesOpen && tint.pressed,
 	);
@@ -183,47 +174,17 @@ export function PRStatusGroup({
 				>
 					<HoverCard openDelay={150} closeDelay={120}>
 						<HoverCardTrigger asChild>
-							{onToggleChanges != null ? (
-								<button
-									type="button"
-									className={badgeClass}
-									aria-pressed={isChangesOpen}
-									// The visible text is only the PR number; name the action
-									// and keep the number so the badge is still identifiable.
-									aria-label={
-										toggleLabel ? `${toggleLabel}, #${pr.number}` : undefined
-									}
-									onClick={onToggleChanges}
-								>
-									{badgeContent}
-								</button>
-							) : opensPullRequest ? (
-								<button
-									type="button"
-									className={badgeClass}
-									aria-label={t({
-										message: `Open pull request #${pr.number}`,
-									})}
-									onClick={(event) =>
-										openPullRequestLink(
-											pr.url,
-											linkPolicy.getAction(event),
-											onOpenPullRequest,
-										)
-									}
-								>
-									{badgeContent}
-								</button>
-							) : (
-								<a
-									href={pr.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									className={badgeClass}
-								>
-									{badgeContent}
-								</a>
-							)}
+							<button
+								type="button"
+								className={badgeClass}
+								aria-pressed={isChangesOpen}
+								// The visible text is only the PR number; name the action
+								// and keep the number so the badge is still identifiable.
+								aria-label={`${toggleLabel}, #${pr.number}`}
+								onClick={onToggleChanges}
+							>
+								{badgeContent}
+							</button>
 						</HoverCardTrigger>
 						<HoverCardContent
 							align="end"
@@ -276,21 +237,21 @@ export function PRStatusGroup({
 								<>
 									{canCommit && (
 										<DropdownMenuItem
-											className={menuItemClass}
+											className="text-xs"
 											onClick={() => {
 												commitRequestedRef.current = true;
 											}}
 										>
-											<VscGitCommit className={menuIconClass} />
+											<VscGitCommit className="size-3.5" />
 											<Trans>Commit</Trans>
 										</DropdownMenuItem>
 									)}
 									{canPush && (
 										<DropdownMenuItem
-											className={menuItemClass}
+											className="text-xs"
 											onClick={shipActions.push}
 										>
-											<VscRepoPush className={menuIconClass} />
+											<VscRepoPush className="size-3.5" />
 											<Trans>Push</Trans>
 										</DropdownMenuItem>
 									)}
@@ -300,11 +261,11 @@ export function PRStatusGroup({
 							{canMarkReady && (
 								<>
 									<DropdownMenuItem
-										className={menuItemClass}
+										className="text-xs"
 										disabled={prActions.isMarkingReady}
 										onClick={() => prActions.markReady(pr)}
 									>
-										<VscGitPullRequest className={menuIconClass} />
+										<VscGitPullRequest className="size-3.5" />
 										<Trans>Ready for review</Trans>
 									</DropdownMenuItem>
 									<DropdownMenuSeparator />
@@ -315,41 +276,41 @@ export function PRStatusGroup({
 									<DropdownMenuLabel
 										className={cn(
 											"font-normal text-muted-foreground",
-											menuItemClass,
+											"text-xs",
 										)}
 									>
 										<Trans>Merge</Trans>
 									</DropdownMenuLabel>
 									<DropdownMenuItem
 										onClick={() => prActions.merge(pr, "squash")}
-										className={menuItemClass}
+										className="text-xs"
 										disabled={prActions.isMerging}
 									>
-										<VscGitMerge className={menuIconClass} />
+										<VscGitMerge className="size-3.5" />
 										<Trans>Squash and merge</Trans>
 									</DropdownMenuItem>
 									<DropdownMenuItem
 										onClick={() => prActions.merge(pr, "merge")}
-										className={menuItemClass}
+										className="text-xs"
 										disabled={prActions.isMerging}
 									>
-										<VscGitMerge className={menuIconClass} />
+										<VscGitMerge className="size-3.5" />
 										<Trans>Create merge commit</Trans>
 									</DropdownMenuItem>
 									<DropdownMenuItem
 										onClick={() => prActions.merge(pr, "rebase")}
-										className={menuItemClass}
+										className="text-xs"
 										disabled={prActions.isMerging}
 									>
-										<VscGitMerge className={menuIconClass} />
+										<VscGitMerge className="size-3.5" />
 										<Trans>Rebase and merge</Trans>
 									</DropdownMenuItem>
 									<DropdownMenuSeparator />
 								</>
 							)}
-							{!isSession && !opensPullRequest && (
+							{!isSession && (
 								<DropdownMenuItem
-									className={menuItemClass}
+									className="text-xs"
 									onClick={(event) =>
 										openPullRequestLink(
 											pr.url,
@@ -358,13 +319,13 @@ export function PRStatusGroup({
 										)
 									}
 								>
-									<VscGitPullRequest className={menuIconClass} />
+									<VscGitPullRequest className="size-3.5" />
 									<Trans>Open pull request</Trans>
 								</DropdownMenuItem>
 							)}
-							<DropdownMenuItem asChild className={menuItemClass}>
+							<DropdownMenuItem asChild className="text-xs">
 								<a href={pr.url} target="_blank" rel="noopener noreferrer">
-									<LuArrowUpRight className={menuIconClass} />
+									<LuArrowUpRight className="size-3.5" />
 									<Trans>View on GitHub</Trans>
 								</a>
 							</DropdownMenuItem>

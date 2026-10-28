@@ -8,7 +8,7 @@ type PullRequestTarget = {
 	number: number;
 };
 
-export type MergeMethod = "merge" | "squash" | "rebase";
+type MergeMethod = "merge" | "squash" | "rebase";
 
 export function usePullRequestActions({
 	workspaceId,

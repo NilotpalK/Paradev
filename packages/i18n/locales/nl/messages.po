@@ -20415,6 +20415,10 @@ msgstr "Werkruimte-acties"
 msgid "Workspace activity"
 msgstr "Werkruimte-activiteit"
 
+#. placeholder {0}: currentPr.number
+msgid "Workspace activity, pull request #{0}"
+msgstr "Werkruimteactiviteit, pull request #{0}"
+
 msgid "Workspace agents"
 msgstr "Werkruimte-agents"
 
