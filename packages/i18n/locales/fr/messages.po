@@ -5502,9 +5502,6 @@ msgstr "Impossible de terminer la suppression des espaces de travail"
 msgid "Couldn't fork into a chat"
 msgstr "Impossible de forker dans un chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Impossible de forker dans un terminal"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Impossible de confier ceci à un agent"
 
@@ -12139,6 +12136,9 @@ msgstr "Rien de publié sur les 30 derniers jours pour l'instant. Votre rang app
 
 msgid "Nothing running"
 msgstr "Rien en cours d'exécution"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Rien à forker pour l'instant. Envoyez d'abord un message."
 
 msgid "Nothing was missed"
 msgstr "Rien n'a été manqué"

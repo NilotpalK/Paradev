@@ -579,6 +579,7 @@ describe("chat commands", () => {
 						})({
 							...SCRIPT,
 							start: [
+								{ kind: "session", session: { modeId: "default" } },
 								{ kind: "session", session: { status: "idle" }, delayMs: 20 },
 							],
 						}),
@@ -622,6 +623,43 @@ describe("chat commands", () => {
 								{ kind: "session", session: { status: "dead" }, delayMs: 10 },
 							],
 						}),
+				],
+			]),
+		});
+		const source = runtime.commands.createSession({
+			commandId: randomUUID(),
+			scopeId: "workspace-1",
+			harness: FAKE_HARNESS,
+			cwd: "/tmp/workspace",
+		});
+
+		const forked = await runtime.commands.forkSession({
+			commandId: randomUUID(),
+			sessionId: source.sessionId,
+			cwd: "/tmp/workspace",
+		});
+
+		expect(forked).toBeNull();
+		expect(forkCalls).toBe(0);
+		await runtime.dispose();
+	});
+
+	test("forkSession gives up when the agent's start ends without a status", async () => {
+		let forkCalls = 0;
+		const runtime = createTestRuntime({
+			harnesses: new Map([
+				[
+					FAKE_HARNESS,
+					() =>
+						new (class extends FakeHarness {
+							start() {
+								return (async function* () {})();
+							}
+							async fork() {
+								forkCalls += 1;
+								return "agent-forked";
+							}
+						})(SCRIPT),
 				],
 			]),
 		});

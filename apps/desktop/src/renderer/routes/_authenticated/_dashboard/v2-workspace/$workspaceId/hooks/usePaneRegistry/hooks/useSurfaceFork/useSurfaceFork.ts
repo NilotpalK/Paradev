@@ -3,16 +3,10 @@ import { acpHarnessForPreset } from "@superset/chat/core";
 import { errorMessage } from "@superset/i18n/errors";
 import type { CreatePaneInput, RendererContext } from "@superset/panes";
 import { toast } from "@superset/ui/sonner";
-import { workspaceTrpc } from "@superset/workspace-client";
 import { useCallback } from "react";
-import { useTerminalAppearance } from "renderer/hooks/useTerminalAppearance";
-import { terminalQueryColors } from "renderer/lib/terminal/terminal-query-colors";
-import type {
-	ChatPaneData,
-	PaneViewerData,
-	TerminalPaneData,
-} from "../../../../types";
+import type { ChatPaneData, PaneViewerData } from "../../../../types";
 import { markChatSessionClosed } from "../../../../utils/closedChatSessions";
+import type { CreateNewAgentSession } from "../../../useAgentSessionLauncher";
 import { useChatWiring } from "../../components/ChatSession/hooks/useSessionClient";
 
 export type SurfaceForkSource =
@@ -27,16 +21,38 @@ export type ForkIntoOtherSurface = (
 	placement: SurfaceForkPlacement,
 ) => Promise<void>;
 
-export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
+type ChatFork =
+	| { status: "forked"; terminalId: string; sessionId: string }
+	| { status: "unsupported" }
+	| { status: "empty" };
+
+export function useSurfaceFork(
+	workspaceId: string,
+	createNewAgentSession: CreateNewAgentSession,
+): ForkIntoOtherSurface {
 	const { t } = useLingui();
 	const { transport } = useChatWiring();
-	const { mutateAsync: runAgent } = workspaceTrpc.agents.run.useMutation();
-	const appearance = useTerminalAppearance();
+
+	const hasMessages = useCallback(
+		async (sessionId: string) => {
+			const page = await transport.getItems({ sessionId });
+			return (
+				!page.ok ||
+				page.nextBefore !== null ||
+				page.envelopes.some(
+					(envelope) =>
+						envelope.event.type === "item" &&
+						envelope.event.item.kind === "user_message",
+				)
+			);
+		},
+		[transport],
+	);
 
 	const forkIntoChat = useCallback(
-		async (presetId: string, harnessSessionId: string) => {
+		async (presetId: string, harnessSessionId: string): Promise<ChatFork> => {
 			const harness = acpHarnessForPreset(presetId);
-			if (!harness) return null;
+			if (!harness) return { status: "unsupported" };
 			// The host forks only a live chat, so the terminal's session is first
 			// loaded into a hidden one. It needs its own terminal id (the CLI's would
 			// rebind that terminal's agent) and the closed mark keeps auto-adopt off it.
@@ -50,24 +66,37 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 			markChatSessionClosed(loader.sessionId);
 			try {
 				const terminalId = crypto.randomUUID();
-				const forked = await transport.forkSession({
-					commandId: crypto.randomUUID(),
-					sessionId: loader.sessionId,
-					workspaceId,
-					terminalId,
-				});
-				return forked ? { terminalId, sessionId: forked.sessionId } : null;
+				const forked = await transport
+					.forkSession({
+						commandId: crypto.randomUUID(),
+						sessionId: loader.sessionId,
+						workspaceId,
+						terminalId,
+					})
+					.catch(async (error: unknown) => {
+						if (!(await hasMessages(loader.sessionId).catch(() => true))) {
+							return "empty" as const;
+						}
+						throw error;
+					});
+				if (forked === "empty") return { status: "empty" };
+				return forked
+					? { status: "forked", terminalId, sessionId: forked.sessionId }
+					: { status: "unsupported" };
 			} finally {
 				void transport
 					.closeSession({ sessionId: loader.sessionId })
 					.catch(() => undefined);
 			}
 		},
-		[transport, workspaceId],
+		[transport, workspaceId, hasMessages],
 	);
 
 	return useCallback<ForkIntoOtherSurface>(
 		async (ctx, source, placement) => {
+			const nothingToFork = t({
+				message: "Nothing to fork yet. Send a message first.",
+			});
 			const place = (newPane: CreatePaneInput<PaneViewerData>) => {
 				const state = ctx.store.getState();
 				if (placement === "tab") {
@@ -83,28 +112,18 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 			};
 
 			if (source.into === "cli") {
-				try {
-					const result = await runAgent({
-						workspaceId,
-						colors: terminalQueryColors(appearance.theme),
-						agent: source.configId,
-						prompt: "",
-						forkSessionId: source.harnessSessionId,
-					});
-					if (result.kind !== "terminal") {
-						toast.error(t({ message: "Couldn't fork into a terminal" }));
-						return;
-					}
-					place({
-						kind: "terminal",
-						titleOverride: result.label,
-						data: { terminalId: result.sessionId } satisfies TerminalPaneData,
-					});
-				} catch (error) {
-					toast.error(t({ message: "Couldn't fork into a terminal" }), {
-						description: errorMessage(error, t({ message: "Unknown error" })),
-					});
+				const { sessionId } = ctx.pane.data as ChatPaneData;
+				if (sessionId && !(await hasMessages(sessionId).catch(() => true))) {
+					toast.error(nothingToFork);
+					return;
 				}
+				await createNewAgentSession({
+					configId: source.configId,
+					placement: placement === "tab" ? "new-tab" : "split-pane",
+					besidePaneId: ctx.pane.id,
+					prompt: "",
+					forkSessionId: source.harnessSessionId,
+				});
 				return;
 			}
 
@@ -114,12 +133,12 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 					source.presetId,
 					source.harnessSessionId,
 				);
-				if (!forked) {
+				if (forked.status !== "forked") {
 					toast.error(
-						t({ message: "This agent can't branch a conversation" }),
-						{
-							id: toastId,
-						},
+						forked.status === "empty"
+							? nothingToFork
+							: t({ message: "This agent can't branch a conversation" }),
+						{ id: toastId },
 					);
 					return;
 				}
@@ -142,6 +161,6 @@ export function useSurfaceFork(workspaceId: string): ForkIntoOtherSurface {
 				});
 			}
 		},
-		[forkIntoChat, runAgent, workspaceId, appearance.theme, t],
+		[forkIntoChat, hasMessages, createNewAgentSession, t],
 	);
 }

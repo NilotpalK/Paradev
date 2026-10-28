@@ -193,7 +193,6 @@ export function usePaneRegistry({
 		store,
 		linkedStores,
 	});
-	const forkIntoOtherSurface = useSurfaceFork(workspaceId);
 	const host = useWorkspaceHostTarget(workspaceId);
 	const desktopUrl =
 		host.status === "ready" && host.kind === "sandbox" ? host.desktopUrl : null;
@@ -253,6 +252,10 @@ export function usePaneRegistry({
 
 	const { createNewAgentSession, focusAgentTerminal } = useAgentSessionLauncher(
 		{ workspaceId, store },
+	);
+	const forkIntoOtherSurface = useSurfaceFork(
+		workspaceId,
+		createNewAgentSession,
 	);
 
 	const chatPaneIcon = useCallback(

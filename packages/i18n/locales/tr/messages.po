@@ -5502,9 +5502,6 @@ msgstr "Çalışma alanlarını silme işlemi tamamlanamadı"
 msgid "Couldn't fork into a chat"
 msgstr "Sohbete forklanamadı"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Terminale forklanamadı"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Bu bir ajana devredilemedi"
 
@@ -12139,6 +12136,9 @@ msgstr "Son 30 günde henüz hiçbir şey yayınlanmadı. Bu makinedeki kullanı
 
 msgid "Nothing running"
 msgstr "Çalışan bir şey yok"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Henüz forklanacak bir şey yok. Önce bir mesaj gönderin."
 
 msgid "Nothing was missed"
 msgstr "Hiçbir şey kaçırılmadı"

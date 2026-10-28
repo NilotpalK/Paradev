@@ -5502,9 +5502,6 @@ msgstr "沒能完成工作區的刪除"
 msgid "Couldn't fork into a chat"
 msgstr "無法分叉到聊天"
 
-msgid "Couldn't fork into a terminal"
-msgstr "無法分叉到終端"
-
 msgid "Couldn't hand this to an agent"
 msgstr "無法交給代理程式處理"
 
@@ -12139,6 +12136,9 @@ msgstr "最近 30 天尚未發佈任何資料。這台機器的用量同步後�
 
 msgid "Nothing running"
 msgstr "沒有正在執行的項目"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "還沒有可分叉的內容。請先傳送一則訊息。"
 
 msgid "Nothing was missed"
 msgstr "沒有錯過的執行"

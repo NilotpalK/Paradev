@@ -38,9 +38,6 @@ export function SurfaceModeMenu({
 		mode === "cli" ? t({ message: "CLI mode" }) : t({ message: "Chat mode" });
 	const ModeIcon = mode === "cli" ? SquareTerminal : MessageSquare;
 	const TargetIcon = mode === "cli" ? MessageSquare : SquareTerminal;
-	const fork = (placement: SurfaceForkPlacement) => {
-		if (source) onFork(source, placement);
-	};
 
 	return (
 		<DropdownMenu open={open} onOpenChange={onOpenChange}>
@@ -58,39 +55,38 @@ export function SurfaceModeMenu({
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-64">
-				<DropdownMenuItem
-					className="items-start"
-					disabled={!source}
-					onSelect={() => fork("beside")}
-				>
-					<TargetIcon className="mt-0.5" />
-					<div className="flex flex-col gap-0.5">
-						<span>
-							{mode === "cli" ? (
-								<Trans>Fork into chat</Trans>
-							) : (
-								<Trans>Fork into CLI</Trans>
-							)}
-						</span>
-						<span className="text-[11px] text-muted-foreground">
-							<Trans>Opens beside this pane. This one keeps running.</Trans>
-						</span>
-					</div>
-				</DropdownMenuItem>
-				<DropdownMenuItem disabled={!source} onSelect={() => fork("tab")}>
-					<SquareStack />
-					{mode === "cli" ? (
-						<Trans>Fork into chat in a new tab</Trans>
-					) : (
-						<Trans>Fork into CLI in a new tab</Trans>
-					)}
-				</DropdownMenuItem>
-				{children && (
+				{source && (
 					<>
-						<DropdownMenuSeparator />
-						{children}
+						<DropdownMenuItem
+							className="items-start"
+							onSelect={() => onFork(source, "beside")}
+						>
+							<TargetIcon className="mt-0.5" />
+							<div className="flex flex-col gap-0.5">
+								<span>
+									{mode === "cli" ? (
+										<Trans>Fork into chat</Trans>
+									) : (
+										<Trans>Fork into CLI</Trans>
+									)}
+								</span>
+								<span className="text-[11px] text-muted-foreground">
+									<Trans>Opens beside this pane. This one keeps running.</Trans>
+								</span>
+							</div>
+						</DropdownMenuItem>
+						<DropdownMenuItem onSelect={() => onFork(source, "tab")}>
+							<SquareStack />
+							{mode === "cli" ? (
+								<Trans>Fork into chat in a new tab</Trans>
+							) : (
+								<Trans>Fork into CLI in a new tab</Trans>
+							)}
+						</DropdownMenuItem>
 					</>
 				)}
+				{source && children && <DropdownMenuSeparator />}
+				{children}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

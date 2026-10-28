@@ -407,9 +407,13 @@ export class LiveSession {
 	}
 
 	private async run(stream: AsyncIterable<AdapterEvent>): Promise<void> {
-		for await (const event of stream) {
-			if (this.stopped) return;
-			this.handle(event);
+		try {
+			for await (const event of stream) {
+				if (this.stopped) return;
+				this.handle(event);
+			}
+		} finally {
+			this.settleStarted(false);
 		}
 	}
 
@@ -443,7 +447,7 @@ export class LiveSession {
 			}
 			case "session":
 				if (event.session.status === "dead") this.discardPending();
-				if (event.session.status !== "starting") {
+				if (event.session.status && event.session.status !== "starting") {
 					this.settleStarted(event.session.status !== "dead");
 				}
 				this.emitSession(event.session);

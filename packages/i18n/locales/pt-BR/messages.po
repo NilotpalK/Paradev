@@ -5502,9 +5502,6 @@ msgstr "Não foi possível terminar a exclusão das áreas de trabalho"
 msgid "Couldn't fork into a chat"
 msgstr "Não foi possível bifurcar em um chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Não foi possível bifurcar em um terminal"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Não foi possível entregar isto a um agente"
 
@@ -12139,6 +12136,9 @@ msgstr "Nada publicado nos últimos 30 dias ainda. Sua posição aparece assim q
 
 msgid "Nothing running"
 msgstr "Nada em execução"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Ainda não há nada para bifurcar. Envie uma mensagem primeiro."
 
 msgid "Nothing was missed"
 msgstr "Nada foi perdido"

@@ -5502,9 +5502,6 @@ msgstr "Mazání pracovních prostorů se nepodařilo dokončit"
 msgid "Couldn't fork into a chat"
 msgstr "Do chatu se nepodařilo forkovat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Do terminálu se nepodařilo forkovat"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Nepodařilo se předat agentovi"
 
@@ -12139,6 +12136,9 @@ msgstr "Za posledních 30 dní zatím nebylo nic publikováno. Vaše pozice se o
 
 msgid "Nothing running"
 msgstr "Nic neběží"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Zatím není co forkovat. Nejprve pošlete zprávu."
 
 msgid "Nothing was missed"
 msgstr "Nic nebylo zmeškáno"

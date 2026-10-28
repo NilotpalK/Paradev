@@ -5502,9 +5502,6 @@ msgstr "Nie udało się dokończyć usuwania obszarów roboczych"
 msgid "Couldn't fork into a chat"
 msgstr "Nie udało się sforkować do czatu"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Nie udało się sforkować do terminala"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Nie udało się przekazać tego agentowi"
 
@@ -12139,6 +12136,9 @@ msgstr "Nic jeszcze nie opublikowano w ciągu ostatnich 30 dni. Twoja pozycja po
 
 msgid "Nothing running"
 msgstr "Nic nie jest uruchomione"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Nie ma jeszcze czego forkować. Najpierw wyślij wiadomość."
 
 msgid "Nothing was missed"
 msgstr "Nic nie zostało pominięte"

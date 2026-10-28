@@ -5502,9 +5502,6 @@ msgstr "Không xóa xong các workspace"
 msgid "Couldn't fork into a chat"
 msgstr "Không thể fork sang chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Không thể fork sang terminal"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Không thể giao việc này cho agent"
 
@@ -12139,6 +12136,9 @@ msgstr "Chưa có gì được công khai trong 30 ngày qua. Thứ hạng của
 
 msgid "Nothing running"
 msgstr "Không có gì đang chạy"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Chưa có gì để fork. Hãy gửi một tin nhắn trước."
 
 msgid "Nothing was missed"
 msgstr "Không có lần chạy nào bị bỏ lỡ"

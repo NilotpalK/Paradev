@@ -5502,9 +5502,6 @@ msgstr "Das Löschen der Arbeitsbereiche konnte nicht abgeschlossen werden"
 msgid "Couldn't fork into a chat"
 msgstr "Sitzung konnte nicht in einen Chat geforkt werden"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Sitzung konnte nicht in ein Terminal geforkt werden"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Konnte nicht an einen Agenten übergeben werden"
 
@@ -12139,6 +12136,9 @@ msgstr "In den letzten 30 Tagen wurde noch nichts veröffentlicht. Dein Rang ers
 
 msgid "Nothing running"
 msgstr "Nichts läuft"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Noch nichts zum Forken. Sende zuerst eine Nachricht."
 
 msgid "Nothing was missed"
 msgstr "Nichts wurde verpasst"

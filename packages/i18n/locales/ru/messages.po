@@ -5502,9 +5502,6 @@ msgstr "Не удалось завершить удаление рабочих �
 msgid "Couldn't fork into a chat"
 msgstr "Не удалось форкнуть в чат"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Не удалось форкнуть в терминал"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Не удалось передать агенту"
 
@@ -12139,6 +12136,9 @@ msgstr "За последние 30 дней ещё ничего не опубл�
 
 msgid "Nothing running"
 msgstr "Ничего не запущено"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Пока нечего форкать. Сначала отправьте сообщение."
 
 msgid "Nothing was missed"
 msgstr "Ничего не пропущено"

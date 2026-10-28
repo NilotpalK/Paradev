@@ -5502,9 +5502,6 @@ msgstr "没能完成工作区的删除"
 msgid "Couldn't fork into a chat"
 msgstr "无法分叉到聊天"
 
-msgid "Couldn't fork into a terminal"
-msgstr "无法分叉到终端"
-
 msgid "Couldn't hand this to an agent"
 msgstr "无法交给智能体处理"
 
@@ -12139,6 +12136,9 @@ msgstr "最近30天还没有已公开的数据。待本机用量同步后，你�
 
 msgid "Nothing running"
 msgstr "没有正在运行的内容"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "还没有可分叉的内容。请先发送一条消息。"
 
 msgid "Nothing was missed"
 msgstr "没有错过的运行"

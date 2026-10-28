@@ -19,6 +19,6 @@ export function ChatModeMenu({
 		kind: "chat",
 		data,
 	});
-	if (!enabled || !data.agent) return null;
+	if (!enabled || !source) return null;
 	return <SurfaceModeMenu mode="chat" source={source} onFork={onFork} />;
 }

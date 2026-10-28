@@ -5502,9 +5502,6 @@ msgstr "Impossibile completare l'eliminazione dei workspace"
 msgid "Couldn't fork into a chat"
 msgstr "Non è stato possibile biforcare in una chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Non è stato possibile biforcare in un terminale"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Impossibile affidare questo a un agente"
 
@@ -12139,6 +12136,9 @@ msgstr "Ancora nessuna pubblicazione negli ultimi 30 giorni. La tua posizione co
 
 msgid "Nothing running"
 msgstr "Niente in esecuzione"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Non c'è ancora niente da biforcare. Invia prima un messaggio."
 
 msgid "Nothing was missed"
 msgstr "Non è stato perso nulla"

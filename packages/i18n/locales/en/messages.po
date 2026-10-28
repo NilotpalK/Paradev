@@ -5502,9 +5502,6 @@ msgstr "Couldn’t finish deleting workspaces"
 msgid "Couldn't fork into a chat"
 msgstr "Couldn't fork into a chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Couldn't fork into a terminal"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Couldn't hand this to an agent"
 
@@ -12139,6 +12136,9 @@ msgstr "Nothing published in the last 30 days yet. Your rank appears once usage 
 
 msgid "Nothing running"
 msgstr "Nothing running"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Nothing to fork yet. Send a message first."
 
 msgid "Nothing was missed"
 msgstr "Nothing was missed"

@@ -7,6 +7,9 @@ import { useV2AgentConfigs } from "renderer/hooks/useV2AgentConfigs";
 import type { ChatPaneData, TerminalPaneData } from "../../../../types";
 import type { SurfaceForkSource } from "../useSurfaceFork";
 
+// codex-acp refuses session/load while the Codex CLI holds the session open.
+const LOCKED_WHILE_CLI_RUNS = new Set(["codex"]);
+
 export type AgentPane =
 	| { kind: "terminal"; data: TerminalPaneData }
 	| { kind: "chat"; data: ChatPaneData };
@@ -42,6 +45,7 @@ export function useSurfaceForkSource(
 	if (
 		!binding?.agentSessionId ||
 		binding.endedAt ||
+		LOCKED_WHILE_CLI_RUNS.has(binding.agentId) ||
 		!acpHarnessForPreset(binding.agentId)
 	) {
 		return { enabled, source: null };

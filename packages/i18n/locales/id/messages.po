@@ -5502,9 +5502,6 @@ msgstr "Tidak bisa menyelesaikan penghapusan workspace"
 msgid "Couldn't fork into a chat"
 msgstr "Tidak dapat melakukan fork ke chat"
 
-msgid "Couldn't fork into a terminal"
-msgstr "Tidak dapat melakukan fork ke terminal"
-
 msgid "Couldn't hand this to an agent"
 msgstr "Tidak dapat menyerahkan ini ke agen"
 
@@ -12139,6 +12136,9 @@ msgstr "Belum ada yang dipublikasikan dalam 30 hari terakhir. Peringkat Anda mun
 
 msgid "Nothing running"
 msgstr "Tidak ada yang berjalan"
+
+msgid "Nothing to fork yet. Send a message first."
+msgstr "Belum ada yang bisa di-fork. Kirim pesan terlebih dahulu."
 
 msgid "Nothing was missed"
 msgstr "Tidak ada yang terlewat"
