@@ -30,7 +30,6 @@ interface PickRepositoriesStepProps {
 	installations: readonly GitHubInstallationOption[];
 	accountLogin: string | null;
 	isStarting: boolean;
-	/** Set when the organization is at its environment limit. */
 	reachedLimit?: number | null;
 	onManageEnvironments: () => void;
 	onUpgrade: () => void;

@@ -7,7 +7,6 @@ interface EnvironmentVariablesProps {
 	isLoading: boolean;
 }
 
-/** The keys an environment sets; values never leave the server here. */
 export function EnvironmentVariables({
 	variables,
 	isLoading,

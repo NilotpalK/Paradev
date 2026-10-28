@@ -9,7 +9,6 @@ interface ConnectionRowProps {
 	action: ReactNode;
 }
 
-/** One connection, in the Settings → Connections row style. */
 export function ConnectionRow({
 	title,
 	detail,

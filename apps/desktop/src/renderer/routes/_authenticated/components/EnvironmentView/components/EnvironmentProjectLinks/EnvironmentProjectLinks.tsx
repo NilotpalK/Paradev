@@ -36,7 +36,6 @@ interface EnvironmentProjectLinksProps {
 	id?: string;
 }
 
-/** The projects an environment is linked to; the new-workspace picker offers it first for them. */
 export function EnvironmentProjectLinks({
 	environmentId,
 	projectIds,

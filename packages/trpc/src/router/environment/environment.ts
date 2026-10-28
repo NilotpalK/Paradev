@@ -293,7 +293,6 @@ export const environmentRouter = {
 				scope: z.enum(environmentScopeValues).default("organization"),
 				/** Where its boxes run; the region nearest the caller when omitted. */
 				region: z.enum(SANDBOX_REGION_IDS).optional(),
-				/** A host project to link, so the picker offers this environment for it. */
 				projectId: z.string().min(1).max(200).optional(),
 			}),
 		)

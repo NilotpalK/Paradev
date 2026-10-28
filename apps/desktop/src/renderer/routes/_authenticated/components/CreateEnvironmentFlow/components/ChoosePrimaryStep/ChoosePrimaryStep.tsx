@@ -18,7 +18,6 @@ interface ChoosePrimaryStepProps {
 	onGetStarted: (primaryId: string) => void;
 }
 
-/** With several repositories, which one cloud workspaces open on and set up from. */
 export function ChoosePrimaryStep({
 	repositories,
 	isStarting,

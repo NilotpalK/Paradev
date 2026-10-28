@@ -14,18 +14,12 @@ import { setupPrompt } from "./utils/setupPrompt";
 
 interface CreateEnvironmentFlowProps {
 	organizationId: string;
-	/** The project to link the new environment to, when started from one. */
 	projectId?: string | null;
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
-	/** The setup session opened; the caller can get out of its way. */
 	onStarted?: () => void;
 }
 
-/**
- * Create environment: connect GitHub when it isn't yet, pick repositories,
- * then hand the new environment to an agent in a local setup session.
- */
 export function CreateEnvironmentFlow({
 	organizationId,
 	projectId,

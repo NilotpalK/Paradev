@@ -30,7 +30,6 @@ export interface EnvironmentOption {
 
 interface EnvironmentPickerPillProps {
 	selectedEnvironment: EnvironmentOption | undefined;
-	/** Environments for the selected project. */
 	linked: EnvironmentOption[];
 	other: EnvironmentOption[];
 	projectName?: string;

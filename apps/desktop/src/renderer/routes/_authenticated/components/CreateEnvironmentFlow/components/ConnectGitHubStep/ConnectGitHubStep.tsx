@@ -14,10 +14,8 @@ import { cloudTrpc } from "renderer/lib/cloud-trpc";
 import { ConnectionRow } from "./components/ConnectionRow";
 
 interface ConnectGitHubStepProps {
-	/** Where the organization's GitHub App is installed; null when it isn't. */
 	appAccountLogin: string | null;
 	accountLogin: string | null;
-	/** The server can connect personal accounts at all. */
 	accountAvailable: boolean;
 	isLoading: boolean;
 	onInstallApp: () => void;

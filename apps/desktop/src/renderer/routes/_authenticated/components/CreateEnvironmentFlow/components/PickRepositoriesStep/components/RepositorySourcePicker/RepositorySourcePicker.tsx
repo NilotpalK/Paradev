@@ -18,13 +18,11 @@ import type { GitHubInstallationOption } from "../../types";
 
 interface RepositorySourcePickerProps {
 	installations: readonly GitHubInstallationOption[];
-	/** An installation's id, or null for every repository. */
 	selectedId: string | null;
 	onSelect: (installationId: string | null) => void;
 	onConnectOrg: () => void;
 }
 
-/** Which GitHub account's repositories to list, and the way to add another. */
 export function RepositorySourcePicker({
 	installations,
 	selectedId,

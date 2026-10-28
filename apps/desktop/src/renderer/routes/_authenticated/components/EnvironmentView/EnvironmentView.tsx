@@ -32,7 +32,6 @@ interface EnvironmentViewProps {
 	onArchived?: () => void;
 }
 
-/** One environment as it stands: what it checks out, who can use it, and what is set. */
 export function EnvironmentView({
 	environmentId,
 	onArchived,

@@ -2,7 +2,6 @@ import { Trans } from "@lingui/react/macro";
 import { LuContainer } from "react-icons/lu";
 import { cloudTrpc } from "renderer/lib/cloud-trpc";
 
-/** Marks a chat as an environment's setup session. */
 export function SetupSessionHeader({
 	environmentId,
 }: {
