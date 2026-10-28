@@ -701,9 +701,10 @@ cannot.** No better-sqlite3 prebuild exists for Electron 44 on linux-x64, so
 `install:deps` (run by the root postinstall) builds it from source. Electron
 44's V8 headers fail on gcc 12 and on clang 14 (`std::source_location`), so
 `bun install` exited 1 and `bun run dev` in `apps/desktop` died on "Could not
-locate the bindings file". The image now carries `clang-16`, postinstall uses
-it when `CC` is unset, and `setup.cloud.sh` installs it on a box from an older
-image.
+locate the bindings file". Postinstall uses `clang-16` when `CC` is unset. The
+image does not carry it, since only this repo needs it: the internal
+environment's setup hook (`satya-setup.sh`) installs it, and any other
+environment that builds the desktop has to install it too.
 
 **Local dev cannot exercise a sandbox, and the failure mode if you force it is
 silent.** `setup.local.sh` copies `.env.local.example` to `.env`, which sets

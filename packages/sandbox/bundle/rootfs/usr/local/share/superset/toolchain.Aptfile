@@ -7,8 +7,6 @@ libx11-dev
 libxkbfile-dev
 libsecret-1-dev
 clang
-# Electron 44's V8 headers fail on bookworm's gcc 12 and clang 14.
-clang-16
 python3
 python3-pip
 python3-venv

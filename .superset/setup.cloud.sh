@@ -70,13 +70,6 @@ renew_cloud_branch_lease() {
   renew_neon_branch_lease "$branch_id"
 }
 
-# postinstall builds the desktop's native modules with clang-16 when it is
-# there. The image carries it; this covers boxes from an older image.
-install_electron_compiler() {
-  command -v clang++-16 >/dev/null && return 0
-  sudo -E apt-get update -qq && sudo -E apt-get install -y -qq --no-install-recommends clang-16
-}
-
 cloud_setup_main() {
   # Cloud workspaces share a display name, so the branch is named after the id.
   # The whole id: the first block alone is 8 hex characters, and two
@@ -108,7 +101,6 @@ cloud_setup_main() {
   . "$env_source/.env"
   set +a
 
-  install_electron_compiler || step_failed "Install clang-16"
   step_install_dependencies || step_failed "Install dependencies"
   step_setup_neon_branch || step_failed "Set up Neon branch"
   allocate_port_base || step_failed "Allocate port base"
