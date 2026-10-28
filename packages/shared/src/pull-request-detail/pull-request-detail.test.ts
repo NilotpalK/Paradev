@@ -90,7 +90,7 @@ describe("readPullRequestDetail", () => {
 		const detail = await readPullRequestDetail(
 			{
 				graphql: async <T>(
-					query: string,
+					_query: string,
 					variables: Record<string, unknown>,
 				) => {
 					queries.push(String(variables.cursor ?? "first"));

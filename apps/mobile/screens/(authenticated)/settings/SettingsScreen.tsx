@@ -269,7 +269,7 @@ export function SettingsScreen() {
 								color={theme.mutedForeground}
 							/>
 						}
-						label="GitHub"
+						label={t({ message: "GitHub" })}
 						subtitle={
 							github.connection
 								? t({
